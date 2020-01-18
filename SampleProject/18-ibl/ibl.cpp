@@ -11,6 +11,7 @@
 #include "UI/UI.h"
 #include "RHI/nanovg/nanovg.h"
 #include "Application.h"
+#include "Gameplay/Actor.h"
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>
@@ -462,6 +463,13 @@ public:
 
 		m_meshBunny = meshLoad("meshes/bunny.bin");
 		m_meshOrb = meshLoad("meshes/orb.bin");
+
+		AActor* actor = new AActor();
+		std::shared_ptr<AActor> actor2 = actor->CreateChildNode<AActor>();
+		//std::shared_ptr<AActor> actor3 = actor->CreateChildNode<AActor>();
+		actor->SetName("asd");
+		actor2->SetName("wqe");
+		//actor3->SetName("aaa");
 	}
 
 	virtual int shutdown() override

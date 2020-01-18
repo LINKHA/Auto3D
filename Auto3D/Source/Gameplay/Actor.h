@@ -6,7 +6,7 @@
 #include "Container/Vector.h"
 #include "Adapter/AutoRttr.h"
 
-#include <memory>
+#include "Adapter/Ptr.h"
 
 namespace Auto3D
 {
@@ -60,7 +60,7 @@ public:
     void SetParentNode(AActor* newParent);
 
     /// Create child node of specified type. A registered object factory for the type is required.
-	AActor* CreateChildNode(FString childType);
+	SPtr<AActor> CreateChildNode(FString childType);
     ///// Create named child node of specified type.
     //AActor* CreateChildNode(FStringHash childType, const FString& childName);
     ///// Create named child node of specified type.
@@ -76,7 +76,7 @@ public:
     /// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
     void RemoveSelf();
     /// Create child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChildNode() { return static_cast<_Ty*>(CreateChildNode(FType::get<_Ty>())); }
+    template <typename _Ty> SPtr<_Ty> CreateChildNode() { return CreateChildNode(RtToStr(FType::get<_Ty>().get_name())); }
     ///// Create named child node of the specified type, template version.
     //template <typename _Ty> _Ty* CreateChildNode(const FString& childName) { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic(), childName)); }
     ///// Create named child node of the specified type, template version.

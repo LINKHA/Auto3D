@@ -36,6 +36,8 @@ public:
 	AObject() = default;
 	/// Destructor
 	virtual ~AObject() = default;
+
+	//FVariant _variant;
 };
 
 }

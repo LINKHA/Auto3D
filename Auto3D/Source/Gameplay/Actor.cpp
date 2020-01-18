@@ -28,14 +28,14 @@ AActor::~AActor()
 {
     RemoveAllChildrenNode();
     // At the time of destruction the node should not have a parent, or be in a scene
-    assert(!_parent);
-    assert(!_world);
+    //assert(!_parent);
+    //assert(!_world);
 }
 
 void AActor::SetName(const FString& newName)
 {
-	if(!newName.IsEmpty())
-		SetName(newName.CString());
+	if (!newName.IsEmpty())
+		_name = newName;
 }
 
 void AActor::SetLayer(unsigned char newLayer)
@@ -113,18 +113,18 @@ void AActor::SetParentNode(AActor* newParent)
         ErrorString("Could not set null parent");
 }
 
-AActor* AActor::CreateChildNode(FString childType)
+SPtr<AActor> AActor::CreateChildNode(FString childType)
 {
-	FType classType = FType::get_by_name(ToRtStr(childType));
-	FVariant newObject = classType.create();
+	FType classType = FType::get_by_name(childType.CString());
 
+	FVariant newObject = classType.create();
     if (!newObject)
     {
         ErrorString("Could not create child node of unknown type " + childType.ToString());
         return nullptr;
     }
 
-    AActor* child = newObject.get_value<AActor*>();
+	SPtr<AActor> child(Clone(newObject.get_value<AActor*>()));
 
     if (!child)
     {
@@ -132,7 +132,7 @@ AActor* AActor::CreateChildNode(FString childType)
         return nullptr;
     }
 
-    AddChildNode(child);
+    AddChildNode(child.get());
 
     return child;
 }
