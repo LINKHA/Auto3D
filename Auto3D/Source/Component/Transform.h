@@ -4,6 +4,7 @@
 #include "Container/Vector.h"
 #include "Math/Quaternion.h"
 #include "Math/Matrix3x4.h"
+#include "Adapter/Ptr.h"
 
 namespace Auto3D
 {
@@ -80,7 +81,7 @@ public:
     void ApplyScale(float delta);
 
     /// Return the parent spatial node, or null if it is not spatial.
-	ATransform* GetParentTransform() const;
+	SPtr<ATransform> GetParentTransform() const;
     /// Return _position in parent space.
     const TVector3F& GetPosition() const { return _position; }
     /// Return rotation in parent space.

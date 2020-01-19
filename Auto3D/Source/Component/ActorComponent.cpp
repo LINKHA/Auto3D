@@ -6,13 +6,11 @@
 namespace Auto3D
 {
 
-AActorComponent::AActorComponent():
-	_ownerPrivate(nullptr),
-	_worldPrivate(nullptr)
+AActorComponent::AActorComponent()
 {
 }
 
-bool AActorComponent::AttachToActor(AActor* owner)
+bool AActorComponent::AttachToActor(SPtr<AActor> owner)
 {
 	if (!owner)
 	{
@@ -21,20 +19,20 @@ bool AActorComponent::AttachToActor(AActor* owner)
 	}
 
 	_ownerPrivate = owner;
-	if (owner->GetWorld())
-		_worldPrivate = owner->GetWorld();
+	/*if (owner->GetWorld())
+		_worldPrivate = owner->GetWorld();*/
 	
 	return true;
 }
 
-AActor* AActorComponent::GetOwner() const
+SPtr<AActor> AActorComponent::GetOwner() const
 {
-	return _ownerPrivate;
+	return _ownerPrivate.lock();
 }
 
-AWorld* AActorComponent::GetWorld() const
+SPtr<AWorld> AActorComponent::GetWorld() const
 {
-	return _worldPrivate;
+	return _worldPrivate.lock();
 }
 
 }

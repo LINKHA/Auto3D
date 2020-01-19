@@ -1,4 +1,6 @@
+#pragma once
 #include "Core/Object.h"
+#include "Adapter/Ptr.h"
 
 namespace Auto3D
 {
@@ -10,20 +12,21 @@ public:
 	AActorComponent();
 	virtual ~AActorComponent(){}
 	/// Attach to actor,and set owner private and world private.
-	bool AttachToActor(AActor* owner);
+	bool AttachToActor(SPtr<AActor> owner);
 	/// Follow the Outer chain to get the  AActor  that 'Owns' this component.
-	virtual AActor* GetOwner() const;
+	virtual SPtr<AActor> GetOwner() const;
+
 	/// Getter for the cached world pointer, will return null if the component is not actually spawned in a level.
-	virtual AWorld* GetWorld() const;
+	virtual SPtr<AWorld> GetWorld() const;
 private:
 	/// Cached pointer to owning actor.
-	mutable AActor* _ownerPrivate;
+	mutable WPtr<AActor> _ownerPrivate;
 
 	/**
 	 * Pointer to the world that this component is currently registered with.
 	 * This is only non-NULL when the component is registered.
 	 */
-	AWorld* _worldPrivate;
+	WPtr<AWorld> _worldPrivate;
 };
 
 }

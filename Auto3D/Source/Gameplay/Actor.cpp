@@ -1,6 +1,8 @@
 #include "Gameplay/Actor.h"
 #include "Debug/Log.h"
 #include "Container/HashMap.h"
+#include "Component/ActorComponent.h"
+#include "Component/Transform.h"
 
 //#include "IO/Stream.h"
 //#include "Resource/JSONFile.h"
@@ -10,8 +12,6 @@
 
 namespace Auto3D
 {
-
-static TVector<std::shared_ptr<AActor> > noChildren;
 
 AActor::AActor() :
     _flags(NF_ENABLED),
@@ -28,8 +28,8 @@ AActor::~AActor()
 {
     RemoveAllChildrenNode();
     // At the time of destruction the node should not have a parent, or be in a scene
-    //assert(!_parent);
-    //assert(!_world);
+    assert(!_parent);
+    assert(!_world);
 }
 
 void AActor::SetName(const FString& newName)
@@ -95,7 +95,7 @@ void AActor::SetEnabledRecursive(bool enable)
     SetEnabled(enable);
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         child->SetEnabledRecursive(enable);
     }
 }
@@ -105,10 +105,10 @@ void AActor::SetTemporary(bool enable)
     SetFlag(NF_TEMPORARY, enable);
 }
 
-void AActor::SetParentNode(AActor* newParent)
+void AActor::SetParentNode(SPtr<AActor> newParent)
 {
     if (newParent)
-        newParent->AddChildNode(this);
+        newParent->AddChildNode(SPtrThis);
     else
         ErrorString("Could not set null parent");
 }
@@ -121,49 +121,49 @@ SPtr<AActor> AActor::CreateChildNode(FString childType)
     if (!newObject)
     {
         ErrorString("Could not create child node of unknown type " + childType.ToString());
-        return nullptr;
+        return SPtr<AActor>();
     }
 
 	SPtr<AActor> child(Clone(newObject.get_value<AActor*>()));
 
-    if (!child)
+    if (!child.get())
     {
-        ErrorString(newObject->GetTypeName() + " is not a Node subclass, could not add as a child");
-        return nullptr;
+        ErrorString("Class is not a Node subclass, could not add as a child");
+        return SPtr<AActor>();
     }
 
-    AddChildNode(child.get());
+    AddChildNode(child);
 
     return child;
 }
 
-//AActor* AActor::CreateChildNode(FStringHash childType, const FString& childName)
-//{
-//    return CreateChildNode(childType, childName.CString());
-//}
-//
-//AActor* AActor::CreateChildNode(FStringHash childType, const char* childName)
-//{
-//    AActor* child = CreateChildNode(childType);
-//    if (child)
-//        child->SetName(childName);
-//    return child;
-//}
+SPtr<AActor> AActor::CreateChildNode(FString childType, const FString& childName)
+{
+    return CreateChildNode(childType, childName.CString());
+}
 
-void AActor::AddChildNode(AActor* child)
+SPtr<AActor> AActor::CreateChildNode(FString childType, const char* childName)
+{
+	SPtr<AActor> child = CreateChildNode(childType);
+    if (child)
+        child->SetName(childName);
+    return child;
+}
+
+void AActor::AddChildNode(SPtr<AActor> child)
 {
     // Check for illegal or redundant parent assignment
-    if (!child || child->_parent == this)
+    if (!child || child->_parent == SPtrThis)
         return;
-    
-    if (child == this)
+
+    if (child == SPtrThis)
     {
         ErrorString("Attempted parenting node to self");
         return;
     }
 
     // Check for possible cyclic parent assignment
-    AActor* current = _parent;
+    SPtr<AActor> current = _parent;
     while (current)
     {
         if (current == child)
@@ -174,21 +174,21 @@ void AActor::AddChildNode(AActor* child)
         current = current->_parent;
     }
 
-    AActor* oldParent = child->_parent;
+    SPtr<AActor> oldParent = child->_parent;
     if (oldParent)
         oldParent->_childrenNode.Remove(child);
 
     _childrenNode.Push(child);
-    child->_parent = this;
-    child->OnParentSet(this, oldParent);
+    child->_parent = SPtrThis;
+    child->OnParentSet(SPtrThis, oldParent);
 
 	//if (_world)
 	//	_world->AddNode(child);
 }
 
-void AActor::RemoveChildNode(AActor* child)
+void AActor::RemoveChildNode(SPtr<AActor> child)
 {
-    if (!child || child->_parent != this)
+    if (!child || child->_parent != SPtrThis)
         return;
 
     for (size_t i = 0; i < _childrenNode.Size(); ++i)
@@ -206,7 +206,7 @@ void AActor::RemoveChildNode(size_t index)
     //if (index >= _childrenNode.Size())
     //    return;
 
-    //AActor* child = _childrenNode[index];
+    //SPtr<AActor> child = _childrenNode[index];
     //// Detach from both the parent and the scene (removes _id assignment)
     //child->_parent = nullptr;
     //child->OnParentSet(this, nullptr);
@@ -217,23 +217,23 @@ void AActor::RemoveChildNode(size_t index)
 
 void AActor::RemoveAllChildrenNode()
 {
-   /* for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
-    {
-        AActor* child = *it;
-        child->_parent = nullptr;
-        child->OnParentSet(this, nullptr);
-        if (_world)
-            _world->RemoveNode(child);
-        it->Reset();
-    }*/
-
+	/*for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	{
+		SPtr<AActor> child = *it;
+		child->_parent = nullptr;
+		child->OnParentSet(SPtrThis, nullptr);
+		if (_world)
+			_world->RemoveNode(child);
+		it->Reset();
+	}
+*/
     _childrenNode.Clear();
 }
 
 void AActor::RemoveSelf()
 {
     if (_parent)
-        _parent->RemoveChildNode(this);
+        _parent->RemoveChildNode(SPtrThis);
     else
         delete this;
 }
@@ -284,7 +284,7 @@ size_t AActor::NumPersistentChildren() const
 
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         if (!child->IsTemporary())
             ++ret;
     }
@@ -292,90 +292,90 @@ size_t AActor::NumPersistentChildren() const
     return ret;
 }
 
-void AActor::GetAllChildrenNode(TVector<AActor*>& result) const
+void AActor::GetAllChildrenNode(TVector<SPtr<AActor>>& result) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         result.Push(child);
         child->GetAllChildrenNode(result);
     }
 }
 
-AActor* AActor::FindChildNode(const FString& childName, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByName(const FString& childName, bool recursive) const
 {
-    return FindChildNode(childName.CString(), recursive);
+    return FindChildNodeByName(childName.CString(), recursive);
 }
 
-AActor* AActor::FindChildNode(const char* childName, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByName(const char* childName, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
-        if (child->_name == childName)
+        SPtr<AActor> child = *it;
+        if (child->GetName() == FString(childName))
             return child;
         else if (recursive && child->_childrenNode.Size())
         {
-            AActor* childResult = child->FindChildNode(childName, recursive);
+            SPtr<AActor> childResult = child->FindChildNodeByName(childName, recursive);
             if (childResult)
                 return childResult;
         }
     }
 
-    return nullptr;
+    return SPtr<AActor>();
 }
 
-AActor* AActor::FindChildNode(FStringHash childType, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByType(FString childType, bool recursive) const
 {
-	/*for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
 	{
-		AActor* child = *it;
-		if (child->GetTypeHash() == childType)
+		SPtr<AActor> child = *it;
+		if (FType::get(child) == FType::get_by_name(childType.CString()))
 			return child;
 		else if (recursive && child->_childrenNode.Size())
 		{
-			AActor* childResult = child->FindChildNode(childType, recursive);
+			SPtr<AActor> childResult = child->FindChildNodeByType(childType, recursive);
 			if (childResult)
 				return childResult;
 		}
-	}*/
+	}
 
-    return nullptr;
+    return SPtr<AActor>();
 }
 
-AActor* AActor::FindChildNode(FStringHash childType, const FString& childName, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByType(FString childType, const FString& childName, bool recursive) const
 {
-    return FindChildNode(childType, childName.CString(), recursive);
+    return FindChildNodeByType(childType, childName.CString(), recursive);
 }
 
-AActor* AActor::FindChildNode(FStringHash childType, const char* childName, bool recursive) const
-{
-    /*for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
-    {
-        AActor* child = *it;
-        if (child->GetTypeHash() == childType && child->_name == childName)
-            return child;
-        else if (recursive && child->_childrenNode.Size())
-        {
-            AActor* childResult = child->FindChildNode(childType, childName, recursive);
-            if (childResult)
-                return childResult;
-        }
-    }*/
-
-    return nullptr;
-}
-
-AActor* AActor::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByType(FString childType, const char* childName, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
+        if (FType::get(child) == FType::get_by_name(childType.CString()) && child->GetName() == FString(childName))
+            return child;
+        else if (recursive && child->_childrenNode.Size())
+        {
+            SPtr<AActor> childResult = child->FindChildNodeByType(childType, childName, recursive);
+            if (childResult)
+                return childResult;
+        }
+    }
+
+    return SPtr<AActor>();
+}
+
+SPtr<AActor> AActor::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
+{
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    {
+        SPtr<AActor> child = *it;
         if (child->GetLayerMask() && layerMask)
             return child;
         else if (recursive && child->_childrenNode.Size())
         {
-            AActor* childResult = child->FindChildNodeByLayer(layerMask, recursive);
+            SPtr<AActor> childResult = child->FindChildNodeByLayer(layerMask, recursive);
             if (childResult)
                 return childResult;
         }
@@ -384,16 +384,16 @@ AActor* AActor::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByTag(unsigned char tag, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByTag(unsigned char tag, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         if (child->_tag == tag)
             return child;
         else if (recursive && child->_childrenNode.Size())
         {
-            AActor* childResult = child->FindChildNodeByTag(tag, recursive);
+            SPtr<AActor> childResult = child->FindChildNodeByTag(tag, recursive);
             if (childResult)
                 return childResult;
         }
@@ -402,21 +402,21 @@ AActor* AActor::FindChildNodeByTag(unsigned char tag, bool recursive) const
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByTag(const FString& tagName, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByTag(const FString& tagName, bool recursive) const
 {
     return FindChildNodeByTag(tagName.CString(), recursive);
 }
 
-AActor* AActor::FindChildNodeByTag(const char* tagName, bool recursive) const
+SPtr<AActor> AActor::FindChildNodeByTag(const char* tagName, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             return child;
         else if (recursive && child->_childrenNode.Size())
         {
-            AActor* childResult = child->FindChildNodeByTag(tagName, recursive);
+            SPtr<AActor> childResult = child->FindChildNodeByTag(tagName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -425,11 +425,11 @@ AActor* AActor::FindChildNodeByTag(const char* tagName, bool recursive) const
     return nullptr;
 }
 
-void AActor::FindChildrenNode(TVector<AActor*>& result, FStringHash childType, bool recursive) const
+void AActor::FindChildrenNode(TVector<SPtr<AActor>>& result, FStringHash childType, bool recursive) const
 {
 	/* for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
 	 {
-		 AActor* child = *it;
+		 SPtr<AActor> child = *it;
 		 if (child->GetTypeHash() == childType)
 			 result.Push(child);
 		 if (recursive && child->_childrenNode.Size())
@@ -437,11 +437,11 @@ void AActor::FindChildrenNode(TVector<AActor*>& result, FStringHash childType, b
 	 }*/
 }
 
-void AActor::FindChildrenNodeByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive) const
+void AActor::FindChildrenNodeByLayer(TVector<SPtr<AActor>>& result, unsigned layerMask, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         if (child->GetLayerMask() & layerMask)
             result.Push(child);
         if (recursive && child->_childrenNode.Size())
@@ -449,11 +449,11 @@ void AActor::FindChildrenNodeByLayer(TVector<AActor*>& result, unsigned layerMas
     }
 }
 
-void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, unsigned char tag, bool recursive) const
+void AActor::FindChildrenNodeByTag(TVector<SPtr<AActor>>& result, unsigned char tag, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         if (child->_tag == tag)
             result.Push(child);
         if (recursive && child->_childrenNode.Size())
@@ -461,21 +461,133 @@ void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, unsigned char tag, 
     }
 }
 
-void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, const FString& tagName, bool recursive) const
+void AActor::FindChildrenNodeByTag(TVector<SPtr<AActor>>& result, const FString& tagName, bool recursive) const
 {
     FindChildrenNodeByTag(result, tagName.CString(), recursive);
 }
 
-void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, const char* tagName, bool recursive) const
+void AActor::FindChildrenNodeByTag(TVector<SPtr<AActor>>& result, const char* tagName, bool recursive) const
 {
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
-        AActor* child = *it;
+        SPtr<AActor> child = *it;
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             result.Push(child);
         if (recursive && child->_childrenNode.Size())
             child->FindChildrenNodeByTag(result, tagName, recursive);
     }
+}
+
+SPtr<AActorComponent> AActor::CreateComponent(FString childType)
+{
+	FType classType = FType::get_by_name(childType.CString());
+
+	FVariant newObject = classType.create();
+	SPtr<AActorComponent> component(Clone(newObject.get_value<AActorComponent*>()));
+
+	if (component)
+	{
+		_ownedComponents[RtToStr(FType::get(component).get_name())] = component;
+	}
+	else
+	{
+		ErrorString("Failed to create component, perhaps the input parameter component");
+		return SPtr<AActorComponent>();
+	}
+	component->AttachToActor(SPtrThis);
+
+	return component;
+}
+
+void AActor::AddComponent(SPtr<AActorComponent> component)
+{
+	if (component)
+	{
+		_ownedComponents[RtToStr(FType::get(component).get_name())] = component;
+	}
+	else
+	{
+		ErrorString("Failed to create component, perhaps the input parameter component");
+		return;
+	}
+	component->AttachToActor(SPtrThis);
+}
+
+void AActor::RemoveComponent(SPtr<AActorComponent> component)
+{
+	FString componentsKey = RtToStr(FType::get(component).get_name());
+	if (!component)
+		return;
+
+	if (_ownedComponents.Find(componentsKey) != _ownedComponents.End())
+	{
+		_ownedComponents.Erase(componentsKey);
+	}
+	else
+		WarningString("Fail remove component.");
+}
+
+void AActor::RemoveAllComponents()
+{
+	_ownedComponents.Clear();
+}
+
+void AActor::GetAllComponents(TVector<SPtr<AActorComponent>>& result, bool recursive) const
+{
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		SPtr<AActorComponent> comp = it->_second;
+		result.Push(comp);
+	}
+
+	if (recursive)
+	{
+		for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+		{
+			SPtr<AActor> childActor = *it;
+			childActor->GetAllComponents(result, recursive);
+		}
+	}
+}
+
+SPtr<AActorComponent> AActor::FindComponent(FString childType, bool recursive) const
+{
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		SPtr<AActorComponent> comp = it->_second;
+		if (FType::get(comp) == FType::get_by_name(childType.CString()))
+			return comp;
+	}
+
+	if (recursive)
+	{
+		for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+		{
+			SPtr<AActorComponent> comp = (*it)->FindComponent(childType, recursive);
+			if (comp)
+				return comp;
+		}
+	}
+
+	WarningStringF("Fail find component %s", childType);
+	return nullptr;
+}
+
+void AActor::FindComponents(TVector<SPtr<AActorComponent>>& result, FString childType, bool recursive) const
+{
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		SPtr<AActorComponent> comp = it->_second;
+		if (FType::get(comp) == FType::get_by_name(childType.CString()))
+			result.Push(comp);
+	}
+	if (recursive)
+	{
+		for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+		{
+			(*it)->FindComponents(result, childType, recursive);
+		}
+	}
 }
 
 void AActor::SetScene(AWorld* newScene)
@@ -489,5 +601,13 @@ void AActor::SetId(unsigned newId)
 {
     _id = newId;
 }
+SPtr<ATransform> AActor::GetTransform()
+{ 
+	if (!_transform.get())
+	{
+		CreateComponent<ATransform>();
+	}
 
+	return _transform;
+}
 }
