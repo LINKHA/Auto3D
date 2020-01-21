@@ -15,6 +15,7 @@
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>
+#include "Component/MeshComponent.h"
 
 using namespace Auto3D;
 

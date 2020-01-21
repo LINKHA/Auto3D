@@ -24,14 +24,15 @@ namespace ETransformSpace
 /// Base class for actor with position in three-dimensional space.
 class AUTO_API ATransform : public AActorComponent
 {
+	DECLARE_CLASS(ATransform, AActorComponent)
 public:
     /// Construct.
     ATransform();
 	~ATransform() {}
 	/// BeginPlay
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 	/// Called every frame.
-	virtual void TickComponent(float deltaTime);
+	virtual void TickComponent(float deltaTime) override;
 
     /// Set _position in parent space.
     void SetPosition(const TVector3F& newPosition);

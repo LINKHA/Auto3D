@@ -7,18 +7,18 @@
 
 namespace Auto3D
 {
-	FForwardShadingRenderer* renderer;
-/// Construct
+FForwardShadingRenderer* renderer;
+
 FEngine::FEngine()
 {
 	renderer = new FForwardShadingRenderer();
 }
-/// Cestructor
+
 FEngine::~FEngine()
 {
 
 }
-/// Init engine, Register some SubSystem
+
 bool FEngine::Init()
 
 {// Set random seeds based on time
@@ -34,14 +34,14 @@ bool FEngine::Init()
 
 	return true;
 }
-/// AEngine normal exit
+
 void FEngine::Exit()
 {
 	imguiDestroy();
 	// Shutdown bgfx.
 	bgfx::shutdown();
 }
-/// Render geometry
+
 void FEngine::Render()
 {
 
@@ -51,13 +51,13 @@ void FEngine::Render()
 	// process submitted rendering primitives.
 	bgfx::frame();
 }
-/// Sub system update data, If pause when _minimized -mode return false
+
 bool FEngine::Update()
 {
 
 	return true;
 }
-/// Frame finish
+
 void FEngine::FrameFinish()
 {
 	FTimeModule::Get().Update();

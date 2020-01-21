@@ -16,12 +16,12 @@ ATransform::ATransform() :
 
 void ATransform::BeginPlay()
 {
-	
+	Super::BeginPlay();
 }
 
 void ATransform::TickComponent(float deltaTime)
 {
-
+	Super::TickComponent(deltaTime);
 }
 
 void ATransform::SetPosition(const TVector3F& newPosition)

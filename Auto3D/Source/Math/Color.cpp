@@ -22,11 +22,11 @@ const FColor FColor::TRANSPARENT(0.0f, 0.0f, 0.0f, 0.0f);
 
 unsigned FColor::ToUInt() const
 {
-    unsigned r_ = Clamp(((int)(_r * 255.0f)), 0, 255);
-    unsigned g_ = Clamp(((int)(_g * 255.0f)), 0, 255);
-    unsigned b_ = Clamp(((int)(_b * 255.0f)), 0, 255);
-    unsigned a_ = Clamp(((int)(_a * 255.0f)), 0, 255);
-    return (a_ << 24) | (b_ << 16) | (g_ << 8) | r_;
+    unsigned r = Clamp(((int)(_r * 255.0f)), 0, 255);
+    unsigned g = Clamp(((int)(_g * 255.0f)), 0, 255);
+    unsigned b = Clamp(((int)(_b * 255.0f)), 0, 255);
+    unsigned a = Clamp(((int)(_a * 255.0f)), 0, 255);
+    return (r << 24) | (g << 16) | (b << 8) | a;
 }
 
 TVector3F FColor::ToHSL() const

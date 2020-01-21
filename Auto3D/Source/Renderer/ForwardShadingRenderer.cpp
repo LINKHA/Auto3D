@@ -10,7 +10,7 @@ FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferHeight(AUTO_DEFAULT_HEIGHT),
 	_debug(BGFX_DEBUG_NONE),
 	_reset(BGFX_RESET_VSYNC),
-	_backbufferColor(0, 0, 0, 1),
+	_backbufferColor(0.4f, 0.4f, 0.4f, 1),
 	_depth(1.0f),
 	_stencil(0)
 {
