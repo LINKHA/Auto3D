@@ -34,6 +34,7 @@ static const unsigned LAYERMASK_ALL = 0xffffffff;
 /// Base class for scene nodes.
 class AUTO_API AActor : public AObject ,public IEnablePtrThis<AActor>
 {
+	DECLARE_CLASS(AActor, AObject)
 public:
     /// Construct.
     AActor();

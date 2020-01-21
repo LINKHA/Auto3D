@@ -14,6 +14,16 @@ ATransform::ATransform() :
 {
 }
 
+void ATransform::BeginPlay()
+{
+	
+}
+
+void ATransform::TickComponent(float deltaTime)
+{
+
+}
+
 void ATransform::SetPosition(const TVector3F& newPosition)
 {
     _position = newPosition;

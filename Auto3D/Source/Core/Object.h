@@ -1,5 +1,6 @@
 #pragma once
 #include "AutoConfig.h"
+#include "Adapter/AutoRttr.h"
 
 namespace Auto3D
 {
@@ -31,6 +32,7 @@ public:
 /// Base class for objects.
 class AUTO_API AObject
 {
+	DECLARE_RTTR_BASE_CLASS(AObject)
 public:
 	/// Structure
 	AObject() = default;

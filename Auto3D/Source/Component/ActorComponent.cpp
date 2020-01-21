@@ -6,8 +6,19 @@
 namespace Auto3D
 {
 
-AActorComponent::AActorComponent()
+AActorComponent::AActorComponent() :
+	_hasBegunPlay(false)
 {
+}
+
+void AActorComponent::BeginPlay()
+{
+	_hasBegunPlay = true;
+}
+
+void AActorComponent::TickComponent(float deltaTime)
+{
+
 }
 
 bool AActorComponent::AttachToActor(SPtr<AActor> owner)

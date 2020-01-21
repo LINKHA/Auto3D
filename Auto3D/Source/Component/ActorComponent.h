@@ -8,16 +8,24 @@ class AActor;
 class AWorld;
 class AActorComponent : public AObject
 {
+	DECLARE_CLASS(AActorComponent, AObject)
 public:
 	AActorComponent();
 	virtual ~AActorComponent(){}
+	/// BeginPlay
+	virtual void BeginPlay();
+	/// Called every frame.
+	virtual void TickComponent(float deltaTime);
+
 	/// Attach to actor,and set owner private and world private.
 	bool AttachToActor(SPtr<AActor> owner);
 	/// Follow the Outer chain to get the  AActor  that 'Owns' this component.
 	virtual SPtr<AActor> GetOwner() const;
-
 	/// Getter for the cached world pointer, will return null if the component is not actually spawned in a level.
 	virtual SPtr<AWorld> GetWorld() const;
+
+	/// Indicates that BeginPlay has been called, but EndPlay has not yet.
+	bool HasBegunPlay() const { return _hasBegunPlay; }
 private:
 	/// Cached pointer to owning actor.
 	mutable WPtr<AActor> _ownerPrivate;
@@ -27,6 +35,8 @@ private:
 	 * This is only non-NULL when the component is registered.
 	 */
 	WPtr<AWorld> _worldPrivate;
+	/// Indicates that BeginPlay has been called, but EndPlay has not yet.
+	bool _hasBegunPlay;
 };
 
 }

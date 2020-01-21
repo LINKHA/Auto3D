@@ -28,6 +28,10 @@ public:
     /// Construct.
     ATransform();
 	~ATransform() {}
+	/// BeginPlay
+	virtual void BeginPlay();
+	/// Called every frame.
+	virtual void TickComponent(float deltaTime);
 
     /// Set _position in parent space.
     void SetPosition(const TVector3F& newPosition);
