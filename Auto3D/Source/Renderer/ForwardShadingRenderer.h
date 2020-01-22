@@ -7,6 +7,7 @@
 #include "Component/MeshComponent.h"
 
 #include <bgfx/bgfx.h>
+#include "RHI/camera.h"
 
 namespace Auto3D
 {
@@ -21,6 +22,7 @@ struct GBox
 	static bgfx::UniformHandle _time;
 	static uint32_t _width;
 	static uint32_t _height;
+	static MouseState _mouseState;
 };
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
@@ -37,8 +39,7 @@ public:
 	void Render()override;
 	void ShutDowm();
 private:
-	uint32_t _backbufferWidth;
-	uint32_t _backbufferHeight;
+	TVector2F _backbufferSize;
 	/// Renderer debug mode;
 	uint32_t _debug;
 	/// This flag specifies where flip occurs.

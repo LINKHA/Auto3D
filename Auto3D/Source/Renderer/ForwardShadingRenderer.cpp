@@ -4,6 +4,8 @@
 
 #include "Component/MeshComponent.h"
 #include <bx/timer.h>
+#include "RHI/camera.h"
+#include "Component/CameraComponent.h"
 
 namespace Auto3D
 {
@@ -13,10 +15,10 @@ bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
 uint32_t GBox::_width;
 uint32_t GBox::_height;
+MouseState GBox::_mouseState;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
-	_backbufferWidth(AUTO_DEFAULT_WIDTH),
-	_backbufferHeight(AUTO_DEFAULT_HEIGHT),
+	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
 	_debug(BGFX_DEBUG_NONE),
 	_reset(BGFX_RESET_VSYNC),
 	_backbufferColor(0.4f, 0.4f, 0.4f, 1),
@@ -35,8 +37,7 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 {
 	FArgs& args = FArgs::Get();
 
-	_backbufferWidth = width;
-	_backbufferHeight = height;
+	_backbufferSize = TVector2F(width,height);
 
 	_debug = BGFX_DEBUG_NONE;
 	_reset = 0
@@ -46,8 +47,8 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 	bgfx::Init init;
 	init.type = args._type;
 	init.vendorId = args._pciId;
-	init.resolution.width = _backbufferWidth;
-	init.resolution.height = _backbufferHeight;
+	init.resolution.width = _backbufferSize._x;
+	init.resolution.height = _backbufferSize._y;
 	init.resolution.reset = _reset;
 	bgfx::init(init);
 
@@ -62,6 +63,10 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 		, _stencil
 	);
 
+	cameraCreate();
+	cameraSetPosition({ 0.0f, 1.0f, -2.5f });
+	cameraSetVerticalAngle(-0.3f);
+
 }
 
 void FForwardShadingRenderer::Render()
@@ -75,21 +80,30 @@ void FForwardShadingRenderer::Render()
 	float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
 	bgfx::setUniform(GBox::_time, &time);
 
-	const bx::Vec3 at = { 0.0f, 1.0f,  0.0f };
-	const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
+	//const bx::Vec3 at = { 0.0f, 1.0f,  0.0f };
+	//const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
 
-	// Set view and projection matrix for view 0.
-	{
-		float view[16];
-		bx::mtxLookAt(view, eye, at);
+	//// Set view and projection matrix for view 0.
+	//{
+	//	float view[16];
+	//	bx::mtxLookAt(view, eye, at);
 
-		float proj[16];
-		bx::mtxProj(proj, 60.0f, float(GBox::_width) / float(GBox::_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-		bgfx::setViewTransform(0, view, proj);
+	//	float proj[16];
+	//	bx::mtxProj(proj, 60.0f, float(GBox::_width) / float(GBox::_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+	//	bgfx::setViewTransform(0, view, proj);
+	//}
 
-		// Set view 0 default viewport.
-		bgfx::setViewRect(0, 0, 0, uint16_t(GBox::_width), uint16_t(GBox::_height));
-	}
+	// Update camera
+	cameraUpdate(0.016f*0.15f, GBox::_mouseState);
+
+	// Set up matrices for gbuffer
+	float view[16];
+	cameraGetViewMtx(view);
+
+	float proj[16];
+	bx::mtxProj(proj, 60.0f, float(GBox::_width) / float(GBox::_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+	bgfx::setViewTransform(0, view, proj);
+
 
 	float mtx[16];
 	bx::mtxRotateXY(mtx

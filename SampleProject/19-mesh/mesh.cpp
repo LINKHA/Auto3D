@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Component/MeshComponent.h"
 #include "Renderer/ForwardShadingRenderer.h"
+
 using namespace Auto3D;
 
 namespace
@@ -84,6 +85,8 @@ public:
 		{
 			GBox::_width = m_width;
 			GBox::_height = m_height;
+			GBox::_mouseState = m_mouseState;
+
 			imguiBeginFrame(m_mouseState._mx
 				, m_mouseState._my
 				, (m_mouseState._buttons[Auto3D::MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
