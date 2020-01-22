@@ -4,8 +4,24 @@
 #include "Math/Color.h"
 #include <stdint.h>
 
+#include "Component/MeshComponent.h"
+
+#include <bgfx/bgfx.h>
+
 namespace Auto3D
 {
+
+class Mesh;
+
+struct GBox
+{
+	static int64_t _timeOffset;
+	static Mesh* _mesh;
+	static bgfx::ProgramHandle _program;
+	static bgfx::UniformHandle _time;
+	static uint32_t _width;
+	static uint32_t _height;
+};
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public ISceneRenderer

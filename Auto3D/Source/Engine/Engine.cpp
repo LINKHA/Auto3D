@@ -44,12 +44,7 @@ void FEngine::Exit()
 
 void FEngine::Render()
 {
-
 	renderer->Render();
-
-	// Advance to next frame. Rendering thread will be kicked to
-	// process submitted rendering primitives.
-	bgfx::frame();
 }
 
 bool FEngine::Update()

@@ -3,7 +3,7 @@
 #include "UI/UI.h"
 #include "Application.h"
 #include "Component/MeshComponent.h"
-
+#include "Renderer/ForwardShadingRenderer.h"
 using namespace Auto3D;
 
 namespace
@@ -46,13 +46,17 @@ public:
 		//		);
 
 		u_time = bgfx::createUniform("u_time", bgfx::UniformType::Vec4);
+		GBox::_time = u_time;
 
 		// Create program from shaders.
 		m_program = loadProgram("vs_mesh", "fs_mesh");
+		GBox::_program = m_program;
 
 		m_mesh = meshLoad("meshes/bunny.bin");
+		GBox::_mesh = m_mesh;
 
 		m_timeOffset = bx::getHPCounter();
+		GBox::_timeOffset = m_timeOffset;
 
 		//imguiCreate();
 	}
@@ -78,6 +82,8 @@ public:
 	{
 		if (!Auto3D::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
 		{
+			GBox::_width = m_width;
+			GBox::_height = m_height;
 			imguiBeginFrame(m_mouseState._mx
 				, m_mouseState._my
 				, (m_mouseState._buttons[Auto3D::MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
@@ -92,43 +98,6 @@ public:
 
 			imguiEndFrame();
 
-			// Set view 0 default viewport.
-			bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
-
-			// This dummy draw call is here to make sure that view 0 is cleared
-			// if no other draw calls are submitted to view 0.
-			bgfx::touch(0);
-
-			float time = (float)( (bx::getHPCounter()-m_timeOffset)/double(bx::getHPFrequency() ) );
-			bgfx::setUniform(u_time, &time);
-
-			const bx::Vec3 at  = { 0.0f, 1.0f,  0.0f };
-			const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
-
-			// Set view and projection matrix for view 0.
-			{
-				float view[16];
-				bx::mtxLookAt(view, eye, at);
-
-				float proj[16];
-				bx::mtxProj(proj, 60.0f, float(m_width)/float(m_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-				bgfx::setViewTransform(0, view, proj);
-
-				// Set view 0 default viewport.
-				bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
-			}
-
-			float mtx[16];
-			bx::mtxRotateXY(mtx
-				, 0.0f
-				, time*0.37f
-				);
-
-			meshSubmit(m_mesh, 0, m_program, mtx);
-
-			// Advance to next frame. Rendering thread will be kicked to
-			// process submitted rendering primitives.
-			bgfx::frame();
 
 			return true;
 		}

@@ -2,8 +2,17 @@
 #include "Platform/PlatformDef.h"
 #include "Platform/Args.h"
 
+#include "Component/MeshComponent.h"
+#include <bx/timer.h>
+
 namespace Auto3D
 {
+int64_t GBox::_timeOffset;
+Mesh* GBox::_mesh;
+bgfx::ProgramHandle GBox::_program;
+bgfx::UniformHandle GBox::_time;
+uint32_t GBox::_width;
+uint32_t GBox::_height;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferWidth(AUTO_DEFAULT_WIDTH),
@@ -57,6 +66,38 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 
 void FForwardShadingRenderer::Render()
 {
+	// Set view 0 default viewport.
+	bgfx::setViewRect(0, 0, 0, uint16_t(GBox::_width), uint16_t(GBox::_height));
+	// This dummy draw call is here to make sure that view 0 is cleared
+			// if no other draw calls are submitted to view 0.
+	bgfx::touch(0);
+
+	float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
+	bgfx::setUniform(GBox::_time, &time);
+
+	const bx::Vec3 at = { 0.0f, 1.0f,  0.0f };
+	const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
+
+	// Set view and projection matrix for view 0.
+	{
+		float view[16];
+		bx::mtxLookAt(view, eye, at);
+
+		float proj[16];
+		bx::mtxProj(proj, 60.0f, float(GBox::_width) / float(GBox::_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+		bgfx::setViewTransform(0, view, proj);
+
+		// Set view 0 default viewport.
+		bgfx::setViewRect(0, 0, 0, uint16_t(GBox::_width), uint16_t(GBox::_height));
+	}
+
+	float mtx[16];
+	bx::mtxRotateXY(mtx
+		, 0.0f
+		, time*0.37f
+	);
+
+	meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
 
 	// Advance to next frame. Rendering thread will be kicked to
 		// process submitted rendering primitives.
