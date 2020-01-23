@@ -7,7 +7,7 @@
 #include "Container/HashMap.h"
 
 #include "Adapter/AutoRttr.h"
-#include "Adapter/Ptr.h"
+
 
 namespace Auto3D
 {
@@ -32,7 +32,7 @@ static const unsigned char TAG_NONE = 0x0;
 static const unsigned LAYERMASK_ALL = 0xffffffff;
 
 /// Base class for scene nodes.
-class AUTO_API AActor : public AObject ,public IEnablePtrThis<AActor>
+class AUTO_API AActor : public AObject 
 {
 	DECLARE_CLASS(AActor, AObject)
 public:
@@ -40,6 +40,13 @@ public:
     AActor();
     /// Destruct. Destroy any child nodes.
     virtual ~AActor();
+
+	/// Overridable native event for when play begins for this actor. 
+	virtual void BeginPlay();
+	/// Function called every frame on this Actor.Override this function to implement custom logic to be executed every frame.
+	virtual void Tick(float deltaSeconds);
+
+	bool HasBegunPlay(){ return _hasBegunPlay; }
 
     /// Return unique _id within the scene, or 0 if not in a scene.
     unsigned Id() const { return _id; }
@@ -111,10 +118,8 @@ public:
     size_t NumPersistentChildren() const;
     ///// Return immediate child node by index.
     SPtr<AActor> FindChildNodeByIndex(size_t index) const { return index < _childrenNode.Size() ? _childrenNode[index] : nullptr; }
-    /// Return all immediate child nodes.
-    const TVector<SPtr<AActor>>& GetChildrenNode() const { return _childrenNode; }
     /// Return child nodes recursively.
-    void GetAllChildrenNode(TVector<SPtr<AActor>>& result) const;
+    void GetAllChildrenNode(TVector<SPtr<AActor>>& result, bool recursive = false) const;
     /// Return first child node that matches name.
     SPtr<AActor> FindChildNodeByName(const FString& childName, bool recursive = false) const;
     /// Return first child node that matches name.
@@ -199,6 +204,7 @@ protected:
     virtual void OnSetEnabled(bool newEnabled) {}
 
 protected:
+	bool _hasBegunPlay;
 	/// Each actor is fixed with a transform
 	SPtr<ATransform> _transform;
     /// Parent node.

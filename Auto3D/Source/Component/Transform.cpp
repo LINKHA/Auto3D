@@ -314,7 +314,9 @@ void ATransform::OnTransformChanged()
 
 	UpdateWorldTransform();
 
-	const TVector<SPtr<AActor>>& children = GetOwner()->GetChildrenNode();
+	TVector<SPtr<AActor>> children;
+	GetOwner()->GetAllChildrenNode(children);
+
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
 		SPtr<AActor> child = *it;

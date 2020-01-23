@@ -16,7 +16,7 @@ template<class _Ty, class... _Types> SPtr<_Ty> MakeUnique(_Types&&... args) { re
 
 template<typename _Ty> using IEnablePtrThis = std::enable_shared_from_this<_Ty>;
 
-#define SPtrThis shared_from_this()
-#define WPtrThis weak_from_this()
+//#define SPtrThis shared_from_this()
+//#define WPtrThis weak_from_this()
 
 }

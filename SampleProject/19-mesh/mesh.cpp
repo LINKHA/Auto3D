@@ -63,6 +63,7 @@ public:
 		GBox::_timeOffset = m_timeOffset;
 
 		SPtr<AWorld> world(new AWorld());
+		world->OnRegister();
 
 		SPtr<AActor> actor = world->CreateChildNode<AActor>();
 		SPtr<ACameraComponent> camera = actor->CreateComponent<ACameraComponent>();

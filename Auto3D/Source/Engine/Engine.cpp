@@ -4,6 +4,8 @@
 #include "Platform/PlatformDef.h"
 #include "Time/Time.h"
 #include "Math/Random.h"
+#include "Gameplay/WorldContext.h"
+#include "Gameplay/World.h"
 
 namespace Auto3D
 {
@@ -20,7 +22,6 @@ FEngine::~FEngine()
 }
 
 bool FEngine::Init()
-
 {// Set random seeds based on time
 	FTimeModule::RealTime& realTime = FTimeModule::Get().GetRealTime();
 
@@ -49,13 +50,23 @@ void FEngine::Render()
 
 bool FEngine::Update()
 {
+	FTimeModule& time = FTimeModule::Get();
+	// Begin is still dirty if you manually replace the world 
+	auto world = FWorldContext::Get().GetActiveWorld();
+	if (world && !world->HasBegunPlay())
+		world->BeginPlay();
+
+	time.Update();
+
+	if (world && world->HasBegunPlay())
+		world->Tick(time.GetDeltaTime());
 
 	return true;
 }
 
 void FEngine::FrameFinish()
 {
-	FTimeModule::Get().Update();
+	
 }
 
 }

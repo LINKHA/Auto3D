@@ -26,6 +26,9 @@ public:
 
 	/// Indicates that BeginPlay has been called, but EndPlay has not yet.
 	bool HasBegunPlay() const { return _hasBegunPlay; }
+
+	/// This is the old name of the tick function. We just want to avoid mistakes with an attempt to override this.
+	virtual void Tick(float deltaTime) final { assert(0); }
 private:
 	/// Cached pointer to owning actor.
 	mutable WPtr<AActor> _ownerPrivate;

@@ -14,6 +14,7 @@ namespace Auto3D
 {
 
 AActor::AActor() :
+	_hasBegunPlay(false),
     _flags(NF_ENABLED),
     _layer(LAYER_DEFAULT),
     _tag(TAG_NONE),
@@ -30,6 +31,55 @@ AActor::~AActor()
     // At the time of destruction the node should not have a parent, or be in a scene
     assert(!_parent);
     assert(!_world);
+}
+
+void AActor::BeginPlay()
+{
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		SPtr<AActorComponent> comp = it->_second;
+		if (!comp->HasBegunPlay())
+			comp->BeginPlay();
+	}
+
+	//Get all current world actors
+	TVector<SPtr<AActor>> children;
+	GetAllChildrenNode(children);
+
+	for (auto it = children.Begin(); it != children.End(); ++it)
+	{
+		SPtr<AActor> child = *it;
+		if (child->IsEnabled() && !child->HasBegunPlay())
+			child->BeginPlay();
+	}
+
+	_hasBegunPlay = true;
+}
+
+void AActor::Tick(float deltaSeconds)
+{
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		SPtr<AActorComponent> comp = it->_second;
+		if (!comp->HasBegunPlay())
+		{
+			comp->BeginPlay();
+		}
+		comp->TickComponent(deltaSeconds);
+	}
+
+	//Get all current world actors
+	TVector<SPtr<AActor>> children;
+	GetAllChildrenNode(children);
+	for (auto it = children.Begin(); it != children.End(); ++it)
+	{
+		SPtr<AActor> child = *it;
+		if (child->IsEnabled() && !child->HasBegunPlay())
+			child->BeginPlay();
+
+		if (child->IsEnabled())
+			child->Tick(deltaSeconds);
+	}
 }
 
 void AActor::SetName(const FString& newName)
@@ -108,7 +158,7 @@ void AActor::SetTemporary(bool enable)
 void AActor::SetParentNode(SPtr<AActor> newParent)
 {
     if (newParent)
-        newParent->AddChildNode(SPtrThis);
+        newParent->AddChildNode(SPtrThis());
     else
         ErrorString("Could not set null parent");
 }
@@ -153,10 +203,10 @@ SPtr<AActor> AActor::CreateChildNode(FString childType, const char* childName)
 void AActor::AddChildNode(SPtr<AActor> child)
 {
     // Check for illegal or redundant parent assignment
-    if (!child || child->_parent == SPtrThis)
+    if (!child || child->_parent == SPtrThis())
         return;
 
-    if (child == SPtrThis)
+    if (child == SPtrThis())
     {
         ErrorString("Attempted parenting node to self");
         return;
@@ -179,8 +229,8 @@ void AActor::AddChildNode(SPtr<AActor> child)
         oldParent->_childrenNode.Remove(child);
 
     _childrenNode.Push(child);
-    child->_parent = SPtrThis;
-    child->OnParentSet(SPtrThis, oldParent);
+    child->_parent = SPtrThis();
+    child->OnParentSet(SPtrThis(), oldParent);
 
 	//if (_world)
 	//	_world->AddNode(child);
@@ -188,7 +238,7 @@ void AActor::AddChildNode(SPtr<AActor> child)
 
 void AActor::RemoveChildNode(SPtr<AActor> child)
 {
-    if (!child || child->_parent != SPtrThis)
+    if (!child || child->_parent != SPtrThis())
         return;
 
     for (size_t i = 0; i < _childrenNode.Size(); ++i)
@@ -221,7 +271,7 @@ void AActor::RemoveAllChildrenNode()
 	{
 		SPtr<AActor> child = *it;
 		child->_parent = nullptr;
-		child->OnParentSet(SPtrThis, nullptr);
+		child->OnParentSet(SPtrThis(), nullptr);
 		if (_world)
 			_world->RemoveNode(child);
 		it->Reset();
@@ -233,7 +283,7 @@ void AActor::RemoveAllChildrenNode()
 void AActor::RemoveSelf()
 {
     if (_parent)
-        _parent->RemoveChildNode(SPtrThis);
+        _parent->RemoveChildNode(SPtrThis());
     else
         delete this;
 }
@@ -292,13 +342,20 @@ size_t AActor::NumPersistentChildren() const
     return ret;
 }
 
-void AActor::GetAllChildrenNode(TVector<SPtr<AActor>>& result) const
+void AActor::GetAllChildrenNode(TVector<SPtr<AActor>>& result, bool recursive) const
 {
+	if (!recursive)
+	{
+		result = _childrenNode;
+		return;
+	}
+		
     for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         SPtr<AActor> child = *it;
         result.Push(child);
-        child->GetAllChildrenNode(result);
+		if (recursive)
+			child->GetAllChildrenNode(result, recursive);
     }
 }
 
@@ -494,7 +551,7 @@ SPtr<AActorComponent> AActor::CreateComponent(FString childType)
 		ErrorString("Failed to create component, perhaps the input parameter component");
 		return SPtr<AActorComponent>();
 	}
-	component->AttachToActor(SPtrThis);
+	component->AttachToActor(SPtrThis());
 
 	return component;
 }
@@ -510,7 +567,7 @@ void AActor::AddComponent(SPtr<AActorComponent> component)
 		ErrorString("Failed to create component, perhaps the input parameter component");
 		return;
 	}
-	component->AttachToActor(SPtrThis);
+	component->AttachToActor(SPtrThis());
 }
 
 void AActor::RemoveComponent(SPtr<AActorComponent> component)

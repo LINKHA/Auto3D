@@ -1,6 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Adapter/AutoRttr.h"
+#include "Adapter/Ptr.h"
 
 namespace Auto3D
 {
@@ -23,6 +24,9 @@ public: \
 	using This = _This;\
 	using Super = _Base;\
 	DECLARE_RTTR_CLASS(_This, _Base) \
+private:\
+	SPtr<_This> SPtrThis() {return std::dynamic_pointer_cast<_This>(shared_from_this());}\
+	WPtr<_This> WPtrThis() { return std::dynamic_pointer_cast<_This>(shared_from_this()); }\
 public:
 
 #define REGISTER_CALSS_IMP(_Class) \
@@ -30,7 +34,7 @@ public:
 	registration::class_<_Class>(#_Class)
 
 /// Base class for objects.
-class AUTO_API AObject
+class AUTO_API AObject : public IEnablePtrThis<AObject>
 {
 	DECLARE_RTTR_BASE_CLASS(AObject)
 public:
