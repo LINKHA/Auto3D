@@ -111,7 +111,7 @@ public:
     /// Return parent node.
 	SPtr<AActor> GetParentNode() const { return _parent; }
     /// Return the scene that the node belongs to.
-    AWorld* GetWorld() const { return _world; }
+    SPtr<AWorld> GetWorld() const { return _world.lock(); }
     /// Return number of immediate child nodes.
     size_t NumChildren() const { return _childrenNode.Size(); }
     /// Return number of immediate child nodes that are not temporary.
@@ -188,7 +188,7 @@ public:
     /// Return bit flags. Used internally eg. by octree queries.
     unsigned short Flags() const { return _flags; }
     /// Assign node to a new scene. Called internally.
-    void SetScene(AWorld* newScene);
+    void SetWorld(SPtr<AWorld> newWorld);
     /// Assign new _id. Called internally.
     void SetId(unsigned newId);
 
@@ -199,7 +199,7 @@ protected:
     /// Handle being assigned to a new parent node.
 	virtual void OnParentSet(SPtr<AActor> newParent, SPtr<AActor> oldParent) {}
     /// Handle being assigned to a new scene.
-    virtual void OnWorldSet(AWorld* newScene, AWorld* oldScene) {}
+    virtual void OnWorldSet(SPtr<AWorld> newWorld, SPtr<AWorld> oldWorld) {}
     /// Handle the enabled status changing.
     virtual void OnSetEnabled(bool newEnabled) {}
 
@@ -210,7 +210,7 @@ protected:
     /// Parent node.
 	SPtr<AActor> _parent;
     /// Parent scene (If in the scene)
-    AWorld* _world;
+    WPtr<AWorld> _world;
     /// Child nodes.
 	TVector<SPtr<AActor>> _childrenNode;
 	/// This actor all components,fitst string is component type.

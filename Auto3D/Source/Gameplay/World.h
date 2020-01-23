@@ -5,6 +5,8 @@
 namespace Auto3D
 {
 
+class ACameraComponent;
+
 /// %AWorld root node, which also represents the whole world.
 class AUTO_API AWorld : public AActor
 {
@@ -21,6 +23,16 @@ public:
 	virtual void Tick(float deltaSeconds);
 
 	void OnRegister();
+
+	/// Add cctor to the world. This assigns a world-unique id to it. Called internally.
+	void AddActor(SPtr<AActor> actor);
+	/// Remove actor from the world. This removes the id mapping but does not destroy the node. Called internally.
+	void RemoveActor(SPtr<AActor> actor);
+	/// Add camera to the world. 
+	void AddCamera(SPtr<ACameraComponent> camera);
+	/// Remove camera from the world.
+	void RemoveCamera(SPtr<ACameraComponent> camera);
+
 };
 
 

@@ -19,7 +19,6 @@ AActor::AActor() :
     _layer(LAYER_DEFAULT),
     _tag(TAG_NONE),
     _parent(nullptr),
-    _world(nullptr),
     _id(0)
 {
 	SetFlag(NF_SPATIAL, true);
@@ -30,7 +29,7 @@ AActor::~AActor()
     RemoveAllChildrenNode();
     // At the time of destruction the node should not have a parent, or be in a scene
     assert(!_parent);
-    assert(!_world);
+    assert(!_world.lock());
 }
 
 void AActor::BeginPlay()
@@ -98,7 +97,7 @@ void AActor::SetLayer(unsigned char newLayer)
 
 void AActor::SetLayerName(const FString& newLayerName)
 {
-    if (!_world)
+    if (!_world.lock())
         return;
     
 	/*const THashMap<FString, unsigned char>& layers = _world->Layers();
@@ -121,7 +120,7 @@ void AActor::SetTag(unsigned char newTag)
 
 void AActor::SetTagName(const FString& newTagName)
 {
-	if (!_world)
+	if (!_world.lock())
 		return;
 
 	/*const THashMap<FString, unsigned char>& tags = _world->Tags();
@@ -647,11 +646,11 @@ void AActor::FindComponents(TVector<SPtr<AActorComponent>>& result, FString chil
 	}
 }
 
-void AActor::SetScene(AWorld* newScene)
+void AActor::SetWorld(SPtr<AWorld> newWorld)
 {
-    AWorld* oldScene = _world;
-    _world = newScene;
-    OnWorldSet(_world, oldScene);
+	SPtr<AWorld> oldScene = _world.lock();
+    _world = newWorld;
+    OnWorldSet(newWorld, oldScene);
 }
 
 void AActor::SetId(unsigned newId)
