@@ -12,8 +12,6 @@ int64_t GBox::_timeOffset;
 Mesh* GBox::_mesh;
 bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
-uint32_t GBox::_width;
-uint32_t GBox::_height;
 MouseState GBox::_mouseState;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
@@ -71,26 +69,13 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 void FForwardShadingRenderer::Render()
 {
 	// Set view 0 default viewport.
-	bgfx::setViewRect(0, 0, 0, uint16_t(GBox::_width), uint16_t(GBox::_height));
+	bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 	// This dummy draw call is here to make sure that view 0 is cleared
 			// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
 
 	float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
 	bgfx::setUniform(GBox::_time, &time);
-
-	//const bx::Vec3 at = { 0.0f, 1.0f,  0.0f };
-	//const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
-
-	//// Set view and projection matrix for view 0.
-	//{
-	//	float view[16];
-	//	bx::mtxLookAt(view, eye, at);
-
-	//	float proj[16];
-	//	bx::mtxProj(proj, 60.0f, float(GBox::_width) / float(GBox::_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-	//	bgfx::setViewTransform(0, view, proj);
-	//}
 
 	// Update camera
 	cameraUpdate(0.016f*0.15f, GBox::_mouseState);
@@ -100,7 +85,7 @@ void FForwardShadingRenderer::Render()
 	cameraGetViewMtx(view);
 
 	float proj[16];
-	bx::mtxProj(proj, 60.0f, float(GBox::_width) / float(GBox::_height), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+	bx::mtxProj(proj, 60.0f, float(_backbufferSize._x) / float(_backbufferSize._y), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
 	bgfx::setViewTransform(0, view, proj);
 
 

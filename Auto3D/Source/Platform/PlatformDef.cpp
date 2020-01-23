@@ -328,5 +328,5 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 
 extern "C" bool entry_process_events(uint32_t* _width, uint32_t* _height, uint32_t* _debug, uint32_t* _reset)
 {
-	return Auto3D::processEvents(*_width, *_height, *_debug, *_reset, NULL);
+	return Auto3D::ProcessEvents(*_width, *_height, *_debug, *_reset, NULL);
 }

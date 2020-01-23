@@ -280,7 +280,7 @@ struct GamepadState
 	int32_t _axis[Auto3D::GamepadAxis::Count];
 };
 
-bool processEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse = NULL);
+bool ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse = NULL);
 
 bx::FileReaderI* getFileReader();
 bx::FileWriterI* getFileWriter();

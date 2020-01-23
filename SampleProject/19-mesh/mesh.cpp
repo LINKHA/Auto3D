@@ -91,7 +91,7 @@ public:
 
 	bool update() override
 	{
-		if (!Auto3D::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
+		/*if (!Auto3D::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
 		{
 			GBox::_width = m_width;
 			GBox::_height = m_height;
@@ -113,9 +113,11 @@ public:
 
 
 			return true;
-		}
+		}*/
 
-		return false;
+		showExampleDialog(this);
+
+		return true;
 	}
 
 	Auto3D::MouseState m_mouseState;

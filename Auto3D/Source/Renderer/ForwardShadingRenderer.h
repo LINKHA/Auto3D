@@ -20,8 +20,6 @@ struct GBox
 	static Mesh* _mesh;
 	static bgfx::ProgramHandle _program;
 	static bgfx::UniformHandle _time;
-	static uint32_t _width;
-	static uint32_t _height;
 	static MouseState _mouseState;
 };
 
@@ -38,6 +36,10 @@ public:
 	/// Render scene
 	void Render()override;
 	void ShutDowm();
+
+	void SetBackBufferSize(const TVector2F& size) { _backbufferSize = size; }
+	void SetDebugMode(uint32_t debug) { _debug = debug; }
+	void SetResetMode(uint32_t reset) { _reset = reset; }
 private:
 	TVector2F _backbufferSize;
 	/// Renderer debug mode;

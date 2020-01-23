@@ -99,9 +99,9 @@ static const InputBinding s_camBindings[] =
 
 Camera::Camera()
 {
-	reset();
+	Reset();
 	Auto3D::MouseState mouseState;
-	update(0.0f, mouseState);
+	Update(0.0f, mouseState);
 
 	CmdAdd("move", cmdMove);
 	InputAddBindings("camBindings", s_camBindings);
@@ -112,166 +112,166 @@ Camera::~Camera()
 	InputRemoveBindings("camBindings");
 }
 
-void Camera::reset()
+void Camera::Reset()
 {
-	m_mouseNow.m_mx = 0;
-	m_mouseNow.m_my = 0;
-	m_mouseLast.m_mx = 0;
-	m_mouseLast.m_my = 0;
-	m_eye.x = 0.0f;
-	m_eye.y = 0.0f;
-	m_eye.z = -35.0f;
-	m_at.x = 0.0f;
-	m_at.y = 0.0f;
-	m_at.z = -1.0f;
-	m_up.x = 0.0f;
-	m_up.y = 1.0f;
-	m_up.z = 0.0f;
-	m_horizontalAngle = 0.01f;
-	m_verticalAngle = 0.0f;
-	m_mouseSpeed = 0.0020f;
-	m_gamepadSpeed = 0.04f;
-	m_moveSpeed = 30.0f;
-	m_keys = 0;
-	m_mouseDown = false;
+	_mouseNow._mx = 0;
+	_mouseNow._my = 0;
+	_mouseLast._mx = 0;
+	_mouseLast._my = 0;
+	_eye.x = 0.0f;
+	_eye.y = 0.0f;
+	_eye.z = -35.0f;
+	_at.x = 0.0f;
+	_at.y = 0.0f;
+	_at.z = -1.0f;
+	_up.x = 0.0f;
+	_up.y = 1.0f;
+	_up.z = 0.0f;
+	_horizontalAngle = 0.01f;
+	_verticalAngle = 0.0f;
+	_mouseSpeed = 0.0020f;
+	_gamepadSpeed = 0.04f;
+	_moveSpeed = 30.0f;
+	_keys = 0;
+	_mouseDown = false;
 }
 
-void Camera::setKeyState(uint8_t _key, bool _down)
+void Camera::SetKeyState(uint8_t key, bool down)
 {
-	m_keys &= ~_key;
-	m_keys |= _down ? _key : 0;
+	_keys &= ~key;
+	_keys |= down ? key : 0;
 }
 
-void Camera::update(float _deltaTime, const Auto3D::MouseState& _mouseState)
+void Camera::Update(float deltaTime, const Auto3D::MouseState& mouseState)
 {
-	if (!m_mouseDown)
+	if (!_mouseDown)
 	{
-		m_mouseLast.m_mx = _mouseState._mx;
-		m_mouseLast.m_my = _mouseState._my;
+		_mouseLast._mx = mouseState._mx;
+		_mouseLast._my = mouseState._my;
 	}
 
-	m_mouseDown = !!_mouseState._buttons[Auto3D::MouseButton::Right];
+	_mouseDown = !!mouseState._buttons[Auto3D::MouseButton::Right];
 
-	if (m_mouseDown)
+	if (_mouseDown)
 	{
-		m_mouseNow.m_mx = _mouseState._mx;
-		m_mouseNow.m_my = _mouseState._my;
+		_mouseNow._mx = mouseState._mx;
+		_mouseNow._my = mouseState._my;
 	}
 
-	if (m_mouseDown)
+	if (_mouseDown)
 	{
-		int32_t deltaX = m_mouseNow.m_mx - m_mouseLast.m_mx;
-		int32_t deltaY = m_mouseNow.m_my - m_mouseLast.m_my;
+		int32_t deltaX = _mouseNow._mx - _mouseLast._mx;
+		int32_t deltaY = _mouseNow._my - _mouseLast._my;
 
-		m_horizontalAngle += m_mouseSpeed * float(deltaX);
-		m_verticalAngle -= m_mouseSpeed * float(deltaY);
+		_horizontalAngle += _mouseSpeed * float(deltaX);
+		_verticalAngle -= _mouseSpeed * float(deltaY);
 
-		m_mouseLast.m_mx = m_mouseNow.m_mx;
-		m_mouseLast.m_my = m_mouseNow.m_my;
+		_mouseLast._mx = _mouseNow._mx;
+		_mouseLast._my = _mouseNow._my;
 	}
 
 	Auto3D::GamepadHandle handle = { 0 };
-	m_horizontalAngle += m_gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX) / 32768.0f;
-	m_verticalAngle -= m_gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY) / 32768.0f;
+	_horizontalAngle += _gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX) / 32768.0f;
+	_verticalAngle -= _gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY) / 32768.0f;
 	const int32_t gpx = InputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftX);
 	const int32_t gpy = InputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftY);
-	m_keys |= gpx < -16834 ? CAMERA_KEY_LEFT : 0;
-	m_keys |= gpx > 16834 ? CAMERA_KEY_RIGHT : 0;
-	m_keys |= gpy < -16834 ? CAMERA_KEY_FORWARD : 0;
-	m_keys |= gpy > 16834 ? CAMERA_KEY_BACKWARD : 0;
+	_keys |= gpx < -16834 ? CAMERA_KEY_LEFT : 0;
+	_keys |= gpx > 16834 ? CAMERA_KEY_RIGHT : 0;
+	_keys |= gpy < -16834 ? CAMERA_KEY_FORWARD : 0;
+	_keys |= gpy > 16834 ? CAMERA_KEY_BACKWARD : 0;
 
 	const bx::Vec3 direction =
 	{
-		bx::cos(m_verticalAngle) * bx::sin(m_horizontalAngle),
-		bx::sin(m_verticalAngle),
-		bx::cos(m_verticalAngle) * bx::cos(m_horizontalAngle),
+		bx::cos(_verticalAngle) * bx::sin(_horizontalAngle),
+		bx::sin(_verticalAngle),
+		bx::cos(_verticalAngle) * bx::cos(_horizontalAngle),
 	};
 
 	const bx::Vec3 right =
 	{
-		bx::sin(m_horizontalAngle - bx::kPiHalf),
+		bx::sin(_horizontalAngle - bx::kPiHalf),
 		0,
-		bx::cos(m_horizontalAngle - bx::kPiHalf),
+		bx::cos(_horizontalAngle - bx::kPiHalf),
 	};
 
 	const bx::Vec3 up = bx::cross(right, direction);
 
-	if (m_keys & CAMERA_KEY_FORWARD)
+	if (_keys & CAMERA_KEY_FORWARD)
 	{
-		const bx::Vec3 pos = m_eye;
-		const bx::Vec3 tmp = bx::mul(direction, _deltaTime * m_moveSpeed);
+		const bx::Vec3 pos = _eye;
+		const bx::Vec3 tmp = bx::mul(direction, deltaTime * _moveSpeed);
 
-		m_eye = bx::add(pos, tmp);
-		setKeyState(CAMERA_KEY_FORWARD, false);
+		_eye = bx::add(pos, tmp);
+		SetKeyState(CAMERA_KEY_FORWARD, false);
 	}
 
-	if (m_keys & CAMERA_KEY_BACKWARD)
+	if (_keys & CAMERA_KEY_BACKWARD)
 	{
-		const bx::Vec3 pos = m_eye;
-		const bx::Vec3 tmp = bx::mul(direction, _deltaTime * m_moveSpeed);
+		const bx::Vec3 pos = _eye;
+		const bx::Vec3 tmp = bx::mul(direction, deltaTime * _moveSpeed);
 
-		m_eye = bx::sub(pos, tmp);
-		setKeyState(CAMERA_KEY_BACKWARD, false);
+		_eye = bx::sub(pos, tmp);
+		SetKeyState(CAMERA_KEY_BACKWARD, false);
 	}
 
-	if (m_keys & CAMERA_KEY_LEFT)
+	if (_keys & CAMERA_KEY_LEFT)
 	{
-		const bx::Vec3 pos = m_eye;
-		const bx::Vec3 tmp = bx::mul(right, _deltaTime * m_moveSpeed);
+		const bx::Vec3 pos = _eye;
+		const bx::Vec3 tmp = bx::mul(right, deltaTime * _moveSpeed);
 
-		m_eye = bx::add(pos, tmp);
-		setKeyState(CAMERA_KEY_LEFT, false);
+		_eye = bx::add(pos, tmp);
+		SetKeyState(CAMERA_KEY_LEFT, false);
 	}
 
-	if (m_keys & CAMERA_KEY_RIGHT)
+	if (_keys & CAMERA_KEY_RIGHT)
 	{
-		const bx::Vec3 pos = m_eye;
-		const bx::Vec3 tmp = bx::mul(right, _deltaTime * m_moveSpeed);
+		const bx::Vec3 pos = _eye;
+		const bx::Vec3 tmp = bx::mul(right, deltaTime * _moveSpeed);
 
-		m_eye = bx::sub(pos, tmp);
-		setKeyState(CAMERA_KEY_RIGHT, false);
+		_eye = bx::sub(pos, tmp);
+		SetKeyState(CAMERA_KEY_RIGHT, false);
 	}
 
-	if (m_keys & CAMERA_KEY_UP)
+	if (_keys & CAMERA_KEY_UP)
 	{
-		const bx::Vec3 pos = m_eye;
-		const bx::Vec3 tmp = bx::mul(up, _deltaTime * m_moveSpeed);
+		const bx::Vec3 pos = _eye;
+		const bx::Vec3 tmp = bx::mul(up, deltaTime * _moveSpeed);
 
-		m_eye = bx::add(pos, tmp);
-		setKeyState(CAMERA_KEY_UP, false);
+		_eye = bx::add(pos, tmp);
+		SetKeyState(CAMERA_KEY_UP, false);
 	}
 
-	if (m_keys & CAMERA_KEY_DOWN)
+	if (_keys & CAMERA_KEY_DOWN)
 	{
-		const bx::Vec3 pos = m_eye;
-		const bx::Vec3 tmp = bx::mul(up, _deltaTime * m_moveSpeed);
+		const bx::Vec3 pos = _eye;
+		const bx::Vec3 tmp = bx::mul(up, deltaTime * _moveSpeed);
 
-		m_eye = bx::sub(pos, tmp);
-		setKeyState(CAMERA_KEY_DOWN, false);
+		_eye = bx::sub(pos, tmp);
+		SetKeyState(CAMERA_KEY_DOWN, false);
 	}
 
-	m_at = bx::add(m_eye, direction);
-	m_up = bx::cross(right, direction);
+	_at = bx::add(_eye, direction);
+	_up = bx::cross(right, direction);
 }
 
-void Camera::getViewMtx(float* _viewMtx)
+void Camera::GetViewMtx(float* viewMtx)
 {
-	bx::mtxLookAt(_viewMtx, bx::load<bx::Vec3>(&m_eye.x), bx::load<bx::Vec3>(&m_at.x), bx::load<bx::Vec3>(&m_up.x));
+	bx::mtxLookAt(viewMtx, bx::load<bx::Vec3>(&_eye.x), bx::load<bx::Vec3>(&_at.x), bx::load<bx::Vec3>(&_up.x));
 }
 
-void Camera::setPosition(const bx::Vec3& _pos)
+void Camera::SetPosition(const bx::Vec3& pos)
 {
-	m_eye = _pos;
+	_eye = pos;
 }
 
-void Camera::setVerticalAngle(float _verticalAngle)
+void Camera::SetVerticalAngle(float verticalAngle)
 {
-	m_verticalAngle = _verticalAngle;
+	_verticalAngle = verticalAngle;
 }
 
-void Camera::setHorizontalAngle(float _horizontalAngle)
+void Camera::SetHorizontalAngle(float horizontalAngle)
 {
-	m_horizontalAngle = _horizontalAngle;
+	_horizontalAngle = horizontalAngle;
 }
 
 
@@ -292,40 +292,40 @@ void cameraDestroy()
 
 void cameraSetPosition(const bx::Vec3& _pos)
 {
-	s_camera->setPosition(_pos);
+	s_camera->SetPosition(_pos);
 }
 
 void cameraSetHorizontalAngle(float _horizontalAngle)
 {
-	s_camera->setHorizontalAngle(_horizontalAngle);
+	s_camera->SetHorizontalAngle(_horizontalAngle);
 }
 
 void cameraSetVerticalAngle(float _verticalAngle)
 {
-	s_camera->setVerticalAngle(_verticalAngle);
+	s_camera->SetVerticalAngle(_verticalAngle);
 }
 
 void cameraSetKeyState(uint8_t _key, bool _down)
 {
-	s_camera->setKeyState(_key, _down);
+	s_camera->SetKeyState(_key, _down);
 }
 
 void cameraGetViewMtx(float* _viewMtx)
 {
-	s_camera->getViewMtx(_viewMtx);
+	s_camera->GetViewMtx(_viewMtx);
 }
 
 bx::Vec3 cameraGetPosition()
 {
-	return s_camera->m_eye;
+	return s_camera->_eye;
 }
 
 bx::Vec3 cameraGetAt()
 {
-	return s_camera->m_at;
+	return s_camera->_at;
 }
 
 void cameraUpdate(float _deltaTime, const Auto3D::MouseState& _mouseState)
 {
-	s_camera->update(_deltaTime, _mouseState);
+	s_camera->Update(_deltaTime, _mouseState);
 }

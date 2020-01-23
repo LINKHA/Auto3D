@@ -37,43 +37,43 @@ struct Camera
 {
 	struct MouseCoords
 	{
-		int32_t m_mx;
-		int32_t m_my;
+		int32_t _mx;
+		int32_t _my;
 	};
 
 	Camera();
 
 	~Camera();
 
-	void reset();
+	void Reset();
 
-	void setKeyState(uint8_t _key, bool _down);
+	void SetKeyState(uint8_t key, bool down);
 
-	void update(float _deltaTime, const Auto3D::MouseState& _mouseState);
+	void Update(float deltaTime, const Auto3D::MouseState& mouseState);
 
-	void getViewMtx(float* _viewMtx);
+	void GetViewMtx(float* viewMtx);
 
-	void setPosition(const bx::Vec3& _pos);
+	void SetPosition(const bx::Vec3& pos);
 
-	void setVerticalAngle(float _verticalAngle);
+	void SetVerticalAngle(float verticalAngle);
 
-	void setHorizontalAngle(float _horizontalAngle);
+	void SetHorizontalAngle(float horizontalAngle);
 
-	MouseCoords m_mouseNow;
-	MouseCoords m_mouseLast;
+	MouseCoords _mouseNow;
+	MouseCoords _mouseLast;
 
-	bx::Vec3 m_eye;
-	bx::Vec3 m_at;
-	bx::Vec3 m_up;
-	float m_horizontalAngle;
-	float m_verticalAngle;
+	bx::Vec3 _eye;
+	bx::Vec3 _at;
+	bx::Vec3 _up;
+	float _horizontalAngle;
+	float _verticalAngle;
 
-	float m_mouseSpeed;
-	float m_gamepadSpeed;
-	float m_moveSpeed;
+	float _mouseSpeed;
+	float _gamepadSpeed;
+	float _moveSpeed;
 
-	uint8_t m_keys;
-	bool m_mouseDown;
+	uint8_t _keys;
+	bool _mouseDown;
 };
 
 ///

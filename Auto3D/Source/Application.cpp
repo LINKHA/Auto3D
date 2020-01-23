@@ -470,7 +470,7 @@ bx::FileWriterI* getFileWriter()
 }
 
 
-bool processEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse)
+bool ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse)
 {
 	s_debug = debug;
 	s_reset = reset;
@@ -748,6 +748,10 @@ int FApplication::RunAppInstance(IAppInstance* app, int argc, const char* const*
 				break;
 			_engine->Render();
 			_engine->FrameFinish();
+		}
+		else
+		{
+			break;
 		}
 
 		if (0 != bx::strLen(IAppInstance::_restartArgs))
