@@ -1,52 +1,36 @@
 #pragma once
 #include "Container/Singleton.h"
 #include "Container/Vector.h"
-
+#include "Adapter/Ptr.h"
 namespace Auto3D
 {
 
 class AWorld;
-class ACamera;
-class AScene2D;
-class ACamera2D;
-
 /// Manages messaging between the user and the engine
-class AUTO_API GWorldContext
+class AUTO_API FWorldContext
 {
-	REGISTER_SINGLETON(GWorldContext)
+	REGISTER_SINGLETON(FWorldContext)
 protected:
 	/// Construct.
-	GWorldContext();
+	FWorldContext();
 	/// Destructor
-	~GWorldContext();
+	~FWorldContext();
 public:
 	/// Register world
-	void RegisterWorld(AWorld* world) { SetActiveWorld(world);  _worlds.Push(world); }
-	/// Register scene2d
-	void RegisterScene2D(AScene2D* scene2d) { SetActiveScene2D(scene2d); _scene2ds.Push(scene2d); }
+	void RegisterWorld(SPtr<AWorld> world) { SetActiveWorld(world);  _worlds.Push(world); }
 	/// Set active world.
-	void SetActiveWorld(AWorld* world);
-	/// Set active scene2d.
-	void SetActiveScene2D(AScene2D* scene2d);
+	void SetActiveWorld(SPtr<AWorld> world);
 
 	/// Return worlds.
-	const TVector<AWorld*>& GetWorlds() { return _worlds; }
-	/// Return scene2d.
-	const TVector<AScene2D*>& GetScene2Ds() { return _scene2ds; }
+	const TVector<SPtr<AWorld>>& GetWorlds() { return _worlds; }
 	/// Get active world.
-	AWorld* GetActiveWorld();
-	/// Get active scene2d.
-	AScene2D* GetActiveScene2D();
+	SPtr<AWorld> GetActiveWorld();
 private:
 	/// AWorld array.
-	TVector<AWorld*> _worlds;
-	/// AScene2D array. 
-	TVector<AScene2D*> _scene2ds;
+	TVector<SPtr<AWorld>> _worlds;
 
 	/// Active world.
-	AWorld* _activeWorld;
-	/// Active scene2d.
-	AScene2D* _activeScene2d;
+	SPtr<AWorld> _activeWorld;
 };
 
 }

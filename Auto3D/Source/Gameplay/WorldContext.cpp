@@ -4,18 +4,17 @@
 namespace Auto3D
 {
 
-IMPLEMENT_SINGLETON(GWorldContext)
+IMPLEMENT_SINGLETON(FWorldContext)
 
-GWorldContext::GWorldContext() :
-	_activeWorld(nullptr),
-	_activeScene2d(nullptr)
+FWorldContext::FWorldContext() :
+	_activeWorld(nullptr)
 {
 }
-GWorldContext::~GWorldContext()
+FWorldContext::~FWorldContext()
 {
 }
 
-void GWorldContext::SetActiveWorld(AWorld* world)
+void FWorldContext::SetActiveWorld(SPtr<AWorld> world)
 { 
 	if (world)
 	{
@@ -27,26 +26,10 @@ void GWorldContext::SetActiveWorld(AWorld* world)
 	}
 }
 
-void GWorldContext::SetActiveScene2D(AScene2D* scene2d)
-{
-	if (scene2d)
-	{
-		_activeScene2d = scene2d;
-	}
-	else
-	{
-		WarningString("File set active scene 2D.");
-	}
-}
-
-AWorld* GWorldContext::GetActiveWorld()
+SPtr<AWorld> FWorldContext::GetActiveWorld()
 {
 	return _activeWorld;
 }
 
-AScene2D* GWorldContext::GetActiveScene2D()
-{
-	return _activeScene2d;
-}
 
 }

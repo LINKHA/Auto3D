@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Gameplay/Actor.h"
-
+#include "Adapter/Ptr.h"
 namespace Auto3D
 {
 
@@ -13,6 +13,8 @@ public:
     AWorld();
     /// Destruct. The whole node tree is destroyed.
     ~AWorld();
+
+	void OnRegister();
 };
 
 

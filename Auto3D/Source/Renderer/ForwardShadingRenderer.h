@@ -5,9 +5,9 @@
 #include <stdint.h>
 
 #include "Component/MeshComponent.h"
+#include "Platform/PlatformDef.h"
 
 #include <bgfx/bgfx.h>
-#include "RHI/camera.h"
 
 namespace Auto3D
 {

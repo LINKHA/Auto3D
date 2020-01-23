@@ -4,6 +4,9 @@
 #include "Application.h"
 #include "Component/MeshComponent.h"
 #include "Renderer/ForwardShadingRenderer.h"
+#include "Gameplay/Actor.h"
+#include "Component/CameraComponent.h"
+#include "Gameplay/World.h"
 
 using namespace Auto3D;
 
@@ -59,6 +62,12 @@ public:
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;
 
+		SPtr<AWorld> world(new AWorld());
+
+		SPtr<AActor> actor = world->CreateChildNode<AActor>();
+		SPtr<ACameraComponent> camera = actor->CreateComponent<ACameraComponent>();
+
+		actor->SetName("asd");
 		//imguiCreate();
 	}
 

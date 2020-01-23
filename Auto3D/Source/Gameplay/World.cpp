@@ -10,7 +10,12 @@ AWorld::AWorld()
 
 AWorld::~AWorld()
 {
-  
+
+}
+
+void AWorld::OnRegister()
+{
+	SPtrThis;
 }
 
 }

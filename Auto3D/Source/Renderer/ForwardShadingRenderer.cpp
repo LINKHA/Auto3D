@@ -4,7 +4,6 @@
 
 #include "Component/MeshComponent.h"
 #include <bx/timer.h>
-#include "RHI/camera.h"
 #include "Component/CameraComponent.h"
 
 namespace Auto3D
