@@ -66,7 +66,7 @@ public:
 		world->OnRegister();
 
 		SPtr<AActor> actor = world->CreateChildNode<AActor>();
-		SPtr<ACameraComponent> camera = actor->CreateComponent<ACameraComponent>();
+		//SPtr<ACameraComponent> camera = actor->CreateComponent<ACameraComponent>();
 
 		actor->SetName("asd");
 		//imguiCreate();

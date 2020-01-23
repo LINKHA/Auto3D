@@ -12,9 +12,9 @@ void FClassRegister::AutoClassRegister()
 		.constructor<>()
 		;
 
-	REGISTER_CALSS_IMP(ACameraComponent)
+	/*REGISTER_CALSS_IMP(ACameraComponent)
 		.constructor<>()
-		;
+		;*/
 
 	
 }

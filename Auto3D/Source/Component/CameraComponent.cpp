@@ -9,30 +9,6 @@
 namespace Auto3D
 {
 
-ACameraComponent::ACameraComponent()
-{
-
-}
-ACameraComponent::~ACameraComponent()
-{
-
-}
-
-void ACameraComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void ACameraComponent::TickComponent(float deltaTime)
-{
-	Super::TickComponent(deltaTime);
-}
-
-
-}
-
-
-
 int cmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
 {
 	if (_argc > 1)
@@ -95,9 +71,7 @@ static const InputBinding s_camBindings[] =
 	INPUT_BINDING_END
 };
 
-
-
-Camera::Camera()
+ACameraComponent::ACameraComponent()
 {
 	Reset();
 	Auto3D::MouseState mouseState;
@@ -107,12 +81,22 @@ Camera::Camera()
 	InputAddBindings("camBindings", s_camBindings);
 }
 
-Camera::~Camera()
+ACameraComponent::~ACameraComponent()
 {
 	InputRemoveBindings("camBindings");
 }
 
-void Camera::Reset()
+void ACameraComponent::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ACameraComponent::TickComponent(float deltaTime)
+{
+	Super::TickComponent(deltaTime);
+}
+
+void ACameraComponent::Reset()
 {
 	_mouseNow._mx = 0;
 	_mouseNow._my = 0;
@@ -136,13 +120,13 @@ void Camera::Reset()
 	_mouseDown = false;
 }
 
-void Camera::SetKeyState(uint8_t key, bool down)
+void ACameraComponent::SetKeyState(uint8_t key, bool down)
 {
 	_keys &= ~key;
 	_keys |= down ? key : 0;
 }
 
-void Camera::Update(float deltaTime, const Auto3D::MouseState& mouseState)
+void ACameraComponent::Update(float deltaTime, const Auto3D::MouseState& mouseState)
 {
 	if (!_mouseDown)
 	{
@@ -254,22 +238,22 @@ void Camera::Update(float deltaTime, const Auto3D::MouseState& mouseState)
 	_up = bx::cross(right, direction);
 }
 
-void Camera::GetViewMtx(float* viewMtx)
+void ACameraComponent::GetViewMtx(float* viewMtx)
 {
 	bx::mtxLookAt(viewMtx, bx::load<bx::Vec3>(&_eye.x), bx::load<bx::Vec3>(&_at.x), bx::load<bx::Vec3>(&_up.x));
 }
 
-void Camera::SetPosition(const bx::Vec3& pos)
+void ACameraComponent::SetPosition(const bx::Vec3& pos)
 {
 	_eye = pos;
 }
 
-void Camera::SetVerticalAngle(float verticalAngle)
+void ACameraComponent::SetVerticalAngle(float verticalAngle)
 {
 	_verticalAngle = verticalAngle;
 }
 
-void Camera::SetHorizontalAngle(float horizontalAngle)
+void ACameraComponent::SetHorizontalAngle(float horizontalAngle)
 {
 	_horizontalAngle = horizontalAngle;
 }
@@ -277,11 +261,11 @@ void Camera::SetHorizontalAngle(float horizontalAngle)
 
 
 
-static Camera* s_camera = NULL;
+static ACameraComponent* s_camera = NULL;
 
 void cameraCreate()
 {
-	s_camera = BX_NEW(Auto3D::getAllocator(), Camera);
+	s_camera = BX_NEW(Auto3D::getAllocator(), ACameraComponent);
 }
 
 void cameraDestroy()
@@ -328,4 +312,6 @@ bx::Vec3 cameraGetAt()
 void cameraUpdate(float _deltaTime, const Auto3D::MouseState& _mouseState)
 {
 	s_camera->Update(_deltaTime, _mouseState);
+}
+
 }
