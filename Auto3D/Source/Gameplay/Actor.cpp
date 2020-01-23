@@ -3,6 +3,7 @@
 #include "Container/HashMap.h"
 #include "Component/ActorComponent.h"
 #include "Component/Transform.h"
+#include "Component/CameraComponent.h"
 
 //#include "IO/Stream.h"
 //#include "Resource/JSONFile.h"
@@ -231,8 +232,8 @@ void AActor::AddChildNode(SPtr<AActor> child)
     child->_parent = SPtrThis();
     child->OnParentSet(SPtrThis(), oldParent);
 
-	//if (_world)
-	//	_world->AddNode(child);
+	if (_world.lock())
+		_world.lock()->AddActor(child);
 }
 
 void AActor::RemoveChildNode(SPtr<AActor> child)
@@ -541,16 +542,7 @@ SPtr<AActorComponent> AActor::CreateComponent(FString childType)
 	FVariant newObject = classType.create();
 	SPtr<AActorComponent> component(Clone(newObject.get_value<AActorComponent*>()));
 
-	if (component)
-	{
-		_ownedComponents[RtToStr(FType::get(component).get_name())] = component;
-	}
-	else
-	{
-		ErrorString("Failed to create component, perhaps the input parameter component");
-		return SPtr<AActorComponent>();
-	}
-	component->AttachToActor(SPtrThis());
+	AddComponent(component);
 
 	return component;
 }
@@ -560,6 +552,21 @@ void AActor::AddComponent(SPtr<AActorComponent> component)
 	if (component)
 	{
 		_ownedComponents[RtToStr(FType::get(component).get_name())] = component;
+		std::string ss = FType::get(component).get_name().to_string();
+
+		if (FType::get(component) == FType::get<ACameraComponent>())
+		{
+			if (_world.lock())
+			{
+				_world.lock()->AddCamera(DynamicCast<ACameraComponent>(component));
+			}
+			else
+			{
+				ErrorString("The Actor is attach world")
+					return;
+			}
+		}
+
 	}
 	else
 	{

@@ -12,10 +12,10 @@ class AUTO_API AWorld : public AActor
 {
 	DECLARE_CLASS(AWorld, AActor)
 public:
-    /// Construct.
-    AWorld();
-    /// Destruct. The whole node tree is destroyed.
-    ~AWorld();
+	/// Construct.
+	AWorld();
+	/// Destruct. The whole node tree is destroyed.
+	~AWorld();
 
 	/// Overridable native event for when play begins for this actor. 
 	virtual void BeginPlay();
@@ -33,6 +33,14 @@ public:
 	/// Remove camera from the world.
 	void RemoveCamera(SPtr<ACameraComponent> camera);
 
+	THashMap<unsigned, SPtr<AActor>> GetActors() { return _actors; }
+private:
+	/// Map from id's to nodes.
+	THashMap<unsigned, SPtr<AActor>> _actors;
+	/// ACamera to nodes
+	TVector<SPtr<ACameraComponent>> _cameras;
+	/// Next free node id.
+	unsigned _nextNodeId;
 };
 
 
