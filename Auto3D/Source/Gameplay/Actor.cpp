@@ -174,7 +174,10 @@ SPtr<AActor> AActor::CreateChildNode(FString childType)
         return SPtr<AActor>();
     }
 
-	SPtr<AActor> child(Clone(newObject.get_value<AActor*>()));
+	// Classes created in FVariant are destructed in this scope, so copies are required
+	SPtr<AActor> child;
+	SPtr<AActor> tempChild = newObject.get_value<SPtr<AActor>>();
+	memcpy(&child, &tempChild, sizeof(tempChild));
 
     if (!child.get())
     {
@@ -540,7 +543,11 @@ SPtr<AActorComponent> AActor::CreateComponent(FString childType)
 	FType classType = FType::get_by_name(childType.CString());
 
 	FVariant newObject = classType.create();
-	SPtr<AActorComponent> component(Clone(newObject.get_value<AActorComponent*>()));
+
+	// Classes created in FVariant are destructed in this scope, so copies are required
+	SPtr<AActorComponent> component;
+	SPtr<AActorComponent> tempComponent = newObject.get_value<SPtr<AActorComponent>>();
+	memcpy(&component, &tempComponent, sizeof(tempComponent));
 
 	AddComponent(component);
 
@@ -551,10 +558,9 @@ void AActor::AddComponent(SPtr<AActorComponent> component)
 {
 	if (component)
 	{
-		_ownedComponents[RtToStr(FType::get(component).get_name())] = component;
-		std::string ss = FType::get(component).get_name().to_string();
+		_ownedComponents[RtToStr(FType::get(*component).get_name())] = component;
 
-		if (FType::get(component) == FType::get<ACameraComponent>())
+		if (FType::get(*component) == FType::get<ACameraComponent>())
 		{
 			if (_world.lock())
 			{

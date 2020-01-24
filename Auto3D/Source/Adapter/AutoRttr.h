@@ -18,11 +18,6 @@ using FMethod = rttr::method;
 
 #define SERIALIZABLE "Serializable"
 
-template<typename _Ty, typename ... _Args>_Ty* Clone(_Ty* typeValue, _Args&& ... args)
-{
-	return new _Ty(std::forward<_Args>(args)...);
-}
-
 inline rttr::string_view ToRtStr(const FString& str)
 {
 	return rttr::string_view(str.CString());
