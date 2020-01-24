@@ -67,6 +67,9 @@ public:
 
 		SPtr<AActor> actor = world->CreateChildNode<AActor>();
 		SPtr<ACameraComponent> camera = actor->CreateComponent<ACameraComponent>();
+		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
+		camera->SetVerticalAngle(-0.3f);
+
 
 		actor->SetName("asd");
 		//imguiCreate();
@@ -91,30 +94,6 @@ public:
 
 	bool update() override
 	{
-		/*if (!Auto3D::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
-		{
-			GBox::_width = m_width;
-			GBox::_height = m_height;
-			GBox::_mouseState = m_mouseState;
-
-			imguiBeginFrame(m_mouseState._mx
-				, m_mouseState._my
-				, (m_mouseState._buttons[Auto3D::MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
-				| (m_mouseState._buttons[Auto3D::MouseButton::Right] ? IMGUI_MBUT_RIGHT : 0)
-				| (m_mouseState._buttons[Auto3D::MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
-				, m_mouseState._mz
-				, uint16_t(m_width)
-				, uint16_t(m_height)
-				);
-
-			showExampleDialog(this);
-
-			imguiEndFrame();
-
-
-			return true;
-		}*/
-
 		showExampleDialog(this);
 
 		return true;

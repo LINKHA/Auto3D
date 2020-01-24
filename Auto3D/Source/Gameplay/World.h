@@ -34,6 +34,7 @@ public:
 	void RemoveCamera(SPtr<ACameraComponent> camera);
 
 	THashMap<unsigned, SPtr<AActor>> GetActors() { return _actors; }
+	TVector<SPtr<ACameraComponent>> GetCameras() { return _cameras; }
 private:
 	/// Map from id's to nodes.
 	THashMap<unsigned, SPtr<AActor>> _actors;

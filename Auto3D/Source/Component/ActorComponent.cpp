@@ -30,8 +30,8 @@ bool AActorComponent::AttachToActor(SPtr<AActor> owner)
 	}
 
 	_ownerPrivate = owner;
-	/*if (owner->GetWorld())
-		_worldPrivate = owner->GetWorld();*/
+	if (owner->GetWorld())
+		_worldPrivate = owner->GetWorld();
 	
 	return true;
 }

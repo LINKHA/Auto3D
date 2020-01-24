@@ -5,6 +5,9 @@
 #include "Component/MeshComponent.h"
 #include <bx/timer.h>
 #include "Component/CameraComponent.h"
+#include "Gameplay/WorldContext.h"
+#include "Gameplay/World.h"
+
 
 namespace Auto3D
 {
@@ -60,9 +63,9 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 		, _stencil
 	);
 
-	cameraCreate();
-	cameraSetPosition({ 0.0f, 1.0f, -2.5f });
-	cameraSetVerticalAngle(-0.3f);
+	//cameraCreate();
+	//cameraSetPosition({ 0.0f, 1.0f, -2.5f });
+	//cameraSetVerticalAngle(-0.3f);
 
 }
 
@@ -71,34 +74,42 @@ void FForwardShadingRenderer::Render()
 	// Set view 0 default viewport.
 	bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 	// This dummy draw call is here to make sure that view 0 is cleared
-			// if no other draw calls are submitted to view 0.
+	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
 
-	float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
-	bgfx::setUniform(GBox::_time, &time);
+	SPtr<AWorld>& world = FWorldContext::Get().GetActiveWorld();
+	TVector<SPtr<ACameraComponent>>& cameras = world->GetCameras();
 
-	// Update camera
-	cameraUpdate(0.016f*0.15f, GBox::_mouseState);
+	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
+	{
+		SPtr<ACameraComponent>& camera = DynamicCast<ACameraComponent>(*it);
 
-	// Set up matrices for gbuffer
-	float view[16];
-	cameraGetViewMtx(view);
+		float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
+		bgfx::setUniform(GBox::_time, &time);
 
-	float proj[16];
-	bx::mtxProj(proj, 60.0f, float(_backbufferSize._x) / float(_backbufferSize._y), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-	bgfx::setViewTransform(0, view, proj);
+		// Update camera
+		camera->Update(0.016f*0.15f, GBox::_mouseState);
+
+		// Set up matrices for gbuffer
+		float view[16];
+		camera->GetViewMtx(view);
+
+		float proj[16];
+		bx::mtxProj(proj, 60.0f, float(_backbufferSize._x) / float(_backbufferSize._y), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+		bgfx::setViewTransform(0, view, proj);
 
 
-	float mtx[16];
-	bx::mtxRotateXY(mtx
-		, 0.0f
-		, time*0.37f
-	);
+		float mtx[16];
+		bx::mtxRotateXY(mtx
+			, 0.0f
+			, time*0.37f
+		);
 
-	meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
-
+		meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
+	}
+	
 	// Advance to next frame. Rendering thread will be kicked to
-		// process submitted rendering primitives.
+	// process submitted rendering primitives.
 	bgfx::frame();
 }
 

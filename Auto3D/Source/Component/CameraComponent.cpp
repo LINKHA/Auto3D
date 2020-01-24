@@ -6,45 +6,54 @@
 #include "Platform/input.h"
 #include <bx/allocator.h>
 
+#include "Gameplay/WorldContext.h"
+#include "Gameplay/World.h"
+
 namespace Auto3D
 {
 
 int cmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
 {
-	if (_argc > 1)
+	SPtr<AWorld>& world = FWorldContext::Get().GetActiveWorld();
+	TVector<SPtr<ACameraComponent>>& cameras = world->GetCameras();
+	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
-		if (0 == bx::strCmp(_argv[1], "forward"))
+		SPtr<ACameraComponent>& camera = DynamicCast<ACameraComponent>(*it);
+
+		if (_argc > 1)
 		{
-			cameraSetKeyState(CAMERA_KEY_FORWARD, true);
-			return 0;
-		}
-		else if (0 == bx::strCmp(_argv[1], "left"))
-		{
-			cameraSetKeyState(CAMERA_KEY_LEFT, true);
-			return 0;
-		}
-		else if (0 == bx::strCmp(_argv[1], "right"))
-		{
-			cameraSetKeyState(CAMERA_KEY_RIGHT, true);
-			return 0;
-		}
-		else if (0 == bx::strCmp(_argv[1], "backward"))
-		{
-			cameraSetKeyState(CAMERA_KEY_BACKWARD, true);
-			return 0;
-		}
-		else if (0 == bx::strCmp(_argv[1], "up"))
-		{
-			cameraSetKeyState(CAMERA_KEY_UP, true);
-			return 0;
-		}
-		else if (0 == bx::strCmp(_argv[1], "down"))
-		{
-			cameraSetKeyState(CAMERA_KEY_DOWN, true);
-			return 0;
+			if (0 == bx::strCmp(_argv[1], "forward"))
+			{
+				camera->SetKeyState(CAMERA_KEY_FORWARD, true);
+				return 0;
+			}
+			else if (0 == bx::strCmp(_argv[1], "left"))
+			{
+				camera->SetKeyState(CAMERA_KEY_LEFT, true);
+				return 0;
+			}
+			else if (0 == bx::strCmp(_argv[1], "right"))
+			{
+				camera->SetKeyState(CAMERA_KEY_RIGHT, true);
+				return 0;
+			}
+			else if (0 == bx::strCmp(_argv[1], "backward"))
+			{
+				camera->SetKeyState(CAMERA_KEY_BACKWARD, true);
+				return 0;
+			}
+			else if (0 == bx::strCmp(_argv[1], "up"))
+			{
+				camera->SetKeyState(CAMERA_KEY_UP, true);
+				return 0;
+			}
+			else if (0 == bx::strCmp(_argv[1], "down"))
+			{
+				camera->SetKeyState(CAMERA_KEY_DOWN, true);
+				return 0;
+			}
 		}
 	}
-
 	return 1;
 }
 
@@ -256,62 +265,6 @@ void ACameraComponent::SetVerticalAngle(float verticalAngle)
 void ACameraComponent::SetHorizontalAngle(float horizontalAngle)
 {
 	_horizontalAngle = horizontalAngle;
-}
-
-
-
-
-static ACameraComponent* s_camera = NULL;
-
-void cameraCreate()
-{
-	s_camera = BX_NEW(Auto3D::getAllocator(), ACameraComponent);
-}
-
-void cameraDestroy()
-{
-	BX_DELETE(Auto3D::getAllocator(), s_camera);
-	s_camera = NULL;
-}
-
-void cameraSetPosition(const bx::Vec3& _pos)
-{
-	s_camera->SetPosition(_pos);
-}
-
-void cameraSetHorizontalAngle(float _horizontalAngle)
-{
-	s_camera->SetHorizontalAngle(_horizontalAngle);
-}
-
-void cameraSetVerticalAngle(float _verticalAngle)
-{
-	s_camera->SetVerticalAngle(_verticalAngle);
-}
-
-void cameraSetKeyState(uint8_t _key, bool _down)
-{
-	s_camera->SetKeyState(_key, _down);
-}
-
-void cameraGetViewMtx(float* _viewMtx)
-{
-	s_camera->GetViewMtx(_viewMtx);
-}
-
-bx::Vec3 cameraGetPosition()
-{
-	return s_camera->_eye;
-}
-
-bx::Vec3 cameraGetAt()
-{
-	return s_camera->_at;
-}
-
-void cameraUpdate(float _deltaTime, const Auto3D::MouseState& _mouseState)
-{
-	s_camera->Update(_deltaTime, _mouseState);
 }
 
 }
