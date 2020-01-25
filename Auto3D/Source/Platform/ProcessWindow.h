@@ -19,6 +19,9 @@ struct FProcessWindow
 	static uint32_t _reset;
 	static bool _exit;
 	static WindowState _window[ENTRY_CONFIG_MAX_WINDOWS];
+	static uint32_t _width;
+	static uint32_t _height;
+	static MouseState* _mouse;
 };
 
 }
