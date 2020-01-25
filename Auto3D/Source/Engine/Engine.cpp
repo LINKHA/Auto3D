@@ -6,6 +6,7 @@
 #include "Math/Random.h"
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
+#include "Platform/ProcessWindow.h"
 
 namespace Auto3D
 {
@@ -23,11 +24,6 @@ FEngine::~FEngine()
 
 bool FEngine::Init()
 {
-	_width = 0;
-	_height = 0;
-	_debug = BGFX_DEBUG_NONE;
-	_reset = BGFX_RESET_VSYNC;
-
 	// Set random seeds based on time
 	FTimeModule::RealTime& realTime = FTimeModule::Get().GetRealTime();
 
@@ -68,21 +64,21 @@ bool FEngine::Update()
 	if (world && world->HasBegunPlay())
 		world->Tick(time.GetDeltaTime());
 
-	if (!Auto3D::ProcessEvents(_width, _height, _debug, _reset, &_mouseState))
+	if (!GProcessWindow::Get().ProcessUpdate())
 	{
-		GBox::_mouseState = _mouseState;
-		renderer->SetBackBufferSize(TVector2F(_width, _height));
-		renderer->SetDebugMode(_debug);
-		renderer->SetResetMode(_reset);
+		GBox::_mouseState = GProcessWindow::_mouseState;
+		renderer->SetBackBufferSize(TVector2F(GProcessWindow::_width, GProcessWindow::_height));
+		renderer->SetDebugMode(GProcessWindow::_debug);
+		renderer->SetResetMode(GProcessWindow::_reset);
 
-		imguiBeginFrame(_mouseState._mx
-			, _mouseState._my
-			, (_mouseState._buttons[Auto3D::MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
-			| (_mouseState._buttons[Auto3D::MouseButton::Right] ? IMGUI_MBUT_RIGHT : 0)
-			| (_mouseState._buttons[Auto3D::MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
-			, _mouseState._mz
-			, uint16_t(_width)
-			, uint16_t(_height)
+		imguiBeginFrame(GProcessWindow::_mouseState._mx
+			, GProcessWindow::_mouseState._my
+			, (GProcessWindow::_mouseState._buttons[Auto3D::MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
+			| (GProcessWindow::_mouseState._buttons[Auto3D::MouseButton::Right] ? IMGUI_MBUT_RIGHT : 0)
+			| (GProcessWindow::_mouseState._buttons[Auto3D::MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
+			, GProcessWindow::_mouseState._mz
+			, uint16_t(GProcessWindow::_width)
+			, uint16_t(GProcessWindow::_height)
 		);
 	}
 	else

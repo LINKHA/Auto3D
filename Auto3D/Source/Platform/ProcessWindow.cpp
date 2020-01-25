@@ -11,10 +11,15 @@
 
 namespace Auto3D
 {
-uint32_t FProcessWindow::_debug = BGFX_DEBUG_NONE;
-uint32_t FProcessWindow::_reset = BGFX_RESET_NONE;
-bool FProcessWindow::_exit = false;
-WindowState FProcessWindow::_window[ENTRY_CONFIG_MAX_WINDOWS];
+IMPLEMENT_SINGLETON(GProcessWindow)
+
+uint32_t GProcessWindow::_debug = BGFX_DEBUG_NONE;
+uint32_t GProcessWindow::_reset = BGFX_RESET_VSYNC;
+bool GProcessWindow::_exit = false;
+WindowState GProcessWindow::_window[ENTRY_CONFIG_MAX_WINDOWS];
+uint32_t GProcessWindow::_width = 0;
+uint32_t GProcessWindow::_height = 0;
+MouseState GProcessWindow::_mouseState;
 
 bool setOrToggle(uint32_t& _flags, const char* _name, uint32_t _bit, int _first, int _argc, char const* const* _argv)
 {
@@ -45,25 +50,25 @@ int cmdGraphics(CmdContext* /*context*/, void* /*userData*/, int _argc, char con
 {
 	if (_argc > 1)
 	{
-		if (setOrToggle(FProcessWindow::_reset, "vsync", BGFX_RESET_VSYNC, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_reset, "maxaniso", BGFX_RESET_MAXANISOTROPY, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_reset, "msaa", BGFX_RESET_MSAA_X16, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_reset, "flush", BGFX_RESET_FLUSH_AFTER_RENDER, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_reset, "flip", BGFX_RESET_FLIP_AFTER_RENDER, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_reset, "hidpi", BGFX_RESET_HIDPI, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_reset, "depthclamp", BGFX_RESET_DEPTH_CLAMP, 1, _argc, _argv)
+		if (setOrToggle(GProcessWindow::_reset, "vsync", BGFX_RESET_VSYNC, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_reset, "maxaniso", BGFX_RESET_MAXANISOTROPY, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_reset, "msaa", BGFX_RESET_MSAA_X16, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_reset, "flush", BGFX_RESET_FLUSH_AFTER_RENDER, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_reset, "flip", BGFX_RESET_FLIP_AFTER_RENDER, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_reset, "hidpi", BGFX_RESET_HIDPI, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_reset, "depthclamp", BGFX_RESET_DEPTH_CLAMP, 1, _argc, _argv)
 			)
 		{
 			return bx::kExitSuccess;
 		}
-		else if (setOrToggle(FProcessWindow::_debug, "stats", BGFX_DEBUG_STATS, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_debug, "ifh", BGFX_DEBUG_IFH, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_debug, "text", BGFX_DEBUG_TEXT, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_debug, "wireframe", BGFX_DEBUG_WIREFRAME, 1, _argc, _argv)
-			|| setOrToggle(FProcessWindow::_debug, "profiler", BGFX_DEBUG_PROFILER, 1, _argc, _argv)
+		else if (setOrToggle(GProcessWindow::_debug, "stats", BGFX_DEBUG_STATS, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_debug, "ifh", BGFX_DEBUG_IFH, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_debug, "text", BGFX_DEBUG_TEXT, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_debug, "wireframe", BGFX_DEBUG_WIREFRAME, 1, _argc, _argv)
+			|| setOrToggle(GProcessWindow::_debug, "profiler", BGFX_DEBUG_PROFILER, 1, _argc, _argv)
 			)
 		{
-			bgfx::setDebug(FProcessWindow::_debug);
+			bgfx::setDebug(GProcessWindow::_debug);
 			return bx::kExitSuccess;
 		}
 		else if (0 == bx::strCmp(_argv[1], "screenshot"))
@@ -99,14 +104,14 @@ int cmdGraphics(CmdContext* /*context*/, void* /*userData*/, int _argc, char con
 
 int cmdExit(CmdContext* /*context*/, void* /*userData*/, int _argc, char const* const* _argv)
 {
-	FProcessWindow::_exit = true;
+	GProcessWindow::_exit = true;
 	return bx::kExitSuccess;
 }
 
-bool ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
+bool GProcessWindow::ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 {
-	FProcessWindow::_debug = debug;
-	FProcessWindow::_reset = reset;
+	GProcessWindow::_debug = debug;
+	GProcessWindow::_reset = reset;
 
 	WindowHandle handle = { UINT16_MAX };
 
@@ -139,7 +144,7 @@ bool ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 		if (NULL != ev)
 		{
 			handle = ev->_handle;
-			WindowState& win = FProcessWindow::_window[handle.idx];
+			WindowState& win = GProcessWindow::_window[handle.idx];
 
 			switch (ev->_type)
 			{
@@ -214,7 +219,7 @@ bool ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 				win._width = size->_width;
 				win._height = size->_height;
 				reset = win._handle.idx == 0
-					? !FProcessWindow::_reset
+					? !GProcessWindow::_reset
 					: reset
 					; // force reset
 			}
@@ -251,7 +256,7 @@ bool ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 
 	if (isValid(handle))
 	{
-		WindowState& win = FProcessWindow::_window[handle.idx];
+		WindowState& win = GProcessWindow::_window[handle.idx];
 		if (clearDropFile)
 		{
 			win._dropFile.clear();
@@ -265,22 +270,22 @@ bool ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 		}
 	}
 
-	if (reset != FProcessWindow::_reset)
+	if (reset != GProcessWindow::_reset)
 	{
-		reset = FProcessWindow::_reset;
-		bgfx::reset(FProcessWindow::_window[0]._width, FProcessWindow::_window[0]._height, reset);
-		InputSetMouseResolution(uint16_t(FProcessWindow::_window[0]._width), uint16_t(FProcessWindow::_window[0]._height));
+		reset = GProcessWindow::_reset;
+		bgfx::reset(GProcessWindow::_window[0]._width, GProcessWindow::_window[0]._height, reset);
+		InputSetMouseResolution(uint16_t(GProcessWindow::_window[0]._width), uint16_t(GProcessWindow::_window[0]._height));
 	}
 
-	debug = FProcessWindow::_debug;
+	debug = GProcessWindow::_debug;
 
-	return FProcessWindow::_exit;
+	return GProcessWindow::_exit;
 }
 
-bool ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse)
+bool GProcessWindow::ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse)
 {
-	FProcessWindow::_debug = debug;
-	FProcessWindow::_reset = reset;
+	GProcessWindow::_debug = debug;
+	GProcessWindow::_reset = reset;
 
 	WindowHandle handle = { UINT16_MAX };
 
@@ -357,7 +362,7 @@ bool ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t&
 			case Event::Size:
 			{
 				const SizeEvent* size = static_cast<const SizeEvent*>(ev);
-				WindowState& win = FProcessWindow::_window[0];
+				WindowState& win = GProcessWindow::_window[0];
 				win._handle = size->_handle;
 				win._width = size->_width;
 				win._height = size->_height;
@@ -365,7 +370,7 @@ bool ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t&
 				handle = size->_handle;
 				width = size->_width;
 				height = size->_height;
-				reset = !FProcessWindow::_reset; // force reset
+				reset = !GProcessWindow::_reset; // force reset
 			}
 			break;
 
@@ -392,16 +397,16 @@ bool ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t&
 	} while (NULL != ev);
 
 	if (handle.idx == 0
-		&& reset != FProcessWindow::_reset)
+		&& reset != GProcessWindow::_reset)
 	{
-		reset = FProcessWindow::_reset;
+		reset = GProcessWindow::_reset;
 		bgfx::reset(width, height, reset);
 		InputSetMouseResolution(uint16_t(width), uint16_t(height));
 	}
 
-	debug = FProcessWindow::_debug;
+	debug = GProcessWindow::_debug;
 
-	return FProcessWindow::_exit;
+	return GProcessWindow::_exit;
 }
 
 }

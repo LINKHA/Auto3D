@@ -22,14 +22,6 @@ public:
 	bool Update();
 	/// Frame finish
 	void FrameFinish();
-
-private:
-	Auto3D::MouseState _mouseState;
-	uint32_t _width;
-	uint32_t _height;
-	uint32_t _debug;
-	uint32_t _reset;
-
 };
 
 

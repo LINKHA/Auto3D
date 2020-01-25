@@ -8,6 +8,7 @@
 #include "Component/CameraComponent.h"
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
+#include "Platform/ProcessWindow.h"
 
 
 namespace Auto3D
@@ -89,7 +90,7 @@ void FForwardShadingRenderer::Render()
 		bgfx::setUniform(GBox::_time, &time);
 
 		// Update camera
-		camera->Update(FTimeModule::Get().GetDeltaTime(), GBox::_mouseState);
+		camera->Update(FTimeModule::Get().GetDeltaTime(), GProcessWindow::_mouseState);
 
 		// Set up matrices for gbuffer
 		float view[16];
