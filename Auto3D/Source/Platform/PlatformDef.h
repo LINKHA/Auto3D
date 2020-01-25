@@ -318,8 +318,6 @@ struct WindowState
 	bx::FilePath _dropFile;
 };
 
-bool processWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset);
-
 struct TinyStlAllocator
 {
 	static void* static_allocate(size_t bytes);

@@ -2,6 +2,7 @@
 #include "Platform/PlatformDef.h"
 #include "Platform/Args.h"
 
+#include "Time/Time.h"
 #include "Component/MeshComponent.h"
 #include <bx/timer.h>
 #include "Component/CameraComponent.h"
@@ -88,7 +89,7 @@ void FForwardShadingRenderer::Render()
 		bgfx::setUniform(GBox::_time, &time);
 
 		// Update camera
-		camera->Update(0.016f*0.15f, GBox::_mouseState);
+		camera->Update(FTimeModule::Get().GetDeltaTime(), GBox::_mouseState);
 
 		// Set up matrices for gbuffer
 		float view[16];

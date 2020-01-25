@@ -124,7 +124,7 @@ void ACameraComponent::Reset()
 	_verticalAngle = 0.0f;
 	_mouseSpeed = 0.0020f;
 	_gamepadSpeed = 0.04f;
-	_moveSpeed = 30.0f;
+	_moveSpeed = 4.5f;
 	_keys = 0;
 	_mouseDown = false;
 }
