@@ -89,9 +89,6 @@ void FForwardShadingRenderer::Render()
 		float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
 		bgfx::setUniform(GBox::_time, &time);
 
-		// Update camera
-		camera->Update(FTimeModule::Get().GetDeltaTime(), GProcessWindow::_mouseState);
-
 		// Set up matrices for gbuffer
 		float view[16];
 		camera->GetViewMtx(view);

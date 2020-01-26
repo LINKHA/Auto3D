@@ -18,13 +18,6 @@ class AUTO_API ACameraComponent : public AActorComponent
 {
 	DECLARE_CLASS(ACameraComponent, AActorComponent)
 public:
-
-	struct MouseCoords
-	{
-		int32_t _mx;
-		int32_t _my;
-	};
-
 	ACameraComponent();
 
 	~ACameraComponent();
@@ -38,8 +31,6 @@ public:
 
 	void SetKeyState(uint8_t key, bool down);
 
-	void Update(float deltaTime, const Auto3D::MouseState& mouseState);
-
 	void GetViewMtx(float* viewMtx);
 
 	void SetPosition(const bx::Vec3& pos);
@@ -47,6 +38,15 @@ public:
 	void SetVerticalAngle(float verticalAngle);
 
 	void SetHorizontalAngle(float horizontalAngle);
+
+private:
+	void Update(float deltaTime);
+
+	struct MouseCoords
+	{
+		int32_t _mx;
+		int32_t _my;
+	};
 
 	MouseCoords _mouseNow;
 	MouseCoords _mouseLast;

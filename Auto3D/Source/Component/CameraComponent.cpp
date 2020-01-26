@@ -8,6 +8,7 @@
 
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
+#include "Platform/ProcessWindow.h"
 
 namespace Auto3D
 {
@@ -83,8 +84,7 @@ static const InputBinding s_camBindings[] =
 ACameraComponent::ACameraComponent()
 {
 	Reset();
-	Auto3D::MouseState mouseState;
-	Update(0.0f, mouseState);
+	Update(0.0f);
 
 	CmdAdd("move", cmdMove);
 	InputAddBindings("camBindings", s_camBindings);
@@ -103,6 +103,7 @@ void ACameraComponent::BeginPlay()
 void ACameraComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
+	Update(deltaTime);
 }
 
 void ACameraComponent::Reset()
@@ -135,8 +136,9 @@ void ACameraComponent::SetKeyState(uint8_t key, bool down)
 	_keys |= down ? key : 0;
 }
 
-void ACameraComponent::Update(float deltaTime, const Auto3D::MouseState& mouseState)
+void ACameraComponent::Update(float deltaTime)
 {
+	const Auto3D::MouseState& mouseState = GProcessWindow::_mouseState;
 	if (!_mouseDown)
 	{
 		_mouseLast._mx = mouseState._mx;

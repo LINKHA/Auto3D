@@ -30,25 +30,6 @@ public:
 		m_debug  = BGFX_DEBUG_NONE;
 		m_reset  = BGFX_RESET_VSYNC;
 
-		//bgfx::Init init;
-		//init.type     = args._type;
-		//init.vendorId = args._pciId;
-		//init.resolution.width  = m_width;
-		//init.resolution.height = m_height;
-		//init.resolution.reset  = m_reset;
-		//bgfx::init(init);
-
-		//// Enable debug text.
-		//bgfx::setDebug(m_debug);
-
-		//// Set view 0 clear state.
-		//bgfx::setViewClear(0
-		//		, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
-		//		, 0x303030ff
-		//		, 1.0f
-		//		, 0
-		//		);
-
 		u_time = bgfx::createUniform("u_time", bgfx::UniformType::Vec4);
 		GBox::_time = u_time;
 
@@ -56,7 +37,9 @@ public:
 		m_program = loadProgram("vs_mesh", "fs_mesh");
 		GBox::_program = m_program;
 
-		m_mesh = meshLoad("meshes/bunny.bin");
+		m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/untitled.bin");
+		//m_mesh = meshLoad("meshes/bunny.bin");
+		//m_mesh = meshLoad("Data/Model/TeaPot.mdl");
 		GBox::_mesh = m_mesh;
 
 		m_timeOffset = bx::getHPCounter();
