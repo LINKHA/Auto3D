@@ -69,6 +69,9 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
 target_link_libraries (${TARGET_NAME}  rttr)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rttr)
 
+target_link_libraries (${TARGET_NAME}  rapidjson)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rapidjson)
+
 #target_link_libraries (${TARGET_NAME}  example-commonEng)
 #include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/bgfx/include)
 

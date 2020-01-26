@@ -37,7 +37,7 @@ public:
 		m_program = loadProgram("vs_mesh", "fs_mesh");
 		GBox::_program = m_program;
 
-		m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/untitled.bin");
+		m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
 		//m_mesh = meshLoad("meshes/bunny.bin");
 		//m_mesh = meshLoad("Data/Model/TeaPot.mdl");
 		GBox::_mesh = m_mesh;

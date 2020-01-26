@@ -13,6 +13,7 @@ add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rttr)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx)
+add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rapidjson)
 
 if (AUTO_OPENGL)
 	add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)

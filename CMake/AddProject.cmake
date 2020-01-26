@@ -134,6 +134,7 @@ function( add_example ARG_NAME )
 	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
 	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rttr)
 	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/bgfx/include)
+	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rapidjson)
 		
 	configure_debugging( ${ARG_NAME} WORKING_DIR ${AUTO_ROOT_PATH}/Auto3D/Runtime )
 	if( MSVC )
