@@ -32,9 +32,9 @@ static const unsigned char TAG_NONE = 0x0;
 static const unsigned LAYERMASK_ALL = 0xffffffff;
 
 /// Base class for scene nodes.
-class AUTO_API AActor : public AObject 
+class AUTO_API AActor : public OObject
 {
-	DECLARE_CLASS(AActor, AObject)
+	DECLARE_CLASS(AActor, OObject)
 public:
     /// Construct.
     AActor();

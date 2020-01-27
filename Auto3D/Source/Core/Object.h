@@ -34,14 +34,14 @@ public:
 	registration::class_<_Class>(#_Class)
 
 /// Base class for objects.
-class AUTO_API AObject : public IEnablePtrThis<AObject>
+class AUTO_API OObject : public IEnablePtrThis<OObject>
 {
-	DECLARE_RTTR_BASE_CLASS(AObject)
+	DECLARE_RTTR_BASE_CLASS(OObject)
 public:
 	/// Structure
-	AObject() = default;
+	OObject() = default;
 	/// Destructor
-	virtual ~AObject() = default;
+	virtual ~OObject() = default;
 
 	//FVariant _variant;
 };

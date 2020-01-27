@@ -53,6 +53,8 @@ public:
 		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
 		camera->SetVerticalAngle(-0.3f);
 
+		/*SPtr<AActor> meshActor = world->CreateChildNode<AActor>();
+		SPtr<AMeshComponent> meshComponent = meshActor->CreateComponent<AMeshComponent>();*/
 
 		actor->SetName("asd");
 		//imguiCreate();

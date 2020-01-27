@@ -6,9 +6,9 @@ namespace Auto3D
 {
 class AActor;
 class AWorld;
-class AActorComponent : public AObject
+class AActorComponent : public OObject
 {
-	DECLARE_CLASS(AActorComponent, AObject)
+	DECLARE_CLASS(AActorComponent, OObject)
 public:
 	AActorComponent();
 	virtual ~AActorComponent(){}
