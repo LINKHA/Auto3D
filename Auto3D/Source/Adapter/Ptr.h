@@ -10,13 +10,10 @@ template<typename _Ty1, typename _Ty2> SPtr<_Ty1> StaticCast(const SPtr<_Ty2>& o
 
 template<typename _Ty1, typename _Ty2> SPtr<_Ty1> DynamicCast(const SPtr<_Ty2>& other) { return std::dynamic_pointer_cast<_Ty1>(other); }
 
-template<class _Ty, class... _Types> SPtr<_Ty> MakeShared(_Types&&... args) { return std::make_shared<_Ty>(args); }
+template<class _Ty, class... _Types> SPtr<_Ty> MakeShared(_Types&&... args) { return std::make_shared<_Ty>(std::forward<_Types>(args)...); }
 
-template<class _Ty, class... _Types> SPtr<_Ty> MakeUnique(_Types&&... args) { return std::make_unique<_Ty>(args); }
+template<class _Ty, class... _Types> UPtr<_Ty> MakeUnique(_Types&&... args) { return std::make_unique<_Ty>(std::forward<_Types>(args)...); }
 
 template<typename _Ty> using IEnablePtrThis = std::enable_shared_from_this<_Ty>;
-
-//#define SPtrThis shared_from_this()
-//#define WPtrThis weak_from_this()
 
 }

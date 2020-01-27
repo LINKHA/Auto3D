@@ -2,14 +2,26 @@
 #include "AutoConfig.h"
 #include "Adapter/AutoRttr.h"
 #include "Adapter/Ptr.h"
+#include "Container/HashMap.h"
 
 namespace Auto3D
 {
+#define SafeDelete(_Value) \
+	do {\
+		if (_Value)\
+		{\
+			delete _Value;\
+			_Value = nullptr;\
+		}\
+	}while(0)
+
+
 #define DECLARE_RTTR_BASE_CLASS(_This) \
 	/*The base Object does not need to specify a parent class*/\
 	RTTR_ENABLE() \
 	/*Reflected private tag*/\
 	RTTR_REGISTRATION_FRIEND 
+
 
 #define DECLARE_RTTR_CLASS(_This,_Base) \
 	/*The base Object does not need to specify a parent class*/\
@@ -17,21 +29,30 @@ namespace Auto3D
 	/*Reflected private tag*/\
 	RTTR_REGISTRATION_FRIEND 
 
+
 #define DECLARE_CLASS(_This,_Base) \
 public: \
 	_This& operator=(_This&&) = delete;   \
 	_This& operator=(const _This&)= delete;  \
 	using This = _This;\
 	using Super = _Base;\
+	virtual const Auto3D::FString& GetTypeName() const override { return GetTypeNameStatic(); } \
+	static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type(#_This); return type; } \
 	DECLARE_RTTR_CLASS(_This, _Base) \
 private:\
 	SPtr<_This> SPtrThis() {return std::dynamic_pointer_cast<_This>(shared_from_this());}\
 	WPtr<_This> WPtrThis() { return std::dynamic_pointer_cast<_This>(shared_from_this()); }\
 public:
 
+
 #define REGISTER_CALSS_IMP(_Class) \
+	OObject::RegisterFactory<_Class>();\
 	using namespace rttr;\
 	registration::class_<_Class>(#_Class)
+
+
+class FObjectFactory;
+template <typename _Ty> class TObjectFactoryImpl;
 
 /// Base class for objects.
 class AUTO_API OObject : public IEnablePtrThis<OObject>
@@ -42,8 +63,51 @@ public:
 	OObject() = default;
 	/// Destructor
 	virtual ~OObject() = default;
+	virtual const Auto3D::FString& GetTypeName() const { return GetTypeNameStatic(); } 
+	static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type("OObject"); return type; } 
+	/// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
+	static OObject* NewObject(FString type);
+	/// Create and return an object through a factory, template version.
+	template <typename _Ty> static _Ty* NewObject() { return dynamic_cast<_Ty*>(NewObject(_Ty::GetTypeNameStatic())); }
+	/// Register an object factory.
+	static void RegisterFactory(SPtr<FObjectFactory> factory);
+	/// Register an object factory, template version.
+	template <typename _Ty> static void RegisterFactory() { RegisterFactory(MakeShared<TObjectFactoryImpl<_Ty>>()); }
+private:
+	/// Registered object factories.
+	static THashMap<FString, SPtr<FObjectFactory> > _factories;
+};
 
-	//FVariant _variant;
+/// Base class for object factories.
+class AUTO_API FObjectFactory
+{
+public:
+	/// Destruct.
+	virtual ~FObjectFactory() {}
+
+	/// Create and return an object.
+	virtual OObject* Create() = 0;
+
+	/// Return type name of the objects created by this factory.
+	const FString& GetTypeName() const { return _typeName; }
+
+protected:
+	/// %AObject type name.
+	FString _typeName;
+};
+
+/// Template implementation of the object factory.
+template <typename _Ty> class TObjectFactoryImpl : public FObjectFactory
+{
+public:
+	/// Construct.
+	TObjectFactoryImpl()
+	{
+		_typeName = _Ty::GetTypeNameStatic();
+	}
+
+	/// Create and return an object of the specific type.
+	OObject* Create() override { return new _Ty(); }
 };
 
 }

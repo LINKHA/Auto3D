@@ -166,20 +166,16 @@ void AActor::SetParentNode(AActor* newParent)
 
 AActor* AActor::CreateChildNode(FString childType)
 {
-	/*FType classType = FType::get_by_name(childType.CString());
+	OObject* newObject = NewObject(childType);
 
-	FVariant newObject = classType.create();
 	if (!newObject)
 	{
 		ErrorString("Could not create child node of unknown type " + childType.ToString());
 		return nullptr;
-	}*/
+	}
 
 	// Classes created in FVariant are destructed in this scope, so copies are required
-	AActor* child = new AActor();
-	//AActor* tempChild = newObject.get_value<AActor*>();
-	//memcpy(child, tempChild, sizeof(*tempChild));
-
+	AActor* child = dynamic_cast<AActor*>(newObject);
     if (!child)
     {
         ErrorString("Class is not a Node subclass, could not add as a child");
@@ -257,39 +253,49 @@ void AActor::RemoveChildNode(AActor* child)
 
 void AActor::RemoveChildNode(size_t index)
 {
-    //if (index >= _childrenNode.Size())
-    //    return;
+    if (index >= _childrenNode.Size())
+        return;
 
-    //AActor* child = _childrenNode[index];
-    //// Detach from both the parent and the scene (removes _id assignment)
-    //child->_parent = nullptr;
-    //child->OnParentSet(this, nullptr);
-    //if (_world)
-    //    _world->RemoveNode(child);
-    //_childrenNode.Erase(index);
+    AActor* child = _childrenNode[index];
+    // Detach from both the parent and the scene (removes _id assignment)
+	if (_world)
+		_world->RemoveActor(child);
+
+    child->_parent = nullptr;
+	child->_world = nullptr;
+	child->OnParentSet(nullptr, nullptr);
+	child->OnWorldSet(nullptr, nullptr);
+
+    _childrenNode.Erase(index);
+
+	SafeDelete(child);
 }
 
 void AActor::RemoveAllChildrenNode()
 {
-	/*for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
 	{
 		AActor* child = *it;
-		child->_parent = nullptr;
-		child->OnParentSet(this, nullptr);
 		if (_world)
-			_world->RemoveNode(child);
-		it->Reset();
+			_world->RemoveActor(child);
+
+		child->_parent = nullptr;
+		child->_world = nullptr;
+		child->OnParentSet(nullptr, nullptr);
+		child->OnWorldSet(nullptr, nullptr);
+
+		SafeDelete(child);
 	}
-*/
+
     _childrenNode.Clear();
 }
 
 void AActor::RemoveSelf()
 {
-    if (_parent)
-        _parent->RemoveChildNode(this);
-    else
-        delete this;
+	if (_parent)
+		_parent->RemoveChildNode(this);
+	else
+		delete this;
 }
 
 const FString& AActor::GetLayerName() const
@@ -486,16 +492,16 @@ AActor* AActor::FindChildNodeByTag(const char* tagName, bool recursive) const
     return nullptr;
 }
 
-void AActor::FindChildrenNode(TVector<AActor*>& result, FStringHash childType, bool recursive) const
+void AActor::FindChildrenNode(TVector<AActor*>& result, FString childType, bool recursive) const
 {
-	/* for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	 for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
 	 {
 		 AActor* child = *it;
-		 if (child->GetTypeHash() == childType)
+		 if (RtToStr(FType::get(child).get_name()) == childType)
 			 result.Push(child);
 		 if (recursive && child->_childrenNode.Size())
 			 child->FindChildrenNode(result, childType, recursive);
-	 }*/
+	 }
 }
 
 void AActor::FindChildrenNodeByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive) const
@@ -541,14 +547,19 @@ void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, const char* tagName
 
 AActorComponent* AActor::CreateComponent(FString childType)
 {
-	//FType classType = FType::get_by_name(childType.CString());
+	OObject* newObject = NewObject(childType);
+	if (!newObject)
+	{
+		ErrorString("Could not create child node of unknown type " + childType.ToString());
+		return nullptr;
+	}
 
-	//FVariant newObject = classType.create();
-
-	// Classes created in FVariant are destructed in this scope, so copies are required
-	AActorComponent* component = new ACameraComponent();
-	//AActorComponent* tempComponent = newObject.get_value<AActorComponent*>();
-	//memcpy(component, tempComponent, sizeof(*tempComponent));
+	AActorComponent* component = dynamic_cast<AActorComponent*>(newObject);
+	if (!component)
+	{
+		ErrorString(newObject->GetTypeName() + " is not a Node subclass, could not add as a child");
+		return nullptr;
+	}
 
 	AddComponent(component);
 
@@ -591,9 +602,11 @@ void AActor::RemoveComponent(AActorComponent* component)
 	if (!component)
 		return;
 
-	if (_ownedComponents.Find(componentsKey) != _ownedComponents.End())
+	auto it = _ownedComponents.Find(componentsKey);
+	if (it != _ownedComponents.End())
 	{
 		_ownedComponents.Erase(componentsKey);
+		SafeDelete(it->_second);
 	}
 	else
 		WarningString("Fail remove component.");
@@ -601,6 +614,13 @@ void AActor::RemoveComponent(AActorComponent* component)
 
 void AActor::RemoveAllComponents()
 {
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		AActorComponent* comp = it->_second;
+
+		SafeDelete(comp);
+	}
+
 	_ownedComponents.Clear();
 }
 

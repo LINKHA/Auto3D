@@ -1,5 +1,6 @@
 #include "GamePlay/WorldContext.h"
 #include "Debug/Log.h"
+#include "Gameplay/World.h"
 
 namespace Auto3D
 {
@@ -26,10 +27,39 @@ void FWorldContext::SetActiveWorld(AWorld* world)
 	}
 }
 
+void FWorldContext::DeleteWorld(AWorld* world)
+{
+	if (world)
+	{
+		auto it = _worlds.Find(world);
+		if (it != _worlds.End())
+		{
+			_worlds.Erase(it);
+
+			world->RemoveSelf();
+		}
+	}
+}
+
+void FWorldContext::DeleteAllWorld()
+{
+	for (auto it = _worlds.Begin(); it != _worlds.End(); ++it)
+	{
+		(*it)->RemoveSelf();
+	}
+	_worlds.Clear();
+}
+
 AWorld* FWorldContext::GetActiveWorld()
 {
 	return _activeWorld;
 }
 
+AWorld* FWorldContext::NewWorld()
+{
+	AWorld* world = new AWorld();
+	RegisterWorld(world);
+	return world;
+}
 
 }

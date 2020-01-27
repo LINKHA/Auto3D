@@ -21,10 +21,15 @@ public:
 	/// Set active world.
 	void SetActiveWorld(AWorld* world);
 
+	void DeleteWorld(AWorld* world);
+	void DeleteAllWorld();
+
 	/// Return worlds.
 	const TVector<AWorld*>& GetWorlds() { return _worlds; }
 	/// Get active world.
 	AWorld* GetActiveWorld();
+
+	AWorld* NewWorld();
 private:
 	/// AWorld array.
 	TVector<AWorld*> _worlds;

@@ -64,11 +64,6 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 		, _depth
 		, _stencil
 	);
-
-	//cameraCreate();
-	//cameraSetPosition({ 0.0f, 1.0f, -2.5f });
-	//cameraSetVerticalAngle(-0.3f);
-
 }
 
 void FForwardShadingRenderer::Render()
@@ -114,7 +109,6 @@ void FForwardShadingRenderer::Render()
 
 void FForwardShadingRenderer::ShutDowm()
 {
-
 	// Shutdown bgfx.
 	bgfx::shutdown();
 }

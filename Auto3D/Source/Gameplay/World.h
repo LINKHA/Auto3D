@@ -22,8 +22,6 @@ public:
 	/// Function called every frame on this Actor.Override this function to implement custom logic to be executed every frame.
 	virtual void Tick(float deltaSeconds);
 
-	void OnRegister();
-
 	/// Add cctor to the world. This assigns a world-unique id to it. Called internally.
 	void AddActor(AActor* actor);
 	/// Remove actor from the world. This removes the id mapping but does not destroy the node. Called internally.

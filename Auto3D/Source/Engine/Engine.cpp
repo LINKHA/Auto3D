@@ -40,6 +40,8 @@ bool FEngine::Init()
 
 void FEngine::Exit()
 {
+	FWorldContext::Get().DeleteAllWorld();
+
 	imguiDestroy();
 	// Shutdown bgfx.
 	bgfx::shutdown();

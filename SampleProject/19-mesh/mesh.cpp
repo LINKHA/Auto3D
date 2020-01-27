@@ -7,6 +7,7 @@
 #include "Gameplay/Actor.h"
 #include "Component/CameraComponent.h"
 #include "Gameplay/World.h"
+#include "Gameplay/WorldContext.h"
 
 using namespace Auto3D;
 
@@ -45,16 +46,15 @@ public:
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;
 
-		AWorld* world = new AWorld();
-		world->OnRegister();
+		AWorld* world = FWorldContext::Get().NewWorld();
 
 		AActor* actor = world->CreateChildNode<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
 		camera->SetVerticalAngle(-0.3f);
 
-		/*SPtr<AActor> meshActor = world->CreateChildNode<AActor>();
-		SPtr<AMeshComponent> meshComponent = meshActor->CreateComponent<AMeshComponent>();*/
+		AActor* meshActor = world->CreateChildNode<AActor>();
+		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 
 		actor->SetName("asd");
 		//imguiCreate();

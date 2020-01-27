@@ -7,7 +7,9 @@ namespace Auto3D
 {
 
 AActorComponent::AActorComponent() :
-	_hasBegunPlay(false)
+	_hasBegunPlay(false),
+	_ownerPrivate(nullptr),
+	_worldPrivate(nullptr)
 {
 }
 

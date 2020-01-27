@@ -8,12 +8,13 @@ namespace Auto3D
 AWorld::AWorld():
 	_nextNodeId(1)
 {
-  
+	AddActor(this);
 }
 
 AWorld::~AWorld()
 {
-
+	_world = nullptr;
+	_parent = nullptr;
 }
 
 void AWorld::BeginPlay()
@@ -24,12 +25,6 @@ void AWorld::BeginPlay()
 void AWorld::Tick(float deltaSeconds)
 {
 	Super::Tick(deltaSeconds);
-}
-
-void AWorld::OnRegister()
-{
-	FWorldContext::Get().RegisterWorld(this);
-	AddActor(this);
 }
 
 void AWorld::AddActor(AActor* actor)

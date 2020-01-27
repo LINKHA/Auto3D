@@ -69,12 +69,6 @@ public:
     /// Reparent the node.
     void SetParentNode(AActor* newParent);
 
-    /// Create child node of specified type. A registered object factory for the type is required.
-	AActor* CreateChildNode(FString childType);
-    /// Create named child node of specified type.
-	AActor* CreateChildNode(FString childType, const FString& childName);
-    /// Create named child node of specified type.
-	AActor* CreateChildNode(FString childType, const char* childName);
     /// Add node as a child. Same as calling SetParentNode for the child node.
     void AddChildNode(AActor* child);
     /// Remove child node. Will delete it if there are no other strong references to it.
@@ -85,6 +79,12 @@ public:
     void RemoveAllChildrenNode();
     /// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
     void RemoveSelf();
+	/// Create child node of specified type. A registered object factory for the type is required.
+	AActor* CreateChildNode(FString childType);
+	/// Create named child node of specified type.
+	AActor* CreateChildNode(FString childType, const FString& childName);
+	/// Create named child node of specified type.
+	AActor* CreateChildNode(FString childType, const char* childName);
     /// Create child node of the specified type, template version.
 	template <typename _Ty> _Ty* CreateChildNode() { return dynamic_cast<_Ty*>(CreateChildNode(RtToStr(FType::get<_Ty>().get_name()))); }
     /// Create named child node of the specified type, template version.
@@ -139,7 +139,7 @@ public:
     /// Return first child node that matches tag name.
     AActor* FindChildNodeByTag(const char* tagName, bool recursive = false) const;
     /// Find child nodes of specified type.
-    void FindChildrenNode(TVector<AActor*>& result, FStringHash childType, bool recursive = false) const;
+    void FindChildrenNode(TVector<AActor*>& result, FString childType, bool recursive = false) const;
     /// Find child nodes that match layer mask.
     void FindChildrenNodeByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive = false) const;
     /// Find child nodes that match tag.
