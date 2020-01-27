@@ -17,20 +17,20 @@ protected:
 	~FWorldContext();
 public:
 	/// Register world
-	void RegisterWorld(SPtr<AWorld> world) { SetActiveWorld(world);  _worlds.Push(world); }
+	void RegisterWorld(AWorld* world) { SetActiveWorld(world);  _worlds.Push(world); }
 	/// Set active world.
-	void SetActiveWorld(SPtr<AWorld> world);
+	void SetActiveWorld(AWorld* world);
 
 	/// Return worlds.
-	const TVector<SPtr<AWorld>>& GetWorlds() { return _worlds; }
+	const TVector<AWorld*>& GetWorlds() { return _worlds; }
 	/// Get active world.
-	SPtr<AWorld> GetActiveWorld();
+	AWorld* GetActiveWorld();
 private:
 	/// AWorld array.
-	TVector<SPtr<AWorld>> _worlds;
+	TVector<AWorld*> _worlds;
 
 	/// Active world.
-	SPtr<AWorld> _activeWorld;
+	AWorld* _activeWorld;
 };
 
 }

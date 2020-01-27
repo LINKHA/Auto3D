@@ -14,7 +14,7 @@ FWorldContext::~FWorldContext()
 {
 }
 
-void FWorldContext::SetActiveWorld(SPtr<AWorld> world)
+void FWorldContext::SetActiveWorld(AWorld* world)
 { 
 	if (world)
 	{
@@ -26,7 +26,7 @@ void FWorldContext::SetActiveWorld(SPtr<AWorld> world)
 	}
 }
 
-SPtr<AWorld> FWorldContext::GetActiveWorld()
+AWorld* FWorldContext::GetActiveWorld()
 {
 	return _activeWorld;
 }

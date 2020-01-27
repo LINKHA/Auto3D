@@ -79,12 +79,12 @@ void FForwardShadingRenderer::Render()
 	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
 
-	SPtr<AWorld>& world = FWorldContext::Get().GetActiveWorld();
-	TVector<SPtr<ACameraComponent>>& cameras = world->GetCameras();
+	AWorld* world = FWorldContext::Get().GetActiveWorld();
+	TVector<ACameraComponent*>& cameras = world->GetCameras();
 
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
-		SPtr<ACameraComponent>& camera = DynamicCast<ACameraComponent>(*it);
+		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 
 		float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
 		bgfx::setUniform(GBox::_time, &time);

@@ -45,11 +45,11 @@ public:
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;
 
-		SPtr<AWorld> world(new AWorld());
+		AWorld* world = new AWorld();
 		world->OnRegister();
 
-		SPtr<AActor> actor = world->CreateChildNode<AActor>();
-		SPtr<ACameraComponent> camera = actor->CreateComponent<ACameraComponent>();
+		AActor* actor = world->CreateChildNode<AActor>();
+		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
 		camera->SetVerticalAngle(-0.3f);
 

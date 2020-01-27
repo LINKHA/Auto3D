@@ -25,21 +25,21 @@ public:
 	void OnRegister();
 
 	/// Add cctor to the world. This assigns a world-unique id to it. Called internally.
-	void AddActor(SPtr<AActor> actor);
+	void AddActor(AActor* actor);
 	/// Remove actor from the world. This removes the id mapping but does not destroy the node. Called internally.
-	void RemoveActor(SPtr<AActor> actor);
+	void RemoveActor(AActor* actor);
 	/// Add camera to the world. 
-	void AddCamera(SPtr<ACameraComponent> camera);
+	void AddCamera(ACameraComponent* camera);
 	/// Remove camera from the world.
-	void RemoveCamera(SPtr<ACameraComponent> camera);
+	void RemoveCamera(ACameraComponent* camera);
 
-	THashMap<unsigned, SPtr<AActor>> GetActors() { return _actors; }
-	TVector<SPtr<ACameraComponent>> GetCameras() { return _cameras; }
+	THashMap<unsigned, AActor*> GetActors() { return _actors; }
+	TVector<ACameraComponent*> GetCameras() { return _cameras; }
 private:
 	/// Map from id's to nodes.
-	THashMap<unsigned, SPtr<AActor>> _actors;
+	THashMap<unsigned, AActor*> _actors;
 	/// ACamera to nodes
-	TVector<SPtr<ACameraComponent>> _cameras;
+	TVector<ACameraComponent*> _cameras;
 	/// Next free node id.
 	unsigned _nextNodeId;
 };

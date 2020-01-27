@@ -21,7 +21,7 @@ void AActorComponent::TickComponent(float deltaTime)
 
 }
 
-bool AActorComponent::AttachToActor(SPtr<AActor> owner)
+bool AActorComponent::AttachToActor(AActor* owner)
 {
 	if (!owner)
 	{
@@ -36,14 +36,14 @@ bool AActorComponent::AttachToActor(SPtr<AActor> owner)
 	return true;
 }
 
-SPtr<AActor> AActorComponent::GetOwner() const
+AActor* AActorComponent::GetOwner() const
 {
-	return _ownerPrivate.lock();
+	return _ownerPrivate;
 }
 
-SPtr<AWorld> AActorComponent::GetWorld() const
+AWorld* AActorComponent::GetWorld() const
 {
-	return _worldPrivate.lock();
+	return _worldPrivate;
 }
 
 }

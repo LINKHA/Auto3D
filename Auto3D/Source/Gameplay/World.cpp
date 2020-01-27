@@ -28,13 +28,13 @@ void AWorld::Tick(float deltaSeconds)
 
 void AWorld::OnRegister()
 {
-	FWorldContext::Get().RegisterWorld(SPtrThis());
-	AddActor(SPtrThis());
+	FWorldContext::Get().RegisterWorld(this);
+	AddActor(this);
 }
 
-void AWorld::AddActor(SPtr<AActor> actor)
+void AWorld::AddActor(AActor* actor)
 {
-	if (!actor || actor->GetWorld() == SPtrThis())
+	if (!actor || actor->GetWorld() == this)
 		return;
 
 	while (_actors.Contains(_nextNodeId))
@@ -44,14 +44,14 @@ void AWorld::AddActor(SPtr<AActor> actor)
 			++_nextNodeId;
 	}
 
-	SPtr<AWorld> oldScene = actor->GetWorld();
+	AWorld* oldScene = actor->GetWorld();
 	if (oldScene)
 	{
 		unsigned oldId = actor->Id();
 		oldScene->GetActors().Erase(oldId);
 	}
 	_actors[_nextNodeId] = actor;
-	actor->SetWorld(SPtrThis());
+	actor->SetWorld(this);
 	actor->SetId(_nextNodeId);
 
 	++_nextNodeId;
@@ -59,7 +59,7 @@ void AWorld::AddActor(SPtr<AActor> actor)
 	// If node has children, add them to the scene as well
 	if (actor->NumChildren())
 	{
-		TVector<SPtr<AActor>> children;
+		TVector<AActor*> children;
 		actor->GetAllChildrenNode(children);
 
 		for (auto it = children.Begin(); it != children.End(); ++it)
@@ -67,9 +67,9 @@ void AWorld::AddActor(SPtr<AActor> actor)
 	}
 }
 
-void AWorld::RemoveActor(SPtr<AActor> actor)
+void AWorld::RemoveActor(AActor* actor)
 {
-	if (!actor || actor->GetWorld() == SPtrThis())
+	if (!actor || actor->GetWorld() == this)
 		return;
 
 	_actors.Erase(actor->Id());
@@ -79,20 +79,20 @@ void AWorld::RemoveActor(SPtr<AActor> actor)
 	// If node has children, remove them from the scene as well
 	if (actor->NumChildren())
 	{
-		TVector<SPtr<AActor>> children;
+		TVector<AActor*> children;
 		actor->GetAllChildrenNode(children);
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			RemoveActor(*it);
 	}
 }
 
-void AWorld::AddCamera(SPtr<ACameraComponent> camera)
+void AWorld::AddCamera(ACameraComponent* camera)
 {
 	if (camera)
 		_cameras.Push(camera);
 }
 
-void AWorld::RemoveCamera(SPtr<ACameraComponent> camera)
+void AWorld::RemoveCamera(ACameraComponent* camera)
 {
 	if (camera)
 		_cameras.Remove(camera);

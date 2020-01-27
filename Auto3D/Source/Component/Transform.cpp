@@ -83,25 +83,25 @@ void ATransform::SetTransform(const TVector3F& newPosition, const FQuaternion& n
 
 void ATransform::SetWorldPosition(const TVector3F& newPosition)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     SetPosition(parentNode ? parentNode->GetWorldTransform().Inverse() * newPosition : newPosition);
 }
 
 void ATransform::SetWorldRotation(const FQuaternion& newRotation)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     SetRotation(parentNode ? parentNode->GetWorldRotation().Inverse() * newRotation : newRotation);
 }
 
 void ATransform::SetWorldDirection(const TVector3F& newDirection)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     SetDirection(parentNode ? parentNode->GetWorldRotation().Inverse() * newDirection : newDirection);
 }
 
 void ATransform::SetWorldScale(const TVector3F& newScale)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     SetScale(parentNode ? newScale / parentNode->GetWorldScale() : newScale);
 }
 
@@ -112,7 +112,7 @@ void ATransform::SetWorldScale(float newScale)
 
 void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     if (parentNode)
     {
         TVector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -125,7 +125,7 @@ void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaterni
 
 void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     if (parentNode)
     {
         TVector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -144,7 +144,7 @@ void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaterni
 
 void ATransform::Translate(const TVector3F& delta, ETransformSpace::Type space)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
 
     switch (space)
     {
@@ -167,7 +167,7 @@ void ATransform::Translate(const TVector3F& delta, ETransformSpace::Type space)
 
 void ATransform::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     
     switch (space)
     {
@@ -195,7 +195,7 @@ void ATransform::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
 
 void ATransform::RotateAround(const TVector3F& point, const FQuaternion& delta, ETransformSpace::Type space)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     TVector3F parentSpacePoint;
     FQuaternion oldRotation = _rotation;
 
@@ -249,7 +249,7 @@ void ATransform::Roll(float angle, ETransformSpace::Type space)
 
 bool ATransform::LookAt(const TVector3F& target, const TVector3F& up, ETransformSpace::Type space)
 {
-    SPtr<ATransform> parentNode = GetParentTransform();
+    ATransform* parentNode = GetParentTransform();
     TVector3F worldSpaceTarget;
 
     switch (space)
@@ -291,7 +291,7 @@ void ATransform::ApplyScale(const TVector3F& delta)
     OnTransformChanged();
 }
 
-SPtr<ATransform> ATransform::GetParentTransform() const
+ATransform* ATransform::GetParentTransform() const
 { 
 	auto owner = GetOwner();
 	return owner->TestFlag(NF_SPATIAL_PARENT) ? owner->GetParentNode()->GetTransform() : nullptr;
@@ -309,17 +309,17 @@ const TMatrix3x4F& ATransform::GetWorldTransform() const
 
 void ATransform::OnTransformChanged()
 {
-	SPtr<AActor> owner = GetOwner();
+	AActor* owner = GetOwner();
 	owner->SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
 
 	UpdateWorldTransform();
 
-	TVector<SPtr<AActor>> children;
+	TVector<AActor*> children;
 	GetOwner()->GetAllChildrenNode(children);
 
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
-		SPtr<AActor> child = *it;
+		AActor* child = *it;
 		if (child->TestFlag(NF_SPATIAL))
 			child->GetTransform()->OnTransformChanged();
 		

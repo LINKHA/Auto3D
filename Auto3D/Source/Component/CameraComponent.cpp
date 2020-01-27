@@ -15,11 +15,11 @@ namespace Auto3D
 
 int cmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
 {
-	SPtr<AWorld>& world = FWorldContext::Get().GetActiveWorld();
-	TVector<SPtr<ACameraComponent>>& cameras = world->GetCameras();
+	AWorld* world = FWorldContext::Get().GetActiveWorld();
+	TVector<ACameraComponent*>& cameras = world->GetCameras();
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
-		SPtr<ACameraComponent>& camera = DynamicCast<ACameraComponent>(*it);
+		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 
 		if (_argc > 1)
 		{
