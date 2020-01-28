@@ -9,6 +9,9 @@
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
 
+#include "Serialization/to_json.h"
+#include "Serialization/from_json.h"
+
 using namespace Auto3D;
 
 namespace
@@ -47,6 +50,7 @@ public:
 		GBox::_timeOffset = m_timeOffset;
 
 		AWorld* world = FWorldContext::Get().NewWorld();
+		world->SetName("world");
 
 		AActor* actor = world->CreateChildNode<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
@@ -57,7 +61,10 @@ public:
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 
 		actor->SetName("asd");
-		//imguiCreate();
+
+		std::string json_string;
+		json_string = io::to_json(world); // serialize the circle to 'json_string'
+
 	}
 
 	int shutdown() override

@@ -3,17 +3,9 @@
 #include "Adapter/AutoRttr.h"
 #include "Adapter/Ptr.h"
 #include "Container/HashMap.h"
-
+#include "Container/Allocator.h"
 namespace Auto3D
 {
-#define SafeDelete(_Value) \
-	do {\
-		if (_Value)\
-		{\
-			delete _Value;\
-			_Value = nullptr;\
-		}\
-	}while(0)
 
 
 #define DECLARE_RTTR_BASE_CLASS(_This) \

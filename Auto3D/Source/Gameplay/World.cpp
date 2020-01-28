@@ -42,7 +42,7 @@ void AWorld::AddActor(AActor* actor)
 	AWorld* oldScene = actor->GetWorld();
 	if (oldScene)
 	{
-		unsigned oldId = actor->Id();
+		unsigned oldId = actor->GetId();
 		oldScene->GetActors().Erase(oldId);
 	}
 	_actors[_nextNodeId] = actor;
@@ -67,7 +67,7 @@ void AWorld::RemoveActor(AActor* actor)
 	if (!actor || actor->GetWorld() == this)
 		return;
 
-	_actors.Erase(actor->Id());
+	_actors.Erase(actor->GetId());
 	actor->SetWorld(nullptr);
 	actor->SetId(0);
 

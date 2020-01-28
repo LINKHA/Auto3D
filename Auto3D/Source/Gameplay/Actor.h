@@ -49,7 +49,7 @@ public:
 	bool HasBegunPlay(){ return _hasBegunPlay; }
 
     /// Return unique _id within the scene, or 0 if not in a scene.
-    unsigned Id() const { return _id; }
+    unsigned GetId() const { return _id; }
     /// Set name. Is not required to be unique within the scene.
     void SetName(const FString& newName);
     /// Set node's layer. Usage is subclass specific, for example rendering nodes selectively. Default is 0.
@@ -68,6 +68,18 @@ public:
     void SetTemporary(bool enable);
     /// Reparent the node.
     void SetParentNode(AActor* newParent);
+	/// Return name.
+	const FString& GetName() const { return _name; }
+	/// Return layer.
+	unsigned char GetLayer() const { return _layer; }
+	/// Return layer name, or empty if not registered in the scene root.
+	const FString& GetLayerName() const;
+	/// Return bitmask corresponding to layer.
+	unsigned GetLayerMask() const { return 1 << _layer; }
+	/// Return tag.
+	unsigned char GetTag() const { return _tag; }
+	/// Return tag name, or empty if not registered in the scene root.
+	const FString& GetTagName() const;
 
     /// Add node as a child. Same as calling SetParentNode for the child node.
     void AddChildNode(AActor* child);
@@ -92,18 +104,7 @@ public:
     /// Create named child node of the specified type, template version.
     template <typename _Ty> _Ty* CreateChildNode(const char* childName) { return dynamic_cast<_Ty*>(CreateChildNode(RtToStr(FType::get<_Ty>().get_name())), childName); }
 
-    /// Return name.
-    const FString& GetName() const { return _name; }
-    /// Return layer.
-    unsigned char GetLayer() const { return _layer; }
-    /// Return layer name, or empty if not registered in the scene root.
-    const FString& GetLayerName() const;
-    /// Return bitmask corresponding to layer.
-    unsigned GetLayerMask() const { return 1 << _layer; }
-    /// Return tag.
-    unsigned char GetTag() const { return _tag; }
-    /// Return tag name, or empty if not registered in the scene root.
-    const FString& GetTagName() const;
+  
     /// Return enabled status.
     bool IsEnabled() const { return TestFlag(NF_ENABLED); }
     /// Return whether is temporary.
@@ -215,7 +216,7 @@ protected:
 	TVector<AActor*> _childrenNode;
 	/// This actor all components,fitst string is component type.
 	THashMap<FString,AActorComponent*> _ownedComponents;
-    /// Id within the scene.
+    /// GetId within the scene.
     unsigned _id;
     /// %AActor name.
     FString _name;
