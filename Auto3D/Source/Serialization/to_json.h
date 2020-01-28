@@ -27,7 +27,7 @@
 
 #include <string>
 #include <rttr/type>
-
+using namespace Auto3D;
 namespace io
 {
 

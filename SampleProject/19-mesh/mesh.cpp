@@ -64,7 +64,7 @@ public:
 
 		std::string json_string;
 		json_string = io::to_json(world); // serialize the circle to 'json_string'
-
+		io::from_json(json_string, world);
 	}
 
 	int shutdown() override

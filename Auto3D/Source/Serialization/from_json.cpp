@@ -37,9 +37,11 @@
 #include <rapidjson/document.h>     // rapidjson's DOM-style API
 #include <rttr/type>
 
+#include "Container/String.h"
+
 using namespace rapidjson;
 using namespace rttr;
-
+using namespace Auto3D;
 
 namespace
 {
@@ -242,6 +244,14 @@ bool from_json(const std::string& json, rttr::instance obj)
     // "normal" parsing, decode strings to new buffers. Can use other input stream via ParseStream().
     if (document.Parse(json.c_str()).HasParseError())
         return 1;
+
+	{
+		Value::MemberIterator ret = document.FindMember("type");
+		auto& jsonValue = ret->value;
+		variant extracted_value = extract_basic_types(jsonValue);
+		std::string ss = extracted_value.get_value<std::string>();
+
+	}
 
     fromjson_recursively(obj, document);
 

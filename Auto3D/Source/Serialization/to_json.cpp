@@ -37,9 +37,11 @@
 #include <rapidjson/document.h>     // rapidjson's DOM-style API
 #include <rttr/type>
 
+#include "Container/String.h"
+
 using namespace rapidjson;
 using namespace rttr;
-
+using namespace Auto3D;
 
 namespace
 {
@@ -108,7 +110,12 @@ bool write_atomic_types_to_json(const type& t, const variant& var, PrettyWriter<
         writer.String(var.to_string());
         return true;
     }
-
+	else if (t == type::get<Auto3D::FString>())
+	{
+		FString SS = var.get_value<FString>().CString();
+		writer.String(var.get_value<FString>().CString());
+		return true;
+	}
     return false;
 }
 
@@ -226,6 +233,26 @@ bool write_variant(const variant& var, PrettyWriter<StringBuffer>& writer)
 void to_json_recursively(const instance& obj2, PrettyWriter<StringBuffer>& writer)
 {
     writer.StartObject();
+	
+	// Set type name
+	{
+		const auto& objType = obj2.get_type();
+		// find method
+		const auto& meth = objType.get_method("getTypeName");
+		if (meth.is_valid())
+		{
+			const auto& iamVar = meth.invoke(obj2);
+			FString typeName = iamVar.get_value<FString>();
+
+			FString name = "type";
+			writer.String(name.CString(), static_cast<rapidjson::SizeType>(name.Length()), false);
+			if (!write_variant(typeName, writer))
+			{
+				std::cerr << "cannot serialize property: " << typeName.CString() << std::endl;
+			}
+		}
+	}
+
     instance obj = obj2.get_type().get_raw_type().is_wrapper() ? obj2.get_wrapped_instance() : obj2;
 
     auto prop_list = obj.get_derived_type().get_properties();
