@@ -1,30 +1,3 @@
-/************************************************************************************
-*                                                                                   *
-*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
-*                                                                                   *
-*   This file is part of RTTR (Run Time Type Reflection)                            *
-*   License: MIT License                                                            *
-*                                                                                   *
-*   Permission is hereby granted, free of charge, to any person obtaining           *
-*   a copy of this software and associated documentation files (the "Software"),    *
-*   to deal in the Software without restriction, including without limitation       *
-*   the rights to use, copy, modify, merge, publish, distribute, sublicense,        *
-*   and/or sell copies of the Software, and to permit persons to whom the           *
-*   Software is furnished to do so, subject to the following conditions:            *
-*                                                                                   *
-*   The above copyright notice and this permission notice shall be included in      *
-*   all copies or substantial portions of the Software.                             *
-*                                                                                   *
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR      *
-*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,        *
-*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE     *
-*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER          *
-*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,   *
-*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE   *
-*   SOFTWARE.                                                                       *
-*                                                                                   *
-*************************************************************************************/
-
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -36,6 +9,10 @@
 #include <rapidjson/prettywriter.h> // for stringify JSON
 #include <rapidjson/document.h>     // rapidjson's DOM-style API
 #include <rttr/type>
+
+#include "rapidjson/filewritestream.h"
+#include <rapidjson/writer.h>
+#include <cstdio>
 
 #include "Container/String.h"
 
@@ -112,7 +89,6 @@ bool write_atomic_types_to_json(const type& t, const variant& var, PrettyWriter<
     }
 	else if (t == type::get<Auto3D::FString>())
 	{
-		FString SS = var.get_value<FString>().CString();
 		writer.String(var.get_value<FString>().CString());
 		return true;
 	}
@@ -282,22 +258,35 @@ void to_json_recursively(const instance& obj2, PrettyWriter<StringBuffer>& write
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace io
+namespace Auto3D
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-std::string to_json(rttr::instance obj)
+void ToJson(const FString& path, rttr::instance obj)
 {
     if (!obj.is_valid())
-        return std::string();
+        return;
 
     StringBuffer sb;
-    PrettyWriter<StringBuffer> writer(sb);
+    PrettyWriter<StringBuffer> prettyWriter(sb);
 
-    to_json_recursively(obj, writer);
+    to_json_recursively(obj, prettyWriter);
 
-    return sb.GetString();
+    std::string json = sb.GetString();
+
+	Document d;
+	d.Parse(json);
+
+	FILE* fp = fopen(path.CString(), "wb");
+
+	char writeBuffer[65536];
+	FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+	Writer<FileWriteStream> writer(os);
+	d.Accept(writer);
+
+	fclose(fp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

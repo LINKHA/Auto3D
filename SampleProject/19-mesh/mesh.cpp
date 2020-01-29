@@ -9,8 +9,8 @@
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
 
-#include "Serialization/to_json.h"
-#include "Serialization/from_json.h"
+#include "Serialization/ToJson.h"
+#include "Serialization/FromJson.h"
 
 using namespace Auto3D;
 
@@ -62,9 +62,9 @@ public:
 
 		actor->SetName("asd");
 
-		std::string json_string;
-		json_string = io::to_json(world); // serialize the circle to 'json_string'
-		io::from_json(json_string, world);
+		ToJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json",world); // serialize the circle to 'json_string'
+
+		FromJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json");
 	}
 
 	int shutdown() override

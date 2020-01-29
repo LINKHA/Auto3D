@@ -37,11 +37,15 @@
 #include <rapidjson/document.h>     // rapidjson's DOM-style API
 #include <rttr/type>
 
+#include "rapidjson/filereadstream.h"
+#include <cstdio>
+
 #include "Container/String.h"
+#include "Core/Object.h"
+#include "Gameplay/World.h"
 
 using namespace rapidjson;
 using namespace rttr;
-using namespace Auto3D;
 
 namespace
 {
@@ -234,24 +238,29 @@ void fromjson_recursively(instance obj2, Value& json_object)
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace io
+namespace Auto3D
 {
 
-bool from_json(const std::string& json, rttr::instance obj)
+bool FromJson(const FString& path)
 {
-    Document document;  // Default template parameter uses UTF8 and MemoryPoolAllocator.
+	FILE* fp = fopen(path.CString(), "rb"); // non-Windows use "r"
 
-    // "normal" parsing, decode strings to new buffers. Can use other input stream via ParseStream().
-    if (document.Parse(json.c_str()).HasParseError())
-        return 1;
+	char readBuffer[65536];
+	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
+	Document document;
+	document.ParseStream(is);
+
+	OObject* object;
 	{
 		Value::MemberIterator ret = document.FindMember("type");
 		auto& jsonValue = ret->value;
 		variant extracted_value = extract_basic_types(jsonValue);
 		std::string ss = extracted_value.get_value<std::string>();
-
+		object = NewObject(FString(ss.c_str()));
 	}
+
+	rttr::instance obj(object);
 
     fromjson_recursively(obj, document);
 
