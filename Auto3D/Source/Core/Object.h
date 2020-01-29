@@ -57,18 +57,17 @@ public:
 	virtual ~OObject() = default;
 	virtual const Auto3D::FString& GetTypeName() const { return GetTypeNameStatic(); } 
 	static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type("OObject"); return type; } 
-	/// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
-	static OObject* NewObject(FString type);
-	/// Create and return an object through a factory, template version.
-	template <typename _Ty> static _Ty* NewObject() { return dynamic_cast<_Ty*>(NewObject(_Ty::GetTypeNameStatic())); }
+
 	/// Register an object factory.
 	static void RegisterFactory(SPtr<FObjectFactory> factory);
 	/// Register an object factory, template version.
 	template <typename _Ty> static void RegisterFactory() { RegisterFactory(MakeShared<TObjectFactoryImpl<_Ty>>()); }
-private:
-	/// Registered object factories.
-	static THashMap<FString, SPtr<FObjectFactory> > _factories;
 };
+
+/// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
+OObject* NewObject(FString type);
+/// Create and return an object through a factory, template version.
+template <typename _Ty> static _Ty* NewObject() { return dynamic_cast<_Ty*>(NewObject(_Ty::GetTypeNameStatic())); }
 
 /// Base class for object factories.
 class AUTO_API FObjectFactory

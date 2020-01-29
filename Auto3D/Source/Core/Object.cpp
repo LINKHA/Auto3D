@@ -4,14 +4,8 @@
 
 namespace Auto3D
 {
-
-THashMap<FString, SPtr<FObjectFactory> > OObject::_factories;
-
-OObject* OObject::NewObject(FString type)
-{
-	auto it = _factories.Find(type);
-	return it != _factories.End() ? it->_second->Create() : nullptr;
-}
+/// Registered object factories.
+static THashMap<FString, SPtr<FObjectFactory> > _factories;
 
 void OObject::RegisterFactory(SPtr<FObjectFactory> factory)
 {
@@ -19,6 +13,12 @@ void OObject::RegisterFactory(SPtr<FObjectFactory> factory)
 		return;
 
 	_factories[factory->GetTypeName()] = factory;
+}
+
+OObject* NewObject(FString type)
+{
+	auto it = _factories.Find(type);
+	return it != _factories.End() ? it->_second->Create() : nullptr;
 }
 
 }
