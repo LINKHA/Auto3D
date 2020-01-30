@@ -6,10 +6,9 @@
 #include "Gameplay/World.h"
 #include "Core/Object.h"
 
-namespace Auto3D
-{
+using namespace Auto3D;
 
-void FClassRegister::AutoClassRegister()
+static void REGISTER_REFLECTION_FUNCATION()
 {
 	REGISTER_CALSS_IMP(OObject)
 		.constructor<>()
@@ -20,7 +19,8 @@ void FClassRegister::AutoClassRegister()
 		.constructor<>()
 		.property("id", &AActor::GetId, &AActor::SetId)
 		.property("name", &AActor::GetName, &AActor::SetName)
-	;
+		.property("childrenNode", &AActor::_childrenNode, registration::protected_access)
+		;
 
 	REGISTER_CALSS_IMP(AWorld)
 		.constructor<>()
@@ -33,6 +33,15 @@ void FClassRegister::AutoClassRegister()
 	REGISTER_CALSS_IMP(AMeshComponent)
 		.constructor<>()
 		;
+}
+
+
+namespace Auto3D
+{
+
+void FClassRegister::AutoClassRegister()
+{
+	REGISTER_REFLECTION_FUNCATION();
 }
 
 }

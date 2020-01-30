@@ -42,6 +42,7 @@ public:
 	using namespace rttr;\
 	registration::class_<_Class>(#_Class)
 
+#define REGISTER_REFLECTION_FUNCATION rttr_auto_register_reflection_function_
 
 class FObjectFactory;
 template <typename _Ty> class TObjectFactoryImpl;

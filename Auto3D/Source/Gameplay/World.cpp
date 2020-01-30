@@ -93,4 +93,14 @@ void AWorld::RemoveCamera(ACameraComponent* camera)
 		_cameras.Remove(camera);
 }
 
+bool AWorld::SaveJson(const FString& path)
+{
+	return true;
+}
+
+bool AWorld::LoadJson(const FString& path)
+{
+	return true;
+}
+
 }

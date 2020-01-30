@@ -31,6 +31,11 @@ public:
 	/// Remove camera from the world.
 	void RemoveCamera(ACameraComponent* camera);
 
+	/// Save world as JSON text data to a binary stream. Return true on success.
+	bool SaveJson(const FString& path);
+	/// Load world from JSON data. Existing nodes will be destroyed. Return true on success.
+	bool LoadJson(const FString& path);
+
 	THashMap<unsigned, AActor*> GetActors() { return _actors; }
 	TVector<ACameraComponent*> GetCameras() { return _cameras; }
 private:
