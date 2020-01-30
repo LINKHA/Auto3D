@@ -315,7 +315,7 @@ void ATransform::OnTransformChanged()
 	UpdateWorldTransform();
 
 	TVector<AActor*> children;
-	GetOwner()->GetAllChildrenNode(children);
+	GetOwner()->GetAllChildren(children);
 
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{

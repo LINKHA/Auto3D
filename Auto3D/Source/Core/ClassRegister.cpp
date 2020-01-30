@@ -19,7 +19,7 @@ static void REGISTER_REFLECTION_FUNCATION()
 		.constructor<>()
 		.property("id", &AActor::GetId, &AActor::SetId)
 		.property("name", &AActor::GetName, &AActor::SetName)
-		.property("childrenNode", &AActor::_childrenNode, registration::protected_access)
+		.property("childrenNode", &AActor::_children, registration::protected_access)
 		;
 
 	REGISTER_CALSS_IMP(AWorld)

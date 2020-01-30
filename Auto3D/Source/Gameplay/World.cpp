@@ -55,7 +55,7 @@ void AWorld::AddActor(AActor* actor)
 	if (actor->NumChildren())
 	{
 		TVector<AActor*> children;
-		actor->GetAllChildrenNode(children);
+		actor->GetAllChildren(children);
 
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			AddActor(*it);
@@ -75,7 +75,7 @@ void AWorld::RemoveActor(AActor* actor)
 	if (actor->NumChildren())
 	{
 		TVector<AActor*> children;
-		actor->GetAllChildrenNode(children);
+		actor->GetAllChildren(children);
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			RemoveActor(*it);
 	}

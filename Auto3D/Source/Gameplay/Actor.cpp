@@ -28,7 +28,7 @@ AActor::AActor() :
 
 AActor::~AActor()
 {
-    RemoveAllChildrenNode();
+    RemoveAllChildren();
     // At the time of destruction the node should not have a parent, or be in a scene
     assert(!_parent);
     assert(!_world);
@@ -45,7 +45,7 @@ void AActor::BeginPlay()
 
 	//Get all current world actors
 	TVector<AActor*> children;
-	GetAllChildrenNode(children);
+	GetAllChildren(children);
 
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
@@ -71,7 +71,7 @@ void AActor::Tick(float deltaSeconds)
 
 	//Get all current world actors
 	TVector<AActor*> children;
-	GetAllChildrenNode(children);
+	GetAllChildren(children);
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
 		AActor* child = *it;
@@ -144,7 +144,7 @@ void AActor::SetEnabled(bool enable)
 void AActor::SetEnabledRecursive(bool enable)
 {
     SetEnabled(enable);
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         child->SetEnabledRecursive(enable);
@@ -159,12 +159,12 @@ void AActor::SetTemporary(bool enable)
 void AActor::SetParentNode(AActor* newParent)
 {
     if (newParent)
-        newParent->AddChildNode(this);
+        newParent->AddChild(this);
     else
         ErrorString("Could not set null parent");
 }
 
-AActor* AActor::CreateChildNode(FString childType)
+AActor* AActor::CreateChild(FString childType)
 {
 	OObject* newObject = NewObject(childType);
 
@@ -182,25 +182,25 @@ AActor* AActor::CreateChildNode(FString childType)
         return nullptr;
     }
 
-    AddChildNode(child);
+    AddChild(child);
 
     return child;
 }
 
-AActor* AActor::CreateChildNode(FString childType, const FString& childName)
+AActor* AActor::CreateChild(FString childType, const FString& childName)
 {
-    return CreateChildNode(childType, childName.CString());
+    return CreateChild(childType, childName.CString());
 }
 
-AActor* AActor::CreateChildNode(FString childType, const char* childName)
+AActor* AActor::CreateChild(FString childType, const char* childName)
 {
-	AActor* child = CreateChildNode(childType);
+	AActor* child = CreateChild(childType);
     if (child)
         child->SetName(childName);
     return child;
 }
 
-void AActor::AddChildNode(AActor* child)
+void AActor::AddChild(AActor* child)
 {
     // Check for illegal or redundant parent assignment
     if (!child || child->_parent == this)
@@ -226,9 +226,9 @@ void AActor::AddChildNode(AActor* child)
 
 	AActor* oldParent = child->_parent;
     if (oldParent)
-        oldParent->_childrenNode.Remove(child);
+        oldParent->_children.Remove(child);
 
-    _childrenNode.Push(child);
+    _children.Push(child);
     child->_parent = this;
     child->OnParentSet(this, oldParent);
 
@@ -236,27 +236,27 @@ void AActor::AddChildNode(AActor* child)
 		_world->AddActor(child);
 }
 
-void AActor::RemoveChildNode(AActor* child)
+void AActor::RemoveChild(AActor* child)
 {
     if (!child || child->_parent != this)
         return;
 
-    for (size_t i = 0; i < _childrenNode.Size(); ++i)
+    for (size_t i = 0; i < _children.Size(); ++i)
     {
-        if (_childrenNode[i] == child)
+        if (_children[i] == child)
         {
-            RemoveChildNode(i);
+            RemoveChild(i);
             break;
         }
     }
 }
 
-void AActor::RemoveChildNode(size_t index)
+void AActor::RemoveChild(size_t index)
 {
-    if (index >= _childrenNode.Size())
+    if (index >= _children.Size())
         return;
 
-    AActor* child = _childrenNode[index];
+    AActor* child = _children[index];
     // Detach from both the parent and the scene (removes _id assignment)
 	if (_world)
 		_world->RemoveActor(child);
@@ -266,14 +266,14 @@ void AActor::RemoveChildNode(size_t index)
 	child->OnParentSet(nullptr, nullptr);
 	child->OnWorldSet(nullptr, nullptr);
 
-    _childrenNode.Erase(index);
+    _children.Erase(index);
 
 	SafeDelete(child);
 }
 
-void AActor::RemoveAllChildrenNode()
+void AActor::RemoveAllChildren()
 {
-	for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		AActor* child = *it;
 		if (_world)
@@ -287,13 +287,13 @@ void AActor::RemoveAllChildrenNode()
 		SafeDelete(child);
 	}
 
-    _childrenNode.Clear();
+    _children.Clear();
 }
 
 void AActor::RemoveSelf()
 {
 	if (_parent)
-		_parent->RemoveChildNode(this);
+		_parent->RemoveChild(this);
 	else
 		delete this;
 }
@@ -342,7 +342,7 @@ size_t AActor::NumPersistentChildren() const
 {
     size_t ret = 0;
 
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (!child->IsTemporary())
@@ -352,38 +352,38 @@ size_t AActor::NumPersistentChildren() const
     return ret;
 }
 
-void AActor::GetAllChildrenNode(TVector<AActor*>& result, bool recursive) const
+void AActor::GetAllChildren(TVector<AActor*>& result, bool recursive) const
 {
 	if (!recursive)
 	{
-		result = _childrenNode;
+		result = _children;
 		return;
 	}
 		
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         result.Push(child);
 		if (recursive)
-			child->GetAllChildrenNode(result, recursive);
+			child->GetAllChildren(result, recursive);
     }
 }
 
-AActor* AActor::FindChildNodeByName(const FString& childName, bool recursive) const
+AActor* AActor::FindChildByName(const FString& childName, bool recursive) const
 {
-    return FindChildNodeByName(childName.CString(), recursive);
+    return FindChildByName(childName.CString(), recursive);
 }
 
-AActor* AActor::FindChildNodeByName(const char* childName, bool recursive) const
+AActor* AActor::FindChildByName(const char* childName, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (child->GetName() == FString(childName))
             return child;
-        else if (recursive && child->_childrenNode.Size())
+        else if (recursive && child->_children.Size())
         {
-            AActor* childResult = child->FindChildNodeByName(childName, recursive);
+            AActor* childResult = child->FindChildByName(childName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -392,16 +392,16 @@ AActor* AActor::FindChildNodeByName(const char* childName, bool recursive) const
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByType(FString childType, bool recursive) const
+AActor* AActor::FindChildByType(FString childType, bool recursive) const
 {
-	for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		AActor* child = *it;
 		if (FType::get(child) == FType::get_by_name(childType.CString()))
 			return child;
-		else if (recursive && child->_childrenNode.Size())
+		else if (recursive && child->_children.Size())
 		{
-			AActor* childResult = child->FindChildNodeByType(childType, recursive);
+			AActor* childResult = child->FindChildByType(childType, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -410,21 +410,21 @@ AActor* AActor::FindChildNodeByType(FString childType, bool recursive) const
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByType(FString childType, const FString& childName, bool recursive) const
+AActor* AActor::FindChildByType(FString childType, const FString& childName, bool recursive) const
 {
-    return FindChildNodeByType(childType, childName.CString(), recursive);
+    return FindChildByType(childType, childName.CString(), recursive);
 }
 
-AActor* AActor::FindChildNodeByType(FString childType, const char* childName, bool recursive) const
+AActor* AActor::FindChildByType(FString childType, const char* childName, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (FType::get(child) == FType::get_by_name(childType.CString()) && child->GetName() == FString(childName))
             return child;
-        else if (recursive && child->_childrenNode.Size())
+        else if (recursive && child->_children.Size())
         {
-            AActor* childResult = child->FindChildNodeByType(childType, childName, recursive);
+            AActor* childResult = child->FindChildByType(childType, childName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -433,16 +433,16 @@ AActor* AActor::FindChildNodeByType(FString childType, const char* childName, bo
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
+AActor* AActor::FindChildByLayer(unsigned layerMask, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (child->GetLayerMask() && layerMask)
             return child;
-        else if (recursive && child->_childrenNode.Size())
+        else if (recursive && child->_children.Size())
         {
-            AActor* childResult = child->FindChildNodeByLayer(layerMask, recursive);
+            AActor* childResult = child->FindChildByLayer(layerMask, recursive);
             if (childResult)
                 return childResult;
         }
@@ -451,16 +451,16 @@ AActor* AActor::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByTag(unsigned char tag, bool recursive) const
+AActor* AActor::FindChildByTag(unsigned char tag, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (child->_tag == tag)
             return child;
-        else if (recursive && child->_childrenNode.Size())
+        else if (recursive && child->_children.Size())
         {
-            AActor* childResult = child->FindChildNodeByTag(tag, recursive);
+            AActor* childResult = child->FindChildByTag(tag, recursive);
             if (childResult)
                 return childResult;
         }
@@ -469,21 +469,21 @@ AActor* AActor::FindChildNodeByTag(unsigned char tag, bool recursive) const
     return nullptr;
 }
 
-AActor* AActor::FindChildNodeByTag(const FString& tagName, bool recursive) const
+AActor* AActor::FindChildByTag(const FString& tagName, bool recursive) const
 {
-    return FindChildNodeByTag(tagName.CString(), recursive);
+    return FindChildByTag(tagName.CString(), recursive);
 }
 
-AActor* AActor::FindChildNodeByTag(const char* tagName, bool recursive) const
+AActor* AActor::FindChildByTag(const char* tagName, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             return child;
-        else if (recursive && child->_childrenNode.Size())
+        else if (recursive && child->_children.Size())
         {
-            AActor* childResult = child->FindChildNodeByTag(tagName, recursive);
+            AActor* childResult = child->FindChildByTag(tagName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -492,56 +492,56 @@ AActor* AActor::FindChildNodeByTag(const char* tagName, bool recursive) const
     return nullptr;
 }
 
-void AActor::FindChildrenNode(TVector<AActor*>& result, FString childType, bool recursive) const
+void AActor::FindChildren(TVector<AActor*>& result, FString childType, bool recursive) const
 {
-	 for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+	 for (auto it = _children.Begin(); it != _children.End(); ++it)
 	 {
 		 AActor* child = *it;
 		 if (RtToStr(FType::get(child).get_name()) == childType)
 			 result.Push(child);
-		 if (recursive && child->_childrenNode.Size())
-			 child->FindChildrenNode(result, childType, recursive);
+		 if (recursive && child->_children.Size())
+			 child->FindChildren(result, childType, recursive);
 	 }
 }
 
-void AActor::FindChildrenNodeByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive) const
+void AActor::FindChildrenByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (child->GetLayerMask() & layerMask)
             result.Push(child);
-        if (recursive && child->_childrenNode.Size())
-            child->FindChildrenNodeByLayer(result, layerMask, recursive);
+        if (recursive && child->_children.Size())
+            child->FindChildrenByLayer(result, layerMask, recursive);
     }
 }
 
-void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, unsigned char tag, bool recursive) const
+void AActor::FindChildrenByTag(TVector<AActor*>& result, unsigned char tag, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (child->_tag == tag)
             result.Push(child);
-        if (recursive && child->_childrenNode.Size())
-            child->FindChildrenNodeByTag(result, tag, recursive);
+        if (recursive && child->_children.Size())
+            child->FindChildrenByTag(result, tag, recursive);
     }
 }
 
-void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, const FString& tagName, bool recursive) const
+void AActor::FindChildrenByTag(TVector<AActor*>& result, const FString& tagName, bool recursive) const
 {
-    FindChildrenNodeByTag(result, tagName.CString(), recursive);
+    FindChildrenByTag(result, tagName.CString(), recursive);
 }
 
-void AActor::FindChildrenNodeByTag(TVector<AActor*>& result, const char* tagName, bool recursive) const
+void AActor::FindChildrenByTag(TVector<AActor*>& result, const char* tagName, bool recursive) const
 {
-    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             result.Push(child);
-        if (recursive && child->_childrenNode.Size())
-            child->FindChildrenNodeByTag(result, tagName, recursive);
+        if (recursive && child->_children.Size())
+            child->FindChildrenByTag(result, tagName, recursive);
     }
 }
 
@@ -634,7 +634,7 @@ void AActor::GetAllComponents(TVector<AActorComponent*>& result, bool recursive)
 
 	if (recursive)
 	{
-		for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+		for (auto it = _children.Begin(); it != _children.End(); ++it)
 		{
 			AActor* childActor = *it;
 			childActor->GetAllComponents(result, recursive);
@@ -653,7 +653,7 @@ AActorComponent* AActor::FindComponent(FString childType, bool recursive) const
 
 	if (recursive)
 	{
-		for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+		for (auto it = _children.Begin(); it != _children.End(); ++it)
 		{
 			AActorComponent* comp = (*it)->FindComponent(childType, recursive);
 			if (comp)
@@ -675,7 +675,7 @@ void AActor::FindComponents(TVector<AActorComponent*>& result, FString childType
 	}
 	if (recursive)
 	{
-		for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
+		for (auto it = _children.Begin(); it != _children.End(); ++it)
 		{
 			(*it)->FindComponents(result, childType, recursive);
 		}

@@ -52,12 +52,12 @@ public:
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
 
-		AActor* actor = world->CreateChildNode<AActor>();
+		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
 		camera->SetVerticalAngle(-0.3f);
 
-		AActor* meshActor = world->CreateChildNode<AActor>();
+		AActor* meshActor = world->CreateChild<AActor>();
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 
 		actor->SetName("asd");

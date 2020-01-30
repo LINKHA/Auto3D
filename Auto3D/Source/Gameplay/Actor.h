@@ -82,27 +82,27 @@ public:
 	const FString& GetTagName() const;
 
     /// Add node as a child. Same as calling SetParentNode for the child node.
-    void AddChildNode(AActor* child);
+    void AddChild(AActor* child);
     /// Remove child node. Will delete it if there are no other strong references to it.
-    void RemoveChildNode(AActor* child);
+    void RemoveChild(AActor* child);
     /// Remove child node by index.
-    void RemoveChildNode(size_t index);
+    void RemoveChild(size_t index);
     /// Remove all child nodes.
-    void RemoveAllChildrenNode();
+    void RemoveAllChildren();
     /// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
     void RemoveSelf();
 	/// Create child node of specified type. A registered object factory for the type is required.
-	AActor* CreateChildNode(FString childType);
+	AActor* CreateChild(FString childType);
 	/// Create named child node of specified type.
-	AActor* CreateChildNode(FString childType, const FString& childName);
+	AActor* CreateChild(FString childType, const FString& childName);
 	/// Create named child node of specified type.
-	AActor* CreateChildNode(FString childType, const char* childName);
+	AActor* CreateChild(FString childType, const char* childName);
     /// Create child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChildNode() { return dynamic_cast<_Ty*>(CreateChildNode(RtToStr(FType::get<_Ty>().get_name()))); }
+	template <typename _Ty> _Ty* CreateChild() { return dynamic_cast<_Ty*>(CreateChild(RtToStr(FType::get<_Ty>().get_name()))); }
     /// Create named child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChildNode(const FString& childName) { return dynamic_cast<_Ty*>(CreateChildNode(RtToStr(FType::get<_Ty>().get_name())), childName); }
+    template <typename _Ty> _Ty* CreateChild(const FString& childName) { return dynamic_cast<_Ty*>(CreateChild(RtToStr(FType::get<_Ty>().get_name())), childName); }
     /// Create named child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChildNode(const char* childName) { return dynamic_cast<_Ty*>(CreateChildNode(RtToStr(FType::get<_Ty>().get_name())), childName); }
+    template <typename _Ty> _Ty* CreateChild(const char* childName) { return dynamic_cast<_Ty*>(CreateChild(RtToStr(FType::get<_Ty>().get_name())), childName); }
 
   
     /// Return enabled status.
@@ -114,49 +114,49 @@ public:
     /// Return the scene that the node belongs to.
     AWorld* GetWorld() const { return _world; }
     /// Return number of immediate child nodes.
-    size_t NumChildren() const { return _childrenNode.Size(); }
+    size_t NumChildren() const { return _children.Size(); }
     /// Return number of immediate child nodes that are not temporary.
     size_t NumPersistentChildren() const;
     ///// Return immediate child node by index.
-    AActor* FindChildNodeByIndex(size_t index) const { return index < _childrenNode.Size() ? _childrenNode[index] : nullptr; }
+    AActor* FindChildByIndex(size_t index) const { return index < _children.Size() ? _children[index] : nullptr; }
     /// Return child nodes recursively.
-    void GetAllChildrenNode(TVector<AActor*>& result, bool recursive = false) const;
+    void GetAllChildren(TVector<AActor*>& result, bool recursive = false) const;
     /// Return first child node that matches name.
-    AActor* FindChildNodeByName(const FString& childName, bool recursive = false) const;
+    AActor* FindChildByName(const FString& childName, bool recursive = false) const;
     /// Return first child node that matches name.
-    AActor* FindChildNodeByName(const char* childName, bool recursive = false) const;
+    AActor* FindChildByName(const char* childName, bool recursive = false) const;
     /// Return first child node of specified type.
-    AActor* FindChildNodeByType(FString childType, bool recursive = false) const;
+    AActor* FindChildByType(FString childType, bool recursive = false) const;
     /// Return first child node that matches type and name.
-    AActor* FindChildNodeByType(FString childType, const FString& childName, bool recursive = false) const;
+    AActor* FindChildByType(FString childType, const FString& childName, bool recursive = false) const;
     /// Return first child node that matches type and name.
-    AActor* FindChildNodeByType(FString childType, const char* childName, bool recursive = false) const;
+    AActor* FindChildByType(FString childType, const char* childName, bool recursive = false) const;
     /// Return first child node that matches layer mask.
-    AActor* FindChildNodeByLayer(unsigned layerMask, bool recursive = false) const;
+    AActor* FindChildByLayer(unsigned layerMask, bool recursive = false) const;
     /// Return first child node that matches tag.
-    AActor* FindChildNodeByTag(unsigned char tag, bool recursive = false) const;
+    AActor* FindChildByTag(unsigned char tag, bool recursive = false) const;
     /// Return first child node that matches tag name.
-    AActor* FindChildNodeByTag(const FString& tagName, bool recursive = false) const;
+    AActor* FindChildByTag(const FString& tagName, bool recursive = false) const;
     /// Return first child node that matches tag name.
-    AActor* FindChildNodeByTag(const char* tagName, bool recursive = false) const;
+    AActor* FindChildByTag(const char* tagName, bool recursive = false) const;
     /// Find child nodes of specified type.
-    void FindChildrenNode(TVector<AActor*>& result, FString childType, bool recursive = false) const;
+    void FindChildren(TVector<AActor*>& result, FString childType, bool recursive = false) const;
     /// Find child nodes that match layer mask.
-    void FindChildrenNodeByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive = false) const;
+    void FindChildrenByLayer(TVector<AActor*>& result, unsigned layerMask, bool recursive = false) const;
     /// Find child nodes that match tag.
-    void FindChildrenNodeByTag(TVector<AActor*>& result, unsigned char tag, bool recursive = false) const;
+    void FindChildrenByTag(TVector<AActor*>& result, unsigned char tag, bool recursive = false) const;
     /// Find child nodes that match tag name.
-    void FindChildrenNodeByTag(TVector<AActor*>& result, const FString& tagName, bool recursive = false) const;
+    void FindChildrenByTag(TVector<AActor*>& result, const FString& tagName, bool recursive = false) const;
     /// Find child nodes that match tag name.
-    void FindChildrenNodeByTag(TVector<AActor*>& result, const char* tagName, bool recursive = false) const;
+    void FindChildrenByTag(TVector<AActor*>& result, const char* tagName, bool recursive = false) const;
     /// Return first child node of specified type, template version.
-	template <typename _Ty> _Ty* FindChildNode(bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(RtToStr(FType::get<_Ty>().get_name(), recursive))); }
+	template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(RtToStr(FType::get<_Ty>().get_name(), recursive))); }
     /// Return first child node that matches type and name, template version.
-    template <typename _Ty> _Ty* FindChildNode(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(RtToStr(FType::get<_Ty>().get_name(), childName, recursive))); }
+    template <typename _Ty> _Ty* FindChild(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(RtToStr(FType::get<_Ty>().get_name(), childName, recursive))); }
     /// Return first child node that matches type and name, template version.
-    template <typename _Ty> _Ty* FindChildNode(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(RtToStr(FType::get<_Ty>().get_name()), childName, recursive)); }
+    template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(RtToStr(FType::get<_Ty>().get_name()), childName, recursive)); }
     /// Find child nodes of specified type, template version.
-	template <typename _Ty> void FindChildrenNode(TVector<_Ty*>& result, bool recursive = false) const { return FindChildrenNode(reinterpret_cast<TVector<AActor*>&>(result), FType::get<_Ty>().get_name(), recursive); }
+	template <typename _Ty> void FindChildren(TVector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<TVector<AActor*>&>(result), FType::get<_Ty>().get_name(), recursive); }
 
 	/// Add component and create child node of specified type. A registered object factory for the type is required.
 	AActorComponent* CreateComponent(FString childType);
@@ -177,7 +177,7 @@ public:
 	/// Find components of specified type.
 	void FindComponents(TVector<AActorComponent*>& result, FString childType, bool recursive = false) const;
 	/// Return first component of specified type, template version.
-	template <typename _Ty> _Ty* FindComponent(bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(RtToStr(FType::get<_Ty>().get_name(), recursive))); }
+	template <typename _Ty> _Ty* FindComponent(bool recursive = false) const { return static_cast<_Ty*>(FindChild(RtToStr(FType::get<_Ty>().get_name(), recursive))); }
 	/// Find components of specified type, template version.
 	template <typename _Ty> void FindComponents(TVector<_Ty*>& result, bool recursive = false) const { return FindComponents(reinterpret_cast<TVector<AActorComponent*>&>(result), _Ty::GetTypeHashStatic(), recursive); }
 
@@ -213,7 +213,7 @@ protected:
     /// Parent scene (If in the scene)
     AWorld* _world;
     /// Child nodes.
-	TVector<AActor*> _childrenNode;
+	TVector<AActor*> _children;
 	/// This actor all components,fitst string is component type.
 	THashMap<FString,AActorComponent*> _ownedComponents;
     /// GetId within the scene.
