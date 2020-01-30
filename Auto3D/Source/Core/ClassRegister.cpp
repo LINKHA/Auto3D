@@ -5,6 +5,7 @@
 #include "Component/MeshComponent.h"
 #include "Gameplay/World.h"
 #include "Core/Object.h"
+#include "Container/Vector.h"
 
 using namespace Auto3D;
 
@@ -19,7 +20,6 @@ static void REGISTER_REFLECTION_FUNCATION()
 		.constructor<>()
 		.property("id", &AActor::GetId, &AActor::SetId)
 		.property("name", &AActor::GetName, &AActor::SetName)
-		.property("childrenNode", &AActor::_children, registration::protected_access)
 		;
 
 	REGISTER_CALSS_IMP(AWorld)

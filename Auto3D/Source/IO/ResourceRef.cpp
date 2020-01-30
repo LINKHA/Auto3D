@@ -27,7 +27,7 @@ bool FResourceRef::FromString(const char* str)
 
 void FResourceRef::FromBinary(FStream& source)
 {
-    _type = source.Read<FStringHash>();
+    _type = source.Read<FString>();
     _name = source.Read<FString>();
 }
 

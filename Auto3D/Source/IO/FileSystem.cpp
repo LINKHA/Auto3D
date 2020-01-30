@@ -159,6 +159,8 @@ int DoSystemRun(const FString& fileName, const TVector<FString>& arguments)
 #endif
 }
 
+IMPLEMENT_SINGLETON(FFileModule)
+
 FFileModule::FFileModule()
 {
 }

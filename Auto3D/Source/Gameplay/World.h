@@ -35,6 +35,9 @@ public:
 	bool SaveJson(const FString& path);
 	/// Load world from JSON data. Existing nodes will be destroyed. Return true on success.
 	bool LoadJson(const FString& path);
+	/// Destroy child nodes recursively, leaving the world empty.
+	void Clear();
+
 
 	THashMap<unsigned, AActor*> GetActors() { return _actors; }
 	TVector<ACameraComponent*> GetCameras() { return _cameras; }

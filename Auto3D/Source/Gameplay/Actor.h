@@ -120,7 +120,9 @@ public:
     ///// Return immediate child node by index.
     AActor* FindChildByIndex(size_t index) const { return index < _children.Size() ? _children[index] : nullptr; }
     /// Return child nodes recursively.
-    void GetAllChildren(TVector<AActor*>& result, bool recursive = false) const;
+	void GetAllChildren(TVector<AActor*>& result, bool recursive = false) const;
+	/// Return children.
+	TVector<AActor*> GetChildren() const { return _children; }
     /// Return first child node that matches name.
     AActor* FindChildByName(const FString& childName, bool recursive = false) const;
     /// Return first child node that matches name.

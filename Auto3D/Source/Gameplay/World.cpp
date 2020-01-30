@@ -103,4 +103,11 @@ bool AWorld::LoadJson(const FString& path)
 	return true;
 }
 
+void AWorld::Clear()
+{
+	RemoveAllChildren();
+	_nextNodeId = 1;
+}
+
+
 }

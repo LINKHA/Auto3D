@@ -12,7 +12,7 @@ class FStream;
 struct AUTO_API FResourceRef
 {
     /// AResource type.
-    FStringHash _type;
+    FString _type;
     /// AResource name.
     FString _name;
 
@@ -41,7 +41,7 @@ struct AUTO_API FResourceRef
     }
     
     /// Construct with type and resource name.
-    FResourceRef(FStringHash type, const FString& name_ = FString::EMPTY) :
+    FResourceRef(FString type, const FString& name_ = FString::EMPTY) :
         _type(type),
         _name(name_)
     {

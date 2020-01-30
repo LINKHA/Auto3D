@@ -4,6 +4,7 @@
 #include "Container/Vector.h"
 #include "Container/WString.h"
 #include "Container/HashSet.h"
+#include "Container/Singleton.h"
 
 namespace Auto3D
 {
@@ -18,6 +19,7 @@ static const unsigned SCAN_HIDDEN = 0x4;
 /// Module for file and directory operations and access control.
 class AUTO_API FFileModule : public FRefCounted
 {
+	REGISTER_SINGLETON(FFileModule)
 public:
 	/// Construct.
 	FFileModule();
