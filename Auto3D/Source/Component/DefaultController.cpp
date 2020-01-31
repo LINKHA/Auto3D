@@ -100,7 +100,7 @@ void ADefaultController::TickComponent(float deltaTime)
 	if (owner)
 	{
 		ACameraComponent* camera = owner->FindComponent<ACameraComponent>();
-		camera->Update(deltaTime);
+		//camera->Update(deltaTime);
 	}
 }
 }

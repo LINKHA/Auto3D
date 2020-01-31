@@ -115,6 +115,8 @@ public:
     TVector3F GetWorldToLocal(const TVector3F& point) const { return GetWorldTransform().Inverse() * point; }
     /// Convert a world space vector (either _position or direction) to world space.
     TVector3F GetWorldToLocal(const TVector4F& vector) const { return GetWorldTransform().Inverse() * vector; }
+	/// The dirty returns false for true data after it has been used
+	bool IsDirty(); 
 private:
 
 	void OnTransformChanged();
@@ -128,8 +130,8 @@ private:
     FQuaternion _rotation;
     /// Parent space scale.
     TVector3F _scale;
-
-	bool _bWorldTransformDirty;
+	/// The dirty frame count.
+	unsigned _dirtyCount;
 };
 
 }

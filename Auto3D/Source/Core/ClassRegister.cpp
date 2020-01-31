@@ -4,6 +4,8 @@
 #include "Component/CameraComponent.h"
 #include "Component/MeshComponent.h"
 #include "Component/DefaultController.h"
+#include "Component/Transform.h"
+
 #include "Gameplay/World.h"
 #include "Core/Object.h"
 #include "Container/Vector.h"
@@ -71,7 +73,9 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_CALSS_IMP(ADefaultController)
 		.constructor<>()
 		;
-	
+	REGISTER_CALSS_IMP(ATransform)
+		.constructor<>()
+		;
 }
 
 

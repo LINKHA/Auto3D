@@ -3,7 +3,7 @@
 #include "Component/ActorComponent.h"
 #include "Platform/PlatformDef.h"
 #include "Math/Vector3.h"
-
+#include "Math/Matrix3x4.h"
 
 
 #define CAMERA_KEY_FORWARD   UINT8_C(0x01)
@@ -33,7 +33,10 @@ public:
 
 	void SetKeyState(uint8_t key, bool down);
 
-	void GetViewMtx(float* viewMtx);
+	/// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
+	TMatrix3x4F EffectiveWorldTransform() const;
+
+	const TMatrix3x4F& GetViewMatrix();
 
 	void SetPosition(const TVector3F& pos);
 
@@ -67,6 +70,9 @@ private:
 
 	float _horizontalAngle;
 	float _verticalAngle;
+
+	/// Cached view matrix.
+	mutable TMatrix3x4F _viewMatrix;
 };
 
 }

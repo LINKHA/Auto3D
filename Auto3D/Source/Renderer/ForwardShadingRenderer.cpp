@@ -9,7 +9,8 @@
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
 #include "Platform/ProcessWindow.h"
-
+#include "Math/Matrix3x4.h"
+#include "Math/Matrix4x4.h"
 
 namespace Auto3D
 {
@@ -85,12 +86,13 @@ void FForwardShadingRenderer::Render()
 		bgfx::setUniform(GBox::_time, &time);
 
 		// Set up matrices for gbuffer
-		float view[16];
-		camera->GetViewMtx(view);
+		TMatrix3x4F viewMatrix = camera->GetViewMatrix();
+		// Because the original location is not unified
+		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
 
 		float proj[16];
 		bx::mtxProj(proj, 60.0f, float(_backbufferSize._x) / float(_backbufferSize._y), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-		bgfx::setViewTransform(0, view, proj);
+		bgfx::setViewTransform(0, transposeViewMatrix.Data(), proj);
 
 
 		float mtx[16];

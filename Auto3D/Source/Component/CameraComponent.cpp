@@ -10,6 +10,8 @@
 #include "Gameplay/World.h"
 #include "Platform/ProcessWindow.h"
 #include "Math/Matrix4x4.h"
+#include "Math/Matrix3x4.h"
+#include "Component/Transform.h"
 
 namespace Auto3D
 {
@@ -177,13 +179,25 @@ void ACameraComponent::Update(float deltaTime)
 	_up = Cross(right, direction);
 }
 
-void ACameraComponent::GetViewMtx(float* viewMtx)
+TMatrix3x4F ACameraComponent::EffectiveWorldTransform() const
 {
-	bx::Vec3 eye({ _eye._x ,_eye._y,_eye._z});
-	bx::Vec3 at({ _at._x ,_at._y,_at._z });
-	bx::Vec3 up({ _up._x ,_up._y,_up._z });
+	AActor* owner = GetOwner();
+	ATransform* transform = owner->GetTransform();
+	TMatrix3x4F worldTransform(transform->GetWorldPosition(), transform->GetWorldRotation(), 1.0f);
 
-	bx::mtxLookAt(viewMtx, bx::load<bx::Vec3>(&eye.x), bx::load<bx::Vec3>(&at.x), bx::load<bx::Vec3>(&up.x));
+	return worldTransform;
+}
+
+
+const TMatrix3x4F& ACameraComponent::GetViewMatrix()
+{
+	AActor* owner = GetOwner();
+	ATransform* transform = owner->GetTransform();
+
+	if(transform->IsDirty())
+		_viewMatrix = EffectiveWorldTransform().Inverse();
+
+	return _viewMatrix;
 }
 
 void ACameraComponent::SetPosition(const TVector3F& pos)

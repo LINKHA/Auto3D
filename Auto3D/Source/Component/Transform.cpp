@@ -1,5 +1,6 @@
 #include "Component/Transform.h"
 #include "Gameplay/Actor.h"
+#include "Time/Time.h"
 
 #include "Debug/DebugNew.h"
 
@@ -10,7 +11,8 @@ ATransform::ATransform() :
     _worldTransform(TMatrix3x4F::IDENTITY),
     _position(TVector3F::ZERO),
     _rotation(FQuaternion::IDENTITY),
-    _scale(TVector3F::ONE)
+    _scale(TVector3F::ONE),
+	_dirtyCount(0)
 {
 }
 
@@ -22,6 +24,7 @@ void ATransform::BeginPlay()
 void ATransform::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
+	_dirtyCount = FTimeModule::Get().GetFrameCount();
 }
 
 void ATransform::SetPosition(const TVector3F& newPosition)
@@ -45,6 +48,7 @@ void ATransform::SetDirection(const TVector3F& newDirection)
 void ATransform::SetScale(float newScale)
 {
 	SetScale(TVector3F(newScale, newScale, newScale));
+	OnTransformChanged();
 }
 
 void ATransform::SetScale(const TVector3F& newScale)
@@ -322,8 +326,8 @@ void ATransform::OnTransformChanged()
 		AActor* child = *it;
 		if (child->TestFlag(NF_SPATIAL))
 			child->GetTransform()->OnTransformChanged();
-		
 	}
+	_dirtyCount = FTimeModule::Get().GetFrameCount();
 }
 
 void ATransform::UpdateWorldTransform() const
@@ -335,6 +339,14 @@ void ATransform::UpdateWorldTransform() const
     else
         _worldTransform = TMatrix3x4F(_position, _rotation, _scale);
 	owner->SetFlag(NF_WORLD_TRANSFORM_DIRTY, false);
+}
+
+bool ATransform::IsDirty()
+{
+	if (_dirtyCount >= FTimeModule::Get().GetFrameCount())
+		return true;
+	
+	return false;
 }
 
 }

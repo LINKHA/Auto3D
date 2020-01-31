@@ -25,6 +25,8 @@ AActor::AActor() :
 	_world(nullptr)
 {
 	SetFlag(NF_SPATIAL, true);
+	// Each Actor has a Transform by default
+	_transform = CreateComponent<ATransform>();
 }
 
 AActor::~AActor()
@@ -696,7 +698,7 @@ ATransform* AActor::GetTransform()
 { 
 	if (!_transform)
 	{
-		CreateComponent<ATransform>();
+		_transform = CreateComponent<ATransform>();
 	}
 
 	return _transform;

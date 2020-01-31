@@ -9,6 +9,7 @@
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
 #include "Component/DefaultController.h"
+#include "Component/Transform.h"
 
 #include "Serialization/ToJson.h"
 #include "Serialization/FromJson.h"
@@ -66,6 +67,7 @@ public:
 		actor->CreateComponent<ADefaultController>();
 		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
 		camera->SetVerticalAngle(-0.3f);
+		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
 
 		AActor* meshActor = world->CreateChild<AActor>();
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
