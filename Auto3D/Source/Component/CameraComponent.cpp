@@ -9,6 +9,7 @@
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
 #include "Platform/ProcessWindow.h"
+#include "Math/Matrix4x4.h"
 
 namespace Auto3D
 {
@@ -139,15 +140,15 @@ void ACameraComponent::Reset()
 	_mouseNow._my = 0;
 	_mouseLast._mx = 0;
 	_mouseLast._my = 0;
-	_eye.x = 0.0f;
-	_eye.y = 0.0f;
-	_eye.z = -35.0f;
-	_at.x = 0.0f;
-	_at.y = 0.0f;
-	_at.z = -1.0f;
-	_up.x = 0.0f;
-	_up.y = 1.0f;
-	_up.z = 0.0f;
+	_eye._x = 0.0f;
+	_eye._y = 0.0f;
+	_eye._z = -35.0f;
+	_at._x = 0.0f;
+	_at._y = 0.0f;
+	_at._z = -1.0f;
+	_up._x = 0.0f;
+	_up._y = 1.0f;
+	_up._z = 0.0f;
 	_horizontalAngle = 0.01f;
 	_verticalAngle = 0.0f;
 	_mouseSpeed = 0.0020f;
@@ -202,86 +203,90 @@ void ACameraComponent::Update(float deltaTime)
 	_keys |= gpy < -16834 ? CAMERA_KEY_FORWARD : 0;
 	_keys |= gpy > 16834 ? CAMERA_KEY_BACKWARD : 0;
 
-	const bx::Vec3 direction =
+	const TVector3F direction =
 	{
-		bx::cos(_verticalAngle) * bx::sin(_horizontalAngle),
-		bx::sin(_verticalAngle),
-		bx::cos(_verticalAngle) * bx::cos(_horizontalAngle),
+		Cos(_verticalAngle) * Sin(_horizontalAngle),
+		Sin(_verticalAngle),
+		Cos(_verticalAngle) * Cos(_horizontalAngle),
 	};
 
-	const bx::Vec3 right =
+	const TVector3F right =
 	{
-		bx::sin(_horizontalAngle - bx::kPiHalf),
+		Sin(_horizontalAngle - M_PI_2),
 		0,
-		bx::cos(_horizontalAngle - bx::kPiHalf),
+		Cos(_horizontalAngle - M_PI_2),
 	};
 
-	const bx::Vec3 up = bx::cross(right, direction);
+	const TVector3F up = Cross(right, direction);
 
 	if (_keys & CAMERA_KEY_FORWARD)
 	{
-		const bx::Vec3 pos = _eye;
-		const bx::Vec3 tmp = bx::mul(direction, deltaTime * _moveSpeed);
+		const TVector3F pos = _eye;
+		const TVector3F tmp = direction * (deltaTime * _moveSpeed);
 
-		_eye = bx::add(pos, tmp);
+		_eye = pos + tmp;
 		SetKeyState(CAMERA_KEY_FORWARD, false);
 	}
 
 	if (_keys & CAMERA_KEY_BACKWARD)
 	{
-		const bx::Vec3 pos = _eye;
-		const bx::Vec3 tmp = bx::mul(direction, deltaTime * _moveSpeed);
+		const TVector3F pos = _eye;
+		const TVector3F tmp = direction * (deltaTime * _moveSpeed);
 
-		_eye = bx::sub(pos, tmp);
+		_eye = pos - tmp;
 		SetKeyState(CAMERA_KEY_BACKWARD, false);
 	}
 
 	if (_keys & CAMERA_KEY_LEFT)
 	{
-		const bx::Vec3 pos = _eye;
-		const bx::Vec3 tmp = bx::mul(right, deltaTime * _moveSpeed);
+		const TVector3F pos = _eye;
+		const TVector3F tmp = right * (deltaTime * _moveSpeed);
 
-		_eye = bx::add(pos, tmp);
+		_eye = pos + tmp;
 		SetKeyState(CAMERA_KEY_LEFT, false);
 	}
 
 	if (_keys & CAMERA_KEY_RIGHT)
 	{
-		const bx::Vec3 pos = _eye;
-		const bx::Vec3 tmp = bx::mul(right, deltaTime * _moveSpeed);
+		const TVector3F pos = _eye;
+		const TVector3F tmp = right * (deltaTime * _moveSpeed);
 
-		_eye = bx::sub(pos, tmp);
+		_eye = pos - tmp;
 		SetKeyState(CAMERA_KEY_RIGHT, false);
 	}
 
 	if (_keys & CAMERA_KEY_UP)
 	{
-		const bx::Vec3 pos = _eye;
-		const bx::Vec3 tmp = bx::mul(up, deltaTime * _moveSpeed);
+		const TVector3F pos = _eye;
+		const TVector3F tmp = up * (deltaTime * _moveSpeed);
 
-		_eye = bx::add(pos, tmp);
+		_eye = pos + tmp;
 		SetKeyState(CAMERA_KEY_UP, false);
 	}
 
 	if (_keys & CAMERA_KEY_DOWN)
 	{
-		const bx::Vec3 pos = _eye;
-		const bx::Vec3 tmp = bx::mul(up, deltaTime * _moveSpeed);
+		const TVector3F pos = _eye;
+		const TVector3F tmp = up * (deltaTime * _moveSpeed);
 
-		_eye = bx::sub(pos, tmp);
+		_eye = pos - tmp;
 		SetKeyState(CAMERA_KEY_DOWN, false);
 	}
 
-	_at = bx::add(_eye, direction);
-	_up = bx::cross(right, direction);
+	_at = _eye + direction;
+	_up = Cross(right, direction);
 }
 
 void ACameraComponent::GetViewMtx(float* viewMtx)
 {
-	bx::mtxLookAt(viewMtx, bx::load<bx::Vec3>(&_eye.x), bx::load<bx::Vec3>(&_at.x), bx::load<bx::Vec3>(&_up.x));
+	bx::Vec3 eye({ _eye._x ,_eye._y,_eye._z});
+	bx::Vec3 at({ _at._x ,_at._y,_at._z });
+	bx::Vec3 up({ _up._x ,_up._y,_up._z });
+
+	bx::mtxLookAt(viewMtx, bx::load<bx::Vec3>(&eye.x), bx::load<bx::Vec3>(&at.x), bx::load<bx::Vec3>(&up.x));
 }
 
-void ACameraComponent::SetPosition(const bx::Vec3& pos)
+void ACameraComponent::SetPosition(const TVector3F& pos)
 {
 	_eye = pos;
 }

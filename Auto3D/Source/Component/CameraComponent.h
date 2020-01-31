@@ -2,7 +2,9 @@
 #include "AutoConfig.h"
 #include "Component/ActorComponent.h"
 #include "Platform/PlatformDef.h"
-#include <bx/math.h>
+#include "Math/Vector3.h"
+
+
 
 #define CAMERA_KEY_FORWARD   UINT8_C(0x01)
 #define CAMERA_KEY_BACKWARD  UINT8_C(0x02)
@@ -33,7 +35,7 @@ public:
 
 	void GetViewMtx(float* viewMtx);
 
-	void SetPosition(const bx::Vec3& pos);
+	void SetPosition(const TVector3F& pos);
 
 	void SetVerticalAngle(float verticalAngle);
 
@@ -51,9 +53,9 @@ private:
 	MouseCoords _mouseNow;
 	MouseCoords _mouseLast;
 
-	bx::Vec3 _eye;
-	bx::Vec3 _at;
-	bx::Vec3 _up;
+	TVector3F _eye;
+	TVector3F _at;
+	TVector3F _up;
 	float _horizontalAngle;
 	float _verticalAngle;
 
