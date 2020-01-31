@@ -65,7 +65,6 @@ public:
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		actor->CreateComponent<ADefaultController>();
-		camera->SetVerticalAngle(-0.3f);
 		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
 
 		AActor* meshActor = world->CreateChild<AActor>();

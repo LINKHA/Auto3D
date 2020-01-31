@@ -1,7 +1,7 @@
 #include "Component/Controller.h"
 #include "Gameplay/Actor.h"
 #include "Debug/Log.h"
-
+#include "Component/ControllerManager.h"
 namespace Auto3D
 {
 
@@ -9,6 +9,7 @@ AController::AController() :
 	_isAttachToActor(false),
 	_attachedActor(nullptr)
 {
+	
 }
 
 AController::~AController()
@@ -20,6 +21,7 @@ void AController::BeginPlay()
 {
 	Super::BeginPlay();
 	AttachToActor(GetOwner());
+	GControllerManager::Get().RegisterController(this);
 }
 
 void AController::TickComponent(float deltaTime)
