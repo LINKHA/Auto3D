@@ -14,113 +14,17 @@
 namespace Auto3D
 {
 
-int CameraCmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
-{
-	AWorld* world = FWorldContext::Get().GetActiveWorld();
-	TVector<ACameraComponent*>& cameras = world->GetCameras();
-	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
-	{
-		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
-
-		if (_argc > 1)
-		{
-			if (0 == bx::strCmp(_argv[1], "forward"))
-			{
-				camera->SetKeyState(CAMERA_KEY_FORWARD, true);
-				return 0;
-			}
-			else if (0 == bx::strCmp(_argv[1], "left"))
-			{
-				camera->SetKeyState(CAMERA_KEY_LEFT, true);
-				return 0;
-			}
-			else if (0 == bx::strCmp(_argv[1], "right"))
-			{
-				camera->SetKeyState(CAMERA_KEY_RIGHT, true);
-				return 0;
-			}
-			else if (0 == bx::strCmp(_argv[1], "backward"))
-			{
-				camera->SetKeyState(CAMERA_KEY_BACKWARD, true);
-				return 0;
-			}
-			else if (0 == bx::strCmp(_argv[1], "up"))
-			{
-				camera->SetKeyState(CAMERA_KEY_UP, true);
-				return 0;
-			}
-			else if (0 == bx::strCmp(_argv[1], "down"))
-			{
-				camera->SetKeyState(CAMERA_KEY_DOWN, true);
-				return 0;
-			}
-		}
-	}
-	return 1;
-}
-
-static void CameraCmd(const void* _userData)
-{
-	CmdExec((const char*)_userData);
-}
-
-static const InputBinding s_camBindings[] =
-{
-	{ Auto3D::Key::KeyW,             Auto3D::Modifier::None, 0, CameraCmd, "move forward"  },
-	{ Auto3D::Key::GamepadUp,        Auto3D::Modifier::None, 0, CameraCmd, "move forward"  },
-	{ Auto3D::Key::KeyA,             Auto3D::Modifier::None, 0, CameraCmd, "move left"     },
-	{ Auto3D::Key::GamepadLeft,      Auto3D::Modifier::None, 0, CameraCmd, "move left"     },
-	{ Auto3D::Key::KeyS,             Auto3D::Modifier::None, 0, CameraCmd, "move backward" },
-	{ Auto3D::Key::GamepadDown,      Auto3D::Modifier::None, 0, CameraCmd, "move backward" },
-	{ Auto3D::Key::KeyD,             Auto3D::Modifier::None, 0, CameraCmd, "move right"    },
-	{ Auto3D::Key::GamepadRight,     Auto3D::Modifier::None, 0, CameraCmd, "move right"    },
-	{ Auto3D::Key::KeyQ,             Auto3D::Modifier::None, 0, CameraCmd, "move down"     },
-	{ Auto3D::Key::GamepadShoulderL, Auto3D::Modifier::None, 0, CameraCmd, "move down"     },
-	{ Auto3D::Key::KeyE,             Auto3D::Modifier::None, 0, CameraCmd, "move up"       },
-	{ Auto3D::Key::GamepadShoulderR, Auto3D::Modifier::None, 0, CameraCmd, "move up"       },
-
-	INPUT_BINDING_END
-};
-
-struct CameraInputRegister
-{
-	CameraInputRegister()
-	{
-		CmdAdd("move", CameraCmdMove);
-		InputAddBindings("camBindings", s_camBindings);
-	}
-	~CameraInputRegister()
-	{
-		InputRemoveBindings("camBindings");
-	}
-	static void CheckAddRegister()
-	{
-		if (camerNum == 0)
-			cameraInputRegister = new CameraInputRegister();
-		camerNum++;
-	}
-	static void CheckRemoveRegister()
-	{
-		camerNum--;
-		//if (camerNum == 0)
-			//delete cameraInputRegister;
-	}
-	static int camerNum;
-	static CameraInputRegister* cameraInputRegister;
-};
-int CameraInputRegister::camerNum = 0;
-CameraInputRegister* CameraInputRegister::cameraInputRegister;
 
 ACameraComponent::ACameraComponent()
 {
 	Reset();
-	Update(0.0f);
-	CameraInputRegister::CheckAddRegister();
+	//Update(0.0f);
+	//CameraInputRegister::CheckAddRegister();
 }
 
 ACameraComponent::~ACameraComponent()
 {
-	CameraInputRegister::CheckRemoveRegister();
+	//CameraInputRegister::CheckRemoveRegister();
 }
 
 void ACameraComponent::BeginPlay()
@@ -131,7 +35,7 @@ void ACameraComponent::BeginPlay()
 void ACameraComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
-	Update(deltaTime);
+	//Update(deltaTime);
 }
 
 void ACameraComponent::Reset()

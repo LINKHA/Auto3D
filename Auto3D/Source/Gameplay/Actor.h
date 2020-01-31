@@ -179,7 +179,7 @@ public:
 	/// Find components of specified type.
 	void FindComponents(TVector<AActorComponent*>& result, FString childType, bool recursive = false) const;
 	/// Return first component of specified type, template version.
-	template <typename _Ty> _Ty* FindComponent(bool recursive = false) const { return static_cast<_Ty*>(FindChild(RtToStr(FType::get<_Ty>().get_name(), recursive))); }
+	template <typename _Ty> _Ty* FindComponent(bool recursive = false) const { return static_cast<_Ty*>(FindComponent(RtToStr(FType::get<_Ty>().get_name()), recursive)); }
 	/// Find components of specified type, template version.
 	template <typename _Ty> void FindComponents(TVector<_Ty*>& result, bool recursive = false) const { return FindComponents(reinterpret_cast<TVector<AActorComponent*>&>(result), _Ty::GetTypeHashStatic(), recursive); }
 

@@ -571,8 +571,6 @@ void AActor::AddComponent(AActorComponent* component)
 {
 	if (component)
 	{
-		FString ss = RtToStr(FType::get(*component).get_name());
-
 		_ownedComponents[RtToStr(FType::get(*component).get_name())] = component;
 
 		if (FType::get(*component) == FType::get<ACameraComponent>())
@@ -645,11 +643,11 @@ void AActor::GetAllComponents(TVector<AActorComponent*>& result, bool recursive)
 
 AActorComponent* AActor::FindComponent(FString childType, bool recursive) const
 {
-	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	auto it = _ownedComponents.Find(childType);
+	if (it != _ownedComponents.End())
 	{
 		AActorComponent* comp = it->_second;
-		if (FType::get(comp) == FType::get_by_name(childType.CString()))
-			return comp;
+		return comp;
 	}
 
 	if (recursive)

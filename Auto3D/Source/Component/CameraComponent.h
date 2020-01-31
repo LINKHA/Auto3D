@@ -41,8 +41,20 @@ public:
 
 	void SetHorizontalAngle(float horizontalAngle);
 
-private:
 	void Update(float deltaTime);
+private:
+
+	TVector3F _eye;
+	TVector3F _at;
+	TVector3F _up;
+	
+
+	float _mouseSpeed;
+	float _gamepadSpeed;
+	float _moveSpeed;
+
+	uint8_t _keys;
+	bool _mouseDown;
 
 	struct MouseCoords
 	{
@@ -53,18 +65,8 @@ private:
 	MouseCoords _mouseNow;
 	MouseCoords _mouseLast;
 
-	TVector3F _eye;
-	TVector3F _at;
-	TVector3F _up;
 	float _horizontalAngle;
 	float _verticalAngle;
-
-	float _mouseSpeed;
-	float _gamepadSpeed;
-	float _moveSpeed;
-
-	uint8_t _keys;
-	bool _mouseDown;
 };
 
 }

@@ -8,6 +8,7 @@
 #include "Component/CameraComponent.h"
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
+#include "Component/DefaultController.h"
 
 #include "Serialization/ToJson.h"
 #include "Serialization/FromJson.h"
@@ -62,6 +63,7 @@ public:
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
+		actor->CreateComponent<ADefaultController>();
 		camera->SetPosition({ 0.0f, 1.0f, -2.5f });
 		camera->SetVerticalAngle(-0.3f);
 
