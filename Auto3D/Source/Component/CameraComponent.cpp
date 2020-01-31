@@ -18,13 +18,10 @@ namespace Auto3D
 ACameraComponent::ACameraComponent()
 {
 	Reset();
-	//Update(0.0f);
-	//CameraInputRegister::CheckAddRegister();
 }
 
 ACameraComponent::~ACameraComponent()
 {
-	//CameraInputRegister::CheckRemoveRegister();
 }
 
 void ACameraComponent::BeginPlay()
@@ -35,7 +32,6 @@ void ACameraComponent::BeginPlay()
 void ACameraComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
-	//Update(deltaTime);
 }
 
 void ACameraComponent::Reset()
