@@ -1,6 +1,6 @@
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
-
+#include "Serialization/Serialization.h"
 
 namespace Auto3D
 {
@@ -93,9 +93,10 @@ void AWorld::RemoveCamera(ACameraComponent* camera)
 		_cameras.Remove(camera);
 }
 
-bool AWorld::SaveJson(const FString& path)
+bool AWorld::SaveJson(FStream& dest)
 {
-	return true;
+	GSerializationModule& serialization = GSerializationModule::Get();
+	return serialization.SaveRootJSON(dest, this);
 }
 
 bool AWorld::LoadJson(const FString& path)
@@ -109,5 +110,71 @@ void AWorld::Clear()
 	_nextNodeId = 1;
 }
 
+void AWorld::DefineLayer(unsigned char index, const FString& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+	_defineLayers[name] = index;
+}
+
+void AWorld::DefineTag(unsigned char index, const FString& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+	_defineTags[name] = index;
+}
+
+
+void AWorld::SetLayerNamesAttr(FJSONValue names)
+{
+	_defineLayers.Clear();
+
+	const JSONArray& array = names.GetArray();
+	for (size_t i = 0; i < array.Size(); ++i)
+	{
+		const FString& name = array[i].GetString();
+		_defineLayers[name] = (unsigned char)i;
+	}
+}
+
+FJSONValue AWorld::GetLayerNamesAttr() const
+{
+	FJSONValue ret;
+
+	ret.SetEmptyArray();
+	for (auto it = _defineLayers.Begin(); it != _defineLayers.End(); ++it)
+		ret.Push(it->_first);
+
+	return ret;
+}
+
+void AWorld::SetTagNamesAttr(FJSONValue names)
+{
+	_defineTags.Clear();
+
+	const JSONArray& array = names.GetArray();
+	for (size_t i = 0; i < array.Size(); ++i)
+	{
+		const FString& name = array[i].GetString();
+		_defineTags[name] = (unsigned char)i;
+	}
+}
+
+FJSONValue AWorld::GetTagNamesAttr() const
+{
+	FJSONValue ret;
+
+	ret.SetEmptyArray();
+	for (auto it = _defineTags.Begin(); it != _defineTags.End(); ++it)
+		ret.Push(it->_first);
+
+	return ret;
+}
 
 }

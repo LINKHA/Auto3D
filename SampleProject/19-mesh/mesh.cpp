@@ -12,6 +12,10 @@
 #include "Serialization/ToJson.h"
 #include "Serialization/FromJson.h"
 
+#include "IO/FileSystem.h"
+#include "IO/Stream.h"
+#include "IO/File.h"
+
 using namespace Auto3D;
 
 namespace
@@ -51,6 +55,10 @@ public:
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
+		world->DefineLayer(0, "Default");
+		world->DefineLayer(1, "UI");
+		world->DefineTag(0, "Default");
+		world->DefineTag(1, "Player");
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
@@ -60,11 +68,14 @@ public:
 		AActor* meshActor = world->CreateChild<AActor>();
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 
-		actor->SetName("asd");
+		
 
-		ToJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json",world); // serialize the circle to 'json_string'
+		FString fileJsonName = "Serialize_SerializeFile.json";
+		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));
+		world->SaveJson(*streamJson);
+		//ToJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json",world); // serialize the circle to 'json_string'
 
-		FromJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json");
+		//FromJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json");
 	}
 
 	int shutdown() override

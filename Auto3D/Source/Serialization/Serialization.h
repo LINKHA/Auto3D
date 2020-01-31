@@ -6,6 +6,7 @@
 #include "Math/AutoMath.h"
 #include "IO/ObjectRef.h"
 #include "Debug/Log.h"
+#include "Container/Singleton.h"
 
 namespace Auto3D
 {
@@ -59,15 +60,16 @@ struct FPropertyType
 	EPropertyType::Type _type;
 };
 
-class AUTO_API FSerializationModule : public FRefCounted
+class AUTO_API GSerializationModule : public FRefCounted
 {
+	REGISTER_SINGLETON(GSerializationModule)
 public:
 	/// Construct and register subsystem.
-	FSerializationModule():
+	GSerializationModule():
 		_modelMaterialsFlag(false)
 	{}
 	/// Destruct.
-	~FSerializationModule() {}
+	~GSerializationModule() {}
 	
 	/// Save all nodes under the scene as a JSON format file.
 	bool SaveRootJSON(FStream& dest, AWorld* scene);

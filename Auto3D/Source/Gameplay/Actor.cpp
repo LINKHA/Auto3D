@@ -5,8 +5,9 @@
 #include "Component/Transform.h"
 #include "Component/CameraComponent.h"
 
-//#include "IO/Stream.h"
-//#include "Resource/JSONFile.h"
+#include "IO/Stream.h"
+#include "IO/JSONFile.h"
+
 #include "Gameplay/World.h"
 
 #include "Debug/DebugNew.h"
@@ -102,13 +103,13 @@ void AActor::SetLayerName(const FString& newLayerName)
     if (!_world)
         return;
     
-	/*const THashMap<FString, unsigned char>& layers = _world->Layers();
+	const THashMap<FString, unsigned char>& layers = _world->Layers();
 
 	auto it = layers.Find(newLayerName);
 	if (it != layers.End())
 		SetLayer(it->_second);
 	else
-		ErrorString("Layer " + newLayerName + " not defined in the scene");*/
+		ErrorString("Layer " + newLayerName + " not defined in the scene");
 
 }
 
@@ -125,13 +126,13 @@ void AActor::SetTagName(const FString& newTagName)
 	if (!_world)
 		return;
 
-	/*const THashMap<FString, unsigned char>& tags = _world->Tags();
+	const THashMap<FString, unsigned char>& tags = _world->Tags();
 
 	auto it = tags.Find(newTagName);
 	if (it != tags.End())
 		SetTag(it->_second);
 	else
-		ErrorString("Tag " + newTagName + " not defined in the scene");*/
+		ErrorString("Tag " + newTagName + " not defined in the scene");
 
 }
 
@@ -300,41 +301,41 @@ void AActor::RemoveSelf()
 
 const FString& AActor::GetLayerName() const
 {
-	//if (!_world)
-	//	return FString::EMPTY;
+	if (!_world)
+		return FString::EMPTY;
 
-	//const THashMap<FString, unsigned char>& layers = _world->Layers();
+	const THashMap<FString, unsigned char>& layers = _world->Layers();
 
-	//// Find value with layouts.
-	//for (auto it = layers.Begin(); it != layers.End(); ++it)
-	//{
-	//	if (it->_second == _layer)
-	//	{
-	//		return it->_first;
-	//	}
-	//}
+	// Find value with layouts.
+	for (auto it = layers.Begin(); it != layers.End(); ++it)
+	{
+		if (it->_second == _layer)
+		{
+			return it->_first;
+		}
+	}
 
-	//ErrorString("Fail find this layer from scene define layers");
+	ErrorString("Fail find this layer from scene define layers");
 	return FString::EMPTY;
 }
 
 const FString& AActor::GetTagName() const
 {
-	//if (!_world)
-	//	return FString::EMPTY;
+	if (!_world)
+		return FString::EMPTY;
 
-	//const THashMap<FString, unsigned char>& tags = _world->Tags();
+	const THashMap<FString, unsigned char>& tags = _world->Tags();
 
-	//// Find value with tags.
-	//for (auto it = tags.Begin(); it != tags.End(); ++it)
-	//{
-	//	if (it->_second == _tag)
-	//	{
-	//		return it->_first;
-	//	}
-	//}
+	// Find value with tags.
+	for (auto it = tags.Begin(); it != tags.End(); ++it)
+	{
+		if (it->_second == _tag)
+		{
+			return it->_first;
+		}
+	}
 
-	//ErrorString("Fail find this tag from scene define tags");
+	ErrorString("Fail find this tag from scene define tags");
 	return FString::EMPTY;
 }
 

@@ -827,13 +827,13 @@ template <typename _Ty> void Swap(TUniquePtr<_Ty>& first, TUniquePtr<_Ty>& secon
 }
 
 /// Construct TUniquePtr.
-template <typename _Ty, typename ... _Args> TUniquePtr<_Ty> MakeUnique(_Args&& ... args)
+template <typename _Ty, typename ... _Args> TUniquePtr<_Ty> _MakeUnique(_Args&& ... args)
 {
 	return TUniquePtr<_Ty>(new _Ty(std::forward<_Args>(args)...));
 }
 
 /// Construct TSharedPtr.
-template <typename _Ty, typename ... _Args> TSharedPtr<_Ty> MakeShared(_Args&& ... args)
+template <typename _Ty, typename ... _Args> TSharedPtr<_Ty> _MakeShared(_Args&& ... args)
 {
 	return TSharedPtr<_Ty>(new _Ty(std::forward<_Args>(args)...));
 }

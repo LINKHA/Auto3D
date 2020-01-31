@@ -1,0 +1,37 @@
+{
+  "type": "AWorld",
+  "id": 1,
+  "name": "world",
+  "enabled": true,
+  "temporary": false,
+  "layer": 0,
+  "tag": 0,
+  "layerNames": [
+    "Default",
+    "UI"
+  ],
+  "tagNames": [
+    "Default",
+    "Player"
+  ],
+  "children": [
+    {
+      "type": "AActor",
+      "id": 2,
+      "name": "",
+      "enabled": true,
+      "temporary": false,
+      "layer": 0,
+      "tag": 0
+    },
+    {
+      "type": "AActor",
+      "id": 3,
+      "name": "",
+      "enabled": true,
+      "temporary": false,
+      "layer": 0,
+      "tag": 0
+    }
+  ]
+}

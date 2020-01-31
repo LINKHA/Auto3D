@@ -104,7 +104,9 @@ void FPropertyType::SetType(const FType& type)
 	}
 }
 
-bool FSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
+IMPLEMENT_SINGLETON(GSerializationModule)
+
+bool GSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
 {
 	PROFILE(SaveSceneJSON);
 
@@ -115,7 +117,7 @@ bool FSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
 	return json.Save(dest);
 }
 
-bool FSerializationModule::LoadRootJSON(FStream& source, AWorld* scene)
+bool GSerializationModule::LoadRootJSON(FStream& source, AWorld* scene)
 {
 	PROFILE(LoadSceneJSON);
 	InfoString("Loading scene from " + source.GetName());
@@ -126,7 +128,7 @@ bool FSerializationModule::LoadRootJSON(FStream& source, AWorld* scene)
 	return success;
 }
 
-bool FSerializationModule::LoadRootJSON(const FJSONValue& source, AWorld* scene)
+bool GSerializationModule::LoadRootJSON(const FJSONValue& source, AWorld* scene)
 {
 	FString ownType = source["type"].GetString();
 	unsigned ownId = (unsigned)source["id"].GetNumber();
@@ -143,7 +145,7 @@ bool FSerializationModule::LoadRootJSON(const FJSONValue& source, AWorld* scene)
 	return true;
 }
 
-bool FSerializationModule::SaveRoot(FStream& dest, AWorld* scene)
+bool GSerializationModule::SaveRoot(FStream& dest, AWorld* scene)
 {
 	PROFILE(SaveScene);
 
@@ -155,7 +157,7 @@ bool FSerializationModule::SaveRoot(FStream& dest, AWorld* scene)
 	return true;
 }
 
-bool FSerializationModule::LoadRoot(FStream& source, AWorld* scene)
+bool GSerializationModule::LoadRoot(FStream& source, AWorld* scene)
 {
 	PROFILE(LoadScene);
 
@@ -183,7 +185,7 @@ bool FSerializationModule::LoadRoot(FStream& source, AWorld* scene)
 }
 
 //////////////////////////////////////////////////////////////////////////
-void FSerializationModule::SaveJSON(FJSONValue& dest, AActor* node)
+void GSerializationModule::SaveJSON(FJSONValue& dest, AActor* node)
 {
 	dest["type"] = RtToStr(FType::get(*node).get_name());
 	dest["id"] = node->GetId();
@@ -208,7 +210,7 @@ void FSerializationModule::SaveJSON(FJSONValue& dest, AActor* node)
 	}
 }
 
-void FSerializationModule::SavePropertyJSONs(FJSONValue& dest, AActor* node)
+void GSerializationModule::SavePropertyJSONs(FJSONValue& dest, AActor* node)
 {
 	FType type = FType::get(*node);
 
@@ -218,7 +220,7 @@ void FSerializationModule::SavePropertyJSONs(FJSONValue& dest, AActor* node)
 			SavePropertyJSON(dest, prop, node);
 	}
 }
-void FSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& prop, AActor* node)
+void GSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& prop, AActor* node)
 {
 	FType type = prop.get_type();
 	FPropertyType propertyType(type);
@@ -320,7 +322,7 @@ void FSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& p
 	}
 }
 
-void FSerializationModule::LoadJSON(const FJSONValue& source, AActor* node)
+void GSerializationModule::LoadJSON(const FJSONValue& source, AActor* node)
 {
 	// Load property to node
 	LoadPropertyJSONs(source, node);
@@ -343,7 +345,7 @@ void FSerializationModule::LoadJSON(const FJSONValue& source, AActor* node)
 
 }
 
-void FSerializationModule::LoadPropertyJSONs(const FJSONValue& source, AActor* node)
+void GSerializationModule::LoadPropertyJSONs(const FJSONValue& source, AActor* node)
 {
 	FType type = FType::get(*node);
 
@@ -400,7 +402,7 @@ void FSerializationModule::LoadPropertyJSONs(const FJSONValue& source, AActor* n
 	_modelMaterialsFlag = false;
 }
 
-void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FProperty& prop, AActor* node)
+void GSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FProperty& prop, AActor* node)
 {
 	FType type = prop.get_type();
 	FPropertyType propertyType(type);
@@ -567,7 +569,7 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 	}
 }
 
-void FSerializationModule::Save(FStream& dest, AActor* node)
+void GSerializationModule::Save(FStream& dest, AActor* node)
 {
 	// Write type and ID first, followed by attributes and child nodes
 	dest.Write(RtToStr(FType::get(*node).get_name()));
@@ -586,7 +588,7 @@ void FSerializationModule::Save(FStream& dest, AActor* node)
 	}
 }
 
-void FSerializationModule::SavePropertys(FStream& dest, AActor* node)
+void GSerializationModule::SavePropertys(FStream& dest, AActor* node)
 {
 	FType type = FType::get(*node);
 
@@ -606,7 +608,7 @@ void FSerializationModule::SavePropertys(FStream& dest, AActor* node)
 
 }
 
-void FSerializationModule::SaveProperty(FStream& dest, const FProperty& prop, AActor* node)
+void GSerializationModule::SaveProperty(FStream& dest, const FProperty& prop, AActor* node)
 {
 	FType type = prop.get_type();
 	FPropertyType propertyType(type);
@@ -711,7 +713,7 @@ void FSerializationModule::SaveProperty(FStream& dest, const FProperty& prop, AA
 	}
 }
 
-void FSerializationModule::Load(FStream& source, AActor* node)
+void GSerializationModule::Load(FStream& source, AActor* node)
 {
 	// Load property to node
 	LoadPropertys(source, node);
@@ -731,7 +733,7 @@ void FSerializationModule::Load(FStream& source, AActor* node)
 	}
 }
 
-void FSerializationModule::LoadPropertys(FStream& source, AActor* node)
+void GSerializationModule::LoadPropertys(FStream& source, AActor* node)
 {
 	FType type = FType::get(*node);
 
@@ -778,7 +780,7 @@ void FSerializationModule::LoadPropertys(FStream& source, AActor* node)
 	}
 }
 
-void FSerializationModule::LoadProperty(FStream& source, const FProperty& prop, AActor* node)
+void GSerializationModule::LoadProperty(FStream& source, const FProperty& prop, AActor* node)
 {
 	FType type = prop.get_type();
 	FPropertyType propertyType(type);
