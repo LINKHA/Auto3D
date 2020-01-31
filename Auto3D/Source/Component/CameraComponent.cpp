@@ -42,15 +42,6 @@ void ACameraComponent::Reset()
 	_mouseNow._my = 0;
 	_mouseLast._mx = 0;
 	_mouseLast._my = 0;
-	_eye._x = 0.0f;
-	_eye._y = 0.0f;
-	_eye._z = -35.0f;
-	_at._x = 0.0f;
-	_at._y = 0.0f;
-	_at._z = -1.0f;
-	_up._x = 0.0f;
-	_up._y = 1.0f;
-	_up._z = 0.0f;
 	_horizontalAngle = 0.01f;
 	_verticalAngle = 0.0f;
 	_mouseSpeed = 0.0020f;
@@ -105,78 +96,51 @@ void ACameraComponent::Update(float deltaTime)
 	_keys |= gpy < -16834 ? CAMERA_KEY_FORWARD : 0;
 	_keys |= gpy > 16834 ? CAMERA_KEY_BACKWARD : 0;
 
-	const TVector3F direction =
-	{
-		Cos(_verticalAngle) * Sin(_horizontalAngle),
-		Sin(_verticalAngle),
-		Cos(_verticalAngle) * Cos(_horizontalAngle),
-	};
 
-	const TVector3F right =
-	{
-		Sin(_horizontalAngle - M_PI_2),
-		0,
-		Cos(_horizontalAngle - M_PI_2),
-	};
-
-	const TVector3F up = Cross(right, direction);
+	ATransform* ownerTransform = GetOwner()->GetTransform();
+	ownerTransform->SetRotation(FQuaternion(-_verticalAngle * 50, _horizontalAngle * 50, 0.0f));
 
 	if (_keys & CAMERA_KEY_FORWARD)
 	{
-		const TVector3F pos = _eye;
-		const TVector3F tmp = direction * (deltaTime * _moveSpeed);
+		ownerTransform->Translate(TVector3F::FORWARD * deltaTime * _moveSpeed);
 
-		_eye = pos + tmp;
 		SetKeyState(CAMERA_KEY_FORWARD, false);
 	}
 
 	if (_keys & CAMERA_KEY_BACKWARD)
 	{
-		const TVector3F pos = _eye;
-		const TVector3F tmp = direction * (deltaTime * _moveSpeed);
+		ownerTransform->Translate(TVector3F::BACK * deltaTime * _moveSpeed);
 
-		_eye = pos - tmp;
 		SetKeyState(CAMERA_KEY_BACKWARD, false);
 	}
 
 	if (_keys & CAMERA_KEY_LEFT)
 	{
-		const TVector3F pos = _eye;
-		const TVector3F tmp = right * (deltaTime * _moveSpeed);
+		ownerTransform->Translate(TVector3F::LEFT  * deltaTime * _moveSpeed);
 
-		_eye = pos + tmp;
 		SetKeyState(CAMERA_KEY_LEFT, false);
 	}
 
 	if (_keys & CAMERA_KEY_RIGHT)
 	{
-		const TVector3F pos = _eye;
-		const TVector3F tmp = right * (deltaTime * _moveSpeed);
+		ownerTransform->Translate(TVector3F::RIGHT * deltaTime * _moveSpeed);
 
-		_eye = pos - tmp;
 		SetKeyState(CAMERA_KEY_RIGHT, false);
 	}
 
 	if (_keys & CAMERA_KEY_UP)
 	{
-		const TVector3F pos = _eye;
-		const TVector3F tmp = up * (deltaTime * _moveSpeed);
+		ownerTransform->Translate(TVector3F::UP * deltaTime * _moveSpeed);
 
-		_eye = pos + tmp;
 		SetKeyState(CAMERA_KEY_UP, false);
 	}
 
 	if (_keys & CAMERA_KEY_DOWN)
 	{
-		const TVector3F pos = _eye;
-		const TVector3F tmp = up * (deltaTime * _moveSpeed);
+		ownerTransform->Translate(TVector3F::DOWN * deltaTime * _moveSpeed);
 
-		_eye = pos - tmp;
 		SetKeyState(CAMERA_KEY_DOWN, false);
 	}
-
-	_at = _eye + direction;
-	_up = Cross(right, direction);
 }
 
 TMatrix3x4F ACameraComponent::EffectiveWorldTransform() const
@@ -198,11 +162,6 @@ const TMatrix3x4F& ACameraComponent::GetViewMatrix()
 		_viewMatrix = EffectiveWorldTransform().Inverse();
 
 	return _viewMatrix;
-}
-
-void ACameraComponent::SetPosition(const TVector3F& pos)
-{
-	_eye = pos;
 }
 
 void ACameraComponent::SetVerticalAngle(float verticalAngle)

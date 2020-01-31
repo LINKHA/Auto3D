@@ -38,20 +38,12 @@ public:
 
 	const TMatrix3x4F& GetViewMatrix();
 
-	void SetPosition(const TVector3F& pos);
-
 	void SetVerticalAngle(float verticalAngle);
 
 	void SetHorizontalAngle(float horizontalAngle);
 
 	void Update(float deltaTime);
 private:
-
-	TVector3F _eye;
-	TVector3F _at;
-	TVector3F _up;
-	
-
 	float _mouseSpeed;
 	float _gamepadSpeed;
 	float _moveSpeed;
