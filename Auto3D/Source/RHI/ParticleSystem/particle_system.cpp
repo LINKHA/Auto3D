@@ -190,7 +190,7 @@ namespace ps
 			m_dt = 0.0f;
 			m_uniforms.reset();
 			m_num = 0;
-			bx::memSet(&m_aabb, 0, sizeof(Aabb) );
+			bx::memSet(&_aabb, 0, sizeof(Aabb) );
 
 			m_rng.reset();
 		}
@@ -413,7 +413,7 @@ namespace ps
 				++vertex;
 			}
 
-			m_aabb = aabb;
+			_aabb = aabb;
 
 			return m_num;
 		}
@@ -425,7 +425,7 @@ namespace ps
 		bx::RngMwc      m_rng;
 		EmitterUniforms m_uniforms;
 
-		Aabb m_aabb;
+		Aabb _aabb;
 
 		Particle* m_particles;
 		uint32_t m_num;
@@ -459,7 +459,7 @@ namespace ps
 			m_num = 0;
 
 			s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-			m_texture  = bgfx::createTexture2D(
+			_texture  = bgfx::createTexture2D(
 				  SPRITE_TEXTURE_SIZE
 				, SPRITE_TEXTURE_SIZE
 				, false
@@ -478,7 +478,7 @@ namespace ps
 		void shutdown()
 		{
 			bgfx::destroy(m_particleProgram);
-			bgfx::destroy(m_texture);
+			bgfx::destroy(_texture);
 			bgfx::destroy(s_texColor);
 
 			bx::destroyHandleAlloc(m_allocator, m_emitterAlloc);
@@ -495,7 +495,7 @@ namespace ps
 			{
 				const Pack2D& pack = m_sprite.get(handle);
 				bgfx::updateTexture2D(
-						m_texture
+						_texture
 						, 0
 						, 0
 						, pack.m_x
@@ -606,7 +606,7 @@ namespace ps
 						);
 					bgfx::setVertexBuffer(0, &tvb);
 					bgfx::setIndexBuffer(&tib);
-					bgfx::setTexture(0, s_texColor, m_texture);
+					bgfx::setTexture(0, s_texColor, _texture);
 					bgfx::submit(_view, m_particleProgram);
 				}
 			}
@@ -649,7 +649,7 @@ namespace ps
 				, "getAabb handle %d is not valid."
 				, _handle.idx
 				);
-			_outAabb = m_emitter[_handle.idx].m_aabb;
+			_outAabb = m_emitter[_handle.idx]._aabb;
 		}
 
 		void destroyEmitter(EmitterHandle _handle)
@@ -672,7 +672,7 @@ namespace ps
 		Sprite m_sprite;
 
 		bgfx::UniformHandle s_texColor;
-		bgfx::TextureHandle m_texture;
+		bgfx::TextureHandle _texture;
 		bgfx::ProgramHandle m_particleProgram;
 
 		uint32_t m_num;

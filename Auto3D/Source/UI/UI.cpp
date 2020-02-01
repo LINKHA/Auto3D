@@ -63,15 +63,15 @@ struct OcornutImguiContext
 		const float width  = io.DisplaySize.x;
 		const float height = io.DisplaySize.y;
 
-		bgfx::setViewName(m_viewId, "ImGui");
-		bgfx::setViewMode(m_viewId, bgfx::ViewMode::Sequential);
+		bgfx::setViewName(_viewId, "ImGui");
+		bgfx::setViewMode(_viewId, bgfx::ViewMode::Sequential);
 
 		const bgfx::Caps* caps = bgfx::getCaps();
 		{
 			float ortho[16];
 			bx::mtxOrtho(ortho, 0.0f, width, height, 0.0f, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);
-			bgfx::setViewTransform(m_viewId, NULL, ortho);
-			bgfx::setViewRect(m_viewId, 0, 0, uint16_t(width), uint16_t(height) );
+			bgfx::setViewTransform(_viewId, NULL, ortho);
+			bgfx::setViewRect(_viewId, 0, 0, uint16_t(width), uint16_t(height) );
 		}
 
 		// Render command lists
@@ -84,13 +84,13 @@ struct OcornutImguiContext
 			uint32_t numVertices = (uint32_t)drawList->VtxBuffer.size();
 			uint32_t numIndices  = (uint32_t)drawList->IdxBuffer.size();
 
-			if (!checkAvailTransientBuffers(numVertices, m_layout, numIndices) )
+			if (!checkAvailTransientBuffers(numVertices, _layout, numIndices) )
 			{
 				// not enough space in transient buffer just quit drawing the rest...
 				break;
 			}
 
-			bgfx::allocTransientVertexBuffer(&tvb, numVertices, m_layout);
+			bgfx::allocTransientVertexBuffer(&tvb, numVertices, _layout);
 			bgfx::allocTransientIndexBuffer(&tib, numIndices);
 
 			ImDrawVert* verts = (ImDrawVert*)tvb.data;
@@ -114,8 +114,8 @@ struct OcornutImguiContext
 						| BGFX_STATE_MSAA
 						;
 
-					bgfx::TextureHandle th = m_texture;
-					bgfx::ProgramHandle program = m_program;
+					bgfx::TextureHandle th = _texture;
+					bgfx::ProgramHandle program = _program;
 
 					if (NULL != cmd->TextureId)
 					{
@@ -148,7 +148,7 @@ struct OcornutImguiContext
 					bgfx::setTexture(0, s_tex, th);
 					bgfx::setVertexBuffer(0, &tvb, 0, numVertices);
 					bgfx::setIndexBuffer(&tib, offset, cmd->ElemCount);
-					bgfx::submit(m_viewId, program);
+					bgfx::submit(_viewId, program);
 				}
 
 				offset += cmd->ElemCount;
@@ -166,7 +166,7 @@ struct OcornutImguiContext
 			m_allocator = &allocator;
 		}
 
-		m_viewId = 255;
+		_viewId = 255;
 		m_lastScroll = 0;
 		m_last = bx::getHPCounter();
 
@@ -229,7 +229,7 @@ struct OcornutImguiContext
 #endif // USE_ENTRY
 
 		bgfx::RendererType::Enum type = bgfx::getRendererType();
-		m_program = bgfx::createProgram(
+		_program = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_ocornut_imgui")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_ocornut_imgui")
 			, true
@@ -242,7 +242,7 @@ struct OcornutImguiContext
 			, true
 			);
 
-		m_layout
+		_layout
 			.begin()
 			.add(bgfx::Attrib::Position,  2, bgfx::AttribType::Float)
 			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
@@ -282,7 +282,7 @@ struct OcornutImguiContext
 
 		io.Fonts->GetTexDataAsRGBA32(&data, &width, &height);
 
-		m_texture = bgfx::createTexture2D(
+		_texture = bgfx::createTexture2D(
 			  (uint16_t)width
 			, (uint16_t)height
 			, false
@@ -301,11 +301,11 @@ struct OcornutImguiContext
 		ImGui::DestroyContext(m_imgui);
 
 		bgfx::destroy(s_tex);
-		bgfx::destroy(m_texture);
+		bgfx::destroy(_texture);
 
 		bgfx::destroy(u_imageLodEnabled);
 		bgfx::destroy(m_imageProgram);
-		bgfx::destroy(m_program);
+		bgfx::destroy(_program);
 
 		m_allocator = NULL;
 	}
@@ -339,7 +339,7 @@ struct OcornutImguiContext
 		, bgfx::ViewId _viewId
 		)
 	{
-		m_viewId = _viewId;
+		_viewId = _viewId;
 
 		ImGuiIO& io = ImGui::GetIO();
 		if (_inputChar >= 0)
@@ -386,16 +386,16 @@ struct OcornutImguiContext
 
 	ImGuiContext*       m_imgui;
 	bx::AllocatorI*     m_allocator;
-	bgfx::VertexLayout  m_layout;
-	bgfx::ProgramHandle m_program;
+	bgfx::VertexLayout  _layout;
+	bgfx::ProgramHandle _program;
 	bgfx::ProgramHandle m_imageProgram;
-	bgfx::TextureHandle m_texture;
+	bgfx::TextureHandle _texture;
 	bgfx::UniformHandle s_tex;
 	bgfx::UniformHandle u_imageLodEnabled;
 	ImFont* m_font[ImGui::Font::Count];
 	int64_t m_last;
 	int32_t m_lastScroll;
-	bgfx::ViewId m_viewId;
+	bgfx::ViewId _viewId;
 };
 
 static OcornutImguiContext s_ctx;

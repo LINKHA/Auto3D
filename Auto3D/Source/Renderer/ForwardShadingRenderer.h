@@ -12,12 +12,12 @@
 namespace Auto3D
 {
 
-class Mesh;
+class FMesh;
 
 struct GBox
 {
 	static int64_t _timeOffset;
-	static Mesh* _mesh;
+	static FMesh* _mesh;
 	static bgfx::ProgramHandle _program;
 	static bgfx::UniformHandle _time;
 	static MouseState _mouseState;

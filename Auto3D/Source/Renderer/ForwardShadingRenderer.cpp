@@ -5,6 +5,9 @@
 #include "Time/Time.h"
 #include "Component/MeshComponent.h"
 #include <bx/timer.h>
+#include "Resource/Mesh.h"
+
+
 #include "Component/CameraComponent.h"
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
@@ -15,7 +18,7 @@
 namespace Auto3D
 {
 int64_t GBox::_timeOffset;
-Mesh* GBox::_mesh;
+FMesh* GBox::_mesh;
 bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
 MouseState GBox::_mouseState;
@@ -85,16 +88,19 @@ void FForwardShadingRenderer::Render()
 		float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
 		bgfx::setUniform(GBox::_time, &time);
 
-		// Set up matrices for gbuffer
-		TMatrix3x4F viewMatrix = camera->GetViewMatrix();
-		// Because the original location is not unified
-		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
+		// Set the view transform each camera is set once in the view
+		{	
+			// Set up matrices for gbuffer
+			TMatrix3x4F viewMatrix = camera->GetViewMatrix();
+			// Because the original location is not unified
+			TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
 
-		camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
-		TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+			camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
+			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 
-		bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
-
+			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
+		}
+	
 
 		float mtx[16];
 		bx::mtxRotateXY(mtx
@@ -102,7 +108,9 @@ void FForwardShadingRenderer::Render()
 			, time*0.37f
 		);
 
-		meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
+		GBox::_mesh->submit(0, GBox::_program, mtx);
+
+		//meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
 	}
 	
 	// Advance to next frame. Rendering thread will be kicked to

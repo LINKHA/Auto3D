@@ -71,7 +71,7 @@ struct DebugShapeVertex
 	float m_x;
 	float m_y;
 	float m_z;
-	uint8_t m_indices[4];
+	uint8_t _indices[4];
 
 	static void init()
 	{
@@ -216,7 +216,7 @@ uint32_t genSphere(uint8_t _subdiv0, void* _pos0 = NULL, uint16_t _posStride0 = 
 					{ 0.0f, -ss, -ll },
 				};
 
-				m_numVertices = 0;
+				_numVertices = 0;
 
 				triangle(vv[ 0], vv[ 4], vv[ 3], scale, _subdiv);
 				triangle(vv[ 0], vv[10], vv[ 4], scale, _subdiv);
@@ -255,7 +255,7 @@ uint32_t genSphere(uint8_t _subdiv0, void* _pos0 = NULL, uint16_t _posStride0 = 
 					m_normals += m_normalStride;
 				}
 
-				m_numVertices++;
+				_numVertices++;
 			}
 
 			void triangle(const bx::Vec3& _v0, const bx::Vec3& _v1, const bx::Vec3& _v2, float _scale, uint8_t _subdiv)
@@ -284,7 +284,7 @@ uint32_t genSphere(uint8_t _subdiv0, void* _pos0 = NULL, uint16_t _posStride0 = 
 			uint8_t* m_normals;
 			uint16_t m_posStride;
 			uint16_t m_normalStride;
-			uint32_t m_numVertices;
+			uint32_t _numVertices;
 
 		} gen(_pos0, _posStride0, _normals0, _normalStride0, _subdiv0);
 	}
@@ -427,7 +427,7 @@ struct GeometryT
 		if (isValid(handle) )
 		{
 			Geometry& geometry = m_geometry[handle.idx];
-			geometry.m_vbh = bgfx::createVertexBuffer(
+			geometry._vbh = bgfx::createVertexBuffer(
 				  bgfx::copy(_vertices, _numVertices*sizeof(DdVertex) )
 				, DebugMeshVertex::ms_layout
 				);
@@ -461,7 +461,7 @@ struct GeometryT
 				, _index32
 				);
 
-			geometry.m_ibh = bgfx::createIndexBuffer(
+			geometry._ibh = bgfx::createIndexBuffer(
 				  mem
 				, _index32 ? BGFX_BUFFER_INDEX32 : BGFX_BUFFER_NONE
 				);
@@ -474,8 +474,8 @@ struct GeometryT
 	{
 		bx::MutexScope lock(m_lock);
 		Geometry& geometry = m_geometry[_handle.idx];
-		bgfx::destroy(geometry.m_vbh);
-		bgfx::destroy(geometry.m_ibh);
+		bgfx::destroy(geometry._vbh);
+		bgfx::destroy(geometry._ibh);
 
 		m_handleAlloc.free(_handle.idx);
 	}
@@ -484,14 +484,14 @@ struct GeometryT
 	{
 		Geometry()
 		{
-			m_vbh.idx = bx::kInvalidHandle;
-			m_ibh.idx = bx::kInvalidHandle;
+			_vbh.idx = bx::kInvalidHandle;
+			_ibh.idx = bx::kInvalidHandle;
 			m_topologyNumIndices[0] = 0;
 			m_topologyNumIndices[1] = 0;
 		}
 
-		bgfx::VertexBufferHandle m_vbh;
-		bgfx::IndexBufferHandle  m_ibh;
+		bgfx::VertexBufferHandle _vbh;
+		bgfx::IndexBufferHandle  _ibh;
 		uint32_t m_topologyNumIndices[2];
 	};
 
@@ -502,7 +502,7 @@ struct GeometryT
 
 struct Attrib
 {
-	uint64_t m_state;
+	uint64_t _state;
 	float    m_offset;
 	float    m_scale;
 	float    m_spin;
@@ -564,10 +564,10 @@ struct DebugMesh
 		CapsuleMaxLod  = Capsule3  - Capsule0,
 	};
 
-	uint32_t m_startVertex;
-	uint32_t m_numVertices;
-	uint32_t m_startIndex[2];
-	uint32_t m_numIndices[2];
+	uint32_t _startVertex;
+	uint32_t _numVertices;
+	uint32_t _startIndex[2];
+	uint32_t _numIndices[2];
 };
 
 typedef SpriteT<256, SPRITE_TEXTURE_SIZE> Sprite;
@@ -594,43 +594,43 @@ struct DebugDrawShared
 
 		bgfx::RendererType::Enum type = bgfx::getRendererType();
 
-		m_program[Program::Lines] = bgfx::createProgram(
+		_program[Program::Lines] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_lines")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_lines")
 			, true
 			);
 
-		m_program[Program::LinesStipple] = bgfx::createProgram(
+		_program[Program::LinesStipple] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_lines_stipple")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_lines_stipple")
 			, true
 			);
 
-		m_program[Program::Fill] = bgfx::createProgram(
+		_program[Program::Fill] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_fill")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_fill")
 			, true
 			);
 
-		m_program[Program::FillMesh] = bgfx::createProgram(
+		_program[Program::FillMesh] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_fill_mesh")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_fill")
 			, true
 			);
 
-		m_program[Program::FillLit] = bgfx::createProgram(
+		_program[Program::FillLit] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_fill_lit")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_fill_lit")
 			, true
 			);
 
-		m_program[Program::FillLitMesh] = bgfx::createProgram(
+		_program[Program::FillLitMesh] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_fill_lit_mesh")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_fill_lit")
 			, true
 			);
 
-		m_program[Program::FillTexture] = bgfx::createProgram(
+		_program[Program::FillTexture] = bgfx::createProgram(
 			  bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_debugdraw_fill_texture")
 			, bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_debugdraw_fill_texture")
 			, true
@@ -638,7 +638,7 @@ struct DebugDrawShared
 
 		u_params   = bgfx::createUniform("u_params",   bgfx::UniformType::Vec4, 4);
 		s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-		m_texture  = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
+		_texture  = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
 
 		void* vertices[DebugMesh::Count] = {};
 		uint16_t* indices[DebugMesh::Count] = {};
@@ -686,12 +686,12 @@ struct DebugDrawShared
 				, false
 				);
 
-			m_mesh[id].m_startVertex = startVertex;
-			m_mesh[id].m_numVertices = numVertices;
-			m_mesh[id].m_startIndex[0] = startIndex;
-			m_mesh[id].m_numIndices[0] = numIndices;
-			m_mesh[id].m_startIndex[1] = startIndex+numIndices;
-			m_mesh[id].m_numIndices[1] = numLineListIndices;
+			m_mesh[id]._startVertex = startVertex;
+			m_mesh[id]._numVertices = numVertices;
+			m_mesh[id]._startIndex[0] = startIndex;
+			m_mesh[id]._numIndices[0] = numIndices;
+			m_mesh[id]._startIndex[1] = startIndex+numIndices;
+			m_mesh[id]._numIndices[1] = numLineListIndices;
 
 			startVertex += numVertices;
 			startIndex  += numIndices + numLineListIndices;
@@ -720,7 +720,7 @@ struct DebugDrawShared
 			vertex[num].m_x = 0.0f;
 			vertex[num].m_y = 0.0f;
 			vertex[num].m_z = 0.0f;
-			vertex[num].m_indices[0] = 1;
+			vertex[num]._indices[0] = 1;
 
 			for (uint32_t ii = 0; ii < num; ++ii)
 			{
@@ -732,7 +732,7 @@ struct DebugDrawShared
 				vertex[ii].m_x = xy[1];
 				vertex[ii].m_y = 0.0f;
 				vertex[ii].m_z = xy[0];
-				vertex[ii].m_indices[0] = 0;
+				vertex[ii]._indices[0] = 0;
 
 				index[ii*3+0] = uint16_t(num);
 				index[ii*3+1] = uint16_t( (ii+1)%num);
@@ -749,12 +749,12 @@ struct DebugDrawShared
 				index[numIndices+num*2+ii*2+1] = uint16_t( (ii+1)%num);
 			}
 
-			m_mesh[id].m_startVertex = startVertex;
-			m_mesh[id].m_numVertices = numVertices;
-			m_mesh[id].m_startIndex[0] = startIndex;
-			m_mesh[id].m_numIndices[0] = numIndices;
-			m_mesh[id].m_startIndex[1] = startIndex+numIndices;
-			m_mesh[id].m_numIndices[1] = numLineListIndices;
+			m_mesh[id]._startVertex = startVertex;
+			m_mesh[id]._numVertices = numVertices;
+			m_mesh[id]._startIndex[0] = startIndex;
+			m_mesh[id]._numIndices[0] = numIndices;
+			m_mesh[id]._startIndex[1] = startIndex+numIndices;
+			m_mesh[id]._numIndices[1] = numLineListIndices;
 
 			startVertex += numVertices;
 			startIndex  += numIndices + numLineListIndices;
@@ -788,12 +788,12 @@ struct DebugDrawShared
 				vertex[ii].m_x = xy[1];
 				vertex[ii].m_y = 0.0f;
 				vertex[ii].m_z = xy[0];
-				vertex[ii].m_indices[0] = 0;
+				vertex[ii]._indices[0] = 0;
 
 				vertex[ii+num].m_x = xy[1];
 				vertex[ii+num].m_y = 0.0f;
 				vertex[ii+num].m_z = xy[0];
-				vertex[ii+num].m_indices[0] = 1;
+				vertex[ii+num]._indices[0] = 1;
 
 				index[ii*6+0] = uint16_t(ii+num);
 				index[ii*6+1] = uint16_t( (ii+1)%num);
@@ -819,12 +819,12 @@ struct DebugDrawShared
 				index[numIndices+num*4+ii*2+1] = uint16_t(num + (ii+1)%num);
 			}
 
-			m_mesh[id].m_startVertex = startVertex;
-			m_mesh[id].m_numVertices = numVertices;
-			m_mesh[id].m_startIndex[0] = startIndex;
-			m_mesh[id].m_numIndices[0] = numIndices;
-			m_mesh[id].m_startIndex[1] = startIndex+numIndices;
-			m_mesh[id].m_numIndices[1] = numLineListIndices;
+			m_mesh[id]._startVertex = startVertex;
+			m_mesh[id]._numVertices = numVertices;
+			m_mesh[id]._startIndex[0] = startIndex;
+			m_mesh[id]._numIndices[0] = numIndices;
+			m_mesh[id]._startIndex[1] = startIndex+numIndices;
+			m_mesh[id]._numIndices[1] = numLineListIndices;
 
 			startVertex += numVertices;
 			startIndex  += numIndices + numLineListIndices;
@@ -858,12 +858,12 @@ struct DebugDrawShared
 				vertex[ii].m_x = xy[1];
 				vertex[ii].m_y = 0.0f;
 				vertex[ii].m_z = xy[0];
-				vertex[ii].m_indices[0] = 0;
+				vertex[ii]._indices[0] = 0;
 
 				vertex[ii+num].m_x = xy[1];
 				vertex[ii+num].m_y = 0.0f;
 				vertex[ii+num].m_z = xy[0];
-				vertex[ii+num].m_indices[0] = 1;
+				vertex[ii+num]._indices[0] = 1;
 
 				index[ii*6+0] = uint16_t(ii+num);
 				index[ii*6+1] = uint16_t( (ii+1)%num);
@@ -889,34 +889,34 @@ struct DebugDrawShared
 				index[numIndices+num*4+ii*2+1] = uint16_t(num + (ii+1)%num);
 			}
 
-			m_mesh[id].m_startVertex = startVertex;
-			m_mesh[id].m_numVertices = numVertices;
-			m_mesh[id].m_startIndex[0] = startIndex;
-			m_mesh[id].m_numIndices[0] = numIndices;
-			m_mesh[id].m_startIndex[1] = startIndex+numIndices;
-			m_mesh[id].m_numIndices[1] = numLineListIndices;
+			m_mesh[id]._startVertex = startVertex;
+			m_mesh[id]._numVertices = numVertices;
+			m_mesh[id]._startIndex[0] = startIndex;
+			m_mesh[id]._numIndices[0] = numIndices;
+			m_mesh[id]._startIndex[1] = startIndex+numIndices;
+			m_mesh[id]._numIndices[1] = numLineListIndices;
 
 			startVertex += numVertices;
 			startIndex  += numIndices + numLineListIndices;
 		}
 
-		m_mesh[DebugMesh::Quad].m_startVertex = startVertex;
-		m_mesh[DebugMesh::Quad].m_numVertices = BX_COUNTOF(s_quadVertices);
-		m_mesh[DebugMesh::Quad].m_startIndex[0] = startIndex;
-		m_mesh[DebugMesh::Quad].m_numIndices[0] = BX_COUNTOF(s_quadIndices);
-		m_mesh[DebugMesh::Quad].m_startIndex[1] = 0;
-		m_mesh[DebugMesh::Quad].m_numIndices[1] = 0;
+		m_mesh[DebugMesh::Quad]._startVertex = startVertex;
+		m_mesh[DebugMesh::Quad]._numVertices = BX_COUNTOF(s_quadVertices);
+		m_mesh[DebugMesh::Quad]._startIndex[0] = startIndex;
+		m_mesh[DebugMesh::Quad]._numIndices[0] = BX_COUNTOF(s_quadIndices);
+		m_mesh[DebugMesh::Quad]._startIndex[1] = 0;
+		m_mesh[DebugMesh::Quad]._numIndices[1] = 0;
 		startVertex += BX_COUNTOF(s_quadVertices);
 		startIndex  += BX_COUNTOF(s_quadIndices);
 
-		m_mesh[DebugMesh::Cube].m_startVertex = startVertex;
-		m_mesh[DebugMesh::Cube].m_numVertices = BX_COUNTOF(s_cubeVertices);
-		m_mesh[DebugMesh::Cube].m_startIndex[0] = startIndex;
-		m_mesh[DebugMesh::Cube].m_numIndices[0] = BX_COUNTOF(s_cubeIndices);
-		m_mesh[DebugMesh::Cube].m_startIndex[1] = 0;
-		m_mesh[DebugMesh::Cube].m_numIndices[1] = 0;
-		startVertex += m_mesh[DebugMesh::Cube].m_numVertices;
-		startIndex  += m_mesh[DebugMesh::Cube].m_numIndices[0];
+		m_mesh[DebugMesh::Cube]._startVertex = startVertex;
+		m_mesh[DebugMesh::Cube]._numVertices = BX_COUNTOF(s_cubeVertices);
+		m_mesh[DebugMesh::Cube]._startIndex[0] = startIndex;
+		m_mesh[DebugMesh::Cube]._numIndices[0] = BX_COUNTOF(s_cubeIndices);
+		m_mesh[DebugMesh::Cube]._startIndex[1] = 0;
+		m_mesh[DebugMesh::Cube]._numIndices[1] = 0;
+		startVertex += m_mesh[DebugMesh::Cube]._numVertices;
+		startIndex  += m_mesh[DebugMesh::Cube]._numIndices[0];
 
 		const bgfx::Memory* vb = bgfx::alloc(startVertex*stride);
 		const bgfx::Memory* ib = bgfx::alloc(startIndex*sizeof(uint16_t) );
@@ -924,55 +924,55 @@ struct DebugDrawShared
 		for (uint32_t mesh = DebugMesh::Sphere0; mesh < DebugMesh::Quad; ++mesh)
 		{
 			DebugMesh::Enum id = DebugMesh::Enum(mesh);
-			bx::memCopy(&vb->data[m_mesh[id].m_startVertex * stride]
+			bx::memCopy(&vb->data[m_mesh[id]._startVertex * stride]
 				 , vertices[id]
-				 , m_mesh[id].m_numVertices*stride
+				 , m_mesh[id]._numVertices*stride
 				 );
 
-			bx::memCopy(&ib->data[m_mesh[id].m_startIndex[0] * sizeof(uint16_t)]
+			bx::memCopy(&ib->data[m_mesh[id]._startIndex[0] * sizeof(uint16_t)]
 				 , indices[id]
-				 , (m_mesh[id].m_numIndices[0]+m_mesh[id].m_numIndices[1])*sizeof(uint16_t)
+				 , (m_mesh[id]._numIndices[0]+m_mesh[id]._numIndices[1])*sizeof(uint16_t)
 				 );
 
 			BX_FREE(m_allocator, vertices[id]);
 			BX_FREE(m_allocator, indices[id]);
 		}
 
-		bx::memCopy(&vb->data[m_mesh[DebugMesh::Quad].m_startVertex * stride]
+		bx::memCopy(&vb->data[m_mesh[DebugMesh::Quad]._startVertex * stride]
 			, s_quadVertices
 			, sizeof(s_quadVertices)
 			);
 
-		bx::memCopy(&ib->data[m_mesh[DebugMesh::Quad].m_startIndex[0] * sizeof(uint16_t)]
+		bx::memCopy(&ib->data[m_mesh[DebugMesh::Quad]._startIndex[0] * sizeof(uint16_t)]
 			, s_quadIndices
 			, sizeof(s_quadIndices)
 			);
 
-		bx::memCopy(&vb->data[m_mesh[DebugMesh::Cube].m_startVertex * stride]
+		bx::memCopy(&vb->data[m_mesh[DebugMesh::Cube]._startVertex * stride]
 			, s_cubeVertices
 			, sizeof(s_cubeVertices)
 			);
 
-		bx::memCopy(&ib->data[m_mesh[DebugMesh::Cube].m_startIndex[0] * sizeof(uint16_t)]
+		bx::memCopy(&ib->data[m_mesh[DebugMesh::Cube]._startIndex[0] * sizeof(uint16_t)]
 			, s_cubeIndices
 			, sizeof(s_cubeIndices)
 			);
 
-		m_vbh = bgfx::createVertexBuffer(vb, DebugShapeVertex::ms_layout);
-		m_ibh = bgfx::createIndexBuffer(ib);
+		_vbh = bgfx::createVertexBuffer(vb, DebugShapeVertex::ms_layout);
+		_ibh = bgfx::createIndexBuffer(ib);
 	}
 
 	void shutdown()
 	{
-		bgfx::destroy(m_ibh);
-		bgfx::destroy(m_vbh);
+		bgfx::destroy(_ibh);
+		bgfx::destroy(_vbh);
 		for (uint32_t ii = 0; ii < Program::Count; ++ii)
 		{
-			bgfx::destroy(m_program[ii]);
+			bgfx::destroy(_program[ii]);
 		}
 		bgfx::destroy(u_params);
 		bgfx::destroy(s_texColor);
-		bgfx::destroy(m_texture);
+		bgfx::destroy(_texture);
 	}
 
 	SpriteHandle createSprite(uint16_t _width, uint16_t _height, const void* _data)
@@ -983,7 +983,7 @@ struct DebugDrawShared
 		{
 			const Pack2D& pack = m_sprite.get(handle);
 			bgfx::updateTexture2D(
-				  m_texture
+				  _texture
 				, 0
 				, 0
 				, pack.m_x
@@ -1020,12 +1020,12 @@ struct DebugDrawShared
 	DebugMesh m_mesh[DebugMesh::Count];
 
 	bgfx::UniformHandle s_texColor;
-	bgfx::TextureHandle m_texture;
-	bgfx::ProgramHandle m_program[Program::Count];
+	bgfx::TextureHandle _texture;
+	bgfx::ProgramHandle _program[Program::Count];
 	bgfx::UniformHandle u_params;
 
-	bgfx::VertexBufferHandle m_vbh;
-	bgfx::IndexBufferHandle  m_ibh;
+	bgfx::VertexBufferHandle _vbh;
+	bgfx::IndexBufferHandle  _ibh;
 };
 
 static DebugDrawShared s_dds;
@@ -1034,7 +1034,7 @@ struct DebugDrawEncoderImpl
 {
 	DebugDrawEncoderImpl()
 		: m_depthTestLess(true)
-		, m_state(State::Count)
+		, _state(State::Count)
 		, m_defaultEncoder(NULL)
 	{
 	}
@@ -1050,11 +1050,11 @@ struct DebugDrawEncoderImpl
 
 	void begin(bgfx::ViewId _viewId, bool _depthTestLess, bgfx::Encoder* _encoder)
 	{
-		BX_CHECK(State::Count == m_state);
+		BX_CHECK(State::Count == _state);
 
-		m_viewId        = _viewId;
+		_viewId        = _viewId;
 		m_encoder       = _encoder == NULL ? m_defaultEncoder : _encoder;
-		m_state         = State::None;
+		_state         = State::None;
 		m_stack         = 0;
 		m_depthTestLess = _depthTestLess;
 
@@ -1064,7 +1064,7 @@ struct DebugDrawEncoderImpl
 		m_posQuad   = 0;
 
 		Attrib& attrib = m_attrib[0];
-		attrib.m_state = 0
+		attrib._state = 0
 			| BGFX_STATE_WRITE_RGB
 			| (m_depthTestLess ? BGFX_STATE_DEPTH_TEST_LESS : BGFX_STATE_DEPTH_TEST_GREATER)
 			| BGFX_STATE_CULL_CW
@@ -1090,23 +1090,23 @@ struct DebugDrawEncoderImpl
 		flush();
 
 		m_encoder = NULL;
-		m_state   = State::Count;
+		_state   = State::Count;
 	}
 
 	void push()
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		++m_stack;
 		m_attrib[m_stack] = m_attrib[m_stack-1];
 	}
 
 	void pop()
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		const Attrib& curr = m_attrib[m_stack];
 		const Attrib& prev = m_attrib[m_stack-1];
 		if (curr.m_stipple != prev.m_stipple
-		||  curr.m_state   != prev.m_state)
+		||  curr._state   != prev._state)
 		{
 			flush();
 		}
@@ -1115,23 +1115,23 @@ struct DebugDrawEncoderImpl
 
 	void setDepthTestLess(bool _depthTestLess)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		if (m_depthTestLess != _depthTestLess)
 		{
 			m_depthTestLess = _depthTestLess;
 			Attrib& attrib = m_attrib[m_stack];
-			if (attrib.m_state & BGFX_STATE_DEPTH_TEST_MASK)
+			if (attrib._state & BGFX_STATE_DEPTH_TEST_MASK)
 			{
 				flush();
-				attrib.m_state &= ~BGFX_STATE_DEPTH_TEST_MASK;
-				attrib.m_state |= _depthTestLess ? BGFX_STATE_DEPTH_TEST_LESS : BGFX_STATE_DEPTH_TEST_GREATER;
+				attrib._state &= ~BGFX_STATE_DEPTH_TEST_MASK;
+				attrib._state |= _depthTestLess ? BGFX_STATE_DEPTH_TEST_LESS : BGFX_STATE_DEPTH_TEST_GREATER;
 			}
 		}
 	}
 
 	void setTransform(const void* _mtx, uint16_t _num = 1, bool _flush = true)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		if (_flush)
 		{
 			flush();
@@ -1167,7 +1167,7 @@ struct DebugDrawEncoderImpl
 	void pushTransform(const void* _mtx, uint16_t _num, bool _flush = true)
 	{
 		BX_CHECK(m_mtxStackCurrent < BX_COUNTOF(m_mtxStack), "Out of matrix stack!");
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		if (_flush)
 		{
 			flush();
@@ -1197,7 +1197,7 @@ struct DebugDrawEncoderImpl
 
 	void popTransform(bool _flush = true)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		if (_flush)
 		{
 			flush();
@@ -1225,7 +1225,7 @@ struct DebugDrawEncoderImpl
 			: BGFX_STATE_DEPTH_TEST_GREATER
 			;
 
-		uint64_t state = m_attrib[m_stack].m_state & ~(0
+		uint64_t state = m_attrib[m_stack]._state & ~(0
 			| BGFX_STATE_DEPTH_TEST_MASK
 			| BGFX_STATE_WRITE_Z
 			| BGFX_STATE_CULL_CW
@@ -1247,35 +1247,35 @@ struct DebugDrawEncoderImpl
 			: BGFX_STATE_CULL_CCW
 			;
 
-		if (m_attrib[m_stack].m_state != state)
+		if (m_attrib[m_stack]._state != state)
 		{
 			flush();
 		}
 
-		m_attrib[m_stack].m_state = state;
+		m_attrib[m_stack]._state = state;
 	}
 
 	void setColor(uint32_t _abgr)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		m_attrib[m_stack].m_abgr = _abgr;
 	}
 
 	void setLod(uint8_t _lod)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		m_attrib[m_stack].m_lod = _lod;
 	}
 
 	void setWireframe(bool _wireframe)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		m_attrib[m_stack].m_wireframe = _wireframe;
 	}
 
 	void setStipple(bool _stipple, float _scale = 1.0f, float _offset = 0.0f)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 
 		Attrib& attrib = m_attrib[m_stack];
 
@@ -1297,11 +1297,11 @@ struct DebugDrawEncoderImpl
 
 	void moveTo(float _x, float _y, float _z = 0.0f)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 
 		softFlush();
 
-		m_state = State::MoveTo;
+		_state = State::MoveTo;
 
 		DebugVertex& vertex = m_cache[m_pos];
 		vertex.m_x = _x;
@@ -1317,7 +1317,7 @@ struct DebugDrawEncoderImpl
 
 	void moveTo(const bx::Vec3& _pos)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		moveTo(_pos.x, _pos.y, _pos.z);
 	}
 
@@ -1328,8 +1328,8 @@ struct DebugDrawEncoderImpl
 
 	void lineTo(float _x, float _y, float _z = 0.0f)
 	{
-		BX_CHECK(State::Count != m_state);
-		if (State::None == m_state)
+		BX_CHECK(State::Count != _state);
+		if (State::None == _state)
 		{
 			moveTo(_x, _y, _z);
 			return;
@@ -1353,12 +1353,12 @@ struct DebugDrawEncoderImpl
 				m_pos = 2;
 			}
 
-			m_state = State::LineTo;
+			_state = State::LineTo;
 		}
-		else if (State::MoveTo == m_state)
+		else if (State::MoveTo == _state)
 		{
 			++m_pos;
-			m_state = State::LineTo;
+			_state = State::LineTo;
 		}
 
 		uint16_t prev = m_pos-1;
@@ -1375,13 +1375,13 @@ struct DebugDrawEncoderImpl
 		float len = bx::length(bx::sub(bx::load<bx::Vec3>(&vertex.m_x), bx::load<bx::Vec3>(&m_cache[prev].m_x) ) ) * attrib.m_scale;
 		vertex.m_len = m_cache[prev].m_len + len;
 
-		m_indices[m_indexPos++] = prev;
-		m_indices[m_indexPos++] = curr;
+		_indices[m_indexPos++] = prev;
+		_indices[m_indexPos++] = curr;
 	}
 
 	void lineTo(const bx::Vec3& _pos)
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		lineTo(_pos.x, _pos.y, _pos.z);
 	}
 
@@ -1392,11 +1392,11 @@ struct DebugDrawEncoderImpl
 
 	void close()
 	{
-		BX_CHECK(State::Count != m_state);
+		BX_CHECK(State::Count != _state);
 		DebugVertex& vertex = m_cache[m_vertexPos];
 		lineTo(vertex.m_x, vertex.m_y, vertex.m_z);
 
-		m_state = State::None;
+		_state = State::None;
 	}
 
 	void draw(const Aabb& _aabb)
@@ -1521,18 +1521,18 @@ struct DebugDrawEncoderImpl
 		{
 			BX_STATIC_ASSERT(sizeof(DdVertex) == sizeof(bx::Vec3), "");
 
-			uint64_t old = attrib.m_state;
-			attrib.m_state &= ~BGFX_STATE_CULL_MASK;
+			uint64_t old = attrib._state;
+			attrib._state &= ~BGFX_STATE_CULL_MASK;
 
 			draw(false, 3, reinterpret_cast<const DdVertex*>(&_triangle.v0.x), 0, NULL);
 
-			attrib.m_state = old;
+			attrib._state = old;
 		}
 	}
 
 	void setUParams(const Attrib& _attrib, bool _wireframe)
 	{
-		const float flip = 0 == (_attrib.m_state & BGFX_STATE_CULL_CCW) ? 1.0f : -1.0f;
+		const float flip = 0 == (_attrib._state & BGFX_STATE_CULL_CCW) ? 1.0f : -1.0f;
 		const uint8_t alpha = _attrib.m_abgr >> 24;
 
 		float params[4][4] =
@@ -1567,7 +1567,7 @@ struct DebugDrawEncoderImpl
 		m_encoder->setUniform(s_dds.u_params, params, 4);
 
 		m_encoder->setState(0
-			| _attrib.m_state
+			| _attrib._state
 			| (_wireframe ? BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA | BGFX_STATE_BLEND_ALPHA
 			: (alpha < 0xff) ? BGFX_STATE_BLEND_ALPHA : 0)
 			);
@@ -1576,7 +1576,7 @@ struct DebugDrawEncoderImpl
 	void draw(GeometryHandle _handle)
 	{
 		const Geometry::Geometry& geometry = s_dds.m_geometry.m_geometry[_handle.idx];
-		m_encoder->setVertexBuffer(0, geometry.m_vbh);
+		m_encoder->setVertexBuffer(0, geometry._vbh);
 
 		const Attrib& attrib = m_attrib[m_stack];
 		const bool wireframe = attrib.m_wireframe;
@@ -1585,7 +1585,7 @@ struct DebugDrawEncoderImpl
 		if (wireframe)
 		{
 			m_encoder->setIndexBuffer(
-				  geometry.m_ibh
+				  geometry._ibh
 				, geometry.m_topologyNumIndices[0]
 				, geometry.m_topologyNumIndices[1]
 				);
@@ -1593,15 +1593,15 @@ struct DebugDrawEncoderImpl
 		else if (0 != geometry.m_topologyNumIndices[0])
 		{
 			m_encoder->setIndexBuffer(
-				  geometry.m_ibh
+				  geometry._ibh
 				, 0
 				, geometry.m_topologyNumIndices[0]
 				);
 		}
 
 		m_encoder->setTransform(m_mtxStack[m_mtxStackCurrent].mtx);
-		bgfx::ProgramHandle program = s_dds.m_program[wireframe ? Program::FillMesh : Program::FillLitMesh];
-		m_encoder->submit(m_viewId, program);
+		bgfx::ProgramHandle program = s_dds._program[wireframe ? Program::FillMesh : Program::FillLitMesh];
+		m_encoder->submit(_viewId, program);
 	}
 
 	void draw(bool _lineList, uint32_t _numVertices, const DdVertex* _vertices, uint32_t _numIndices, const uint16_t* _indices)
@@ -1654,11 +1654,11 @@ struct DebugDrawEncoderImpl
 			}
 
 			m_encoder->setTransform(m_mtxStack[m_mtxStackCurrent].mtx);
-			bgfx::ProgramHandle program = s_dds.m_program[wireframe
+			bgfx::ProgramHandle program = s_dds._program[wireframe
 				? Program::FillMesh
 				: Program::FillLitMesh
 				];
-			m_encoder->submit(m_viewId, program);
+			m_encoder->submit(_viewId, program);
 		}
 	}
 
@@ -2131,11 +2131,11 @@ struct DebugDrawEncoderImpl
 
 		const DebugMesh& mesh = s_dds.m_mesh[_mesh];
 
-		if (0 != mesh.m_numIndices[_wireframe])
+		if (0 != mesh._numIndices[_wireframe])
 		{
-			m_encoder->setIndexBuffer(s_dds.m_ibh
-				, mesh.m_startIndex[_wireframe]
-				, mesh.m_numIndices[_wireframe]
+			m_encoder->setIndexBuffer(s_dds._ibh
+				, mesh._startIndex[_wireframe]
+				, mesh._numIndices[_wireframe]
 				);
 		}
 
@@ -2145,8 +2145,8 @@ struct DebugDrawEncoderImpl
 		MatrixStack& stack = m_mtxStack[m_mtxStackCurrent];
 		m_encoder->setTransform(stack.mtx, stack.num);
 
-		m_encoder->setVertexBuffer(0, s_dds.m_vbh, mesh.m_startVertex, mesh.m_numVertices);
-		m_encoder->submit(m_viewId, s_dds.m_program[_wireframe ? Program::Fill : Program::FillLit]);
+		m_encoder->setVertexBuffer(0, s_dds._vbh, mesh._startVertex, mesh._numVertices);
+		m_encoder->submit(_viewId, s_dds._program[_wireframe ? Program::Fill : Program::FillLit]);
 
 		popTransform(false /* flush */);
 	}
@@ -2171,7 +2171,7 @@ struct DebugDrawEncoderImpl
 
 				bgfx::TransientIndexBuffer tib;
 				bgfx::allocTransientIndexBuffer(&tib, m_indexPos);
-				bx::memCopy(tib.data, m_indices, m_indexPos * sizeof(uint16_t) );
+				bx::memCopy(tib.data, _indices, m_indexPos * sizeof(uint16_t) );
 
 				const Attrib& attrib = m_attrib[m_stack];
 
@@ -2180,16 +2180,16 @@ struct DebugDrawEncoderImpl
 				m_encoder->setState(0
 					| BGFX_STATE_WRITE_RGB
 					| BGFX_STATE_PT_LINES
-					| attrib.m_state
+					| attrib._state
 					| BGFX_STATE_LINEAA
 					| BGFX_STATE_BLEND_ALPHA
 					);
 				m_encoder->setTransform(m_mtxStack[m_mtxStackCurrent].mtx);
-				bgfx::ProgramHandle program = s_dds.m_program[attrib.m_stipple ? 1 : 0];
-				m_encoder->submit(m_viewId, program);
+				bgfx::ProgramHandle program = s_dds._program[attrib.m_stipple ? 1 : 0];
+				m_encoder->submit(_viewId, program);
 			}
 
-			m_state     = State::None;
+			_state     = State::None;
 			m_pos       = 0;
 			m_indexPos  = 0;
 			m_vertexPos = 0;
@@ -2227,11 +2227,11 @@ struct DebugDrawEncoderImpl
 				m_encoder->setVertexBuffer(0, &tvb);
 				m_encoder->setIndexBuffer(&tib);
 				m_encoder->setState(0
-					| (attrib.m_state & ~BGFX_STATE_CULL_MASK)
+					| (attrib._state & ~BGFX_STATE_CULL_MASK)
 					);
 				m_encoder->setTransform(m_mtxStack[m_mtxStackCurrent].mtx);
-				m_encoder->setTexture(0, s_dds.s_texColor, s_dds.m_texture);
-				m_encoder->submit(m_viewId, s_dds.m_program[Program::FillTexture]);
+				m_encoder->setTexture(0, s_dds.s_texColor, s_dds._texture);
+				m_encoder->submit(_viewId, s_dds._program[Program::FillTexture]);
 			}
 
 			m_posQuad = 0;
@@ -2257,7 +2257,7 @@ struct DebugDrawEncoderImpl
 
 	DebugVertex   m_cache[kCacheSize+1];
 	DebugUvVertex m_cacheQuad[kCacheQuadSize];
-	uint16_t m_indices[kCacheSize*2];
+	uint16_t _indices[kCacheSize*2];
 	uint16_t m_pos;
 	uint16_t m_posQuad;
 	uint16_t m_indexPos;
@@ -2280,13 +2280,13 @@ struct DebugDrawEncoderImpl
 
 	MatrixStack m_mtxStack[32];
 
-	bgfx::ViewId m_viewId;
+	bgfx::ViewId _viewId;
 	uint8_t m_stack;
 	bool    m_depthTestLess;
 
 	Attrib m_attrib[kStackSize];
 
-	State::Enum m_state;
+	State::Enum _state;
 
 	bgfx::Encoder* m_encoder;
 	bgfx::Encoder* m_defaultEncoder;

@@ -18,6 +18,9 @@
 #include "IO/Stream.h"
 #include "IO/File.h"
 
+#include "Resource/Mesh.h"
+
+
 using namespace Auto3D;
 
 namespace
@@ -48,8 +51,10 @@ public:
 		GBox::_program = m_program;
 
 		//m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
-		m_mesh = meshLoad("meshes/bunny.bin");
-		//m_mesh = meshLoad("Data/Model/TeaPot.mdl");
+		//m_mesh = meshLoad("meshes/bunny.bin");
+		m_mesh = new FMesh;
+		m_mesh->Load("meshes/bunny.bin");
+
 		GBox::_mesh = m_mesh;
 
 		m_timeOffset = bx::getHPCounter();
@@ -84,7 +89,7 @@ public:
 	{
 		//imguiDestroy();
 
-		meshUnload(m_mesh);
+		m_mesh->unload();
 
 		// Cleanup.
 		bgfx::destroy(m_program);
@@ -112,7 +117,7 @@ public:
 	uint32_t m_reset;
 
 	int64_t m_timeOffset;
-	Mesh* m_mesh;
+	FMesh* m_mesh;
 	bgfx::ProgramHandle m_program;
 	bgfx::UniformHandle u_time;
 };

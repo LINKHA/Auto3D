@@ -1,0 +1,92 @@
+#pragma once
+#include "AutoConfig.h"
+#include "Container/Vector.h"
+
+#include <bimg/bimg.h>
+#include <bx/pixelformat.h>
+#include <bgfx/bgfx.h>
+#include "RHI/bounds.h"
+
+namespace Auto3D
+{
+
+struct FMeshState
+{
+	struct Texture
+	{
+		uint32_t            _flags;
+		bgfx::UniformHandle _sampler;
+		bgfx::TextureHandle _texture;
+		uint8_t             _stage;
+	};
+
+	Texture             _textures[4];
+	uint64_t            _state;
+	bgfx::ProgramHandle _program;
+	uint8_t             _numTextures;
+	bgfx::ViewId        _viewId;
+};
+
+struct FPrimitive
+{
+	uint32_t _startIndex;
+	uint32_t _numIndices;
+	uint32_t _startVertex;
+	uint32_t _numVertices;
+
+	Sphere _sphere;
+	Aabb _aabb;
+	Obb _obb;
+};
+
+struct Group
+{
+	Group() 
+	{
+		Reset();
+	}
+
+	void Reset()
+	{
+		_numVertices = 0;
+		_vertices = NULL;
+		_numIndices = 0;
+		_indices = NULL;
+		_vbh.idx = bgfx::kInvalidHandle;
+		_ibh.idx = bgfx::kInvalidHandle;
+		_prims.Clear();
+	}
+
+	bgfx::VertexBufferHandle _vbh;
+	bgfx::IndexBufferHandle _ibh;
+	uint16_t _numVertices;
+	uint8_t* _vertices;
+	uint32_t _numIndices;
+	uint16_t* _indices;
+	Sphere _sphere;
+	Aabb _aabb;
+	Obb _obb;
+	TVector<FPrimitive> _prims;
+};
+
+class AUTO_API FMesh
+{
+public:
+	void load(bx::ReaderSeekerI* reader, bool ramcopy = false);
+	void Load(const char* filePath, bool ramcopy = false);
+	void unload();
+	void submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state = BGFX_STATE_MASK) const;
+	void submit(const FMeshState*const* state, uint8_t numPasses, const float* mtx, uint16_t numMatrices = 1) const;
+
+	///
+	static FMeshState* meshStateCreate();
+
+	///
+	static void meshStateDestroy(FMeshState* _meshState);
+
+	bgfx::VertexLayout _layout;
+	TVector<Group> _groups;
+};
+
+
+}
