@@ -90,9 +90,10 @@ void FForwardShadingRenderer::Render()
 		// Because the original location is not unified
 		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
 
-		float proj[16];
-		bx::mtxProj(proj, 60.0f, float(_backbufferSize._x) / float(_backbufferSize._y), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-		bgfx::setViewTransform(0, transposeViewMatrix.Data(), proj);
+		camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
+		TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+
+		bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 
 
 		float mtx[16];
