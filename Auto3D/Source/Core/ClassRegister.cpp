@@ -5,6 +5,7 @@
 #include "Component/MeshComponent.h"
 #include "Component/DefaultController.h"
 #include "Component/Transform.h"
+#include "Resource/Mesh.h"
 
 #include "Gameplay/World.h"
 #include "Core/Object.h"
@@ -17,14 +18,22 @@ using namespace Auto3D;
 
 static void REGISTER_REFLECTION_FUNCATION()
 {
-	REGISTER_A_CALSS_IMP(OObject)
+	REGISTER_O_CALSS_IMP(OObject)
 		.constructor<>()
 		.method("getTypeName", &OObject::GetTypeName)
 		;
 
+	REGISTER_O_CALSS_IMP(OResource)
+		.constructor<>()
+		;
+
+	REGISTER_O_CALSS_IMP(OMesh)
+		.constructor<>()
+		;
+
 	REGISTER_A_CALSS_IMP(AActor)
 		.constructor<>()
-		.property("name", &AActor::GetName, &AActor::SetName)
+		.property("name", &AActor::GetPathName, &AActor::SetName)
 		(
 			metadata(SERIALIZABLE, true)
 		)
@@ -76,6 +85,7 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(ATransform)
 		.constructor<>()
 		;
+
 }
 
 

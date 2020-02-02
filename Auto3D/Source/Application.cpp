@@ -206,7 +206,7 @@ bx::FileWriterI* getFileWriter()
 
 IAppInstance::IAppInstance(const char* name, const char* description, const char* url)
 {
-	_name = name;
+	_pathName = name;
 	_description = description;
 	_url = url;
 	_next = _apps;

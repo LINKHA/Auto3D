@@ -82,7 +82,7 @@ bool FFile::Open(const FString& fileName, EFileMode::Type fileMode)
     if (!_handle)
         return false;
 
-    _name = fileName;
+    _pathName = fileName;
     _mode = fileMode;
     _position = 0;
     _readSyncNeeded = false;

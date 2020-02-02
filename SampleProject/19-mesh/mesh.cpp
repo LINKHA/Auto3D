@@ -17,6 +17,7 @@
 #include "IO/FileSystem.h"
 #include "IO/Stream.h"
 #include "IO/File.h"
+#include "IO/ResourceCache.h"
 
 #include "Resource/Mesh.h"
 
@@ -52,12 +53,11 @@ public:
 
 		//m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
 		//m_mesh = meshLoad("meshes/bunny.bin");
-		m_mesh = MakeShared<OMesh>();
-		m_mesh->Load("meshes/bunny.bin");
 
-		
+		//m_mesh = new OMesh();
+		//m_mesh->Load("meshes/bunny.bin");
 
-		GBox::_mesh = m_mesh;
+		m_mesh = GResourceModule::Get().LoadResource<OMesh>("meshes/bunny.bin");
 
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;
@@ -118,7 +118,7 @@ public:
 	uint32_t m_reset;
 
 	int64_t m_timeOffset;
-	SPtr<OMesh> m_mesh;
+	OMesh* m_mesh;
 	bgfx::ProgramHandle m_program;
 	bgfx::UniformHandle u_time;
 };

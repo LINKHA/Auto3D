@@ -15,7 +15,24 @@ namespace bgfx
 namespace Auto3D
 {
 
-void OMesh::load(bx::ReaderSeekerI* reader, bool ramcopy)
+bool OMesh::BeginLoad(const FString& pathName)
+{
+	bx::FileReaderI* reader = Auto3D::getFileReader();
+	if (bx::open(reader, pathName.CString()))
+	{
+		PrivateLoad(reader);
+		bx::close(reader);
+		return true;
+	}
+	return false;
+}
+
+bool OMesh::EndLoad()
+{
+	return true;
+}
+
+void OMesh::PrivateLoad(bx::ReaderSeekerI* reader, bool ramcopy)
 {
 #define BGFX_CHUNK_MAGIC_VB  BX_MAKEFOURCC('V', 'B', ' ', 0x1)
 #define BGFX_CHUNK_MAGIC_VBC BX_MAKEFOURCC('V', 'B', 'C', 0x0)
@@ -184,7 +201,7 @@ void OMesh::Load(const char* filePath, bool ramcopy)
 	bx::FileReaderI* reader = Auto3D::getFileReader();
 	if (bx::open(reader, filePath))
 	{
-		load(reader, ramcopy);
+		PrivateLoad(reader, ramcopy);
 		bx::close(reader);
 	}
 }

@@ -19,7 +19,7 @@ namespace stl = tinystl;
 
 #include <bimg/decode.h>
 
-void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, uint32_t* _size)
+void* PrivateLoad(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, uint32_t* _size)
 {
 	if (bx::open(_reader, _filePath) )
 	{
@@ -46,9 +46,9 @@ void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _fi
 	return NULL;
 }
 
-void* load(const char* _filePath, uint32_t* _size)
+void* PrivateLoad(const char* _filePath, uint32_t* _size)
 {
-	return load(Auto3D::getFileReader(), Auto3D::getAllocator(), _filePath, _size);
+	return PrivateLoad(Auto3D::getFileReader(), Auto3D::getAllocator(), _filePath, _size);
 }
 
 void unload(void* _ptr)
@@ -92,7 +92,7 @@ static void* loadMem(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const
 	return NULL;
 }
 
-static bgfx::ShaderHandle loadShader(bx::FileReaderI* _reader, const char* _name)
+static bgfx::ShaderHandle loadShader(bx::FileReaderI* _reader, const char* _pathName)
 {
 	char filePath[512];
 
@@ -117,18 +117,18 @@ static bgfx::ShaderHandle loadShader(bx::FileReaderI* _reader, const char* _name
 	}
 
 	bx::strCopy(filePath, BX_COUNTOF(filePath), shaderPath);
-	bx::strCat(filePath, BX_COUNTOF(filePath), _name);
+	bx::strCat(filePath, BX_COUNTOF(filePath), _pathName);
 	bx::strCat(filePath, BX_COUNTOF(filePath), ".bin");
 
 	bgfx::ShaderHandle handle = bgfx::createShader(loadMem(_reader, filePath) );
-	bgfx::setName(handle, _name);
+	bgfx::setName(handle, _pathName);
 
 	return handle;
 }
 
-bgfx::ShaderHandle loadShader(const char* _name)
+bgfx::ShaderHandle loadShader(const char* _pathName)
 {
-	return loadShader(Auto3D::getFileReader(), _name);
+	return loadShader(Auto3D::getFileReader(), _pathName);
 }
 
 bgfx::ProgramHandle loadProgram(bx::FileReaderI* _reader, const char* _vsName, const char* _fsName)
@@ -161,7 +161,7 @@ bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath,
 	bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
 	uint32_t size;
-	void* data = load(_reader, Auto3D::getAllocator(), _filePath, &size);
+	void* data = PrivateLoad(_reader, Auto3D::getAllocator(), _filePath, &size);
 	if (NULL != data)
 	{
 		bimg::ImageContainer* imageContainer = bimg::imageParse(Auto3D::getAllocator(), data, size);
@@ -241,9 +241,9 @@ bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath,
 	return handle;
 }
 
-bgfx::TextureHandle loadTexture(const char* _name, uint64_t _flags, uint8_t _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
+bgfx::TextureHandle loadTexture(const char* _pathName, uint64_t _flags, uint8_t _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
 {
-	return loadTexture(Auto3D::getFileReader(), _name, _flags, _skip, _info, _orientation);
+	return loadTexture(Auto3D::getFileReader(), _pathName, _flags, _skip, _info, _orientation);
 }
 
 bimg::ImageContainer* imageLoad(const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)

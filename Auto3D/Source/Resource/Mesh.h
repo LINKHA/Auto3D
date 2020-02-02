@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/Vector.h"
-#include "Core/Object.h"
+#include "IO/Resource.h"
 
 #include <bimg/bimg.h>
 #include <bx/pixelformat.h>
@@ -70,19 +70,23 @@ struct Group
 	TVector<FPrimitive> _prims;
 };
 
-class AUTO_API OMesh : public OObject
+class AUTO_API OMesh : public OResource
 {
-	DECLARE_O_CLASS(OMesh, OObject)
+	DECLARE_O_CLASS(OMesh, OResource)
 public:
-	void load(bx::ReaderSeekerI* reader, bool ramcopy = false);
+	/// Load the resource data from a stream. May be executed outside the main thread, should not access GPU resources. Return true on success.
+	virtual bool BeginLoad(const FString& pathName) override;
+	/// Finish resource loading if necessary. Always called from the main thread, so GPU resources can be accessed here. Return true on success.
+	virtual bool EndLoad()override;
 
-	void Load(const char* filePath, bool ramcopy = false);
 
 	void unload();
 
 	void submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state = BGFX_STATE_MASK) const;
 
 	void submit(const FMeshState*const* state, uint8_t numPasses, const float* mtx, uint16_t numMatrices = 1) const;
+
+	void Load(const char* filePath, bool ramcopy = false);
 
 	///
 	static FMeshState* meshStateCreate();
@@ -92,6 +96,9 @@ public:
 
 	bgfx::VertexLayout _layout;
 	TVector<Group> _groups;
+private:
+	void PrivateLoad(bx::ReaderSeekerI* reader, bool ramcopy = false);
+
 };
 
 

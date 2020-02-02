@@ -15,7 +15,7 @@ class AUTO_API AJSONFile : public OResource
 
 public:
     /// Load from a stream as text. Return true on success. Will contain partial data on failure.
-    bool BeginLoad(FStream& source) override;
+	virtual bool BeginLoad(const FString& pathName) override;
     /// Save to a stream as text. Return true on success.
     bool Save(FStream& dest) override;
 

@@ -89,7 +89,7 @@ void AActor::Tick(float deltaSeconds)
 void AActor::SetName(const FString& newName)
 {
 	if (!newName.IsEmpty())
-		_name = newName;
+		_pathName = newName;
 }
 
 void AActor::SetLayer(unsigned char newLayer)
@@ -382,7 +382,7 @@ AActor* AActor::FindChildByName(const char* childName, bool recursive) const
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
-        if (child->GetName() == FString(childName))
+        if (child->GetPathName() == FString(childName))
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -423,7 +423,7 @@ AActor* AActor::FindChildByType(FString childType, const char* childName, bool r
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         AActor* child = *it;
-        if (FType::get(child) == FType::get_by_name(childType.CString()) && child->GetName() == FString(childName))
+        if (FType::get(child) == FType::get_by_name(childType.CString()) && child->GetPathName() == FString(childName))
             return child;
         else if (recursive && child->_children.Size())
         {

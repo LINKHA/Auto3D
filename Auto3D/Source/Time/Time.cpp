@@ -48,7 +48,7 @@ void FTimeModule::Update()
 		_isFirstFrameAfterReset = false;
 		return;
 	}
-	// When coming out of a pause / startup / level load we don't want to have a spike in delta time.
+	// When coming out of a pause / startup / level PrivateLoad we don't want to have a spike in delta time.
 	// So just default to START_UP_DELTA_TIME.
 	if (_isFirstFrameAfterPause)
 	{

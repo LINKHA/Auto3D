@@ -68,7 +68,7 @@ public:
     }
     
     /// Return the stream name.
-    const FString& GetName() const { return _name; }
+    const FString& GetPathName() const { return _pathName; }
     /// Return current _position in bytes.
     size_t Position() const { return _position; }
     /// Return _size in bytes.
@@ -82,7 +82,7 @@ protected:
     /// FStream _size.
     size_t _size;
     /// FStream name.
-    FString _name;
+    FString _pathName;
 };
 
 template<> AUTO_API bool FStream::Read();

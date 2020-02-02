@@ -101,11 +101,11 @@ static bool bar(float _width, float _maxWidth, float _height, const ImVec4& _col
 
 static const ImVec4 s_resourceColor(0.5f, 0.5f, 0.5f, 1.0f);
 
-static void resourceBar(const char* _name, const char* _tooltip, uint32_t _num, uint32_t _max, float _maxWidth, float _height)
+static void resourceBar(const char* _pathName, const char* _tooltip, uint32_t _num, uint32_t _max, float _maxWidth, float _height)
 {
 	bool itemHovered = false;
 
-	ImGui::Text("%s: %4d / %4d", _name, _num, _max);
+	ImGui::Text("%s: %4d / %4d", _pathName, _num, _max);
 	itemHovered |= ImGui::IsItemHovered();
 	ImGui::SameLine();
 

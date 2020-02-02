@@ -12,7 +12,7 @@ void AMeshComponent::TickComponent(float deltaTime)
 	Super::BeginPlay();
 }
 
-void AMeshComponent::SetMesh(SPtr<OMesh>& mesh)
+void AMeshComponent::SetMesh(OMesh* mesh)
 {
 	if (mesh)
 	{
@@ -22,14 +22,14 @@ void AMeshComponent::SetMesh(SPtr<OMesh>& mesh)
 
 void AMeshComponent::SetMeshAttr(FResourceRef model)
 {
-	SPtr<OMesh> mesh = MakeShared<OMesh>();
-	mesh->Load(model._name.CString());
+	OMesh* mesh = new OMesh;
+	mesh->Load(model._pathName.CString());
 	SetMesh(mesh);
 }
 
 FResourceRef AMeshComponent::GetMeshAttr() const
 {
-	return FResourceRef(OMesh::GetTypeNameStatic(), FString()/*ResourceName(_mesh)*/);
+	return FResourceRef(OMesh::GetTypeNameStatic(), ResourceName(_mesh));
 }
 
 }

@@ -27,12 +27,12 @@ FStream::~FStream()
 
 void FStream::SetName(const FString& newName)
 {
-    _name = newName;
+    _pathName = newName;
 }
 
 void FStream::SetName(const char* newName)
 {
-    _name = newName;
+    _pathName = newName;
 }
 
 unsigned FStream::ReadVLE()

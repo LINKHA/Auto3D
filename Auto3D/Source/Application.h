@@ -39,7 +39,7 @@ public:
 	virtual bool update() = 0;
 
 	///
-	const char* getName() const { return _name; }
+	const char* getName() const { return _pathName; }
 
 	///
 	const char* getDescription() const { return _description; }
@@ -68,7 +68,7 @@ public:
 
 	static char _restartArgs[1024];
 private:
-	const char* _name;
+	const char* _pathName;
 	const char* _description;
 	const char* _url;
 

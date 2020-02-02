@@ -18,7 +18,7 @@ bool FResourceRef::FromString(const char* str)
     if (values.Size() == 2)
     {
         _type = values[0];
-        _name = values[1];
+        _pathName = values[1];
         return true;
     }
     else
@@ -28,19 +28,19 @@ bool FResourceRef::FromString(const char* str)
 void FResourceRef::FromBinary(FStream& source)
 {
     _type = source.Read<FString>();
-    _name = source.Read<FString>();
+    _pathName = source.Read<FString>();
 }
 
 FString FResourceRef::ToString() const
 {
-   // return AObject::TypeNameFromType(_type) + ";" + _name;
+   // return AObject::TypeNameFromType(_type) + ";" + _pathName;
 	return FString::EMPTY;//TEmp
 }
 
 void FResourceRef::ToBinary(FStream& dest) const
 {
     dest.Write(_type);
-    dest.Write(_name);
+    dest.Write(_pathName);
 }
 
 bool FResourceRefList::FromString(const FString& str)

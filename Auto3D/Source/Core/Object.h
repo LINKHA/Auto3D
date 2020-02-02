@@ -55,6 +55,12 @@ private:\
 	WPtr<_This> WPtrThis() { return std::dynamic_pointer_cast<_This>(shared_from_this()); }\
 public:
 
+#define REGISTER_O_CALSS_IMP(_Class) \
+	OObject::RegisterFactory<_Class>();\
+	using namespace rttr;\
+	registration::class_<_Class>(#_Class)
+	
+
 #define REGISTER_REFLECTION_FUNCATION rttr_auto_register_reflection_function_
 
 class FObjectFactory;

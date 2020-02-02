@@ -150,7 +150,7 @@ class AUTO_API FHashBase
 public:
     /// Initial amount of buckets.
     static const size_t MIN_BUCKETS = 8;
-    /// Maximum load factor.
+    /// Maximum PrivateLoad factor.
     static const size_t MAX_LOAD_FACTOR = 4;
     
     /// Construct.

@@ -3,16 +3,22 @@
 #include "Debug/Profiler.h"
 #include "IO/File.h"
 #include "JSONFile.h"
+#include "IO/ResourceCache.h"
 
 #include "Debug/DebugNew.h"
 
 namespace Auto3D
 {
 
-bool AJSONFile::BeginLoad(FStream& source)
+bool AJSONFile::BeginLoad(const FString& pathName)
 {
     PROFILE(LoadJSONFile);
-    
+	GResourceModule& resourceCahce = GResourceModule::Get();
+	UPtr<FStream> stream(resourceCahce.OpenResource(pathName));
+	if (!stream)
+		return false;
+	FStream& source = *stream;
+
     size_t dataSize = source.Size() - source.Position();
     TAutoArrayPtr<char> buffer(new char[dataSize]);
     if (source.Read(buffer.Get(), dataSize) != dataSize)
@@ -27,7 +33,7 @@ bool AJSONFile::BeginLoad(FStream& source)
     bool success = _root.Parse(pos, end);
     if (!success)
     {
-        ErrorString("Parsing JSON from " + source.GetName() + " failed; data may be partial");
+        ErrorString("Parsing JSON from " + source.GetPathName() + " failed; data may be partial");
     }
 
     return success;

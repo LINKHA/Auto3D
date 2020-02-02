@@ -70,7 +70,7 @@ public:
     /// Reparent the node.
     void SetParentNode(AActor* newParent);
 	/// Return name.
-	const FString& GetName() const { return _name; }
+	const FString& GetPathName() const { return _pathName; }
 	/// Return layer.
 	unsigned char GetLayer() const { return _layer; }
 	/// Return layer name, or empty if not registered in the scene root.
@@ -222,7 +222,7 @@ protected:
     /// GetId within the scene.
     unsigned _id;
     /// %AActor name.
-    FString _name;
+    FString _pathName;
     /// %AActor flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
     mutable unsigned short _flags;
     /// Layer number.

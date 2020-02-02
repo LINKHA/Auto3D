@@ -21,9 +21,9 @@ uint32_t GProcessWindow::_width = 0;
 uint32_t GProcessWindow::_height = 0;
 MouseState GProcessWindow::_mouseState;
 
-bool setOrToggle(uint32_t& _flags, const char* _name, uint32_t _bit, int _first, int _argc, char const* const* _argv)
+bool setOrToggle(uint32_t& _flags, const char* _pathName, uint32_t _bit, int _first, int _argc, char const* const* _argv)
 {
-	if (0 == bx::strCmp(_argv[_first], _name))
+	if (0 == bx::strCmp(_argv[_first], _pathName))
 	{
 		int arg = _first + 1;
 		if (_argc > arg)

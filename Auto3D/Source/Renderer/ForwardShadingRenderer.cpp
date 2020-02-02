@@ -18,7 +18,6 @@
 namespace Auto3D
 {
 int64_t GBox::_timeOffset;
-SPtr<OMesh> GBox::_mesh;
 bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
 MouseState GBox::_mouseState;

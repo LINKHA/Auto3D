@@ -110,7 +110,7 @@ bool GSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
 {
 	PROFILE(SaveSceneJSON);
 
-	InfoString("Saving scene to " + dest.GetName());
+	InfoString("Saving scene to " + dest.GetPathName());
 
 	AJSONFile json;
 	SaveJSON(json.Root(), scene);
@@ -120,10 +120,10 @@ bool GSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
 bool GSerializationModule::LoadRootJSON(FStream& source, AWorld* scene)
 {
 	PROFILE(LoadSceneJSON);
-	InfoString("Loading scene from " + source.GetName());
+	InfoString("Loading scene from " + source.GetPathName());
 
 	AJSONFile json;
-	bool success = json.Load(source);
+	bool success = json.Load(source.GetPathName());
 	LoadRootJSON(json.Root(), scene);
 	return success;
 }
@@ -149,7 +149,7 @@ bool GSerializationModule::SaveRoot(FStream& dest, AWorld* scene)
 {
 	PROFILE(SaveScene);
 
-	InfoString("Saving scene to " + dest.GetName());
+	InfoString("Saving scene to " + dest.GetPathName());
 
 	dest.WriteFileID("SCNE");
 	Save(dest, scene);
@@ -161,7 +161,7 @@ bool GSerializationModule::LoadRoot(FStream& source, AWorld* scene)
 {
 	PROFILE(LoadScene);
 
-	InfoString("Loading scene from " + source.GetName());
+	InfoString("Loading scene from " + source.GetPathName());
 
 	FString fileId = source.ReadFileID();
 	if (fileId != "SCNE")

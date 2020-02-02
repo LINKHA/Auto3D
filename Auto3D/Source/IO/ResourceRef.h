@@ -14,7 +14,7 @@ struct AUTO_API FResourceRef
     /// OResource type.
     FString _type;
     /// OResource name.
-    FString _name;
+    FString _pathName;
 
     /// Construct.
     FResourceRef()
@@ -24,7 +24,7 @@ struct AUTO_API FResourceRef
     // Copy-construct.
     FResourceRef(const FResourceRef& ref) :
         _type(ref._type),
-        _name(ref._name)
+        _pathName(ref._pathName)
     {
     }
 
@@ -43,7 +43,7 @@ struct AUTO_API FResourceRef
     /// Construct with type and resource name.
     FResourceRef(FString type, const FString& name = FString::EMPTY) :
         _type(type),
-        _name(name)
+        _pathName(name)
     {
     }
 
@@ -60,7 +60,7 @@ struct AUTO_API FResourceRef
     void ToBinary(FStream& dest) const;
 
     /// Test for equality with another reference.
-    bool operator == (const FResourceRef& rhs) const { return _type == rhs._type && _name == rhs._name; }
+    bool operator == (const FResourceRef& rhs) const { return _type == rhs._type && _pathName == rhs._pathName; }
     /// Test for inequality with another reference.
     bool operator != (const FResourceRef& rhs) const { return !(*this == rhs); }
 };

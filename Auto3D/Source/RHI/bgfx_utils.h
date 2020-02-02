@@ -14,19 +14,19 @@ namespace stl = tinystl;
 
 
 ///
-void* load(const char* _filePath, uint32_t* _size = NULL);
+void* PrivateLoad(const char* _filePath, uint32_t* _size = NULL);
 
 ///
 void unload(void* _ptr);
 
 ///
-bgfx::ShaderHandle loadShader(const char* _name);
+bgfx::ShaderHandle loadShader(const char* _pathName);
 
 ///
 bgfx::ProgramHandle loadProgram(const char* _vsName, const char* _fsName);
 
 ///
-bgfx::TextureHandle loadTexture(const char* _name, uint64_t _flags = BGFX_TEXTURE_NONE|BGFX_SAMPLER_NONE, uint8_t _skip = 0, bgfx::TextureInfo* _info = NULL, bimg::Orientation::Enum* _orientation = NULL);
+bgfx::TextureHandle loadTexture(const char* _pathName, uint64_t _flags = BGFX_TEXTURE_NONE|BGFX_SAMPLER_NONE, uint8_t _skip = 0, bgfx::TextureInfo* _info = NULL, bimg::Orientation::Enum* _orientation = NULL);
 
 ///
 bimg::ImageContainer* imageLoad(const char* _filePath, bgfx::TextureFormat::Enum _dstFormat);

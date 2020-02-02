@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-bool OResource::BeginLoad(FStream&)
+bool OResource::BeginLoad(const FString& pathName)
 {
     return false;
 }
@@ -22,9 +22,9 @@ bool OResource::Save(FStream&)
     return false;
 }
 
-bool OResource::Load(FStream& source)
+bool OResource::Load(const FString& pathName)
 {
-    bool success = BeginLoad(source);
+    bool success = BeginLoad(pathName);
     if (success)
         success &= EndLoad();
 
@@ -33,8 +33,7 @@ bool OResource::Load(FStream& source)
 
 void OResource::SetName(const FString& newName)
 {
-    _name = newName;
-    _nameHash = FStringHash(newName);
+    _pathName = newName;
 }
 void OResource::SetMemoryUse(unsigned _size)
 {

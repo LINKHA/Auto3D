@@ -16,9 +16,9 @@ public:
 	virtual void TickComponent(float deltaTime) override;
 
 	/// Set the mesh resource.
-	void SetMesh(SPtr<OMesh>& mesh);
+	void SetMesh(OMesh* mesh);
 	/// Return the mesh resource.
-	SPtr<OMesh>& GetMesh() { return _mesh; }
+	OMesh* GetMesh() { return _mesh; }
 public:
 	/// Set mesh attribute. Used in serialization.
 	void SetMeshAttr(FResourceRef model);
@@ -26,6 +26,6 @@ public:
 	FResourceRef GetMeshAttr() const;
 private:
 	/// Current mesh resource.
-	SPtr<OMesh> _mesh;
+	OMesh* _mesh;
 };
 }

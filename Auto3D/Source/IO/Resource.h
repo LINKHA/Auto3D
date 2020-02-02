@@ -15,30 +15,26 @@ class AUTO_API OResource : public OObject
 
 public:
     /// Load the resource data from a stream. May be executed outside the main thread, should not access GPU resources. Return true on success.
-    virtual bool BeginLoad(FStream& source);
+    virtual bool BeginLoad(const FString& pathName);
     /// Finish resource loading if necessary. Always called from the main thread, so GPU resources can be accessed here. Return true on success.
     virtual bool EndLoad();
     /// Save the resource to a stream. Return true on success.
     virtual bool Save(FStream& dest);
 
     /// Load the resource synchronously from a binary stream. Return true on success.
-    bool Load(FStream& source);
+    bool Load(const FString& pathName);
     /// Set name of the resource, usually the same as the file being loaded from.
     void SetName(const FString& newName);
 
 	void SetMemoryUse(unsigned _size);
 
     /// Return name of the resource.
-    const FString& GetName() const { return _name; }
-    /// Return name hash of the resource.
-    const FStringHash& NameHash() const { return _nameHash; }
+    const FString& GetPathName() const { return _pathName; }
 	/// Return memory use in bytes, possibly approximate.
 	unsigned GetMemoryUse() const { return _memoryUse; }
 private:
     /// OResource name.
-    FString _name;
-    /// OResource name hash.
-    FStringHash _nameHash;
+    FString _pathName;
 
 	/// Memory use in bytes.
 	unsigned _memoryUse;
@@ -47,7 +43,7 @@ private:
 /// Return name from a resource pointer.
 inline const FString& ResourceName(OResource* resource)
 {
-    return resource ? resource->GetName() : FString::EMPTY;
+    return resource ? resource->GetPathName() : FString::EMPTY;
 }
 
 /// Return type from a resource pointer, or default type if null.

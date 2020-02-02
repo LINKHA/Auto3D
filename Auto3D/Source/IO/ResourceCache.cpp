@@ -60,13 +60,13 @@ bool GResourceModule::AddManualResource(OResource* resource)
         return false;
     }
 
-    if (resource->GetName().IsEmpty())
+    if (resource->GetPathName().IsEmpty())
     {
         ErrorString("Manual resource with empty name, can not add");
         return false;
     }
 
-    _resources[MakePair(resource->GetTypeName(), resource->GetName())] = resource;
+    _resources[MakePair(resource->GetTypeName(), resource->GetPathName())] = resource;
     return true;
 }
 
@@ -137,7 +137,7 @@ void GResourceModule::UnloadResources(FString type, const FString& partialName, 
             if (current->_first._first == type)
             {
                 OResource* resource = current->_second;
-                if (resource->GetName().StartsWith(partialName) && force)
+                if (resource->GetPathName().StartsWith(partialName) && force)
                 {
                     _resources.Erase(current);
                     ++unloaded;
@@ -161,7 +161,7 @@ void GResourceModule::UnloadResources(const FString& partialName, bool force)
         {
             auto current = it++;
             OResource* resource = current->_second;
-            if (resource->GetName().StartsWith(partialName) && (force))
+            if (resource->GetPathName().StartsWith(partialName) && (force))
             {
                 _resources.Erase(current);
                 ++unloaded;
@@ -201,8 +201,56 @@ bool GResourceModule::ReloadResource(OResource* resource)
     if (!resource)
         return false;
 
-    UPtr<FStream> stream(OpenResource(resource->GetName()));
-    return stream ? resource->Load(*stream) : false;
+    UPtr<FStream> stream(OpenResource(resource->GetPathName()));
+    return stream ? resource->Load(stream->GetPathName()) : false;
+}
+
+OResource* GResourceModule::LoadResource(FString type, const FString& nameIn)
+{
+	FString name = SanitateResourceName(nameIn);
+
+	// If empty name, return null pointer immediately without logging an error
+	if (name.IsEmpty())
+		return nullptr;
+
+	// Check for existing resource
+	auto key = MakePair(type, name);
+	auto it = _resources.Find(key);
+	if (it != _resources.End())
+		return it->_second;
+
+	OObject* newObject = NewObject(type);
+	if (!newObject)
+	{
+		ErrorString("Could not load unknown resource type " + FString(type));
+		return nullptr;
+	}
+	OResource* newResource = dynamic_cast<OResource*>(newObject);
+	if (!newResource)
+	{
+		ErrorString("Type " + FString(type) + " is not a resource");
+		return nullptr;
+	}
+
+	LogString("Loading resource " + name);
+	newResource->SetName(name);
+	if (!newResource->Load(name))
+		return nullptr;
+
+	// Store to cache
+	_resources[key] = newResource;
+	return newResource;
+}
+
+void GResourceModule::ResourcesByType(TVector<OResource*>& result, FString type) const
+{
+	result.Clear();
+
+	for (auto it = _resources.Begin(); it != _resources.End(); ++it)
+	{
+		if (it->_second->GetTypeName() == type)
+			result.Push(it->_second);
+	}
 }
 
 FStream* GResourceModule::OpenResource(const FString& nameIn)
@@ -232,59 +280,6 @@ FStream* GResourceModule::OpenResource(const FString& nameIn)
     }
 
     return ret;
-}
-
-OResource* GResourceModule::LoadResource(FString type, const FString& nameIn)
-{
-    FString name = SanitateResourceName(nameIn);
-
-    // If empty name, return null pointer immediately without logging an error
-    if (name.IsEmpty())
-        return nullptr;
-
-    // Check for existing resource
-    auto key = MakePair(type, name);
-    auto it = _resources.Find(key);
-    if (it != _resources.End())
-        return it->_second;
-
-    OObject* newObject = NewObject(type);
-    if (!newObject)
-    {
-        ErrorString("Could not load unknown resource type " + FString(type));
-        return nullptr;
-    }
-    OResource* newResource = dynamic_cast<OResource*>(newObject);
-    if (!newResource)
-    {
-        ErrorString("Type " + FString(type) + " is not a resource");
-        return nullptr;
-    }
-
-    // Attempt to load the resource
-	UPtr<FStream> stream(OpenResource(name));
-    if (!stream)
-        return nullptr;
-
-    LogString("Loading resource " + name);
-    newResource->SetName(name);
-    if (!newResource->Load(*stream))
-        return nullptr;
-
-    // Store to cache
-    _resources[key] = newResource;
-    return newResource;
-}
-
-void GResourceModule::ResourcesByType(TVector<OResource*>& result, FString type) const
-{
-    result.Clear();
-
-    for (auto it = _resources.Begin(); it != _resources.End(); ++it)
-    {
-        if (it->_second->GetTypeName() == type)
-            result.Push(it->_second);
-    }
 }
 
 bool GResourceModule::Exists(const FString& nameIn) const

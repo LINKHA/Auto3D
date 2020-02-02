@@ -203,14 +203,14 @@ struct Input
 	{
 	}
 
-	void addBindings(const char* _name, const InputBinding* _bindings)
+	void addBindings(const char* _pathName, const InputBinding* _bindings)
 	{
-		m_inputBindingsMap.insert(stl::make_pair(stl::string(_name), _bindings));
+		m_inputBindingsMap.insert(stl::make_pair(stl::string(_pathName), _bindings));
 	}
 
-	void removeBindings(const char* _name)
+	void removeBindings(const char* _pathName)
 	{
-		InputBindingMap::iterator it = m_inputBindingsMap.find(stl::string(_name));
+		InputBindingMap::iterator it = m_inputBindingsMap.find(stl::string(_pathName));
 		if (it != m_inputBindingsMap.end())
 		{
 			m_inputBindingsMap.erase(it);
@@ -302,14 +302,14 @@ void InputShutdown()
 	BX_DELETE(Auto3D::getAllocator(), s_input);
 }
 
-void InputAddBindings(const char* _name, const InputBinding* _bindings)
+void InputAddBindings(const char* _pathName, const InputBinding* _bindings)
 {
-	s_input->addBindings(_name, _bindings);
+	s_input->addBindings(_pathName, _bindings);
 }
 
-void InputRemoveBindings(const char* _name)
+void InputRemoveBindings(const char* _pathName)
 {
-	s_input->removeBindings(_name);
+	s_input->removeBindings(_pathName);
 }
 
 void InputProcess()
