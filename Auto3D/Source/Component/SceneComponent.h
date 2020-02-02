@@ -1,6 +1,6 @@
 #pragma once
 #include "Component/ActorComponent.h"
-#include "IO/ResourceRef.h"
+#include "Resource/ResourceRef.h"
 
 namespace Auto3D
 {

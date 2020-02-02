@@ -1,5 +1,5 @@
 #include "Debug/Log.h"
-#include "Resource.h"
+#include "Resource/Resource.h"
 #include "Debug/DebugNew.h"
 
 namespace Auto3D

@@ -69,6 +69,26 @@ static void REGISTER_REFLECTION_FUNCATION()
 
 	REGISTER_A_CALSS_IMP(ACameraComponent)
 		.constructor<>()
+		.property("nearClip", &ACameraComponent::GetNearClip, &ACameraComponent::SetNearClip)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("farClip", &ACameraComponent::GetFarClip, &ACameraComponent::SetFarClip)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("fov", &ACameraComponent::GetFov, &ACameraComponent::SetFov)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("aspectRatio", &ACameraComponent::GetAspectRatio, &ACameraComponent::SetAspectRatio)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("viewLayoutMask", &ACameraComponent::GetViewMask, &ACameraComponent::SetLayoutMask)
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		;
 
 	REGISTER_A_CALSS_IMP(AMeshComponent)
@@ -88,6 +108,18 @@ static void REGISTER_REFLECTION_FUNCATION()
 		;
 	REGISTER_A_CALSS_IMP(ATransform)
 		.constructor<>()
+		.property("position", &ATransform::GetPosition, &ATransform::SetPosition)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("rotation", &ATransform::GetRotation, &ATransform::SetRotation)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("scale", &ATransform::GetScale, static_cast<void(ATransform::*)(const TVector3F&)>(&ATransform::SetScale))
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		;
 
 }

@@ -17,7 +17,7 @@
 #include "IO/FileSystem.h"
 #include "IO/Stream.h"
 #include "IO/File.h"
-#include "IO/ResourceCache.h"
+#include "Resource/ResourceCache.h"
 
 #include "Resource/Mesh.h"
 

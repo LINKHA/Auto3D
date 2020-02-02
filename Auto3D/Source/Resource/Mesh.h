@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/Vector.h"
-#include "IO/Resource.h"
+#include "Resource/Resource.h"
 
 #include <bimg/bimg.h>
 #include <bx/pixelformat.h>

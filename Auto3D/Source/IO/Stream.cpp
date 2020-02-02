@@ -2,7 +2,7 @@
 #include "Stream.h"
 #include "JSONValue.h"
 #include "ObjectRef.h"
-#include "ResourceRef.h"
+#include "Resource/ResourceRef.h"
 
 #include "Debug/DebugNew.h"
 

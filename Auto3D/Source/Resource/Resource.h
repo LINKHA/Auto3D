@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IO/ResourceRef.h"
+#include "Resource/ResourceRef.h"
 #include "Core/Object.h"
 
 namespace Auto3D
@@ -71,7 +71,7 @@ template <typename _Ty> TVector<FString> ResourceNames(const TVector<_Ty*>& reso
 /// Make a resource ref list from a vector of resource poitners.
 template <typename _Ty> FResourceRefList MakeResourceRefList(const TVector<_Ty*>& resources)
 {
-    return FResourceRefList(_Ty::TypeStatic(), GetResourceNames(resources));
+    return FResourceRefList(_Ty::GetTypeNameStatic(), ResourceNames(resources));
 }
 
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IO/JSONValue.h"
-#include "Resource.h"
+#include "Resource/Resource.h"
 
 namespace Auto3D
 {

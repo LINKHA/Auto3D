@@ -3,7 +3,7 @@
 #include "Debug/Profiler.h"
 #include "IO/File.h"
 #include "JSONFile.h"
-#include "IO/ResourceCache.h"
+#include "Resource/ResourceCache.h"
 
 #include "Debug/DebugNew.h"
 

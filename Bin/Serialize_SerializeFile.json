@@ -16,7 +16,10 @@
   ],
   "components": [
     {
-      "type": "ATransform"
+      "type": "ATransform",
+      "position": "0 0 0",
+      "rotation": "1 0 0 0",
+      "scale": "1 1 1"
     }
   ],
   "children": [
@@ -30,10 +33,18 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform"
+          "type": "ATransform",
+          "position": "0 1 -2.5",
+          "rotation": "1 0 0 0",
+          "scale": "1 1 1"
         },
         {
-          "type": "ACameraComponent"
+          "type": "ACameraComponent",
+          "nearClip": 0.1,
+          "farClip": 100,
+          "fov": 60,
+          "aspectRatio": 1,
+          "viewLayoutMask": 3.45282e+09
         },
         {
           "type": "ADefaultController"
@@ -50,7 +61,10 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform"
+          "type": "ATransform",
+          "position": "0 0 0",
+          "rotation": "1 0 0 0",
+          "scale": "1 1 1"
         },
         {
           "type": "AMeshComponent",
