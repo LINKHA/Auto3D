@@ -73,6 +73,10 @@ static void REGISTER_REFLECTION_FUNCATION()
 
 	REGISTER_A_CALSS_IMP(AMeshComponent)
 		.constructor<>()
+		.property("mesh", &AMeshComponent::GetMeshAttr, &AMeshComponent::SetMeshAttr)
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		;
 
 	REGISTER_A_CALSS_IMP(AController)

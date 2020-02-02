@@ -193,6 +193,22 @@ void GSerializationModule::SaveJSON(FJSONValue& dest, AActor* node)
 	//Save the properties
 	SavePropertyJSONs(dest, node);
 
+	TVector<AActorComponent*> components;
+	node->GetAllComponents(components);
+
+	if (components.Size())
+	{
+		dest["components"].SetEmptyArray();
+		for (auto it = components.Begin(); it != components.End(); ++it)
+		{
+			AActorComponent* comp = *it;
+
+			FJSONValue compJSON;
+			SaveComponentJSON(compJSON, comp);
+			dest["components"].Push(compJSON);
+		}
+	}
+
 	if (node->NumPersistentChildren())
 	{
 		dest["children"].SetEmptyArray();
@@ -210,6 +226,19 @@ void GSerializationModule::SaveJSON(FJSONValue& dest, AActor* node)
 	}
 }
 
+void GSerializationModule::SaveComponentJSON(FJSONValue& dest, AActorComponent* comp)
+{
+	dest["type"] = RtToStr(FType::get(*comp).get_name());
+	//Save the properties
+	FType type = FType::get(*comp);
+
+	for (auto& prop : type.get_properties())
+	{
+		if (prop.get_metadata(SERIALIZABLE))
+			SavePropertyJSON(dest, prop, comp);
+	}
+}
+
 void GSerializationModule::SavePropertyJSONs(FJSONValue& dest, AActor* node)
 {
 	FType type = FType::get(*node);
@@ -218,107 +247,6 @@ void GSerializationModule::SavePropertyJSONs(FJSONValue& dest, AActor* node)
 	{
 		if (prop.get_metadata(SERIALIZABLE))
 			SavePropertyJSON(dest, prop, node);
-	}
-}
-void GSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& prop, AActor* node)
-{
-	FType type = prop.get_type();
-	FPropertyType propertyType(type);
-
-	switch (propertyType._type)
-	{
-	case EPropertyType::BOOL:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<bool>();
-		break;
-
-	case EPropertyType::BYTE:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<unsigned char>();
-		break;
-
-	case EPropertyType::UNSIGNED:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<unsigned>();
-		break;
-
-	case EPropertyType::INT:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<int>();
-		break;
-
-	case EPropertyType::INTVECTOR2:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector2I>().ToString();
-		break;
-
-	case EPropertyType::INTRECT:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TRectI>().ToString();
-		break;
-
-	case EPropertyType::FLOAT:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<float>();
-		break;
-
-	case EPropertyType::VECTOR2:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector2F>().ToString();
-		break;
-
-	case EPropertyType::VECTOR3:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector3F>().ToString();
-		break;
-
-	case EPropertyType::VECTOR4:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector4F>().ToString();
-		break;
-
-	case EPropertyType::QUATERNION:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FQuaternion>().ToString();
-		break;
-
-	case EPropertyType::COLOR:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FColor>().ToString();
-		break;
-
-	case EPropertyType::RECT:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TRectF>().ToString();
-		break;
-
-	case EPropertyType::BOUNDINGBOX:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TBoundingBoxF>().ToString();
-		break;
-
-	case EPropertyType::MATRIX2:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix2x2F>().ToString();
-		break;
-
-	case EPropertyType::MATRIX3:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix3x3F>().ToString();
-		break;
-
-	case EPropertyType::MATRIX3X4:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix3x4F>().ToString();
-		break;
-
-	case EPropertyType::MATRIX4:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix4x4F>().ToString();
-		break;
-
-	case EPropertyType::STRING:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FString>();
-		break;
-
-	case EPropertyType::RESOURCEREF:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRef>().ToString();
-		break;
-
-	case EPropertyType::RESOURCEREFLIST:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRefList>().ToString();
-		break;
-
-	case EPropertyType::OBJECTREF:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FObjectRef>()._id;
-		break;
-
-	case EPropertyType::JSONVALUE:
-		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FJSONValue>();
-	default:
-		break;
 	}
 }
 

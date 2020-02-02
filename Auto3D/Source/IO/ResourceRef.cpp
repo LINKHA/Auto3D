@@ -33,8 +33,7 @@ void FResourceRef::FromBinary(FStream& source)
 
 FString FResourceRef::ToString() const
 {
-   // return AObject::TypeNameFromType(_type) + ";" + _pathName;
-	return FString::EMPTY;//TEmp
+    return _type + ";" + _pathName;
 }
 
 void FResourceRef::ToBinary(FStream& dest) const
