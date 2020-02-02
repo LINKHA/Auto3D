@@ -21,6 +21,9 @@ namespace ETransformSpace
 	};
 };
 
+/// |Postion  |   x:right  |   y:up   |   z:forward  | 
+/// |Rotation |	  x:pitch  |   y:yaw  |	  z:roll	 |
+/// |Scale    |	  x:right  |   y:up   |   z:forward  |
 /// Base class for actor with position in three-dimensional space.
 class AUTO_API ATransform : public AActorComponent
 {

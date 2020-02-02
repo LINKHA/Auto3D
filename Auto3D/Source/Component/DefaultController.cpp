@@ -151,7 +151,7 @@ void ADefaultController::TickComponent(float deltaTime)
 	_keys |= gpy < -16834 ? DEFAULT_CONTROLLER_KEY_FORWARD : 0;
 	_keys |= gpy > 16834 ? DEFAULT_CONTROLLER_KEY_BACKWARD : 0;
 
-
+	
 	ATransform* ownerTransform = GetOwner()->GetTransform();
 	ownerTransform->SetRotation(FQuaternion(-_verticalAngle * 90, _horizontalAngle * 90, 0.0f));
 

@@ -7,7 +7,7 @@
 #include <bx/timer.h>
 #include "Resource/Mesh.h"
 
-
+#include "Component/Transform.h"
 #include "Component/CameraComponent.h"
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
@@ -103,21 +103,18 @@ void FForwardShadingRenderer::Render()
 
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 		}
-	
-
-		float mtx[16];
-		bx::mtxRotateXY(mtx
-			, 0.0f
-			, time*0.37f
-		);
 
 		for (auto it = geometries.Begin(); it != geometries.End(); ++it)
 		{
 			AActor* actor = *it;
+			ATransform* transform = actor->GetTransform();
+			TMatrix4x4F modelMatrix = transform->GetWorldTransform().ToMatrix4().Transpose();
+
 			AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
 			if (meshComponent)
 			{
-				meshComponent->GetMesh()->submit(0, GBox::_program, mtx);
+				//meshComponent->GetMesh()->submit(0, GBox::_program, mtx);
+				meshComponent->GetMesh()->submit(0, GBox::_program, modelMatrix.Data());
 			}
 		}
 	}
