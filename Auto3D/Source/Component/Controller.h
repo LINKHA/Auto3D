@@ -7,7 +7,7 @@ namespace Auto3D
 
 class AUTO_API AController : public AActorComponent
 {
-	DECLARE_CLASS(AController, AActorComponent)
+	DECLARE_A_CLASS(AController, AActorComponent)
 public:
 	AController();
 	~AController();

@@ -15,7 +15,7 @@ namespace Auto3D
 
 class AUTO_API ADefaultController : public AController
 {
-	DECLARE_CLASS(ADefaultController, AController)
+	DECLARE_A_CLASS(ADefaultController, AController)
 
 public:
 	ADefaultController();

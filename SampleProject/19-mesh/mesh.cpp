@@ -52,7 +52,7 @@ public:
 
 		//m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
 		//m_mesh = meshLoad("meshes/bunny.bin");
-		m_mesh = MakeShared<FMesh>();
+		m_mesh = MakeShared<OMesh>();
 		m_mesh->Load("meshes/bunny.bin");
 
 		
@@ -118,7 +118,7 @@ public:
 	uint32_t m_reset;
 
 	int64_t m_timeOffset;
-	SPtr<FMesh> m_mesh;
+	SPtr<OMesh> m_mesh;
 	bgfx::ProgramHandle m_program;
 	bgfx::UniformHandle u_time;
 };

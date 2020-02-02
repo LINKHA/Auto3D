@@ -8,7 +8,7 @@ class AActor;
 class AWorld;
 class AActorComponent : public OObject
 {
-	DECLARE_CLASS(AActorComponent, OObject)
+	DECLARE_A_CLASS(AActorComponent, OObject)
 public:
 	AActorComponent();
 	virtual ~AActorComponent(){}

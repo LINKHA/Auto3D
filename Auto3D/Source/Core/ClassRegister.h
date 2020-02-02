@@ -12,12 +12,12 @@ namespace Auto3D
 ///... .h
 ///class TestClass : public AObject
 ///{
-///		DECLARE_CLASS(TestClass, AObject)
+///		DECLARE_A_CLASS(TestClass, AObject)
 ///
 ///... .cpp
 ///REGISTER_CLASS(TestClass)
 ///{
-///	REGISTER_CALSS_IMP(TestClass)
+///	REGISTER_A_CALSS_IMP(TestClass)
 ///		.constructor<>()
 class AUTO_API FClassRegister
 {

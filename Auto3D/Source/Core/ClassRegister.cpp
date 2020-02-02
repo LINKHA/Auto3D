@@ -17,12 +17,12 @@ using namespace Auto3D;
 
 static void REGISTER_REFLECTION_FUNCATION()
 {
-	REGISTER_CALSS_IMP(OObject)
+	REGISTER_A_CALSS_IMP(OObject)
 		.constructor<>()
 		.method("getTypeName", &OObject::GetTypeName)
 		;
 
-	REGISTER_CALSS_IMP(AActor)
+	REGISTER_A_CALSS_IMP(AActor)
 		.constructor<>()
 		.property("name", &AActor::GetName, &AActor::SetName)
 		(
@@ -46,7 +46,7 @@ static void REGISTER_REFLECTION_FUNCATION()
 		)
 		;
 
-	REGISTER_CALSS_IMP(AWorld)
+	REGISTER_A_CALSS_IMP(AWorld)
 		.constructor<>()
 		.property("layerNames", &AWorld::GetLayerNamesAttr, &AWorld::SetLayerNamesAttr)
 		(
@@ -58,22 +58,22 @@ static void REGISTER_REFLECTION_FUNCATION()
 		)
 		;
 
-	REGISTER_CALSS_IMP(ACameraComponent)
+	REGISTER_A_CALSS_IMP(ACameraComponent)
 		.constructor<>()
 		;
 
-	REGISTER_CALSS_IMP(AMeshComponent)
+	REGISTER_A_CALSS_IMP(AMeshComponent)
 		.constructor<>()
 		;
 
-	REGISTER_CALSS_IMP(AController)
+	REGISTER_A_CALSS_IMP(AController)
 		.constructor<>()
 		;
 
-	REGISTER_CALSS_IMP(ADefaultController)
+	REGISTER_A_CALSS_IMP(ADefaultController)
 		.constructor<>()
 		;
-	REGISTER_CALSS_IMP(ATransform)
+	REGISTER_A_CALSS_IMP(ATransform)
 		.constructor<>()
 		;
 }

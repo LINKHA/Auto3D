@@ -6,7 +6,7 @@ namespace Auto3D
 
 class AUTO_API AMeshComponent : public ASceneComponent
 {
-	DECLARE_CLASS(AMeshComponent, ASceneComponent)
+	DECLARE_A_CLASS(AMeshComponent, ASceneComponent)
 public:
 	AMeshComponent() {}
 	~AMeshComponent() {}
@@ -16,11 +16,16 @@ public:
 	virtual void TickComponent(float deltaTime) override;
 
 	/// Set the mesh resource.
-	void SetMesh(SPtr<FMesh>& mesh);
-
-	SPtr<FMesh>& GetMesh() { return _mesh; }
+	void SetMesh(SPtr<OMesh>& mesh);
+	/// Return the mesh resource.
+	SPtr<OMesh>& GetMesh() { return _mesh; }
+public:
+	/// Set mesh attribute. Used in serialization.
+	void SetMeshAttr(FResourceRef model);
+	/// Return mesh attribute. Used in serialization.
+	FResourceRef GetMeshAttr() const;
 private:
 	/// Current mesh resource.
-	SPtr<FMesh> _mesh;
+	SPtr<OMesh> _mesh;
 };
 }

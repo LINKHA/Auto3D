@@ -35,7 +35,7 @@ static const unsigned LAYERMASK_ALL = 0xffffffff;
 /// Base class for scene nodes.
 class AUTO_API AActor : public OObject
 {
-	DECLARE_CLASS(AActor, OObject)
+	DECLARE_A_CLASS(AActor, OObject)
 public:
     /// Construct.
     AActor();

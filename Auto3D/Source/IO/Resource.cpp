@@ -5,24 +5,24 @@
 namespace Auto3D
 {
 
-bool AResource::BeginLoad(FStream&)
+bool OResource::BeginLoad(FStream&)
 {
     return false;
 }
 
-bool AResource::EndLoad()
+bool OResource::EndLoad()
 {
     // Resources that do not need access to main-thread critical objects do not need to override this
     return true;
 }
 
-bool AResource::Save(FStream&)
+bool OResource::Save(FStream&)
 {
     ErrorString("Save not supported for " + GetTypeName());
     return false;
 }
 
-bool AResource::Load(FStream& source)
+bool OResource::Load(FStream& source)
 {
     bool success = BeginLoad(source);
     if (success)
@@ -31,12 +31,12 @@ bool AResource::Load(FStream& source)
     return success;
 }
 
-void AResource::SetName(const FString& newName)
+void OResource::SetName(const FString& newName)
 {
     _name = newName;
     _nameHash = FStringHash(newName);
 }
-void AResource::SetMemoryUse(unsigned _size)
+void OResource::SetMemoryUse(unsigned _size)
 {
 	_memoryUse = _size;
 }

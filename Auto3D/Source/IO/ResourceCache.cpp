@@ -12,19 +12,19 @@
 namespace Auto3D
 {
 
-IMPLEMENT_SINGLETON(FResourceModule)
+IMPLEMENT_SINGLETON(GResourceModule)
 
-FResourceModule::FResourceModule()
+GResourceModule::GResourceModule()
 {
 	AddResourceDir(ExecutableDir() + "Data");
 }
 
-FResourceModule::~FResourceModule()
+GResourceModule::~GResourceModule()
 {
     UnloadAllResources(true);
 }
 
-bool FResourceModule::AddResourceDir(const FString& pathName, bool addFirst)
+bool GResourceModule::AddResourceDir(const FString& pathName, bool addFirst)
 {
     PROFILE(AddResourceDir);
 
@@ -52,7 +52,7 @@ bool FResourceModule::AddResourceDir(const FString& pathName, bool addFirst)
     return true;
 }
 
-bool FResourceModule::AddManualResource(AResource* resource)
+bool GResourceModule::AddManualResource(OResource* resource)
 {
     if (!resource)
     {
@@ -70,7 +70,7 @@ bool FResourceModule::AddManualResource(AResource* resource)
     return true;
 }
 
-void FResourceModule::RemoveResourceDir(const FString& pathName)
+void GResourceModule::RemoveResourceDir(const FString& pathName)
 {
     // Convert path to absolute
     FString fixedPath = SanitateResourceDirName(pathName);
@@ -86,19 +86,19 @@ void FResourceModule::RemoveResourceDir(const FString& pathName)
     }
 }
 
-void FResourceModule::UnloadResource(FString type, const FString& name, bool force)
+void GResourceModule::UnloadResource(FString type, const FString& name, bool force)
 {
     auto key = MakePair(type, name);
     auto it = _resources.Find(key);
     if (it == _resources.End())
         return;
 
-    AResource* resource = it->_second;
+    OResource* resource = it->_second;
     if (force)
         _resources.Erase(key);
 }
 
-void FResourceModule::UnloadResources(FString type, bool force)
+void GResourceModule::UnloadResources(FString type, bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -110,7 +110,7 @@ void FResourceModule::UnloadResources(FString type, bool force)
             auto current = it++;
             if (current->_first._first == type)
             {
-                AResource* resource = current->_second;
+                OResource* resource = current->_second;
                 if (force)
                 {
                     _resources.Erase(current);
@@ -124,7 +124,7 @@ void FResourceModule::UnloadResources(FString type, bool force)
     }
 }
 
-void FResourceModule::UnloadResources(FString type, const FString& partialName, bool force)
+void GResourceModule::UnloadResources(FString type, const FString& partialName, bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -136,7 +136,7 @@ void FResourceModule::UnloadResources(FString type, const FString& partialName, 
             auto current  = it++;
             if (current->_first._first == type)
             {
-                AResource* resource = current->_second;
+                OResource* resource = current->_second;
                 if (resource->GetName().StartsWith(partialName) && force)
                 {
                     _resources.Erase(current);
@@ -150,7 +150,7 @@ void FResourceModule::UnloadResources(FString type, const FString& partialName, 
     }
 }
 
-void FResourceModule::UnloadResources(const FString& partialName, bool force)
+void GResourceModule::UnloadResources(const FString& partialName, bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -160,7 +160,7 @@ void FResourceModule::UnloadResources(const FString& partialName, bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            AResource* resource = current->_second;
+            OResource* resource = current->_second;
             if (resource->GetName().StartsWith(partialName) && (force))
             {
                 _resources.Erase(current);
@@ -173,7 +173,7 @@ void FResourceModule::UnloadResources(const FString& partialName, bool force)
     }
 }
 
-void FResourceModule::UnloadAllResources(bool force)
+void GResourceModule::UnloadAllResources(bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -183,7 +183,7 @@ void FResourceModule::UnloadAllResources(bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            AResource* resource = current->_second;
+            OResource* resource = current->_second;
             if (force)
             {
                 _resources.Erase(current);
@@ -196,7 +196,7 @@ void FResourceModule::UnloadAllResources(bool force)
     }
 }
 
-bool FResourceModule::ReloadResource(AResource* resource)
+bool GResourceModule::ReloadResource(OResource* resource)
 {
     if (!resource)
         return false;
@@ -205,7 +205,7 @@ bool FResourceModule::ReloadResource(AResource* resource)
     return stream ? resource->Load(*stream) : false;
 }
 
-FStream* FResourceModule::OpenResource(const FString& nameIn)
+FStream* GResourceModule::OpenResource(const FString& nameIn)
 {
     FString name = SanitateResourceName(nameIn);
     FStream* ret;
@@ -234,7 +234,7 @@ FStream* FResourceModule::OpenResource(const FString& nameIn)
     return ret;
 }
 
-AResource* FResourceModule::LoadResource(FString type, const FString& nameIn)
+OResource* GResourceModule::LoadResource(FString type, const FString& nameIn)
 {
     FString name = SanitateResourceName(nameIn);
 
@@ -254,7 +254,7 @@ AResource* FResourceModule::LoadResource(FString type, const FString& nameIn)
         ErrorString("Could not load unknown resource type " + FString(type));
         return nullptr;
     }
-    AResource* newResource = dynamic_cast<AResource*>(newObject);
+    OResource* newResource = dynamic_cast<OResource*>(newObject);
     if (!newResource)
     {
         ErrorString("Type " + FString(type) + " is not a resource");
@@ -276,7 +276,7 @@ AResource* FResourceModule::LoadResource(FString type, const FString& nameIn)
     return newResource;
 }
 
-void FResourceModule::ResourcesByType(TVector<AResource*>& result, FString type) const
+void GResourceModule::ResourcesByType(TVector<OResource*>& result, FString type) const
 {
     result.Clear();
 
@@ -287,7 +287,7 @@ void FResourceModule::ResourcesByType(TVector<AResource*>& result, FString type)
     }
 }
 
-bool FResourceModule::Exists(const FString& nameIn) const
+bool GResourceModule::Exists(const FString& nameIn) const
 {
     FString name = SanitateResourceName(nameIn);
 
@@ -301,7 +301,7 @@ bool FResourceModule::Exists(const FString& nameIn) const
     return FileExists(name);
 }
 
-FString FResourceModule::ResourceFileName(const FString& name) const
+FString GResourceModule::ResourceFileName(const FString& name) const
 {
     for (unsigned i = 0; i < _resourceDirs.Size(); ++i)
     {
@@ -312,7 +312,7 @@ FString FResourceModule::ResourceFileName(const FString& name) const
     return FString();
 }
 
-FString FResourceModule::SanitateResourceName(const FString& nameIn) const
+FString GResourceModule::SanitateResourceName(const FString& nameIn) const
 {
     // Sanitate unsupported constructs from the resource name
     FString name = NormalizePath(nameIn);
@@ -342,7 +342,7 @@ FString FResourceModule::SanitateResourceName(const FString& nameIn) const
     return name.Trimmed();
 }
 
-FString FResourceModule::SanitateResourceDirName(const FString& nameIn) const
+FString GResourceModule::SanitateResourceDirName(const FString& nameIn) const
 {
     // Convert path to absolute
     FString fixedPath = AddTrailingSlash(nameIn);

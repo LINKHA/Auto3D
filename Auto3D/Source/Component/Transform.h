@@ -24,7 +24,7 @@ namespace ETransformSpace
 /// Base class for actor with position in three-dimensional space.
 class AUTO_API ATransform : public AActorComponent
 {
-	DECLARE_CLASS(ATransform, AActorComponent)
+	DECLARE_A_CLASS(ATransform, AActorComponent)
 public:
     /// Construct.
     ATransform();

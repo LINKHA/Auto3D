@@ -11,9 +11,9 @@ class FStream;
 /// Typed resource reference for serialization.
 struct AUTO_API FResourceRef
 {
-    /// AResource type.
+    /// OResource type.
     FString _type;
-    /// AResource name.
+    /// OResource name.
     FString _name;
 
     /// Construct.
@@ -41,9 +41,9 @@ struct AUTO_API FResourceRef
     }
     
     /// Construct with type and resource name.
-    FResourceRef(FString type, const FString& name_ = FString::EMPTY) :
+    FResourceRef(FString type, const FString& name = FString::EMPTY) :
         _type(type),
-        _name(name_)
+        _name(name)
     {
     }
 
@@ -68,7 +68,7 @@ struct AUTO_API FResourceRef
 /// %TList of typed resource references for serialization.
 struct AUTO_API FResourceRefList
 {
-    /// AResource type.
+    /// OResource type.
     FStringHash _type;
     /// TList of resource names.
     TVector<FString> _names;

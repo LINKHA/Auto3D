@@ -8,7 +8,7 @@ namespace Auto3D
 
 class AUTO_API ACameraComponent : public AActorComponent
 {
-	DECLARE_CLASS(ACameraComponent, AActorComponent)
+	DECLARE_A_CLASS(ACameraComponent, AActorComponent)
 public:
 	ACameraComponent();
 

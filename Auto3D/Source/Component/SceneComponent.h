@@ -1,12 +1,13 @@
 #pragma once
 #include "Component/ActorComponent.h"
+#include "IO/ResourceRef.h"
 
 namespace Auto3D
 {
 
 class AUTO_API ASceneComponent : public AActorComponent
 {
-	DECLARE_CLASS(ASceneComponent, AActorComponent)
+	DECLARE_A_CLASS(ASceneComponent, AActorComponent)
 public:
 	ASceneComponent() {}
 	virtual ~ASceneComponent() {}

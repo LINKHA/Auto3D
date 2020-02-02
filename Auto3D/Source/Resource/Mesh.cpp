@@ -15,7 +15,7 @@ namespace bgfx
 namespace Auto3D
 {
 
-void FMesh::load(bx::ReaderSeekerI* reader, bool ramcopy)
+void OMesh::load(bx::ReaderSeekerI* reader, bool ramcopy)
 {
 #define BGFX_CHUNK_MAGIC_VB  BX_MAKEFOURCC('V', 'B', ' ', 0x1)
 #define BGFX_CHUNK_MAGIC_VBC BX_MAKEFOURCC('V', 'B', 'C', 0x0)
@@ -179,7 +179,7 @@ void FMesh::load(bx::ReaderSeekerI* reader, bool ramcopy)
 	}
 }
 
-void FMesh::Load(const char* filePath, bool ramcopy)
+void OMesh::Load(const char* filePath, bool ramcopy)
 {
 	bx::FileReaderI* reader = Auto3D::getFileReader();
 	if (bx::open(reader, filePath))
@@ -188,7 +188,7 @@ void FMesh::Load(const char* filePath, bool ramcopy)
 		bx::close(reader);
 	}
 }
-void FMesh::unload()
+void OMesh::unload()
 {
 	bx::AllocatorI* allocator = Auto3D::getAllocator();
 
@@ -215,7 +215,7 @@ void FMesh::unload()
 	_groups.Clear();
 }
 
-void FMesh::submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state) const
+void OMesh::submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state) const
 {
 	if (BGFX_STATE_MASK == state)
 	{
@@ -242,7 +242,7 @@ void FMesh::submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mt
 	}
 }
 
-void FMesh::submit(const FMeshState*const* state, uint8_t numPasses, const float* mtx, uint16_t numMatrices) const
+void OMesh::submit(const FMeshState*const* state, uint8_t numPasses, const float* mtx, uint16_t numMatrices) const
 {
 	uint32_t cached = bgfx::setTransform(mtx, numMatrices);
 
@@ -274,7 +274,7 @@ void FMesh::submit(const FMeshState*const* state, uint8_t numPasses, const float
 	}
 }
 
-FMeshState* FMesh::meshStateCreate()
+FMeshState* OMesh::meshStateCreate()
 {
 	FMeshState* state = new FMeshState();
 	return state;

@@ -12,14 +12,14 @@
 namespace Auto3D
 {
 
-class FMesh;
+class OMesh;
 class AWorld;
 class ACameraComponent;
 
 struct GBox
 {
 	static int64_t _timeOffset;
-	static SPtr<FMesh> _mesh;
+	static SPtr<OMesh> _mesh;
 	static bgfx::ProgramHandle _program;
 	static bgfx::UniformHandle _time;
 	static MouseState _mouseState;

@@ -22,7 +22,7 @@ namespace Auto3D
 	RTTR_REGISTRATION_FRIEND 
 
 
-#define DECLARE_CLASS(_This,_Base) \
+#define DECLARE_A_CLASS(_This,_Base) \
 public: \
 	_This& operator=(_This&&) = delete;   \
 	_This& operator=(const _This&)= delete;  \
@@ -37,10 +37,23 @@ private:\
 public:
 
 
-#define REGISTER_CALSS_IMP(_Class) \
+#define REGISTER_A_CALSS_IMP(_Class) \
 	OObject::RegisterFactory<_Class>();\
 	using namespace rttr;\
 	registration::class_<_Class>(#_Class)
+
+#define DECLARE_O_CLASS(_This,_Base) \
+public: \
+	_This& operator=(_This&&) = delete;   \
+	_This& operator=(const _This&)= delete;  \
+	using This = _This;\
+	using Super = _Base;\
+	virtual const Auto3D::FString& GetTypeName() const override { return GetTypeNameStatic(); } \
+	static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type(#_This); return type; } \
+private:\
+	SPtr<_This> SPtrThis() {return std::dynamic_pointer_cast<_This>(shared_from_this());}\
+	WPtr<_This> WPtrThis() { return std::dynamic_pointer_cast<_This>(shared_from_this()); }\
+public:
 
 #define REGISTER_REFLECTION_FUNCATION rttr_auto_register_reflection_function_
 

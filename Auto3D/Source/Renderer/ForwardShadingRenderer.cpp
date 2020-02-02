@@ -18,7 +18,7 @@
 namespace Auto3D
 {
 int64_t GBox::_timeOffset;
-SPtr<FMesh> GBox::_mesh;
+SPtr<OMesh> GBox::_mesh;
 bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
 MouseState GBox::_mouseState;
@@ -121,9 +121,6 @@ void FForwardShadingRenderer::Render()
 				meshComponent->GetMesh()->submit(0, GBox::_program, mtx);
 			}
 		}
-		//GBox::_mesh->submit(0, GBox::_program, mtx);
-
-		//meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
 	}
 	
 	// Advance to next frame. Rendering thread will be kicked to

@@ -1,6 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/Vector.h"
+#include "Core/Object.h"
 
 #include <bimg/bimg.h>
 #include <bx/pixelformat.h>
@@ -69,8 +70,9 @@ struct Group
 	TVector<FPrimitive> _prims;
 };
 
-class AUTO_API FMesh
+class AUTO_API OMesh : public OObject
 {
+	DECLARE_O_CLASS(OMesh, OObject)
 public:
 	void load(bx::ReaderSeekerI* reader, bool ramcopy = false);
 

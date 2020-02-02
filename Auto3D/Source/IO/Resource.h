@@ -9,9 +9,9 @@ namespace Auto3D
 class FStream;
 
 /// Base class for resources.
-class AUTO_API AResource : public OObject
+class AUTO_API OResource : public OObject
 {
-    DECLARE_CLASS(AResource, OObject)
+    DECLARE_O_CLASS(OResource, OObject)
 
 public:
     /// Load the resource data from a stream. May be executed outside the main thread, should not access GPU resources. Return true on success.
@@ -35,9 +35,9 @@ public:
 	/// Return memory use in bytes, possibly approximate.
 	unsigned GetMemoryUse() const { return _memoryUse; }
 private:
-    /// AResource name.
+    /// OResource name.
     FString _name;
-    /// AResource name hash.
+    /// OResource name hash.
     FStringHash _nameHash;
 
 	/// Memory use in bytes.
@@ -45,19 +45,19 @@ private:
 };
 
 /// Return name from a resource pointer.
-inline const FString& ResourceName(AResource* resource)
+inline const FString& ResourceName(OResource* resource)
 {
     return resource ? resource->GetName() : FString::EMPTY;
 }
 
 /// Return type from a resource pointer, or default type if null.
-inline FString ResourceType(AResource* resource, FString defaultType)
+inline FString ResourceType(OResource* resource, FString defaultType)
 {
     return resource ? resource->GetTypeName() : defaultType;
 }
 
 /// Make a resource ref from a resource pointer.
-inline FResourceRef MakeResourceRef(AResource* resource, FString defaultType)
+inline FResourceRef MakeResourceRef(OResource* resource, FString defaultType)
 {
     return FResourceRef(ResourceType(resource, defaultType), ResourceName(resource));
 }

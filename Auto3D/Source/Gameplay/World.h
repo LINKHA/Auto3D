@@ -12,7 +12,7 @@ class ACameraComponent;
 /// %AWorld root node, which also represents the whole world.
 class AUTO_API AWorld : public AActor
 {
-	DECLARE_CLASS(AWorld, AActor)
+	DECLARE_A_CLASS(AWorld, AActor)
 public:
 	/// Construct.
 	AWorld();
