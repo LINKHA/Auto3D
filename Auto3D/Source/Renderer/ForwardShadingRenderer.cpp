@@ -18,7 +18,7 @@
 namespace Auto3D
 {
 int64_t GBox::_timeOffset;
-FMesh* GBox::_mesh;
+SPtr<FMesh> GBox::_mesh;
 bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
 MouseState GBox::_mouseState;
@@ -72,6 +72,7 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 
 void FForwardShadingRenderer::Render()
 {
+
 	// Set view 0 default viewport.
 	bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 	// This dummy draw call is here to make sure that view 0 is cleared
@@ -83,6 +84,9 @@ void FForwardShadingRenderer::Render()
 
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
+		TVector<AActor*> geometries;
+		CollectGeometries(geometries, world, *it);
+
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 
 		float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
@@ -108,7 +112,16 @@ void FForwardShadingRenderer::Render()
 			, time*0.37f
 		);
 
-		GBox::_mesh->submit(0, GBox::_program, mtx);
+		for (auto it = geometries.Begin(); it != geometries.End(); ++it)
+		{
+			AActor* actor = *it;
+			AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
+			if (meshComponent)
+			{
+				meshComponent->GetMesh()->submit(0, GBox::_program, mtx);
+			}
+		}
+		//GBox::_mesh->submit(0, GBox::_program, mtx);
 
 		//meshSubmit(GBox::_mesh, 0, GBox::_program, mtx);
 	}
@@ -116,12 +129,30 @@ void FForwardShadingRenderer::Render()
 	// Advance to next frame. Rendering thread will be kicked to
 	// process submitted rendering primitives.
 	bgfx::frame();
+
+	
 }
 
 void FForwardShadingRenderer::ShutDowm()
 {
 	// Shutdown bgfx.
 	bgfx::shutdown();
+}	
+
+
+void FForwardShadingRenderer::CollectGeometries(TVector<AActor*>& geometries,AWorld* world, ACameraComponent* camera)
+{
+	THashMap<unsigned, AActor*>& worldActors = world->GetActors();
+	
+	for (auto it = worldActors.Begin(); it != worldActors.End(); ++it)
+	{
+		AActor* actor = it->_second;
+		unsigned short flags = actor->Flags();
+		if ((flags & NF_ENABLED) && (flags & NF_GEOMETRY) && (actor->GetLayerMask() & camera->GetViewMask()))
+		{
+			geometries.Push(actor);
+		}
+	}
 }
 
 }

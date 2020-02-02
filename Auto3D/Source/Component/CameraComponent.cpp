@@ -2,6 +2,8 @@
 #include "Math/Matrix4x4.h"
 #include "Component/Transform.h"
 #include "Gameplay/Actor.h"
+#include "Debug/Log.h"
+#include "Gameplay/World.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -54,6 +56,59 @@ void ACameraComponent::SetFov(float fov)
 void ACameraComponent::SetAspectRatio(float aspectRatio)
 {
 	_aspectRatio = Max(aspectRatio, M_EPSILON);
+}
+
+void ACameraComponent::SetLayoutMask(unsigned mask)
+{
+	_viewLayoutMask = mask;
+}
+
+void ACameraComponent::SetLayoutMaskIndex(unsigned maskIndex)
+{
+	_viewLayoutMask |= 1 << maskIndex;
+}
+
+void ACameraComponent::SetLayoutMaskName(const FString& name)
+{
+	AWorld* world = GetWorld();
+	if (!world)
+		return;
+
+	const THashMap<FString, unsigned char>& layous = world->Layers();
+
+	auto it = layous.Find(name);
+	if (it != layous.End())
+		SetLayoutMaskIndex(it->_second);
+	else
+		ErrorString("Layer" + name + " not defined in the world");
+}
+
+void ACameraComponent::SetLayoutMaskOutIndex(unsigned maskIndex)
+{
+	int tempViewLayoutMask = _viewLayoutMask;
+
+	tempViewLayoutMask &= ~(1 << maskIndex);
+	_viewLayoutMask &= tempViewLayoutMask;
+}
+
+void ACameraComponent::SetLayoutMaskOutName(const FString& name)
+{
+	AWorld* world = GetWorld();
+	if (!world)
+		return;
+
+	const THashMap<FString, unsigned char>& layous = world->Layers();
+
+	auto it = layous.Find(name);
+	if (it != layous.End())
+		SetLayoutMaskOutIndex(it->_second);
+	else
+		ErrorString("Layer" + name + " not defined in the world");
+}
+
+void ACameraComponent::SetLayoutMaskAll()
+{
+	_viewLayoutMask = M_MAX_UNSIGNED;
 }
 
 TMatrix3x4F ACameraComponent::EffectiveWorldTransform() const

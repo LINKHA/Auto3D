@@ -73,9 +73,13 @@ class AUTO_API FMesh
 {
 public:
 	void load(bx::ReaderSeekerI* reader, bool ramcopy = false);
+
 	void Load(const char* filePath, bool ramcopy = false);
+
 	void unload();
+
 	void submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state = BGFX_STATE_MASK) const;
+
 	void submit(const FMeshState*const* state, uint8_t numPasses, const float* mtx, uint16_t numMatrices = 1) const;
 
 	///

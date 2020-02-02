@@ -52,8 +52,10 @@ public:
 
 		//m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
 		//m_mesh = meshLoad("meshes/bunny.bin");
-		m_mesh = new FMesh;
+		m_mesh = MakeShared<FMesh>();
 		m_mesh->Load("meshes/bunny.bin");
+
+		
 
 		GBox::_mesh = m_mesh;
 
@@ -74,8 +76,7 @@ public:
 
 		AActor* meshActor = world->CreateChild<AActor>();
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
-
-		
+		meshComponent->SetMesh(m_mesh);
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));
@@ -117,7 +118,7 @@ public:
 	uint32_t m_reset;
 
 	int64_t m_timeOffset;
-	FMesh* m_mesh;
+	SPtr<FMesh> m_mesh;
 	bgfx::ProgramHandle m_program;
 	bgfx::UniformHandle u_time;
 };

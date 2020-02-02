@@ -36,6 +36,21 @@ public:
 	/// Return aspect ratio.
 	float GetAspectRatio() const { return _aspectRatio; }
 
+	/// Set view layer mask. Will be checked against scene objects' layers to see what to render.
+	void SetLayoutMask(unsigned mask);
+	/// Set view layer mask. Will be checked against scene objects' layers to see what to render.
+	void SetLayoutMaskIndex(unsigned maskIndex);
+	/// Set view layer mask from name. Will be checked against scene objects' layers to see what to render.
+	void SetLayoutMaskName(const FString& name);
+	/// Set view layer out with mask.
+	void SetLayoutMaskOutIndex(unsigned maskIndex);
+	/// Set view layer out with mask.
+	void SetLayoutMaskOutName(const FString& name);
+	/// Set view layer mask all layout.
+	void SetLayoutMaskAll();
+	/// Return view layer mask.
+	unsigned GetViewMask() const { return _viewLayoutMask; }
+
 	/// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
 	TMatrix3x4F EffectiveWorldTransform() const;
 	/// Return view matrix.
@@ -54,6 +69,9 @@ private:
 	float _fov;
 	/// Aspect ratio.
 	float _aspectRatio;
+
+	/// View layer mask.
+	unsigned _viewLayoutMask;
 };
 
 }

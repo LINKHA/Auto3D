@@ -13,11 +13,13 @@ namespace Auto3D
 {
 
 class FMesh;
+class AWorld;
+class ACameraComponent;
 
 struct GBox
 {
 	static int64_t _timeOffset;
-	static FMesh* _mesh;
+	static SPtr<FMesh> _mesh;
 	static bgfx::ProgramHandle _program;
 	static bgfx::UniformHandle _time;
 	static MouseState _mouseState;
@@ -35,6 +37,10 @@ public:
 	void Init(uint32_t width, uint32_t height)override;
 	/// Render scene
 	void Render()override;
+
+
+	void CollectGeometries(TVector<AActor*>& geometries, AWorld* world, ACameraComponent* camera);
+
 	void ShutDowm();
 
 	void SetBackBufferSize(const TVector2F& size) { _backbufferSize = size; }
@@ -50,6 +56,8 @@ private:
 	FColor _backbufferColor;
 	float _depth;
 	uint8_t _stencil;
+
+	
 };
 
 }

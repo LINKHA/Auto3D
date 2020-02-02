@@ -12,4 +12,12 @@ void AMeshComponent::TickComponent(float deltaTime)
 	Super::BeginPlay();
 }
 
+void AMeshComponent::SetMesh(SPtr<FMesh>& mesh)
+{
+	if (mesh)
+	{
+		_mesh = mesh;
+	}
+}
+
 }
