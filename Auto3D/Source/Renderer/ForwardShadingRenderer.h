@@ -21,7 +21,6 @@ struct GBox
 	static int64_t _timeOffset;
 	static bgfx::ProgramHandle _program;
 	static bgfx::UniformHandle _time;
-	static MouseState _mouseState;
 };
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.

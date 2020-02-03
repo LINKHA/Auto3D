@@ -20,13 +20,12 @@ namespace Auto3D
 int64_t GBox::_timeOffset;
 bgfx::ProgramHandle GBox::_program;
 bgfx::UniformHandle GBox::_time;
-MouseState GBox::_mouseState;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
 	_debug(BGFX_DEBUG_NONE),
 	_reset(BGFX_RESET_VSYNC),
-	_backbufferColor(0.4f, 0.4f, 0.4f, 1),
+	_backbufferColor(0.2f, 0.2f, 0.2f, 1),
 	_depth(1.0f),
 	_stencil(0)
 {
@@ -113,7 +112,6 @@ void FForwardShadingRenderer::Render()
 			AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
 			if (meshComponent)
 			{
-				//meshComponent->GetMesh()->submit(0, GBox::_program, mtx);
 				meshComponent->GetMesh()->submit(0, GBox::_program, modelMatrix.Data());
 			}
 		}

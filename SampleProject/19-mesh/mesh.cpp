@@ -78,6 +78,7 @@ public:
 		meshActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
 		meshActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		meshActor->GetTransform()->SetScale({ 1.0f, 1.0f, 1.0f });
+
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(m_mesh);
 

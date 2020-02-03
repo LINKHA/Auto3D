@@ -68,7 +68,6 @@ bool FEngine::Update()
 
 	if (!GProcessWindow::Get().ProcessUpdate())
 	{
-		GBox::_mouseState = GProcessWindow::_mouseState;
 		renderer->SetBackBufferSize(TVector2F(GProcessWindow::_width, GProcessWindow::_height));
 		renderer->SetDebugMode(GProcessWindow::_debug);
 		renderer->SetResetMode(GProcessWindow::_reset);
