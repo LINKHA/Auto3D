@@ -90,13 +90,6 @@ public:
 		m_debug = BGFX_DEBUG_NONE;
 		m_reset = BGFX_RESET_VSYNC;
 
-		u_time = bgfx::createUniform("u_time", bgfx::UniformType::Vec4);
-		GBox::_time = u_time;
-
-		// Create program from shaders.
-		m_program = loadProgram("vs_mesh", "fs_mesh");
-		GBox::_program = m_program;
-
 		//m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
 		//m_mesh = meshLoad("meshes/bunny.bin");
 

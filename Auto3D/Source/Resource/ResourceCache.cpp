@@ -2,7 +2,7 @@
 #include "Debug/Profiler.h"
 #include "IO/File.h"
 #include "IO/FileSystem.h"
-#include "JSONFile.h"
+#include "IO/JSONFile.h"
 #include "ResourceCache.h"
 
 #include "Adapter/Ptr.h"
@@ -234,7 +234,9 @@ OResource* GResourceModule::LoadResource(FString type, const FString& nameIn)
 
 	LogString("Loading resource " + name);
 	newResource->SetName(name);
-	if (!newResource->Load(name))
+
+	FString fullPathName = ResourceFileName(name);
+	if (!newResource->Load(fullPathName))
 		return nullptr;
 
 	// Store to cache

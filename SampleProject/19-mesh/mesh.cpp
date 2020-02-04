@@ -56,8 +56,10 @@ public:
 
 		//m_mesh = new OMesh();
 		//m_mesh->Load("meshes/bunny.bin");
+		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
+		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
-		m_mesh = GResourceModule::Get().LoadResource<OMesh>("meshes/bunny.bin");
+		FString ss = FFileModule::Get().GetCurrentDir();
 
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;

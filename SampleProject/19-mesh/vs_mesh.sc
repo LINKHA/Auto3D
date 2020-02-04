@@ -1,14 +1,7 @@
 $input a_position, a_normal
 $output v_pos, v_view, v_normal, v_color0
 
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include "../common/common.sh"
-
-uniform vec4 u_time;
 
 void main()
 {
