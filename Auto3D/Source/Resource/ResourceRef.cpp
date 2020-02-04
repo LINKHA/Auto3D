@@ -1,6 +1,6 @@
 //#include "Core/Object/Object.h"
 #include "ResourceRef.h"
-#include "Stream.h"
+#include "IO/Stream.h"
 
 #include "Debug/DebugNew.h"
 

@@ -80,20 +80,6 @@ target_link_libraries(${TARGET_NAME} bgfx  )
 target_link_libraries(${TARGET_NAME} meshoptimizer)
 
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" "-D__STDC_FORMAT_MACROS" "-DENTRY_CONFIG_IMPLEMENT_MAIN=1" )
-
-if (IOS OR WIN32)
-	# on iOS we need to build a bundle so have to copy the data rather than symlink
-	# and on windows we can't create symlinks
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E copy_directory ${AUTO_ROOT_PATH}/Auto3D/Runtime/ $<TARGET_FILE_DIR:${TARGET_NAME}>)
-else()
-	# For everything else symlink some folders into our output directory
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/font $<TARGET_FILE_DIR:${TARGET_NAME}>/font)
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/images $<TARGET_FILE_DIR:${TARGET_NAME}>/images)
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/meshes $<TARGET_FILE_DIR:${TARGET_NAME}>/meshes)
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/shaders $<TARGET_FILE_DIR:${TARGET_NAME}>/shaders)
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/text $<TARGET_FILE_DIR:${TARGET_NAME}>/text)
-	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/textures $<TARGET_FILE_DIR:${TARGET_NAME}>/textures)
-endif()
 	
 
 if (AUTO_OPENGL)

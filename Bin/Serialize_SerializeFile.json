@@ -1,0 +1,76 @@
+{
+  "type": "AWorld",
+  "id": 1,
+  "name": "world",
+  "enabled": true,
+  "temporary": false,
+  "layer": 0,
+  "tag": 0,
+  "layerNames": [
+    "Default",
+    "UI"
+  ],
+  "tagNames": [
+    "Default",
+    "Player"
+  ],
+  "components": [
+    {
+      "type": "ATransform",
+      "position": "0 0 0",
+      "rotation": "1 0 0 0",
+      "scale": "1 1 1"
+    }
+  ],
+  "children": [
+    {
+      "type": "AActor",
+      "id": 2,
+      "name": "",
+      "enabled": true,
+      "temporary": false,
+      "layer": 0,
+      "tag": 0,
+      "components": [
+        {
+          "type": "ATransform",
+          "position": "0 1 -2.5",
+          "rotation": "1 0 0 0",
+          "scale": "1 1 1"
+        },
+        {
+          "type": "ACameraComponent",
+          "nearClip": 0.1,
+          "farClip": 100,
+          "fov": 60,
+          "aspectRatio": 1,
+          "viewLayoutMask": 3.45282e+09
+        },
+        {
+          "type": "ADefaultController"
+        }
+      ]
+    },
+    {
+      "type": "AActor",
+      "id": 3,
+      "name": "",
+      "enabled": true,
+      "temporary": false,
+      "layer": 0,
+      "tag": 0,
+      "components": [
+        {
+          "type": "ATransform",
+          "position": "0 0 0",
+          "rotation": "1 0 0 0",
+          "scale": "1 1 1"
+        },
+        {
+          "type": "AMeshComponent",
+          "mesh": "OMesh;Meshes/bunny.bin"
+        }
+      ]
+    }
+  ]
+}
