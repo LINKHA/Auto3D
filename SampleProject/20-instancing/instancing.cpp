@@ -113,20 +113,26 @@ public:
 		actor->CreateComponent<ADefaultController>();
 		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
 
+		AActor* meshActor = world->CreateChild<AActor>();
+		meshActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
+		meshActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		meshActor->GetTransform()->SetScale({ 1.0f, 1.0f, 1.0f });
+		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
+		meshComponent->SetMesh(m_mesh);
 
 		// Create vertex stream declaration.
-		PosColorVertex::init();
+		//PosColorVertex::init();
 
-		// Create static vertex buffer.
-		GBox::_vbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(s_cubeVertices, sizeof(s_cubeVertices))
-			, PosColorVertex::ms_layout
-		);
+		//// Create static vertex buffer.
+		//GBox::_vbh = bgfx::createVertexBuffer(
+		//	bgfx::makeRef(s_cubeVertices, sizeof(s_cubeVertices))
+		//	, PosColorVertex::ms_layout
+		//);
 
-		// Create static index buffer.
-		GBox::_ibh = bgfx::createIndexBuffer(
-			bgfx::makeRef(s_cubeIndices, sizeof(s_cubeIndices))
-		);
+		//// Create static index buffer.
+		//GBox::_ibh = bgfx::createIndexBuffer(
+		//	bgfx::makeRef(s_cubeIndices, sizeof(s_cubeIndices))
+		//);
 
 		// Create program from shaders.
 		m_program = loadProgram("vs_instancing", "fs_instancing");
@@ -155,8 +161,6 @@ public:
 
 		// Cleanup.
 		bgfx::destroy(m_program);
-
-		bgfx::destroy(u_time);
 
 		// Shutdown bgfx.
 		//bgfx::shutdown();

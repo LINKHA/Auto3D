@@ -2568,5 +2568,7 @@ namespace bgfx
 
 int main(int _argc, const char* _argv[])
 {
-	return bgfx::compileShader(_argc, _argv);
+	int flag = bgfx::compileShader(_argc, _argv);
+	system("pause");
+	return flag;
 }

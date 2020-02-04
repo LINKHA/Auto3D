@@ -2,6 +2,8 @@
 
 #include <bgfx/bgfx.h>
 #include <bx/readerwriter.h>
+#include <bx/timer.h>
+
 #include "Platform/PlatformDef.h"
 #include <meshoptimizer/src/meshoptimizer.h>
 #include "Platform/dbg.h"
@@ -230,6 +232,69 @@ void OMesh::unload()
 		}
 	}
 	_groups.Clear();
+}
+
+void OMesh::submitInstance(bgfx::ViewId id, bgfx::ProgramHandle program, uint64_t state) const
+{
+	if (BGFX_STATE_MASK == state)
+	{
+		state = 0
+			| BGFX_STATE_WRITE_RGB
+			| BGFX_STATE_WRITE_A
+			| BGFX_STATE_WRITE_Z
+			| BGFX_STATE_DEPTH_TEST_LESS
+			| BGFX_STATE_CULL_CCW
+			| BGFX_STATE_MSAA
+			;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// 80 bytes stride = 64 bytes for 4x4 matrix + 16 bytes for RGBA color.
+	const uint16_t instanceStride = 80;
+	// 11x11 cubes
+	const uint32_t numInstances = 121;
+
+	float time = (float)((bx::getHPCounter()) / double(bx::getHPFrequency()));
+
+	bgfx::InstanceDataBuffer idb;
+	bgfx::allocInstanceDataBuffer(&idb, numInstances, instanceStride);
+	uint8_t* data = idb.data;
+
+	// Write instance data for 11x11 cubes.
+	for (uint32_t yy = 0; yy < 11; ++yy)
+	{
+		for (uint32_t xx = 0; xx < 11; ++xx)
+		{
+			float* mtx = (float*)data;
+			bx::mtxRotateXY(mtx, time + xx * 0.21f, time + yy * 0.37f);
+			mtx[12] = -15.0f + float(xx)*3.0f;
+			mtx[13] = -15.0f + float(yy)*3.0f;
+			mtx[14] = 0.0f;
+
+			float* color = (float*)&data[64];
+			color[0] = bx::sin(time + float(xx) / 11.0f)*0.5f + 0.5f;
+			color[1] = bx::cos(time + float(yy) / 11.0f)*0.5f + 0.5f;
+			color[2] = bx::sin(time*3.0f)*0.5f + 0.5f;
+			color[3] = 1.0f;
+
+			data += instanceStride;
+		}
+	}
+
+	bgfx::setState(state);
+
+	for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
+	{
+		const Group& group = *it;
+
+		bgfx::setIndexBuffer(group._ibh);
+		bgfx::setVertexBuffer(0, group._vbh);
+
+		// Set instance data buffer.
+		bgfx::setInstanceDataBuffer(&idb);
+
+		bgfx::submit(id, program, 0, it != itEnd - 1);
+	}
 }
 
 void OMesh::submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state) const
