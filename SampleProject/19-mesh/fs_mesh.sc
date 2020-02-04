@@ -1,13 +1,6 @@
 $input v_pos, v_view, v_normal, v_color0
 
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#include "../common/common.sh"
-
-uniform vec4 u_time;
+#include "../common.sh"
 
 vec2 blinn(vec3 _lightDir, vec3 _normal, vec3 _viewDir)
 {
@@ -39,14 +32,9 @@ void main()
 	vec4 lc = lit(bln.x, bln.y, 1.0);
 	float fres = fresnel(bln.x, 0.2, 5.0);
 
-	float index = ( (sin(v_pos.x*3.0+u_time.x)*0.3+0.7)
-				+ (  cos(v_pos.y*3.0+u_time.x)*0.4+0.6)
-				+ (  cos(v_pos.z*3.0+u_time.x)*0.2+0.8)
-				)*M_PI;
-
-	vec3 color = vec3(sin(index*8.0)*0.4 + 0.6
-					, sin(index*4.0)*0.4 + 0.6
-					, sin(index*2.0)*0.4 + 0.6
+	vec3 color = vec3(1.0
+					, 1.0
+					, 1.0
 					) * v_color0.xyz;
 
 	gl_FragColor.xyz = pow(vec3(0.07, 0.06, 0.08) + color*lc.y + fres*pow(lc.z, 128.0), vec3_splat(1.0/2.2) );

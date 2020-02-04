@@ -44,7 +44,7 @@ public:
 		m_debug  = BGFX_DEBUG_NONE;
 		m_reset  = BGFX_RESET_VSYNC;
 
-		u_time = bgfx::createUniform("u_time", bgfx::UniformType::Vec4);
+		//u_time = bgfx::createUniform("u_time", bgfx::UniformType::Vec4);
 		GBox::_time = u_time;
 
 		// Create program from shaders.
@@ -101,7 +101,7 @@ public:
 		// Cleanup.
 		bgfx::destroy(m_program);
 
-		bgfx::destroy(u_time);
+		//bgfx::destroy(u_time);
 
 		// Shutdown bgfx.
 		//bgfx::shutdown();
