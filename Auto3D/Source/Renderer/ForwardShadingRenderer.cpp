@@ -73,6 +73,7 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 
 void FForwardShadingRenderer::Render()
 {
+	PrepareView();
 
 	// Set view 0 default viewport.
 	bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
@@ -89,9 +90,6 @@ void FForwardShadingRenderer::Render()
 		CollectGeometries(geometries, world, *it);
 
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
-
-		/*float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
-		bgfx::setUniform(GBox::_time, &time);*/
 
 		// Set the view transform each camera is set once in the view
 		{	
@@ -147,7 +145,13 @@ void FForwardShadingRenderer::CollectGeometries(TVector<AActor*>& geometries,AWo
 		{
 			geometries.Push(actor);
 		}
+		
 	}
+}
+
+void FForwardShadingRenderer::PrepareView()
+{
+
 }
 
 }

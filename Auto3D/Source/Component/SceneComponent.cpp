@@ -18,6 +18,18 @@ void ASceneComponent::TickComponent(float deltaTime)
 	Super::TickComponent(deltaTime);
 }
 
+void ASceneComponent::SetMaterial(OMaterial* material)
+{
+	if (material)
+	{
+		_material = material;
+	}
+}
+
+OMaterial* ASceneComponent::GetMaterial() const
+{
+	return _material;
+}
 
 }
 

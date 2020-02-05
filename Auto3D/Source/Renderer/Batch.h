@@ -1,24 +1,100 @@
 #pragma once
 #include "AutoConfig.h"
+#include "Container/Vector.h"
+#include "Renderer/Pass.h"
+#include "Math/Matrix3x4.h"
+
 namespace Auto3D
 {
+/// FGeometry types.
+namespace EGeometryType
+{
+	enum Type
+	{
+		STATIC = 0,
+		INSTANCED
+	};
+};
+
+/// Rendering path sorting modes.
+namespace ERenderCommandSortMode
+{
+	enum Type
+	{
+		NONE = 0,
+		STATE,
+		BACK_TO_FRONT,
+		FRONT_TO_BACK,
+	};
+}
 
 struct AUTO_API FBatch
 {
-	/*/// Calculate sort _key for state sorting.
+	/// Calculate sort _key for state sorting.
 	void CalculateSortKey()
 	{
-		_sortKey = ((((unsigned long long)_pass->GetShaderHash() * _type) & 0xffff) << 48) |
-			((((unsigned long long)_lights) & 0xffff) << 32) |
+		_sortKey = ((((unsigned long long)_pass->_shaderProgram.GetShaderProgram().idx) & 0xffff) << 48);
+		/*((((unsigned long long)_lights) & 0xffff) << 32) |
 			((((unsigned long long)_pass->Parent()) & 0xffff) << 16) |
-			(((unsigned long long)_geometry) & 0xffff);
+			(((unsigned long long)_geometry) & 0xffff);*/
 	}
-	/// FGeometry.
-	FGeometry* _geometry;
 
-	Shader
-	/// Sort _key for state sorting.
-	unsigned long long _sortKey;*/
+	/*/// FGeometry.
+	FGeometry* _geometry;
+	/// ALight pass.
+	FLightPass* _lights;*/
+
+	/// AMaterial pass.
+	SPtr<FPass> _pass;
+	/// FGeometry type.
+	EGeometryType::Type _type;
+
+	union
+	{
+		/// Non-instanced use world matrix.
+		const TMatrix3x4F* _worldMatrix;
+		/// Instanced mode start index.
+		size_t _instanceStart;
+	};
+
+	union
+	{
+		/// Sort _key for state sorting.
+		unsigned long long _sortKey;
+		/// Distance for sorting.
+		float _distance;
+		/// Instanced mode instance count.
+		size_t _instanceCount;
+	};
+
 };
+
+
+/// Per-pass batch queue structure.
+struct AUTO_API FRenderQueue
+{
+	/// Clear structures.
+	void Clear();
+	/// Sort batches and build instances.
+	void Sort(TVector<TMatrix3x4F>& instanceTransforms);
+
+	/// Build instances from adjacent batches with same state.
+	static void BuildInstances(TVector<FBatch>& batches, TVector<TMatrix3x4F>& instanceTransforms);
+
+	/// Batches, which may be instanced or non-instanced.
+	TVector<FBatch> _batches;
+	/// Additive lighting batches.
+	TVector<FBatch> _additiveBatches;
+	/// Sorting mode.
+	ERenderCommandSortMode::Type _sort;
+	/// Lighting flag.
+	bool _lit;
+	/// Base pass index.
+	unsigned char _baseIndex;
+	/// Additive pass index (if needed.)
+	unsigned char _additiveIndex;
+};
+
+
 
 }

@@ -60,7 +60,7 @@ public:
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
-		GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
+		OMaterial* material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
 
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;
@@ -84,6 +84,7 @@ public:
 
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(m_mesh);
+		meshComponent->SetMaterial(material);
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));

@@ -4,7 +4,7 @@
 
 namespace Auto3D
 {
-
+class OMaterial;
 class AUTO_API ASceneComponent : public AActorComponent
 {
 	DECLARE_A_CLASS(ASceneComponent, AActorComponent)
@@ -17,6 +17,10 @@ public:
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime);
 
+	void SetMaterial(OMaterial* material);
+	OMaterial* GetMaterial() const;
+private:
+	OMaterial* _material;
 };
 
 }

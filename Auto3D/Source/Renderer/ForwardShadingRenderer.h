@@ -2,13 +2,14 @@
 #include "AutoConfig.h"
 #include "Renderer/SceneRenderer.h"
 #include "Math/Color.h"
-#include <stdint.h>
+#include "Renderer/Pass.h"
+#include "Renderer/Batch.h"
 
 #include "Component/MeshComponent.h"
 #include "Platform/PlatformDef.h"
 
 #include <bgfx/bgfx.h>
-
+#include <stdint.h>
 namespace Auto3D
 {
 
@@ -42,12 +43,18 @@ public:
 
 	void CollectGeometries(TVector<AActor*>& geometries, AWorld* world, ACameraComponent* camera);
 
+	void PrepareView();
+
 	void ShutDowm();
 
 	void SetBackBufferSize(const TVector2F& size) { _backbufferSize = size; }
 	void SetDebugMode(uint32_t debug) { _debug = debug; }
 	void SetResetMode(uint32_t reset) { _reset = reset; }
 private:
+
+	/// FBatch queues per pass.
+	THashMap<unsigned char, FRenderQueue> _batchQueues;
+
 	TVector2F _backbufferSize;
 	/// Renderer debug mode;
 	uint32_t _debug;
