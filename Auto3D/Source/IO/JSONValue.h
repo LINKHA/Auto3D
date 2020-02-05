@@ -51,7 +51,7 @@ struct FJSONData
 /// JSON value. Stores a boolean, string or number, or either an array or dictionary-like collection of nested values.
 class AUTO_API FJSONValue
 {
-    friend class AJSONFile;
+    friend class OJSONFile;
     
 public:
     /// Construct a null value.

@@ -12,7 +12,8 @@
 #include "Container/Vector.h"
 #include "IO/Stream.h"
 #include "IO/JSONFile.h"
-
+#include "Resource/Shader.h"
+#include "Resource/Material.h"
 
 using namespace Auto3D;
 
@@ -31,6 +32,13 @@ static void REGISTER_REFLECTION_FUNCATION()
 		.constructor<>()
 		;
 
+	REGISTER_O_CALSS_IMP(OShader)
+		.constructor<>()
+		;
+
+	REGISTER_O_CALSS_IMP(OMaterial)
+		.constructor<>()
+		;
 	REGISTER_A_CALSS_IMP(AActor)
 		.constructor<>()
 		.property("name", &AActor::GetPathName, &AActor::SetName)

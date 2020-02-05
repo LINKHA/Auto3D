@@ -18,6 +18,7 @@
 #include "IO/Stream.h"
 #include "IO/File.h"
 #include "Resource/ResourceCache.h"
+#include "Resource/Material.h"
 
 #include "Resource/Mesh.h"
 
@@ -58,6 +59,8 @@ public:
 		//m_mesh->Load("meshes/bunny.bin");
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
+
+		GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
 
 		m_timeOffset = bx::getHPCounter();
 		GBox::_timeOffset = m_timeOffset;

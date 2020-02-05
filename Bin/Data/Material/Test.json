@@ -1,0 +1,42 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "Shader/DiffuseNormal",
+      "ps": "Shader/DiffuseNormal",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+    "opaqueadd": {
+      "vs": "Shader/DiffuseNormal",
+      "ps": "Shader/DiffuseNormal",
+      "depthFunc": "lessEqual",
+      "depthWrite": false,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "add",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+    "shadow": {
+      "vs": "Shader/Shadow",
+      "ps": "Shader/Shadow",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "colorWriteMask": 0,
+      "fillMode": "solid",
+      "cullMode": "back"
+    }
+  },
+  "textures": {
+    "0": "Material/StoneDiffuse.dds",
+    "1": "Material/StoneNormal.dds"
+  }
+}

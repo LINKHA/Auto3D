@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-bool AJSONFile::BeginLoad(const FString& pathName)
+bool OJSONFile::BeginLoad(const FString& pathName)
 {
     PROFILE(LoadJSONFile);
 	GResourceModule& resourceCahce = GResourceModule::Get();
@@ -39,7 +39,7 @@ bool AJSONFile::BeginLoad(const FString& pathName)
     return success;
 }
 
-bool AJSONFile::Save(FStream& dest)
+bool OJSONFile::Save(FStream& dest)
 {
     PROFILE(SaveJSONFile);
     

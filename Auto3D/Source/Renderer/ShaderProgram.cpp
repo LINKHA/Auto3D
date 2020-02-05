@@ -36,5 +36,14 @@ bool FShaderProgram::Release()
 	return true;
 }
 
+SPtr<OShader> FShaderProgram::VertexShader() const
+{
+	return _vs.lock();
+}
+
+SPtr<OShader> FShaderProgram::PixelShader() const
+{
+	return _ps.lock();
+}
 
 }

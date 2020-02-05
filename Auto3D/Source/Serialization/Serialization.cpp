@@ -112,7 +112,7 @@ bool GSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
 
 	InfoString("Saving scene to " + dest.GetPathName());
 
-	AJSONFile json;
+	OJSONFile json;
 	SaveJSON(json.Root(), scene);
 	return json.Save(dest);
 }
@@ -122,7 +122,7 @@ bool GSerializationModule::LoadRootJSON(FStream& source, AWorld* scene)
 	PROFILE(LoadSceneJSON);
 	InfoString("Loading scene from " + source.GetPathName());
 
-	AJSONFile json;
+	OJSONFile json;
 	bool success = json.Load(source.GetPathName());
 	LoadRootJSON(json.Root(), scene);
 	return success;
