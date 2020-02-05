@@ -365,7 +365,7 @@ float nvgRadToDeg(float rad);
 //
 // Images
 //
-// NanoVG allows you to PrivateLoad jpg, png, psd, tga, pic and gif files to be used for rendering.
+// NanoVG allows you to load jpg, png, psd, tga, pic and gif files to be used for rendering.
 // In addition you can upload your own image. The image loading is provided by stb_image.
 // The parameter imageFlags is combination of flags defined in NVGimageFlags.
 
@@ -506,7 +506,7 @@ void nvgStroke(NVGcontext* ctx);
 //
 // Text
 //
-// NanoVG allows you to PrivateLoad .ttf files and use the font to render text.
+// NanoVG allows you to load .ttf files and use the font to render text.
 //
 // The appearance of the text can be defined by setting the current text style
 // and by specifying the fill color. Common text and font settings such as

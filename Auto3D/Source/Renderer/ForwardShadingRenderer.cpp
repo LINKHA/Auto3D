@@ -115,64 +115,10 @@ void FForwardShadingRenderer::Render()
 			AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
 			if (meshComponent)
 			{
-				//meshComponent->GetMesh()->submit(0, GBox::_program, modelMatrix.Data());
-				meshComponent->GetMesh()->submitInstance(0, GBox::_program);
+				meshComponent->GetMesh()->submit(0, GBox::_program, modelMatrix.Data());
+				//meshComponent->GetMesh()->submitInstance(0, GBox::_program);
 			}
 		}
-
-
-		////////////////////////////////////////////////////////////////////////////
-		//// 80 bytes stride = 64 bytes for 4x4 matrix + 16 bytes for RGBA color.
-		//const uint16_t instanceStride = 80;
-		//// 11x11 cubes
-		//const uint32_t numInstances = 121;
-
-		//float time = (float)((bx::getHPCounter() - GBox::_timeOffset) / double(bx::getHPFrequency()));
-
-		//if (numInstances == bgfx::getAvailInstanceDataBuffer(numInstances, instanceStride))
-		//{
-		//	bgfx::InstanceDataBuffer idb;
-		//	bgfx::allocInstanceDataBuffer(&idb, numInstances, instanceStride);
-
-		//	uint8_t* data = idb.data;
-
-		//	// Write instance data for 11x11 cubes.
-		//	for (uint32_t yy = 0; yy < 11; ++yy)
-		//	{
-		//		for (uint32_t xx = 0; xx < 11; ++xx)
-		//		{
-		//			float* mtx = (float*)data;
-		//			bx::mtxRotateXY(mtx, time + xx * 0.21f, time + yy * 0.37f);
-		//			mtx[12] = -15.0f + float(xx)*3.0f;
-		//			mtx[13] = -15.0f + float(yy)*3.0f;
-		//			mtx[14] = 0.0f;
-
-		//			float* color = (float*)&data[64];
-		//			color[0] = bx::sin(time + float(xx) / 11.0f)*0.5f + 0.5f;
-		//			color[1] = bx::cos(time + float(yy) / 11.0f)*0.5f + 0.5f;
-		//			color[2] = bx::sin(time*3.0f)*0.5f + 0.5f;
-		//			color[3] = 1.0f;
-
-		//			data += instanceStride;
-		//		}
-		//	}
-
-		//	// Set vertex and index buffer.
-		//	bgfx::setVertexBuffer(0, GBox::_vbh);
-		//	bgfx::setIndexBuffer(GBox::_ibh);
-
-		//	// Set instance data buffer.
-		//	bgfx::setInstanceDataBuffer(&idb);
-
-		//	// Set render states.
-		//	bgfx::setState(BGFX_STATE_DEFAULT);
-
-		//	// Submit primitive for rendering to view 0.
-		//	bgfx::submit(0, GBox::_program);
-		//}
-		////////////////////////////////////////////////////////////////////////
-
-		
 	}
 	
 	// Advance to next frame. Rendering thread will be kicked to

@@ -487,7 +487,7 @@ private:
         newNode->_down = Ptrs()[hashKey];
         Ptrs()[hashKey] = newNode;
 
-        // Rehash if the maximum PrivateLoad factor has been exceeded
+        // Rehash if the maximum load factor has been exceeded
         if (Size() > NumBuckets() * MAX_LOAD_FACTOR)
         {
             AllocateBuckets(Size(), NumBuckets() << 1);
@@ -514,7 +514,7 @@ private:
         newNode->_down = Ptrs()[hashKey];
         Ptrs()[hashKey] = newNode;
         
-        // Rehash if the maximum PrivateLoad factor has been exceeded
+        // Rehash if the maximum load factor has been exceeded
         if (Size() > NumBuckets() * MAX_LOAD_FACTOR)
         {
             AllocateBuckets(Size(), NumBuckets() << 1);

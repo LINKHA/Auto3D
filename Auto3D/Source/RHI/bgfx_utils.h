@@ -14,7 +14,7 @@ namespace stl = tinystl;
 
 
 ///
-void* PrivateLoad(const char* _filePath, uint32_t* _size = NULL);
+void* load(const char* _filePath, uint32_t* _size = NULL);
 
 ///
 void unload(void* _ptr);

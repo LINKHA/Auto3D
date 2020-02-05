@@ -250,7 +250,7 @@ void OMesh::submitInstance(bgfx::ViewId id, bgfx::ProgramHandle program, uint64_
 
 	//////////////////////////////////////////////////////////////////////////
 	// 80 bytes stride = 64 bytes for 4x4 matrix + 16 bytes for RGBA color.
-	const uint16_t instanceStride = 80;
+	const uint16_t instanceStride = 64;
 	// 11x11 cubes
 	const uint32_t numInstances = 121;
 
@@ -271,11 +271,11 @@ void OMesh::submitInstance(bgfx::ViewId id, bgfx::ProgramHandle program, uint64_
 			mtx[13] = -15.0f + float(yy)*3.0f;
 			mtx[14] = 0.0f;
 
-			float* color = (float*)&data[64];
+			/*float* color = (float*)&data[64];
 			color[0] = bx::sin(time + float(xx) / 11.0f)*0.5f + 0.5f;
 			color[1] = bx::cos(time + float(yy) / 11.0f)*0.5f + 0.5f;
 			color[2] = bx::sin(time*3.0f)*0.5f + 0.5f;
-			color[3] = 1.0f;
+			color[3] = 1.0f;*/
 
 			data += instanceStride;
 		}

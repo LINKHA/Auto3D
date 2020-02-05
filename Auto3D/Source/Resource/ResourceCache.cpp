@@ -306,7 +306,7 @@ FString GResourceModule::ResourceFileName(const FString& name) const
             return _resourceDirs[i] + name;
     }
 
-    return FString();
+    return name;
 }
 
 FString GResourceModule::SanitateResourceName(const FString& nameIn) const

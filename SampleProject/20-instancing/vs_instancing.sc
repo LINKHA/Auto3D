@@ -1,5 +1,4 @@
-$input a_position, a_normal, i_data0, i_data1, i_data2, i_data3, i_data4
-$output v_color0
+$input a_position, a_normal, i_data0, i_data1, i_data2, i_data3
 
 #include "../common.sh"
 
@@ -15,5 +14,4 @@ void main()
 
 	vec4 worldPos = instMul(model, vec4(a_position, 1.0) );
 	gl_Position = mul(u_viewProj, worldPos);
-	v_color0 = i_data4;
 }

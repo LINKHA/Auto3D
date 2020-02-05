@@ -19,7 +19,7 @@ namespace stl = tinystl;
 
 #include <bimg/decode.h>
 
-void* PrivateLoad(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, uint32_t* _size)
+void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, uint32_t* _size)
 {
 	if (bx::open(_reader, _filePath) )
 	{
@@ -46,9 +46,9 @@ void* PrivateLoad(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const ch
 	return NULL;
 }
 
-void* PrivateLoad(const char* _filePath, uint32_t* _size)
+void* load(const char* _filePath, uint32_t* _size)
 {
-	return PrivateLoad(Auto3D::getFileReader(), Auto3D::getAllocator(), _filePath, _size);
+	return load(Auto3D::getFileReader(), Auto3D::getAllocator(), _filePath, _size);
 }
 
 void unload(void* _ptr)
@@ -161,7 +161,7 @@ bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath,
 	bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
 	uint32_t size;
-	void* data = PrivateLoad(_reader, Auto3D::getAllocator(), _filePath, &size);
+	void* data = load(_reader, Auto3D::getAllocator(), _filePath, &size);
 	if (NULL != data)
 	{
 		bimg::ImageContainer* imageContainer = bimg::imageParse(Auto3D::getAllocator(), data, size);
