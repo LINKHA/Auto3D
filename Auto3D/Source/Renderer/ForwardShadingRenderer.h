@@ -40,6 +40,7 @@ public:
 	/// Render scene
 	void Render()override;
 
+	void RenderBatch();
 
 	void CollectGeometries(AWorld* world, ACameraComponent* camera);
 

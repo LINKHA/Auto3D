@@ -106,6 +106,8 @@ void FForwardShadingRenderer::Render()
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 		}
 
+		RenderBatch();
+
 		for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
 		{
 			AActor* actor = *it;
@@ -126,6 +128,31 @@ void FForwardShadingRenderer::Render()
 	bgfx::frame();
 
 	
+}
+
+void FForwardShadingRenderer::RenderBatch()
+{
+	TVector<FBatch>& batches = _batchQueues._batches;
+	TVector<TMatrix3x4F>& instanceTransforms = _instanceTransforms;
+
+	int batchesSize = batches.Size();
+	int instanceSize = instanceTransforms.Size();
+
+	for (auto it = batches.Begin(); it != batches.End(); ++it)
+	{
+		FBatch& batch = *it;
+		bool instance = batch._type == EGeometryType::INSTANCED;
+
+		if (instance)
+		{
+			int instanceStart = batch._instanceStart;
+			int instanceCount = batch._instanceCount;
+		}
+		else
+		{
+			const TMatrix3x4F* worldMatrix = batch._worldMatrix;
+		}
+	}
 }
 
 void FForwardShadingRenderer::ShutDowm()
@@ -179,6 +206,7 @@ void FForwardShadingRenderer::PrepareView()
 {
 	_batchQueues.Clear();
 	_geometriesActor.Clear();
+	_instanceTransforms.Clear();
 }
 
 }

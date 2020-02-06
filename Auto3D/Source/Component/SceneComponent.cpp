@@ -1,6 +1,7 @@
 #include "Component/SceneComponent.h"
 #include "Gameplay/Actor.h"
 #include "Resource/Material.h"
+#include "Resource/Shader.h"
 
 
 namespace Auto3D
@@ -25,7 +26,9 @@ void ASceneComponent::SetMaterial(OMaterial* material)
 	if (material)
 	{
 		_material = material;
-		_pass._shaderProgram = material->GetShaderProgram();
+
+		_pass.CreateShaderHash(material->GetShaderProgram().GetVertexShader()->GetPathName(),
+			material->GetShaderProgram().GetPixelShader()->GetPathName());
 	}
 }
 
@@ -36,7 +39,7 @@ OMaterial* ASceneComponent::GetMaterial() const
 
 void ASceneComponent::SetGeometryName(const FString& name)
 {
-	_pass._geometryName = name;
+	_pass.CreateGeometryHash(name);
 }
 
 const FPass& ASceneComponent::GetPass()

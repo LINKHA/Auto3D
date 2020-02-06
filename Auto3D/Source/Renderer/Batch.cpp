@@ -18,6 +18,12 @@ inline bool CompareBatchDistanceBackToFront(FBatch& lhs, FBatch& rhs)
 	return lhs._distance > rhs._distance;
 }
 
+FRenderQueue::FRenderQueue():
+	_sort(ERenderCommandSortMode::STATE)
+{
+
+}
+
 void FRenderQueue::Clear()
 {
 	_batches.Clear();
@@ -61,7 +67,7 @@ void FRenderQueue::BuildInstances(TVector<FBatch>& batches, TVector<TMatrix3x4F>
 	{
 		FBatch* current = &*it;
 
-		if (start && current->_type == EGeometryType::STATIC && current->_sortKey == start->_sortKey )
+		if (start && current->_type == EGeometryType::STATIC && current->_pass == start->_pass)
 		{
 			if (start->_type == EGeometryType::INSTANCED)
 			{

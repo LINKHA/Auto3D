@@ -39,15 +39,9 @@ struct AUTO_API FBatch
 	/// Calculate sort _key for state sorting.
 	void CalculateSortKey()
 	{
-		_sortKey = ((((unsigned long long)_pass._shaderProgram.GetShaderProgram().idx) & 0xffff) << 48)|
-		((((unsigned long long)_pass._geometryName.Buffer()) & 0xffff) << 32); 
-			/*((((unsigned long long)_pass->Parent()) & 0xffff) << 16) |
-			(((unsigned long long)_geometry) & 0xffff);*/
+		_sortKey = ((((unsigned long long)_pass._shaderHash) & 0xffff) << 48)|
+		((((unsigned long long)_pass._geometryHash) & 0xffff) << 32); 
 	}
-
-	/*
-	/// ALight pass.
-	FLightPass* _lights;*/
 
 	/// AMaterial pass.
 	FPass _pass;
@@ -78,6 +72,8 @@ struct AUTO_API FBatch
 /// Per-pass batch queue structure.
 struct AUTO_API FRenderQueue
 {
+	FRenderQueue();
+
 	/// Clear structures.
 	void Clear();
 	/// Sort batches and build instances.
