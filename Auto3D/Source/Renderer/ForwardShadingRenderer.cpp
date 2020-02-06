@@ -104,6 +104,9 @@ void FForwardShadingRenderer::Render()
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
+			
+			// Set view 0 default viewport.
+			bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 		}
 
 		RenderBatch();
