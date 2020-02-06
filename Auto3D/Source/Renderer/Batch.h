@@ -30,22 +30,27 @@ namespace ERenderCommandSortMode
 
 struct AUTO_API FBatch
 {
+	FBatch() :
+		_type(EGeometryType::STATIC),
+		_worldMatrix(nullptr),
+		_sortKey(0)
+	{}
+
 	/// Calculate sort _key for state sorting.
 	void CalculateSortKey()
 	{
-		_sortKey = ((((unsigned long long)_pass->_shaderProgram.GetShaderProgram().idx) & 0xffff) << 48);
-		/*((((unsigned long long)_lights) & 0xffff) << 32) |
-			((((unsigned long long)_pass->Parent()) & 0xffff) << 16) |
+		_sortKey = ((((unsigned long long)_pass._shaderProgram.GetShaderProgram().idx) & 0xffff) << 48)|
+		((((unsigned long long)_pass._geometryName.Buffer()) & 0xffff) << 32); 
+			/*((((unsigned long long)_pass->Parent()) & 0xffff) << 16) |
 			(((unsigned long long)_geometry) & 0xffff);*/
 	}
 
-	/*/// FGeometry.
-	FGeometry* _geometry;
+	/*
 	/// ALight pass.
 	FLightPass* _lights;*/
 
 	/// AMaterial pass.
-	SPtr<FPass> _pass;
+	FPass _pass;
 	/// FGeometry type.
 	EGeometryType::Type _type;
 

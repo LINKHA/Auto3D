@@ -1,5 +1,7 @@
 #include "Component/SceneComponent.h"
 #include "Gameplay/Actor.h"
+#include "Resource/Material.h"
+
 
 namespace Auto3D
 {
@@ -23,12 +25,23 @@ void ASceneComponent::SetMaterial(OMaterial* material)
 	if (material)
 	{
 		_material = material;
+		_pass._shaderProgram = material->GetShaderProgram();
 	}
 }
 
 OMaterial* ASceneComponent::GetMaterial() const
 {
 	return _material;
+}
+
+void ASceneComponent::SetGeometryName(const FString& name)
+{
+	_pass._geometryName = name;
+}
+
+const FPass& ASceneComponent::GetPass()
+{
+	return _pass;
 }
 
 }

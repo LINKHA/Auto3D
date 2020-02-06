@@ -81,10 +81,21 @@ public:
 		meshActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
 		meshActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		meshActor->GetTransform()->SetScale({ 1.0f, 1.0f, 1.0f });
-
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(m_mesh);
 		meshComponent->SetMaterial(material);
+
+		AActor* meshActor2 = world->CreateChild<AActor>();
+		meshActor2->GetTransform()->SetPosition({ 1.0f, 0.0f, 0.0f });
+		AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
+		meshComponent2->SetMesh(m_mesh);
+		meshComponent2->SetMaterial(material);
+
+		AActor* meshActor3 = world->CreateChild<AActor>();
+		meshActor3->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
+		AMeshComponent* meshComponent3 = meshActor3->CreateComponent<AMeshComponent>();
+		meshComponent3->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshComponent3->SetMaterial(material);
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));

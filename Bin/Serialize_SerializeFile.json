@@ -71,6 +71,48 @@
           "mesh": "OMesh;Meshes/bunny.bin"
         }
       ]
+    },
+    {
+      "type": "AActor",
+      "id": 4,
+      "name": "",
+      "enabled": true,
+      "temporary": false,
+      "layer": 0,
+      "tag": 0,
+      "components": [
+        {
+          "type": "ATransform",
+          "position": "1 0 0",
+          "rotation": "1 0 0 0",
+          "scale": "1 1 1"
+        },
+        {
+          "type": "AMeshComponent",
+          "mesh": "OMesh;Meshes/bunny.bin"
+        }
+      ]
+    },
+    {
+      "type": "AActor",
+      "id": 5,
+      "name": "",
+      "enabled": true,
+      "temporary": false,
+      "layer": 0,
+      "tag": 0,
+      "components": [
+        {
+          "type": "ATransform",
+          "position": "-1 0 0",
+          "rotation": "1 0 0 0",
+          "scale": "1 1 1"
+        },
+        {
+          "type": "AMeshComponent",
+          "mesh": "OMesh;Meshes/cube.bin"
+        }
+      ]
     }
   ]
 }

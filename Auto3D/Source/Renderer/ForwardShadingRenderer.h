@@ -2,11 +2,11 @@
 #include "AutoConfig.h"
 #include "Renderer/SceneRenderer.h"
 #include "Math/Color.h"
-#include "Renderer/Pass.h"
 #include "Renderer/Batch.h"
 
 #include "Component/MeshComponent.h"
 #include "Platform/PlatformDef.h"
+#include "Adapter/Ptr.h"
 
 #include <bgfx/bgfx.h>
 #include <stdint.h>
@@ -41,7 +41,9 @@ public:
 	void Render()override;
 
 
-	void CollectGeometries(TVector<AActor*>& geometries, AWorld* world, ACameraComponent* camera);
+	void CollectGeometries(AWorld* world, ACameraComponent* camera);
+
+	void CollectBatch();
 
 	void PrepareView();
 
@@ -53,7 +55,12 @@ public:
 private:
 
 	/// FBatch queues per pass.
-	THashMap<unsigned char, FRenderQueue> _batchQueues;
+	FRenderQueue _batchQueues;
+	/// Instance transforms for uploading to the instance vertex buffer.
+	TVector<TMatrix3x4F> _instanceTransforms;
+
+	/// Geometries in frustum.
+	TVector<AActor*> _geometriesActor;
 
 	TVector2F _backbufferSize;
 	/// Renderer debug mode;

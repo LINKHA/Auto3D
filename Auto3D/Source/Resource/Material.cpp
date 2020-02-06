@@ -8,7 +8,7 @@ namespace Auto3D
 
 OMaterial::OMaterial()
 {
-	_pass = MakeShared<FPass>();
+	
 }
 
 OMaterial::~OMaterial()
@@ -29,19 +29,17 @@ bool OMaterial::BeginLoad(const FString& pathName)
 		
 		const JSONObject& jsonShader = root["shaders"].GetObject();
 
-		FShaderProgram& shaderProgram = _pass->_shaderProgram;
-
 		if (jsonShader.Contains("vs"))
 		{
-			shaderProgram.CreateVertexShader(jsonShader.Find("vs")->_second.GetString());
+			_shaderProgram.CreateVertexShader(jsonShader.Find("vs")->_second.GetString());
 		}
 
 		if (jsonShader.Contains("ps"))
 		{
-			shaderProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
+			_shaderProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
 		}
 
-		shaderProgram.Link();
+		_shaderProgram.Link();
 	}
 
 	if (root.Contains("textures"))
@@ -52,6 +50,11 @@ bool OMaterial::BeginLoad(const FString& pathName)
 			
 		}
 	}
+}
+
+const FShaderProgram& OMaterial::GetShaderProgram()
+{
+	return _shaderProgram;
 }
 
 bool OMaterial::EndLoad()

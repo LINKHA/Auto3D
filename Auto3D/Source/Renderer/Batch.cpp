@@ -61,8 +61,7 @@ void FRenderQueue::BuildInstances(TVector<FBatch>& batches, TVector<TMatrix3x4F>
 	{
 		FBatch* current = &*it;
 
-		if (start && current->_type == EGeometryType::STATIC && current->_pass == start->_pass /*&& current->_geometry == start->_geometry &&
-			current->_lights == start->_lights*/)
+		if (start && current->_type == EGeometryType::STATIC && current->_sortKey == start->_sortKey )
 		{
 			if (start->_type == EGeometryType::INSTANCED)
 			{

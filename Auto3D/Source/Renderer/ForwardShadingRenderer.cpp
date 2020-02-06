@@ -4,8 +4,10 @@
 
 #include "Time/Time.h"
 #include "Component/MeshComponent.h"
-#include <bx/timer.h>
 #include "Resource/Mesh.h"
+
+#include "Renderer/Pass.h"
+#include "Resource/Material.h"
 
 #include "Component/Transform.h"
 #include "Component/CameraComponent.h"
@@ -86,9 +88,9 @@ void FForwardShadingRenderer::Render()
 
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
-		TVector<AActor*> geometries;
-		CollectGeometries(geometries, world, *it);
-
+		PrepareView();
+		CollectGeometries(world, *it);
+		CollectBatch();
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 
 		// Set the view transform each camera is set once in the view
@@ -104,7 +106,7 @@ void FForwardShadingRenderer::Render()
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 		}
 
-		for (auto it = geometries.Begin(); it != geometries.End(); ++it)
+		for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
 		{
 			AActor* actor = *it;
 			ATransform* transform = actor->GetTransform();
@@ -133,7 +135,7 @@ void FForwardShadingRenderer::ShutDowm()
 }	
 
 
-void FForwardShadingRenderer::CollectGeometries(TVector<AActor*>& geometries,AWorld* world, ACameraComponent* camera)
+void FForwardShadingRenderer::CollectGeometries(AWorld* world, ACameraComponent* camera)
 {
 	THashMap<unsigned, AActor*>& worldActors = world->GetActors();
 	
@@ -143,15 +145,40 @@ void FForwardShadingRenderer::CollectGeometries(TVector<AActor*>& geometries,AWo
 		unsigned short flags = actor->Flags();
 		if ((flags & NF_ENABLED) && (flags & NF_GEOMETRY) && (actor->GetLayerMask() & camera->GetViewMask()))
 		{
-			geometries.Push(actor);
+			_geometriesActor.Push(actor);
 		}
 		
 	}
 }
 
+void FForwardShadingRenderer::CollectBatch()
+{
+	// Loop through geometry nodes
+	for (auto gIt = _geometriesActor.Begin(); gIt != _geometriesActor.End(); ++gIt)
+	{
+		AActor* actor = *gIt;
+
+		AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
+
+		if (meshComponent)
+		{
+			FBatch newBatch;
+			newBatch._pass = actor->FindComponent<AMeshComponent>()->GetPass();
+			newBatch._worldMatrix = &actor->GetTransform()->GetWorldTransform();
+
+			newBatch.CalculateSortKey();
+
+			_batchQueues._batches.Push(newBatch);
+		}
+	}
+
+	_batchQueues.Sort(_instanceTransforms);
+}
+
 void FForwardShadingRenderer::PrepareView()
 {
-
+	_batchQueues.Clear();
+	_geometriesActor.Clear();
 }
 
 }

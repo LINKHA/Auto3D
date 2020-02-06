@@ -1,11 +1,10 @@
 #pragma once
 #include "Resource/Resource.h"
-#include "Adapter/Ptr.h"
+#include "Renderer/ShaderProgram.h"
 
 namespace Auto3D
 {
 class OJSONFile;
-class FPass;
 /// Material resource, which describes how to render 3D geometry and refers to textures. A material can contain several passes (for example normal rendering, and depth only.)
 class OMaterial : public OResource
 {
@@ -21,11 +20,13 @@ public:
 	virtual bool BeginLoad(const FString& pathName);
 	/// Finalize material loading in the main thread. Return true on success.
 	virtual bool EndLoad();
+
+	const FShaderProgram& GetShaderProgram();
 private:
 	/// JSON data used for loading.
 	UPtr<OJSONFile> _loadJSON;
 
-	SPtr<FPass> _pass;
+	FShaderProgram _shaderProgram;
 };
 
 }

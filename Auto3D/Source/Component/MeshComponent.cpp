@@ -17,6 +17,7 @@ void AMeshComponent::SetMesh(OMesh* mesh)
 	if (mesh)
 	{
 		_mesh = mesh;
+		SetGeometryName(mesh->GetPathName());
 	}
 }
 
