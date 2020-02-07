@@ -2,7 +2,7 @@
 #include "Gameplay/Actor.h"
 #include "Resource/Material.h"
 #include "Resource/Shader.h"
-
+#include "Debug/Log.h"
 
 namespace Auto3D
 {
@@ -40,6 +40,41 @@ void AGeometryComponent::SetGeometryName(const FString& name)
 const FPass& AGeometryComponent::GetPass()
 {
 	return _pass;
+}
+
+void AGeometryComponent::_SetGeometry(size_t index, FGeometry* geometry)
+{
+	if (!geometry)
+	{
+		ErrorString("Can not assign null geometry");
+		return;
+	}
+
+	if (index < _batches.Size())
+		_batches[index]._geometry = geometry;
+	else
+		ErrorStringF("Out of bounds batch index %d for setting geometry", (int)index);
+}
+
+void AGeometryComponent::_SetMaterial(OMaterial* material)
+{
+	if (!material)
+		material = OMaterial::DefaultMaterial();
+
+	for (size_t i = 0; i < _batches.Size(); ++i)
+		_batches[i]._material = material;
+}
+
+void AGeometryComponent::_SetMaterial(size_t index, OMaterial* material)
+{
+	if (index < _batches.Size())
+	{
+		if (!material)
+			material = OMaterial::DefaultMaterial();
+		_batches[index]._material = material;
+	}
+	else
+		ErrorStringF("Out of bounds batch index %d for setting material", (int)index);
 }
 
 void AGeometryComponent::OnActorSet(AActor* newParent, AActor* oldParent)

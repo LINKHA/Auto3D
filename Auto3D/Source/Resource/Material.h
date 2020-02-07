@@ -22,7 +22,11 @@ public:
 	virtual bool EndLoad();
 
 	const FShaderProgram& GetShaderProgram();
+
+	static OMaterial* DefaultMaterial();
 private:
+	/// Default material.
+	static SPtr<OMaterial> _defaultMaterial;
 	/// JSON data used for loading.
 	UPtr<OJSONFile> _loadJSON;
 

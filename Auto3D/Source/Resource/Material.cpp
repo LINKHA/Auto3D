@@ -5,6 +5,7 @@
 
 namespace Auto3D
 {
+SPtr<OMaterial> OMaterial::_defaultMaterial;
 
 OMaterial::OMaterial()
 {
@@ -52,14 +53,36 @@ bool OMaterial::BeginLoad(const FString& pathName)
 	}
 }
 
+bool OMaterial::EndLoad()
+{
+	return true;
+}
+
 const FShaderProgram& OMaterial::GetShaderProgram()
 {
 	return _shaderProgram;
 }
 
-bool OMaterial::EndLoad()
+OMaterial* OMaterial::DefaultMaterial()
 {
-	return true;
+	// Create on demand
+	if (!_defaultMaterial)
+	{
+		/*	_defaultMaterial = new AMaterial();
+			FPass* pass = _defaultMaterial->CreatePass("opaque");
+			pass->SetShaders("Shader/NoTexture", "Shader/NoTexture");
+
+			pass = _defaultMaterial->CreatePass("opaqueadd");
+			pass->SetShaders("Shader/NoTexture", "Shader/NoTexture");
+			pass->SetBlendMode(EBlendMode::ADD);
+			pass->_depthWrite = false;
+
+			pass = _defaultMaterial->CreatePass("shadow");
+			pass->SetShaders("Shader/Shadow", "Shader/Shadow");
+			pass->_colorWriteMask = COLORMASK_NONE;*/
+	}
+
+	return _defaultMaterial.get();
 }
 
 }

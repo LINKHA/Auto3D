@@ -35,6 +35,12 @@ struct AUTO_API FPass
 
 	unsigned _shaderHash;
 	unsigned _geometryHash;
+
+	/// Draw call source datas.
+	OMaterial* _material;
+
+	/// Draw call source datas.
+	TVector<FGeometry*> _geometrys;
 };
 
 }

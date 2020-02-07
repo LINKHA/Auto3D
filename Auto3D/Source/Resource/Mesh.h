@@ -53,8 +53,8 @@ struct Group
 		_vertices = NULL;
 		_numIndices = 0;
 		_indices = NULL;
-		_vbh.idx = bgfx::kInvalidHandle;
-		_ibh.idx = bgfx::kInvalidHandle;
+		_vbh.idx = BGFX_INVALID_HANDLE;
+		_ibh.idx = BGFX_INVALID_HANDLE;
 		_prims.Clear();
 	}
 
