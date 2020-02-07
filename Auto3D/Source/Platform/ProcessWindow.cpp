@@ -12,6 +12,14 @@
 namespace Auto3D
 {
 IMPLEMENT_SINGLETON(GProcessWindow)
+static uint32_t staticDebug = BGFX_DEBUG_NONE;
+static uint32_t staticReset = BGFX_RESET_VSYNC;
+static bool staticExit = false;
+static WindowState staticWindow[ENTRY_CONFIG_MAX_WINDOWS];
+static uint32_t staticWidth = 0;
+static uint32_t staticHeight = 0;
+static MouseState staticMouseState;
+
 
 uint32_t GProcessWindow::_debug = BGFX_DEBUG_NONE;
 uint32_t GProcessWindow::_reset = BGFX_RESET_VSYNC;
@@ -50,25 +58,25 @@ int cmdGraphics(CmdContext* /*context*/, void* /*userData*/, int _argc, char con
 {
 	if (_argc > 1)
 	{
-		if (setOrToggle(GProcessWindow::_reset, "vsync", BGFX_RESET_VSYNC, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_reset, "maxaniso", BGFX_RESET_MAXANISOTROPY, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_reset, "msaa", BGFX_RESET_MSAA_X16, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_reset, "flush", BGFX_RESET_FLUSH_AFTER_RENDER, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_reset, "flip", BGFX_RESET_FLIP_AFTER_RENDER, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_reset, "hidpi", BGFX_RESET_HIDPI, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_reset, "depthclamp", BGFX_RESET_DEPTH_CLAMP, 1, _argc, _argv)
+		if (setOrToggle(staticReset, "vsync", BGFX_RESET_VSYNC, 1, _argc, _argv)
+			|| setOrToggle(staticReset, "maxaniso", BGFX_RESET_MAXANISOTROPY, 1, _argc, _argv)
+			|| setOrToggle(staticReset, "msaa", BGFX_RESET_MSAA_X16, 1, _argc, _argv)
+			|| setOrToggle(staticReset, "flush", BGFX_RESET_FLUSH_AFTER_RENDER, 1, _argc, _argv)
+			|| setOrToggle(staticReset, "flip", BGFX_RESET_FLIP_AFTER_RENDER, 1, _argc, _argv)
+			|| setOrToggle(staticReset, "hidpi", BGFX_RESET_HIDPI, 1, _argc, _argv)
+			|| setOrToggle(staticReset, "depthclamp", BGFX_RESET_DEPTH_CLAMP, 1, _argc, _argv)
 			)
 		{
 			return bx::kExitSuccess;
 		}
-		else if (setOrToggle(GProcessWindow::_debug, "stats", BGFX_DEBUG_STATS, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_debug, "ifh", BGFX_DEBUG_IFH, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_debug, "text", BGFX_DEBUG_TEXT, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_debug, "wireframe", BGFX_DEBUG_WIREFRAME, 1, _argc, _argv)
-			|| setOrToggle(GProcessWindow::_debug, "profiler", BGFX_DEBUG_PROFILER, 1, _argc, _argv)
+		else if (setOrToggle(staticDebug, "stats", BGFX_DEBUG_STATS, 1, _argc, _argv)
+			|| setOrToggle(staticDebug, "ifh", BGFX_DEBUG_IFH, 1, _argc, _argv)
+			|| setOrToggle(staticDebug, "text", BGFX_DEBUG_TEXT, 1, _argc, _argv)
+			|| setOrToggle(staticDebug, "wireframe", BGFX_DEBUG_WIREFRAME, 1, _argc, _argv)
+			|| setOrToggle(staticDebug, "profiler", BGFX_DEBUG_PROFILER, 1, _argc, _argv)
 			)
 		{
-			bgfx::setDebug(GProcessWindow::_debug);
+			bgfx::setDebug(staticDebug);
 			return bx::kExitSuccess;
 		}
 		else if (0 == bx::strCmp(_argv[1], "screenshot"))
@@ -104,14 +112,14 @@ int cmdGraphics(CmdContext* /*context*/, void* /*userData*/, int _argc, char con
 
 int cmdExit(CmdContext* /*context*/, void* /*userData*/, int _argc, char const* const* _argv)
 {
-	GProcessWindow::_exit = true;
+	staticExit = true;
 	return bx::kExitSuccess;
 }
 
 bool GProcessWindow::ProcessWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 {
-	GProcessWindow::_debug = debug;
-	GProcessWindow::_reset = reset;
+	staticDebug = debug;
+	staticReset = reset;
 
 	WindowHandle handle = { UINT16_MAX };
 
@@ -144,7 +152,7 @@ bool GProcessWindow::ProcessWindowEvents(WindowState& state, uint32_t& debug, ui
 		if (NULL != ev)
 		{
 			handle = ev->_handle;
-			WindowState& win = GProcessWindow::_window[handle.idx];
+			WindowState& win = staticWindow[handle.idx];
 
 			switch (ev->_type)
 			{
@@ -219,7 +227,7 @@ bool GProcessWindow::ProcessWindowEvents(WindowState& state, uint32_t& debug, ui
 				win._width = size->_width;
 				win._height = size->_height;
 				reset = win._handle.idx == 0
-					? !GProcessWindow::_reset
+					? !staticReset
 					: reset
 					; // force reset
 			}
@@ -256,7 +264,7 @@ bool GProcessWindow::ProcessWindowEvents(WindowState& state, uint32_t& debug, ui
 
 	if (isValid(handle))
 	{
-		WindowState& win = GProcessWindow::_window[handle.idx];
+		WindowState& win = staticWindow[handle.idx];
 		if (clearDropFile)
 		{
 			win._dropFile.clear();
@@ -270,22 +278,22 @@ bool GProcessWindow::ProcessWindowEvents(WindowState& state, uint32_t& debug, ui
 		}
 	}
 
-	if (reset != GProcessWindow::_reset)
+	if (reset != staticReset)
 	{
-		reset = GProcessWindow::_reset;
-		bgfx::reset(GProcessWindow::_window[0]._width, GProcessWindow::_window[0]._height, reset);
-		InputSetMouseResolution(uint16_t(GProcessWindow::_window[0]._width), uint16_t(GProcessWindow::_window[0]._height));
+		reset = staticReset;
+		bgfx::reset(staticWindow[0]._width, staticWindow[0]._height, reset);
+		InputSetMouseResolution(uint16_t(staticWindow[0]._width), uint16_t(staticWindow[0]._height));
 	}
 
-	debug = GProcessWindow::_debug;
+	debug = staticDebug;
 
-	return GProcessWindow::_exit;
+	return staticExit;
 }
 
 bool GProcessWindow::ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse)
 {
-	GProcessWindow::_debug = debug;
-	GProcessWindow::_reset = reset;
+	staticDebug = debug;
+	staticReset = reset;
 
 	WindowHandle handle = { UINT16_MAX };
 
@@ -362,7 +370,7 @@ bool GProcessWindow::ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& 
 			case Event::Size:
 			{
 				const SizeEvent* size = static_cast<const SizeEvent*>(ev);
-				WindowState& win = GProcessWindow::_window[0];
+				WindowState& win = staticWindow[0];
 				win._handle = size->_handle;
 				win._width = size->_width;
 				win._height = size->_height;
@@ -370,7 +378,7 @@ bool GProcessWindow::ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& 
 				handle = size->_handle;
 				width = size->_width;
 				height = size->_height;
-				reset = !GProcessWindow::_reset; // force reset
+				reset = !staticReset; // force reset
 			}
 			break;
 
@@ -397,16 +405,16 @@ bool GProcessWindow::ProcessEvents(uint32_t& width, uint32_t& height, uint32_t& 
 	} while (NULL != ev);
 
 	if (handle.idx == 0
-		&& reset != GProcessWindow::_reset)
+		&& reset != staticReset)
 	{
-		reset = GProcessWindow::_reset;
+		reset = staticReset;
 		bgfx::reset(width, height, reset);
 		InputSetMouseResolution(uint16_t(width), uint16_t(height));
 	}
 
-	debug = GProcessWindow::_debug;
+	debug = staticDebug;
 
-	return GProcessWindow::_exit;
+	return staticExit;
 }
 
 }
