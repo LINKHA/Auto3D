@@ -17,8 +17,6 @@ public:
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime);
 
-	/// Attach to actor,and set owner private and world private.
-	bool AttachToActor(AActor* owner);
 	/// Follow the Outer chain to get the  AActor  that 'Owns' this component.
 	virtual AActor* GetOwner() const;
 	/// Getter for the cached world pointer, will return null if the component is not actually spawned in a level.
@@ -29,6 +27,11 @@ public:
 
 	/// This is the old name of the tick function. We just want to avoid mistakes with an attempt to override this.
 	virtual void Tick(float deltaTime) final { assert(0); }
+
+public:
+	/// Handle being assigned to a new parent node.
+	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
+
 private:
 	/// Cached pointer to owning actor.
 	mutable AActor* _ownerPrivate;

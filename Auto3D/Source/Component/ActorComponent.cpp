@@ -23,21 +23,6 @@ void AActorComponent::TickComponent(float deltaTime)
 
 }
 
-bool AActorComponent::AttachToActor(AActor* owner)
-{
-	if (!owner)
-	{
-		ErrorString("Fail attach to actor.");
-		return false;
-	}
-
-	_ownerPrivate = owner;
-	if (owner->GetWorld())
-		_worldPrivate = owner->GetWorld();
-	
-	return true;
-}
-
 AActor* AActorComponent::GetOwner() const
 {
 	return _ownerPrivate;
@@ -46,6 +31,19 @@ AActor* AActorComponent::GetOwner() const
 AWorld* AActorComponent::GetWorld() const
 {
 	return _worldPrivate;
+}
+
+void AActorComponent::OnActorSet(AActor* newParent, AActor* oldParent)
+{
+	_ownerPrivate = newParent;
+
+	if (!newParent)
+	{
+		return;
+	}
+
+	if (newParent->GetWorld())
+		_worldPrivate = newParent->GetWorld();
 }
 
 }

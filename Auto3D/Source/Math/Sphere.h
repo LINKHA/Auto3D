@@ -46,7 +46,7 @@ public:
     }
     
     /// Construct from a bounding box.
-    FSphere(const TBoundingBoxF& box)
+    FSphere(const TBoundingBox<float>& box)
     {
         Define(box);
     }
@@ -93,7 +93,7 @@ public:
     /// Define from an array of vertices.
     void Define(const TVector3F* vertices, size_t count);
     /// Define from a bounding box.
-    void Define(const TBoundingBoxF& box);
+    void Define(const TBoundingBox<float>& box);
     /// Define from a frustum.
     void Define(const FFrustum& frustum);
     /// Define from a polyhedron.
@@ -130,7 +130,7 @@ public:
     /// Merge an array of vertices.
     void Merge(const TVector3F* vertices, size_t count);
     /// Merge a bounding box.
-    void Merge(const TBoundingBoxF& box);
+    void Merge(const TBoundingBox<float>& box);
     /// Merge a frustum.
     void Merge(const FFrustum& frustum);
     /// Merge a polyhedron.
@@ -176,9 +176,9 @@ public:
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-	EIntersection::Type IsInside(const TBoundingBoxF& box) const;
+	EIntersection::Type IsInside(const TBoundingBox<float>& box) const;
     /// Test if a bounding box is (partially) inside or outside.
-	EIntersection::Type IsInsideFast(const TBoundingBoxF& box) const;
+	EIntersection::Type IsInsideFast(const TBoundingBox<float>& box) const;
     
     /// Return distance of a point to the surface, or 0 if inside.
     float Distance(const TVector3F& point) const { return Max((point - _center).Length() - _radius, 0.0f); }

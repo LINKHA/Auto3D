@@ -1,12 +1,12 @@
 #pragma once
-#include "Component/SceneComponent.h"
+#include "Component/GeometryComponent.h"
 #include "Resource/Mesh.h"
 namespace Auto3D
 {
 
-class AUTO_API AMeshComponent : public ASceneComponent
+class AUTO_API AMeshComponent : public AGeometryComponent
 {
-	DECLARE_A_CLASS(AMeshComponent, ASceneComponent)
+	DECLARE_A_CLASS(AMeshComponent, AGeometryComponent)
 public:
 	AMeshComponent() {}
 	~AMeshComponent() {}

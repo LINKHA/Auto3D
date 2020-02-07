@@ -587,14 +587,17 @@ void AActor::AddComponent(AActorComponent* component)
 					return;
 			}
 		}
-
 	}
 	else
 	{
 		ErrorString("Failed to create component, perhaps the input parameter component");
 		return;
 	}
-	component->AttachToActor(this);
+
+	AActor* oldOwner = nullptr;
+	if (component->GetOwner())
+		oldOwner = component->GetOwner();
+	component->OnActorSet(this, oldOwner);
 }
 
 void AActor::RemoveComponent(AActorComponent* component)
@@ -606,6 +609,11 @@ void AActor::RemoveComponent(AActorComponent* component)
 	auto it = _ownedComponents.Find(componentsKey);
 	if (it != _ownedComponents.End())
 	{
+		AActor* oldOwner = nullptr;
+		if (component->GetOwner())
+			oldOwner = component->GetOwner();
+		component->OnActorSet(nullptr, oldOwner);
+	
 		_ownedComponents.Erase(componentsKey);
 		SafeDelete(it->_second);
 	}
@@ -617,9 +625,14 @@ void AActor::RemoveAllComponents()
 {
 	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
 	{
-		AActorComponent* comp = it->_second;
+		AActorComponent* component = it->_second;
 
-		SafeDelete(comp);
+		AActor* oldOwner = nullptr;
+		if (component->GetOwner())
+			oldOwner = component->GetOwner();
+		component->OnActorSet(nullptr, oldOwner);
+
+		SafeDelete(component);
 	}
 
 	_ownedComponents.Clear();
@@ -703,4 +716,10 @@ ATransform* AActor::GetTransform()
 
 	return _transform;
 }
+
+TVector<AGeometryComponent*>& AActor::GetGeometryComponents()
+{
+	return _geometryComponents;
+}
+
 }

@@ -13,7 +13,7 @@ bool GControllerManager::RegisterController(AController* controller)
 		return false;
 	}
 
-	unsigned id = controller->GetOwner()->GetId();
+	unsigned id = controller->GetOwner()->GetActorID();
 	_controllers[id] = controller;
 	return true;
 }

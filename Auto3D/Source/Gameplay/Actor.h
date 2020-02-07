@@ -16,6 +16,7 @@ class AWorld;
 class FObjectResolver;
 class ATransform;
 class AActorComponent;
+class AGeometryComponent;
 
 static const unsigned short NF_ENABLED = 0x1;
 static const unsigned short NF_TEMPORARY = 0x2;
@@ -31,6 +32,8 @@ static const unsigned short NF_CASTSHADOWS = 0x200;
 static const unsigned char LAYER_DEFAULT = 0x0;
 static const unsigned char TAG_NONE = 0x0;
 static const unsigned LAYERMASK_ALL = 0xffffffff;
+
+
 
 /// Base class for scene nodes.
 class AUTO_API AActor : public OObject
@@ -49,8 +52,8 @@ public:
 
 	bool HasBegunPlay(){ return _hasBegunPlay; }
 
-    /// Return unique _id within the scene, or 0 if not in a scene.
-    unsigned GetId() const { return _id; }
+    /// Return unique id within the scene, or 0 if not in a scene.
+    unsigned GetActorID() const { return _id; }
     /// Set name. Is not required to be unique within the scene.
     void SetName(const FString& newName);
     /// Set node's layer. Usage is subclass specific, for example rendering nodes selectively. Default is 0.
@@ -199,6 +202,8 @@ public:
 	/// Each actor is fixed with a transform.Any operation of this class can be performed.
 	/// This class does not initialize a transform and is created the first time the function is looked up
 	ATransform* GetTransform();
+
+	TVector<AGeometryComponent*>& GetGeometryComponents();
 protected:
     /// Handle being assigned to a new parent node.
 	virtual void OnParentSet(AActor* newParent, AActor* oldParent) {}
@@ -229,6 +234,9 @@ protected:
     unsigned char _layer;
     /// Tag number.
     unsigned char _tag;
+
+	/// If this actor is geometry source batch useful.
+	TVector<AGeometryComponent*> _geometryComponents;
 };
 
 }

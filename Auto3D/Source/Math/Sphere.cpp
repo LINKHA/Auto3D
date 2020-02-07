@@ -15,7 +15,7 @@ void FSphere::Define(const TVector3F* vertices, size_t count)
     Merge(vertices, count);
 }
 
-void FSphere::Define(const TBoundingBoxF& box)
+void FSphere::Define(const TBoundingBox<float>& box)
 {
     const TVector3F& min = box._min;
     const TVector3F& max = box._max;
@@ -48,7 +48,7 @@ void FSphere::Merge(const TVector3F* vertices, size_t count)
         Merge(*vertices++);
 }
 
-void FSphere::Merge(const TBoundingBoxF& box)
+void FSphere::Merge(const TBoundingBox<float>& box)
 {
     const TVector3F& min = box._min;
     const TVector3F& max = box._max;
@@ -113,7 +113,7 @@ void FSphere::Merge(const FSphere& sphere)
     }
 }
 
-EIntersection::Type FSphere::IsInside(const TBoundingBoxF& box) const
+EIntersection::Type FSphere::IsInside(const TBoundingBox<float>& box) const
 {
     float radiusSquared = _radius * _radius;
     float distSquared = 0;
@@ -186,7 +186,7 @@ EIntersection::Type FSphere::IsInside(const TBoundingBoxF& box) const
     return EIntersection::INSIDE;
 }
 
-EIntersection::Type FSphere::IsInsideFast(const TBoundingBoxF& box) const
+EIntersection::Type FSphere::IsInsideFast(const TBoundingBox<float>& box) const
 {
     float radiusSquared = _radius * _radius;
     float distSquared = 0;

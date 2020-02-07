@@ -188,7 +188,7 @@ bool GSerializationModule::LoadRoot(FStream& source, AWorld* scene)
 void GSerializationModule::SaveJSON(FJSONValue& dest, AActor* node)
 {
 	dest["type"] = RtToStr(FType::get(*node).get_name());
-	dest["id"] = node->GetId();
+	dest["id"] = node->GetActorID();
 
 	//Save the properties
 	SavePropertyJSONs(dest, node);
@@ -501,7 +501,7 @@ void GSerializationModule::Save(FStream& dest, AActor* node)
 {
 	// Write type and ID first, followed by attributes and child nodes
 	dest.Write(RtToStr(FType::get(*node).get_name()));
-	dest.Write(node->GetId());
+	dest.Write(node->GetActorID());
 
 	//Save the properties
 	SavePropertys(dest, node);

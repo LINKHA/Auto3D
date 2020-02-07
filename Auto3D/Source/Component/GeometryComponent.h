@@ -7,13 +7,14 @@ namespace Auto3D
 {
 class OMaterial;
 class FPass;
+class FGeometry;
 
-class AUTO_API ASceneComponent : public AActorComponent
+class AUTO_API AGeometryComponent : public AActorComponent
 {
-	DECLARE_A_CLASS(ASceneComponent, AActorComponent)
+	DECLARE_A_CLASS(AGeometryComponent, AActorComponent)
 public:
-	ASceneComponent() {}
-	virtual ~ASceneComponent() {}
+	AGeometryComponent() {}
+	virtual ~AGeometryComponent() {}
 
 	/// BeginPlay
 	virtual void BeginPlay();
@@ -26,10 +27,14 @@ public:
 	void SetGeometryName(const FString& name);
 	const FPass& GetPass();
 
+	/// Handle being assigned to a new parent node.
+	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
 private:
 	FPass _pass;
 
 	OMaterial* _material;
+
+	FGeometry* _geometry;
 };
 
 }

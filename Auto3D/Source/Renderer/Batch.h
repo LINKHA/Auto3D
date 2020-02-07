@@ -96,6 +96,4 @@ struct AUTO_API FRenderQueue
 	unsigned char _additiveIndex;
 };
 
-
-
 }
