@@ -136,24 +136,18 @@ void FForwardShadingRenderer::Render()
 void FForwardShadingRenderer::RenderBatch()
 {
 	TVector<FBatch>& batches = _batchQueues._batches;
-	TVector<TMatrix3x4F>& instanceTransforms = _instanceTransforms;
 
 	int batchesSize = batches.Size();
-	int instanceSize = instanceTransforms.Size();
 
 	for (auto it = batches.Begin(); it != batches.End(); ++it)
 	{
 		FBatch& batch = *it;
 		bool instance = batch._type == EGeometryType::INSTANCED;
-
+		const TMatrix3x4F* worldMatrix = batch._pass._worldMatrix;
 		if (instance)
 		{
 			int instanceStart = batch._instanceStart;
 			int instanceCount = batch._instanceCount;
-		}
-		else
-		{
-			const TMatrix3x4F* worldMatrix = batch._worldMatrix;
 		}
 	}
 }
@@ -187,29 +181,37 @@ void FForwardShadingRenderer::CollectBatch()
 	for (auto gIt = _geometriesActor.Begin(); gIt != _geometriesActor.End(); ++gIt)
 	{
 		AActor* actor = *gIt;
-
-		AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
-
-		if (meshComponent)
+		TVector<AGeometryComponent*> geometryComponents = actor->GetGeometryComponents();
+		if (!geometryComponents.Size())
 		{
-			FBatch newBatch;
-			newBatch._pass = actor->FindComponent<AMeshComponent>()->GetPass();
-			newBatch._worldMatrix = &actor->GetTransform()->GetWorldTransform();
+			actor->SetFlag(NF_GEOMETRY, false);
+			continue;
+		}
 
-			newBatch.CalculateSortKey();
+		for (auto it = geometryComponents.Begin(); it != geometryComponents.End(); ++it)
+		{
+			AGeometryComponent* geometryComponent = *it;
+			FPass& geometryPass = geometryComponent->GetPass();
+			// If the pass message is incomplete, discard it
+			if (!geometryPass.isValid())
+				continue;
+
+			geometryPass.CalculateSortKey();
+
+			FBatch newBatch;
+			newBatch._pass = geometryPass;
 
 			_batchQueues._batches.Push(newBatch);
 		}
 	}
 
-	_batchQueues.Sort(_instanceTransforms);
+	_batchQueues.Sort();
 }
 
 void FForwardShadingRenderer::PrepareView()
 {
 	_batchQueues.Clear();
 	_geometriesActor.Clear();
-	_instanceTransforms.Clear();
 }
 
 }

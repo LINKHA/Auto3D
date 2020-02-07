@@ -1,6 +1,6 @@
 #include "Renderer/ShaderProgram.h"
 #include "Resource/Shader.h"
-
+#include "Resource/ResourceCache.h"
 
 namespace Auto3D
 {
@@ -10,7 +10,7 @@ FShaderProgram::FShaderProgram():
 {
 }
 
-FShaderProgram::FShaderProgram(const SPtr<OShader>& vs, const SPtr<OShader>& ps) :
+FShaderProgram::FShaderProgram(OShader* vs, OShader* ps) :
 	_program(BGFX_INVALID_HANDLE)
 {
 	_vs = vs;
@@ -42,55 +42,50 @@ bool FShaderProgram::Release()
 	return true;
 }
 
-SPtr<OShader> FShaderProgram::GetVertexShader() const
+OShader* FShaderProgram::GetVertexShader() const
 {
 	return _vs;
 }
 
-SPtr<OShader> FShaderProgram::GetPixelShader() const
+OShader* FShaderProgram::GetPixelShader() const
 {
 	return _ps;
 }
 
-void FShaderProgram::SetVertexShader(const SPtr<OShader>& shader)
+void FShaderProgram::SetVertexShader(OShader* shader)
 {
 	_vs = shader;
 }
 
-void FShaderProgram::SetPixelShader(const SPtr<OShader>& shader)
+void FShaderProgram::SetPixelShader(OShader* shader)
 {
 	_ps = shader;
 }
 
 bool FShaderProgram::CreateVertexShader(const FString& path)
 {
-	SPtr<OShader> vsShader = MakeShared<OShader>();
-	SPtr<OShader> vsShaderss;
-	vsShaderss = vsShader;
-
-	bool flag = vsShader->BeginLoad(path);
-	flag |= vsShader->EndLoad();
-
-	if (flag && isValid((vsShader->GetShaderHandle())))
+	OShader* vsShader = GResourceModule::Get().LoadResource<OShader>(path);
+	if (vsShader && isValid((vsShader->GetShaderHandle())))
 	{
 		_vs = vsShader;
 	}
+	else
+		return false;
 
-	return flag;
+	return true;
 }
 
 bool FShaderProgram::CreatePixelShader(const FString& path)
 {
-	SPtr<OShader> psShader = MakeShared<OShader>();
-	bool flag = psShader->BeginLoad(path);
-	flag |= psShader->EndLoad();
-
-	if (flag && isValid((psShader->GetShaderHandle())))
+	OShader* psShader = GResourceModule::Get().LoadResource<OShader>(path);
+	if (psShader && isValid((psShader->GetShaderHandle())))
 	{
 		_ps = psShader;
 	}
+	else
+		return false;
 
-	return flag;
+	return true;
 }
 
 }

@@ -15,7 +15,7 @@ public:
 	/// Construct with shader pointers.
 	FShaderProgram();
 	/// Construct with shader pointers.
-	FShaderProgram(const SPtr<OShader>& vs, const SPtr<OShader>& ps);
+	FShaderProgram(OShader* vs, OShader* ps);
 	/// Destruct.
 	~FShaderProgram();
 
@@ -25,14 +25,14 @@ public:
 	bool Release();
 
 	/// Return the vertex shader.
-	SPtr<OShader> GetVertexShader() const;
+	OShader* GetVertexShader() const;
 	/// Return the pixel shader.
-	SPtr<OShader> GetPixelShader() const;
+	OShader* GetPixelShader() const;
 
 	bgfx::ProgramHandle GetShaderProgram() { return _program; }
 
-	void SetVertexShader(const SPtr<OShader>& shader);
-	void SetPixelShader(const SPtr<OShader>& shader);
+	void SetVertexShader(OShader* shader);
+	void SetPixelShader(OShader* shader);
 
 	bool CreateVertexShader(const FString& path);
 	bool CreatePixelShader(const FString& path);
@@ -40,9 +40,9 @@ private:
 	/// Shader program identifier.
 	bgfx::ProgramHandle _program;
 	/// Vertex shader.
-	SPtr<OShader> _vs;
+	OShader* _vs;
 	/// Pixel shader.
-	SPtr<OShader> _ps;
+	OShader* _ps;
 };
 
 }

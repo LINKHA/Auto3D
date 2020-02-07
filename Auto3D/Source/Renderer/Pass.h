@@ -3,6 +3,10 @@
 #include "Renderer/ShaderProgram.h"
 #include "Container/String.h"
 #include "Container/StringHash.h"
+#include "Renderer/Geometry.h"
+#include "Resource/Material.h"
+#include "Resource/Shader.h"
+#include "Math/Matrix3x4.h"
 
 namespace Auto3D
 {
@@ -10,37 +14,51 @@ namespace Auto3D
 struct AUTO_API FPass
 {
 	FPass():
-		_shaderHash(0),
-		_geometryHash(0)
+		_sortKey(0),
+		_material(nullptr),
+		_geometry(nullptr),
+		_worldMatrix(nullptr)
 	{}
-
-	void CreateShaderHash(FString vsName = FString::EMPTY,FString psName = FString::EMPTY)
-	{
-		_shaderHash = FStringHash(vsName + psName).Value();
-	}
-
-	void CreateGeometryHash(const FString& geometryName)
-	{
-		_geometryHash = FStringHash(geometryName).Value();
-	}
 
 	bool operator==(const FPass& rhs)
 	{
-		if (_shaderHash == rhs._shaderHash
-			&& _geometryHash == rhs._geometryHash)
+		if (_sortKey == rhs._sortKey)
 			return true;
 
 		return false;
 	}
+	
+	void CalculateSortKey()
+	{
+		if (!_material || !_geometry)
+			return;
 
-	unsigned _shaderHash;
-	unsigned _geometryHash;
+		FString ss = FString(_material->GetShaderProgram().GetVertexShader()->GetPathName() + _material->GetShaderProgram().GetPixelShader()->GetPathName());
+		FString sss = _geometry->_name;
+
+		unsigned shaderHash = FStringHash(_material->GetShaderProgram().GetVertexShader()->GetPathName()
+			+ _material->GetShaderProgram().GetPixelShader()->GetPathName()).Value();
+
+		_sortKey = ((((unsigned long long)shaderHash) & 0xffffffff) << 32)|
+		((unsigned long long)FStringHash(_geometry->_name).Value() & 0xffffffff);
+	}
+
+	bool isValid()
+	{
+		return _geometry && _material && _worldMatrix;
+	}
 
 	/// Draw call source datas.
 	OMaterial* _material;
 
 	/// Draw call source datas.
-	TVector<FGeometry*> _geometrys;
+	FGeometry* _geometry;
+
+	/// Non-instanced use world matrix.
+	const TMatrix3x4F* _worldMatrix;
+
+	/// Sort _key for state sorting.
+	unsigned long long _sortKey;
 };
 
 }

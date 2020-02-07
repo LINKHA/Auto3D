@@ -51,6 +51,8 @@ bool OMaterial::BeginLoad(const FString& pathName)
 			
 		}
 	}
+
+	return true;
 }
 
 bool OMaterial::EndLoad()

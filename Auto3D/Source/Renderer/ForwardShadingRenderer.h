@@ -57,8 +57,6 @@ private:
 
 	/// FBatch queues per pass.
 	FRenderQueue _batchQueues;
-	/// Instance transforms for uploading to the instance vertex buffer.
-	TVector<TMatrix3x4F> _instanceTransforms;
 
 	/// Geometries in frustum.
 	TVector<AActor*> _geometriesActor;

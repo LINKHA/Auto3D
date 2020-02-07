@@ -1,5 +1,6 @@
 #pragma once
 #include "AutoConfig.h"
+#include "Container/String.h"
 
 #include <bgfx/bgfx.h>
 
@@ -11,13 +12,15 @@ class AUTO_API FGeometry
 public:
 	FGeometry() 
 	{
-		_vbh.idx = BGFX_INVALID_HANDLE;
-		_ibh.idx = BGFX_INVALID_HANDLE;
+		_vertexBufferHandles.Resize(0);
+		_indexBufferHandles.Resize(0);
+		_name = FString::EMPTY;
 	}
 	~FGeometry() {}
 
-	bgfx::VertexBufferHandle _vbh;
-	bgfx::IndexBufferHandle _ibh;
+	FString _name;
+	TVector<bgfx::VertexBufferHandle> _vertexBufferHandles;
+	TVector<bgfx::IndexBufferHandle> _indexBufferHandles;
 };
 
 }

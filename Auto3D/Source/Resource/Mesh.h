@@ -2,6 +2,7 @@
 #include "AutoConfig.h"
 #include "Container/Vector.h"
 #include "Resource/Resource.h"
+#include "Renderer/Geometry.h"
 
 #include <bimg/bimg.h>
 #include <bx/pixelformat.h>
@@ -95,6 +96,8 @@ public:
 
 	///
 	static void meshStateDestroy(FMeshState* _meshState);
+
+	FGeometry* GetGeometry();
 
 	bgfx::VertexLayout _layout;
 	TVector<Group> _groups;

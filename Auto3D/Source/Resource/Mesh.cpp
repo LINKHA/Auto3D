@@ -362,4 +362,19 @@ FMeshState* OMesh::meshStateCreate()
 	return state;
 }
 
+FGeometry* OMesh::GetGeometry()
+{
+	FGeometry* geometry = new FGeometry;
+	geometry->_name = GetPathName();
+
+	for (auto it = _groups.Begin(); it != _groups.End(); ++it)
+	{
+		const Group& group = *it;
+
+		geometry->_vertexBufferHandles.Push(group._vbh);
+		geometry->_indexBufferHandles.Push(group._ibh);
+	}
+	return geometry;
+}
+
 }
