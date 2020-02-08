@@ -42,7 +42,7 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 
 	_backbufferSize = TVector2F(width,height);
 
-	_debug = BGFX_DEBUG_NONE;
+	_debug = BGFX_DEBUG_TEXT;
 	_reset = 0
 		| BGFX_RESET_VSYNC
 		| BGFX_RESET_MSAA_X16;
@@ -76,6 +76,7 @@ void FForwardShadingRenderer::Render()
 	// This dummy draw call is here to make sure that view 0 is cleared
 	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
+	bgfx::touch(2);
 
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
@@ -96,27 +97,16 @@ void FForwardShadingRenderer::Render()
 
 			camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
-			
-			// Set view 0 default viewport.
 			bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
+
+
+			bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
+			bgfx::setViewRect(1, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 		}
 
 		RenderBatch();
-
-		//for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
-		//{
-		//	AActor* actor = *it;
-		//	ATransform* transform = actor->GetTransform();
-		//	TMatrix4x4F modelMatrix = transform->GetWorldTransform().ToMatrix4().Transpose();
-
-		//	AMeshComponent* meshComponent = actor->FindComponent<AMeshComponent>();
-		//	if (meshComponent)
-		//	{
-		//		meshComponent->GetMesh()->submit(0, GBox::_program, modelMatrix.Data());
-		//		//meshComponent->GetMesh()->submitInstance(0, GBox::_program);
-		//	}
-		//}
 	}
 	
 	// Advance to next frame. Rendering thread will be kicked to
@@ -131,7 +121,9 @@ void FForwardShadingRenderer::RenderBatch()
 	TVector<FBatch>& batches = _batchQueues._batches;
 
 	int batchesSize = batches.Size();
-
+	//////////////////////////////////////////////////////////////////////////
+	int Invisible = 0;
+	int Visible = 0;
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
 		FBatch& batch = *it;
@@ -145,7 +137,7 @@ void FForwardShadingRenderer::RenderBatch()
 				| BGFX_STATE_WRITE_RGB
 				| BGFX_STATE_WRITE_A
 				| BGFX_STATE_WRITE_Z
-				| BGFX_STATE_DEPTH_TEST_LESS
+				| BGFX_STATE_DEPTH_TEST_LEQUAL
 				| BGFX_STATE_CULL_CCW
 				| BGFX_STATE_MSAA
 				;
@@ -190,8 +182,6 @@ void FForwardShadingRenderer::RenderBatch()
 
 				bgfx::submit(0, shaderInstanceProgram.GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
 			}
-			
-
 			batchesAddCount = instanceCount;
 		}
 		else
@@ -201,22 +191,45 @@ void FForwardShadingRenderer::RenderBatch()
 
 			TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 
-			bgfx::setTransform(modelMatrix.Data());
-			bgfx::setState(state);
-
 			for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
 			{
+				bgfx::OcclusionQueryHandle occlusionQuery = geometry->_occlusionQuery;
 				FShaderProgram& shaderProgram = material->GetShaderProgram();
-
-				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				bgfx::setTransform(modelMatrix.Data());
 				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-
+				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				bgfx::setCondition(occlusionQuery, true);
+				bgfx::setState(state);
 				bgfx::submit(0, shaderProgram.GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+
+
+				bgfx::setTransform(modelMatrix.Data());
+				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				bgfx::setState(0
+					| BGFX_STATE_DEPTH_TEST_LEQUAL
+					| BGFX_STATE_CULL_CCW
+				);
+				bgfx::submit(1, shaderProgram.GetProgram(), occlusionQuery);
+
+				switch (bgfx::getResult(occlusionQuery))
+				{
+				case bgfx::OcclusionQueryResult::Invisible:
+					Invisible++; break;
+				case bgfx::OcclusionQueryResult::Visible:
+					Visible++; break;
+				default:
+					break;
+				}
 			}
 			batchesAddCount = 1;
 		}
+
+		
 		it += batchesAddCount;
 	}
+	bgfx::dbgTextPrintf(5, 23 + 3 + 1, 0xf, "Invisible count: %d", Invisible);
+	bgfx::dbgTextPrintf(5, 26 + 3 + 1, 0xf, "Visible count: %d", Visible);
 }
 
 void FForwardShadingRenderer::ShutDowm()

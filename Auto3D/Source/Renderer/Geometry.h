@@ -15,9 +15,11 @@ public:
 		_vertexBufferHandles.Resize(0);
 		_indexBufferHandles.Resize(0);
 		_name = FString::EMPTY;
+		_occlusionQuery = bgfx::createOcclusionQuery();
 	}
 	~FGeometry() {}
 
+	bgfx::OcclusionQueryHandle _occlusionQuery;
 	FString _name;
 	TVector<bgfx::VertexBufferHandle> _vertexBufferHandles;
 	TVector<bgfx::IndexBufferHandle> _indexBufferHandles;

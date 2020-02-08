@@ -19,7 +19,7 @@
 #include "IO/File.h"
 #include "Resource/ResourceCache.h"
 #include "Resource/Material.h"
-
+#include "Time/Time.h"
 #include "Resource/Mesh.h"
 
 
@@ -48,7 +48,7 @@ public:
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
-		OMaterial* material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
+		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
@@ -63,28 +63,23 @@ public:
 		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
 
 		AActor* meshActor = world->CreateChild<AActor>();
-		meshActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
+		meshActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 1.0f });
 		meshActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		meshActor->GetTransform()->SetScale({ 1.0f, 1.0f, 1.0f });
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
-		meshComponent->SetMesh(m_mesh);
-		meshComponent->SetMaterial(material);
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshComponent->SetMaterial(_material);
 
-		AActor* meshActor2 = world->CreateChild<AActor>();
-		meshActor2->GetTransform()->SetPosition({ 1.0f, 0.0f, 0.0f });
-		AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
-		meshComponent2->SetMesh(m_mesh);
-		meshComponent2->SetMaterial(material);
-
-		AActor* meshActor4 = world->CreateChild<AActor>();
-		meshActor4->GetTransform()->SetPosition({ 2.0f, 0.0f, 0.0f });
+		/*AActor* meshActor4 = world->CreateChild<AActor>();
+		meshActor4->GetTransform()->SetPosition({ 0.0f, 0.0f, 5.0f });
+		meshActor4->GetTransform()->SetScale({ 0.2f, 0.2f, 0.2f });
 		AMeshComponent* meshComponent4 = meshActor4->CreateComponent<AMeshComponent>();
-		meshComponent4->SetMesh(m_mesh);
-		meshComponent4->SetMaterial(material);
+		meshComponent4->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshComponent4->SetMaterial(material);*/
 
 		
 
-		AActor* meshActor3 = world->CreateChild<AActor>();
+		/*AActor* meshActor3 = world->CreateChild<AActor>();
 		meshActor3->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent3 = meshActor3->CreateComponent<AMeshComponent>();
 		meshComponent3->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
@@ -100,7 +95,7 @@ public:
 		meshActor7->GetTransform()->SetPosition({ -3.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent7 = meshActor7->CreateComponent<AMeshComponent>();
 		meshComponent7->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		meshComponent7->SetMaterial(material);
+		meshComponent7->SetMaterial(material);*/
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));
@@ -121,6 +116,7 @@ public:
 
 	bool update() override
 	{
+
 		showExampleDialog(this);
 
 		return true;
@@ -135,6 +131,8 @@ public:
 
 	int64_t m_timeOffset;
 	OMesh* m_mesh;
+	OMaterial* _material;
+
 	bgfx::ProgramHandle m_program;
 	bgfx::UniformHandle u_time;
 };
