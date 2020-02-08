@@ -45,25 +45,10 @@ public:
 		m_debug  = BGFX_DEBUG_NONE;
 		m_reset  = BGFX_RESET_VSYNC;
 
-		//u_time = bgfx::createUniform("u_time", bgfx::UniformType::Vec4);
-		GBox::_time = u_time;
-
-		// Create program from shaders.
-		m_program = loadProgram("vs_mesh", "fs_mesh");
-		GBox::_program = m_program;
-
-		//m_mesh = meshLoad("D:/Project/MyProject/Auto3D/Bin/meshes/bunny.bin");
-		//m_mesh = meshLoad("meshes/bunny.bin");
-
-		//m_mesh = new OMesh();
-		//m_mesh->Load("meshes/bunny.bin");
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
 		OMaterial* material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
-
-		m_timeOffset = bx::getHPCounter();
-		GBox::_timeOffset = m_timeOffset;
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
@@ -85,7 +70,7 @@ public:
 		meshComponent->SetMesh(m_mesh);
 		meshComponent->SetMaterial(material);
 
-		/*AActor* meshActor2 = world->CreateChild<AActor>();
+		AActor* meshActor2 = world->CreateChild<AActor>();
 		meshActor2->GetTransform()->SetPosition({ 1.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
 		meshComponent2->SetMesh(m_mesh);
@@ -104,18 +89,18 @@ public:
 		AMeshComponent* meshComponent3 = meshActor3->CreateComponent<AMeshComponent>();
 		meshComponent3->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		meshComponent3->SetMaterial(material);
-
+		
 		AActor* meshActor5 = world->CreateChild<AActor>();
-		meshActor5->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
+		meshActor5->GetTransform()->SetPosition({ -2.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent5 = meshActor5->CreateComponent<AMeshComponent>();
 		meshComponent5->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		meshComponent5->SetMaterial(material);
 
 		AActor* meshActor7 = world->CreateChild<AActor>();
-		meshActor7->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
+		meshActor7->GetTransform()->SetPosition({ -3.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent7 = meshActor7->CreateComponent<AMeshComponent>();
 		meshComponent7->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		meshComponent7->SetMaterial(material);*/
+		meshComponent7->SetMaterial(material);
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));
@@ -130,14 +115,6 @@ public:
 		//imguiDestroy();
 
 		m_mesh->unload();
-
-		// Cleanup.
-		bgfx::destroy(m_program);
-
-		//bgfx::destroy(u_time);
-
-		// Shutdown bgfx.
-		//bgfx::shutdown();
 
 		return 0;
 	}

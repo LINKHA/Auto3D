@@ -35,12 +35,19 @@ bool OMaterial::BeginLoad(const FString& pathName)
 			_shaderProgram.CreateVertexShader(jsonShader.Find("vs")->_second.GetString());
 		}
 
+		if (jsonShader.Contains("vsi"))
+		{
+			_shaderInstanceProgram.CreateVertexShader(jsonShader.Find("vsi")->_second.GetString());
+		}
+
 		if (jsonShader.Contains("ps"))
 		{
 			_shaderProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
+			_shaderInstanceProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
 		}
 
 		_shaderProgram.Link();
+		_shaderInstanceProgram.Link();
 	}
 
 	if (root.Contains("textures"))
@@ -64,7 +71,10 @@ FShaderProgram& OMaterial::GetShaderProgram()
 {
 	return _shaderProgram;
 }
-
+FShaderProgram& OMaterial::GetShaderInstanceProgram()
+{
+	return _shaderInstanceProgram;
+}
 OMaterial* OMaterial::DefaultMaterial()
 {
 	// Create on demand

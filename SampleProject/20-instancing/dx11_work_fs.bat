@@ -1,1 +1,0 @@
-shaderc -f fs_instancing.sc -o ..\..\Bin\Data\Shaders\dx11\fs_instancing.bin --depends -i ..\..\Auto3D\ThirdParty\bgfx\bgfx\src --varyingdef varying.def.sc --platform windows -p ps_4_0 -O 3 --type fragment -O3

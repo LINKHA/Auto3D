@@ -1,2 +1,0 @@
-shaderc -f vs_mesh.sc -o ..\..\Bin\Data\Shaders\dx11\vs_mesh.bin --depends -i ..\..\Auto3D\ThirdParty\bgfx\bgfx\src --varyingdef varying.def.sc --platform windows -p vs_4_0 -O 3 --type vertex -O3
-shaderc -f fs_mesh.sc -o ..\..\Bin\Data\Shaders\dx11\fs_mesh.bin --depends -i ..\..\Auto3D\ThirdParty\bgfx\bgfx\src --varyingdef varying.def.sc --platform windows -p ps_4_0 -O 3 --type fragment -O3

@@ -22,7 +22,7 @@ public:
 	virtual bool EndLoad();
 
 	FShaderProgram& GetShaderProgram();
-
+	FShaderProgram& GetShaderInstanceProgram();
 	static OMaterial* DefaultMaterial();
 private:
 	/// Default material.
@@ -31,6 +31,7 @@ private:
 	UPtr<OJSONFile> _loadJSON;
 
 	FShaderProgram _shaderProgram;
+	FShaderProgram _shaderInstanceProgram;
 };
 
 }

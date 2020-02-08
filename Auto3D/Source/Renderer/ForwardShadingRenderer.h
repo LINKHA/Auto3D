@@ -17,16 +17,6 @@ class OMesh;
 class AWorld;
 class ACameraComponent;
 
-struct GBox
-{
-	static int64_t _timeOffset;
-	static bgfx::ProgramHandle _program;
-	static bgfx::UniformHandle _time;
-
-	static bgfx::VertexBufferHandle _vbh;
-	static bgfx::IndexBufferHandle  _ibh;
-};
-
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public ISceneRenderer
 {
