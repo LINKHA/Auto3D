@@ -85,7 +85,7 @@ public:
 		meshComponent->SetMesh(m_mesh);
 		meshComponent->SetMaterial(material);
 
-		AActor* meshActor2 = world->CreateChild<AActor>();
+		/*AActor* meshActor2 = world->CreateChild<AActor>();
 		meshActor2->GetTransform()->SetPosition({ 1.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
 		meshComponent2->SetMesh(m_mesh);
@@ -115,7 +115,7 @@ public:
 		meshActor7->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent7 = meshActor7->CreateComponent<AMeshComponent>();
 		meshComponent7->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		meshComponent7->SetMaterial(material);
+		meshComponent7->SetMaterial(material);*/
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));

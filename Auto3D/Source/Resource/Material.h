@@ -21,7 +21,7 @@ public:
 	/// Finalize material loading in the main thread. Return true on success.
 	virtual bool EndLoad();
 
-	const FShaderProgram& GetShaderProgram();
+	FShaderProgram& GetShaderProgram();
 
 	static OMaterial* DefaultMaterial();
 private:

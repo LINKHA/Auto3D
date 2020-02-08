@@ -60,7 +60,7 @@ bool OMaterial::EndLoad()
 	return true;
 }
 
-const FShaderProgram& OMaterial::GetShaderProgram()
+FShaderProgram& OMaterial::GetShaderProgram()
 {
 	return _shaderProgram;
 }

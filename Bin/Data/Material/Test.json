@@ -3,8 +3,4 @@
 	"vs": "vs_mesh",
     "ps": "fs_mesh"
   },
-  "textures": {
-    "0": "Material/StoneDiffuse.dds",
-    "1": "Material/StoneNormal.dds"
-  }
 }

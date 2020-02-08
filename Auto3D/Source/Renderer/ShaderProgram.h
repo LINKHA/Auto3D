@@ -29,7 +29,7 @@ public:
 	/// Return the pixel shader.
 	OShader* GetPixelShader() const;
 
-	bgfx::ProgramHandle GetShaderProgram() { return _program; }
+	bgfx::ProgramHandle GetProgram() { return _program; }
 
 	void SetVertexShader(OShader* shader);
 	void SetPixelShader(OShader* shader);

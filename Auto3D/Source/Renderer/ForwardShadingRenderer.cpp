@@ -102,7 +102,6 @@ void FForwardShadingRenderer::Render()
 
 			camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
-
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 			
 			// Set view 0 default viewport.
@@ -111,7 +110,7 @@ void FForwardShadingRenderer::Render()
 
 		RenderBatch();
 
-		for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
+		/*for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
 		{
 			AActor* actor = *it;
 			ATransform* transform = actor->GetTransform();
@@ -121,9 +120,9 @@ void FForwardShadingRenderer::Render()
 			if (meshComponent)
 			{
 				meshComponent->GetMesh()->submit(0, GBox::_program, modelMatrix.Data());
-				//meshComponent->GetMesh()->submitInstance(0, GBox::_program);
+				meshComponent->GetMesh()->submitInstance(0, GBox::_program);
 			}
-		}
+		}*/
 	}
 	
 	// Advance to next frame. Rendering thread will be kicked to
@@ -143,11 +142,79 @@ void FForwardShadingRenderer::RenderBatch()
 	{
 		FBatch& batch = *it;
 		bool instance = batch._type == EGeometryType::INSTANCED;
-		const TMatrix3x4F* worldMatrix = batch._pass._worldMatrix;
+
 		if (instance)
 		{
-			int instanceStart = batch._instanceStart;
-			int instanceCount = batch._instanceCount;
+			//int instanceStart = batch._instanceStart;
+			//int instanceCount = batch._instanceCount;
+			//
+			//// 80 bytes stride = 64 bytes for 4x4 matrix
+			//const uint16_t instanceStride = 64;
+			//// 11x11 cubes
+			//const uint32_t numInstances = instanceCount;
+
+			//bgfx::InstanceDataBuffer idb;
+			//bgfx::allocInstanceDataBuffer(&idb, numInstances, instanceStride);
+			//uint8_t* data = idb.data;
+
+			//// Get model matrix.
+			//for (auto i = instanceStart; i < instanceStart + instanceCount; ++i)
+			//{
+			//	float* mtx = (float*)data;
+			//	TMatrix4x4F& modelMatrix = batches[i]._pass._worldMatrix->ToMatrix4().Transpose();
+			//	mtx = modelMatrix.Data();
+
+			//	data += instanceStride;
+			//}
+			//
+			//for (auto i = instanceStart; i < instanceStart + instanceCount; ++i)
+			//{
+			//	FGeometry* geometry = batches[i]._pass._geometry;
+
+			//	for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+			//	{
+			//		// Get instance shader
+			//		
+			//		bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+			//		bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+
+			//		// Set instance data buffer.
+			//		bgfx::setInstanceDataBuffer(&idb);
+
+			//		//bgfx::submit(0, program, 0, i != geometry->_vertexBufferHandles.Size() - 1);
+			//	}
+			//}
+		}
+		else
+		{
+			FGeometry* geometry = batch._pass._geometry;
+			OMaterial* material = batch._pass._material;
+			uint64_t state = BGFX_STATE_MASK;
+			if (BGFX_STATE_MASK == state)
+			{
+				state = 0
+					| BGFX_STATE_WRITE_RGB
+					| BGFX_STATE_WRITE_A
+					| BGFX_STATE_WRITE_Z
+					| BGFX_STATE_DEPTH_TEST_LESS
+					| BGFX_STATE_CULL_CCW
+					| BGFX_STATE_MSAA
+					;
+			}
+			TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+
+			bgfx::setTransform(modelMatrix.Data());
+			bgfx::setState(state);
+
+			for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+			{
+				FShaderProgram& shaderProgram = material->GetShaderProgram();
+
+				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+
+				bgfx::submit(0, /*shaderProgram.GetProgram()*/GBox::_program, 0, i != geometry->_vertexBufferHandles.Size() - 1);
+			}
 		}
 	}
 }

@@ -33,9 +33,6 @@ struct AUTO_API FPass
 		if (!_material || !_geometry)
 			return;
 
-		FString ss = FString(_material->GetShaderProgram().GetVertexShader()->GetPathName() + _material->GetShaderProgram().GetPixelShader()->GetPathName());
-		FString sss = _geometry->_name;
-
 		unsigned shaderHash = FStringHash(_material->GetShaderProgram().GetVertexShader()->GetPathName()
 			+ _material->GetShaderProgram().GetPixelShader()->GetPathName()).Value();
 

@@ -216,7 +216,7 @@ public:
 
 
 	/// Return _Ty data.
-	const _Ty* Data() const { return &_m00; }
+	_Ty* Data() { return &_m00; }
 
 	/// Return as string.
 	FString ToString() const
