@@ -17,10 +17,22 @@ public:
 		_name = FString::EMPTY;
 		_occlusionQuery = bgfx::createOcclusionQuery();
 	}
-	~FGeometry() {}
-
-	bgfx::OcclusionQueryHandle _occlusionQuery;
+	~FGeometry() 
+	{
+		bgfx::destroy(_occlusionQuery);
+		for (auto it = _vertexBufferHandles.Begin(); it != _vertexBufferHandles.End(); ++it)
+		{
+			bgfx::destroy(*it);
+		}
+		for (auto it = _indexBufferHandles.Begin(); it != _indexBufferHandles.End(); ++it)
+		{
+			bgfx::destroy(*it);
+		}
+		_vertexBufferHandles.Clear();
+		_indexBufferHandles.Clear();
+	}
 	FString _name;
+	bgfx::OcclusionQueryHandle _occlusionQuery;
 	TVector<bgfx::VertexBufferHandle> _vertexBufferHandles;
 	TVector<bgfx::IndexBufferHandle> _indexBufferHandles;
 };

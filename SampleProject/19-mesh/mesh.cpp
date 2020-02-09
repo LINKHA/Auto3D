@@ -70,32 +70,31 @@ public:
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		meshComponent->SetMaterial(_material);
 
-		/*AActor* meshActor4 = world->CreateChild<AActor>();
+		AActor* meshActor4 = world->CreateChild<AActor>();
 		meshActor4->GetTransform()->SetPosition({ 0.0f, 0.0f, 5.0f });
 		meshActor4->GetTransform()->SetScale({ 0.2f, 0.2f, 0.2f });
 		AMeshComponent* meshComponent4 = meshActor4->CreateComponent<AMeshComponent>();
 		meshComponent4->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent4->SetMaterial(material);*/
+		meshComponent4->SetMaterial(_material);
 
-		
-
-		/*AActor* meshActor3 = world->CreateChild<AActor>();
+		AActor* meshActor3 = world->CreateChild<AActor>();
 		meshActor3->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent3 = meshActor3->CreateComponent<AMeshComponent>();
 		meshComponent3->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent3->SetMaterial(material);
-		
+		meshComponent3->SetMaterial(_material);
+
 		AActor* meshActor5 = world->CreateChild<AActor>();
 		meshActor5->GetTransform()->SetPosition({ -2.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent5 = meshActor5->CreateComponent<AMeshComponent>();
 		meshComponent5->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent5->SetMaterial(material);
+		meshComponent5->SetMaterial(_material);
 
+		/*
 		AActor* meshActor7 = world->CreateChild<AActor>();
 		meshActor7->GetTransform()->SetPosition({ -3.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent7 = meshActor7->CreateComponent<AMeshComponent>();
 		meshComponent7->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		meshComponent7->SetMaterial(material);*/
+		meshComponent7->SetMaterial(_material);*/
 
 		FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));

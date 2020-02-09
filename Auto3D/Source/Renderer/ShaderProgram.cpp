@@ -19,7 +19,10 @@ FShaderProgram::FShaderProgram(OShader* vs, OShader* ps) :
 
 FShaderProgram::~FShaderProgram()
 {
-
+	if (isValid(_program))
+	{
+		bgfx::destroy(_program);
+	}
 }
 
 bool FShaderProgram::Link()

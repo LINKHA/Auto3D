@@ -26,7 +26,9 @@ FForwardShadingRenderer::FForwardShadingRenderer() :
 	_reset(BGFX_RESET_VSYNC),
 	_backbufferColor(0.2f, 0.2f, 0.2f, 1),
 	_depth(1.0f),
-	_stencil(0)
+	_stencil(0),
+	_invisibleBatch(0),
+	_visibleBatch(0)
 {
 
 }
@@ -42,7 +44,7 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 
 	_backbufferSize = TVector2F(width,height);
 
-	_debug = BGFX_DEBUG_TEXT;
+	_debug = BGFX_DEBUG_NONE;
 	_reset = 0
 		| BGFX_RESET_VSYNC
 		| BGFX_RESET_MSAA_X16;
@@ -101,7 +103,7 @@ void FForwardShadingRenderer::Render()
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 			bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 
-
+			// Ordinary pipeline view rect
 			bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
 			bgfx::setViewRect(1, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 		}
@@ -120,10 +122,6 @@ void FForwardShadingRenderer::RenderBatch()
 {
 	TVector<FBatch>& batches = _batchQueues._batches;
 
-	int batchesSize = batches.Size();
-	//////////////////////////////////////////////////////////////////////////
-	int Invisible = 0;
-	int Visible = 0;
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
 		FBatch& batch = *it;
@@ -165,22 +163,43 @@ void FForwardShadingRenderer::RenderBatch()
 				data += instanceStride;
 			}
 
-			bgfx::setState(state);
-
 			FGeometry* geometry = batch._pass._geometry;
 			OMaterial* material = batch._pass._material;
 
 			for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
 			{
-				// Get instance shader
-				FShaderProgram& shaderInstanceProgram = material->GetShaderInstanceProgram();
-				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				// Ordinary pipeline
+				{
+					bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+					bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+					bgfx::setCondition(geometry->_occlusionQuery, true);
+					bgfx::setInstanceDataBuffer(&idb);
+					bgfx::setState(state);
+					bgfx::submit(0, material->GetShaderInstanceProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				}
 
-				// Set instance data buffer.
-				bgfx::setInstanceDataBuffer(&idb);
+				// occlusion query pipeline
+				{
+					bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+					bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+					bgfx::setInstanceDataBuffer(&idb);
+					bgfx::setState(0
+						| BGFX_STATE_DEPTH_TEST_LEQUAL
+						| BGFX_STATE_CULL_CCW
+					);
+					bgfx::submit(1, material->GetShaderInstanceProgram().GetProgram(), geometry->_occlusionQuery);
+				}
+			
 
-				bgfx::submit(0, shaderInstanceProgram.GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				switch (bgfx::getResult(geometry->_occlusionQuery))
+				{
+				case bgfx::OcclusionQueryResult::Invisible:
+					_invisibleBatch++; break;
+				case bgfx::OcclusionQueryResult::Visible:
+					_visibleBatch++; break;
+				default:
+					break;
+				}
 			}
 			batchesAddCount = instanceCount;
 		}
@@ -193,48 +212,45 @@ void FForwardShadingRenderer::RenderBatch()
 
 			for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
 			{
-				bgfx::OcclusionQueryHandle occlusionQuery = geometry->_occlusionQuery;
-				FShaderProgram& shaderProgram = material->GetShaderProgram();
-				bgfx::setTransform(modelMatrix.Data());
-				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-				bgfx::setCondition(occlusionQuery, true);
-				bgfx::setState(state);
-				bgfx::submit(0, shaderProgram.GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				// Ordinary pipeline
+				{
+					bgfx::setTransform(modelMatrix.Data());
+					bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+					bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+					bgfx::setCondition(geometry->_occlusionQuery, true);
+					bgfx::setState(state);
+					bgfx::submit(0, material->GetShaderProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				}
+				// occlusion query pipeline
+				{
+					bgfx::setTransform(modelMatrix.Data());
+					bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+					bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+					bgfx::setState(0
+						| BGFX_STATE_DEPTH_TEST_LEQUAL
+						| BGFX_STATE_CULL_CCW
+					);
+					bgfx::submit(1, material->GetShaderProgram().GetProgram(), geometry->_occlusionQuery);
+				}
 
-
-				bgfx::setTransform(modelMatrix.Data());
-				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-				bgfx::setState(0
-					| BGFX_STATE_DEPTH_TEST_LEQUAL
-					| BGFX_STATE_CULL_CCW
-				);
-				bgfx::submit(1, shaderProgram.GetProgram(), occlusionQuery);
-
-				switch (bgfx::getResult(occlusionQuery))
+				switch (bgfx::getResult(geometry->_occlusionQuery))
 				{
 				case bgfx::OcclusionQueryResult::Invisible:
-					Invisible++; break;
+					_invisibleBatch++; break;
 				case bgfx::OcclusionQueryResult::Visible:
-					Visible++; break;
+					_visibleBatch++; break;
 				default:
 					break;
 				}
 			}
 			batchesAddCount = 1;
 		}
-
-		
 		it += batchesAddCount;
 	}
-	bgfx::dbgTextPrintf(5, 23 + 3 + 1, 0xf, "Invisible count: %d", Invisible);
-	bgfx::dbgTextPrintf(5, 26 + 3 + 1, 0xf, "Visible count: %d", Visible);
 }
 
 void FForwardShadingRenderer::ShutDowm()
 {
-	// Shutdown bgfx.
 	bgfx::shutdown();
 }	
 
@@ -251,7 +267,6 @@ void FForwardShadingRenderer::CollectGeometries(AWorld* world, ACameraComponent*
 		{
 			_geometriesActor.Push(actor);
 		}
-		
 	}
 }
 
@@ -292,6 +307,8 @@ void FForwardShadingRenderer::PrepareView()
 {
 	_batchQueues.Clear();
 	_geometriesActor.Clear();
+	_invisibleBatch = 0;
+	_visibleBatch = 0;
 }
 
 }

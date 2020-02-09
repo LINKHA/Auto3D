@@ -19,7 +19,7 @@ FEngine::FEngine()
 
 FEngine::~FEngine()
 {
-
+	delete renderer;
 }
 
 bool FEngine::Init()
@@ -41,10 +41,8 @@ bool FEngine::Init()
 void FEngine::Exit()
 {
 	FWorldContext::Get().DeleteAllWorld();
-
 	imguiDestroy();
-	// Shutdown bgfx.
-	bgfx::shutdown();
+	renderer->ShutDowm();
 }
 
 void FEngine::Render()

@@ -43,6 +43,9 @@ public:
 	void SetBackBufferSize(const TVector2F& size) { _backbufferSize = size; }
 	void SetDebugMode(uint32_t debug) { _debug = debug; }
 	void SetResetMode(uint32_t reset) { _reset = reset; }
+
+	int GetInvisibleBatch() { return _invisibleBatch; }
+	int GetVisibleBatch() { return _visibleBatch; }
 private:
 
 	/// FBatch queues per pass.
@@ -61,7 +64,8 @@ private:
 	float _depth;
 	uint8_t _stencil;
 
-	
+	int _invisibleBatch;
+	int _visibleBatch;
 };
 
 }
