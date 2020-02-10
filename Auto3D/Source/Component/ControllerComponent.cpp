@@ -1,35 +1,35 @@
-#include "Component/Controller.h"
+#include "Component/ControllerComponent.h"
 #include "Gameplay/Actor.h"
 #include "Debug/Log.h"
 #include "Component/ControllerManager.h"
 namespace Auto3D
 {
 
-AController::AController() :
+AControllerComponent::AControllerComponent() :
 	_isAttachToActor(false),
 	_attachedActor(nullptr)
 {
 	
 }
 
-AController::~AController()
+AControllerComponent::~AControllerComponent()
 {
 
 }
 
-void AController::BeginPlay()
+void AControllerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	AttachToActor(GetOwner());
 	GControllerManager::Get().RegisterController(this);
 }
 
-void AController::TickComponent(float deltaTime)
+void AControllerComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
 }
 
-AActor* AController::GetAttachedActor()
+AActor* AControllerComponent::GetAttachedActor()
 {
 	if (!IsAttachToActor() || !_attachedActor)
 		ErrorString("Fail get attached actor.");
@@ -37,7 +37,7 @@ AActor* AController::GetAttachedActor()
 	return _attachedActor;
 }
 
-void AController::AttachToActor(AActor* actor)
+void AControllerComponent::AttachToActor(AActor* actor)
 {
 	if (!actor || _attachedActor == GetOwner())
 		return;
@@ -51,7 +51,7 @@ void AController::AttachToActor(AActor* actor)
 	_isAttachToActor = true;
 }
 
-void AController::UnAttachToActor()
+void AControllerComponent::UnAttachToActor()
 {
 	if (_isAttachToActor)
 	{

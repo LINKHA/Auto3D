@@ -5,12 +5,12 @@
 namespace Auto3D
 {
 
-class AUTO_API AController : public AActorComponent
+class AUTO_API AControllerComponent : public AActorComponent
 {
-	DECLARE_A_CLASS(AController, AActorComponent)
+	DECLARE_A_CLASS(AControllerComponent, AActorComponent)
 public:
-	AController();
-	~AController();
+	AControllerComponent();
+	~AControllerComponent();
 	/// BeginPlay
 	virtual void BeginPlay();
 	/// Called every frame.

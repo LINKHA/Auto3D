@@ -3,8 +3,10 @@
 #include "Gameplay/Actor.h"
 #include "Component/CameraComponent.h"
 #include "Component/MeshComponent.h"
-#include "Component/DefaultController.h"
-#include "Component/Transform.h"
+#include "Component/DefaultControllerComponent.h"
+#include "Component/TransformComponent.h"
+#include "Component/LightComponent.h"
+
 #include "Resource/Mesh.h"
 
 #include "Gameplay/World.h"
@@ -107,27 +109,31 @@ static void REGISTER_REFLECTION_FUNCATION()
 		)
 		;
 
-	REGISTER_A_CALSS_IMP(AController)
+	REGISTER_A_CALSS_IMP(AControllerComponent)
 		.constructor<>()
 		;
 
-	REGISTER_A_CALSS_IMP(ADefaultController)
+	REGISTER_A_CALSS_IMP(ADefaultControllerComponent)
 		.constructor<>()
 		;
-	REGISTER_A_CALSS_IMP(ATransform)
+	REGISTER_A_CALSS_IMP(ATransformComponent)
 		.constructor<>()
-		.property("position", &ATransform::GetPosition, &ATransform::SetPosition)
+		.property("position", &ATransformComponent::GetPosition, &ATransformComponent::SetPosition)
 		(
 			metadata(SERIALIZABLE, true)
 		)
-		.property("rotation", &ATransform::GetRotation, &ATransform::SetRotation)
+		.property("rotation", &ATransformComponent::GetRotation, &ATransformComponent::SetRotation)
 		(
 			metadata(SERIALIZABLE, true)
 		)
-		.property("scale", &ATransform::GetScale, static_cast<void(ATransform::*)(const TVector3F&)>(&ATransform::SetScale))
+		.property("scale", &ATransformComponent::GetScale, static_cast<void(ATransformComponent::*)(const TVector3F&)>(&ATransformComponent::SetScale))
 		(
 			metadata(SERIALIZABLE, true)
 		)
+		;
+
+	REGISTER_A_CALSS_IMP(ALightComponent)
+		.constructor<>()
 		;
 
 }

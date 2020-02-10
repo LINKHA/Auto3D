@@ -5,7 +5,7 @@ namespace Auto3D
 {
 IMPLEMENT_SINGLETON(GControllerManager)
 
-bool GControllerManager::RegisterController(AController* controller)
+bool GControllerManager::RegisterController(AControllerComponent* controller)
 {
 	if (!controller)
 	{

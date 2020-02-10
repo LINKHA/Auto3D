@@ -1,4 +1,4 @@
-#include "DefaultController.h"
+#include "DefaultControllerComponent.h"
 #include "Gameplay/Actor.h"
 #include "Component/CameraComponent.h"
 #include "Platform/PlatformDef.h"
@@ -8,7 +8,7 @@
 #include "Gameplay/World.h"
 #include "Platform/ProcessWindow.h"
 #include "Component/ControllerManager.h"
-#include "Component/Transform.h"
+#include "Component/TransformComponent.h"
 
 namespace Auto3D
 {
@@ -16,11 +16,11 @@ namespace Auto3D
 int DefaultControllerCmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
 {
 	GControllerManager& controllerManager = GControllerManager::Get();
-	THashMap<unsigned, AController*> controllers = controllerManager.GetControllers();
+	THashMap<unsigned, AControllerComponent*> controllers = controllerManager.GetControllers();
 
 	for (auto it = controllers.Begin(); it != controllers.End(); ++it)
 	{
-		ADefaultController* defaultController = dynamic_cast<ADefaultController*>(it->_second);
+		ADefaultControllerComponent* defaultController = dynamic_cast<ADefaultControllerComponent*>(it->_second);
 		if(!defaultController)
 			continue;
 
@@ -84,7 +84,7 @@ static const InputBinding defaultControllerBindings[] =
 	INPUT_BINDING_END
 };
 
-ADefaultController::ADefaultController():
+ADefaultControllerComponent::ADefaultControllerComponent():
 	_mouseNow({0,0}),
 	_mouseLast({0,0}),
 	_horizontalAngle(0.01f),
@@ -99,17 +99,17 @@ ADefaultController::ADefaultController():
 	CmdAdd("move", DefaultControllerCmdMove);
 	InputAddBindings("camBindings", defaultControllerBindings);
 }
-ADefaultController::~ADefaultController()
+ADefaultControllerComponent::~ADefaultControllerComponent()
 {
 	InputRemoveBindings("camBindings");
 }
 
-void ADefaultController::BeginPlay()
+void ADefaultControllerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void ADefaultController::TickComponent(float deltaTime)
+void ADefaultControllerComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
 	AActor* owner = GetOwner();
@@ -152,7 +152,7 @@ void ADefaultController::TickComponent(float deltaTime)
 	_keys |= gpy > 16834 ? DEFAULT_CONTROLLER_KEY_BACKWARD : 0;
 
 	
-	ATransform* ownerTransform = GetOwner()->GetTransform();
+	ATransformComponent* ownerTransform = GetOwner()->GetTransform();
 	ownerTransform->SetRotation(FQuaternion(-_verticalAngle * 90, _horizontalAngle * 90, 0.0f));
 
 	if (_keys & DEFAULT_CONTROLLER_KEY_FORWARD)
@@ -197,7 +197,7 @@ void ADefaultController::TickComponent(float deltaTime)
 		SetKeyState(DEFAULT_CONTROLLER_KEY_DOWN, false);
 	}
 }
-void ADefaultController::Reset()
+void ADefaultControllerComponent::Reset()
 {
 	_mouseNow._x = 0;
 	_mouseNow._y = 0;
@@ -212,7 +212,7 @@ void ADefaultController::Reset()
 	_mouseDown = false;
 }
 
-void ADefaultController::SetKeyState(uint8_t key, bool down)
+void ADefaultControllerComponent::SetKeyState(uint8_t key, bool down)
 {
 	_keys &= ~key;
 	_keys |= down ? key : 0;

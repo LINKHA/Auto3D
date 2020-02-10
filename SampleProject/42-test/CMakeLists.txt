@@ -1,1 +1,0 @@
-add_example( 42-test )

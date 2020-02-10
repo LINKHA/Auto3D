@@ -1,4 +1,4 @@
-#include "Component/Transform.h"
+#include "Component/TransformComponent.h"
 #include "Gameplay/Actor.h"
 #include "Time/Time.h"
 
@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-ATransform::ATransform() :
+ATransformComponent::ATransformComponent() :
     _worldTransform(TMatrix3x4F::IDENTITY),
     _position(TVector3F::ZERO),
     _rotation(FQuaternion::IDENTITY),
@@ -16,42 +16,42 @@ ATransform::ATransform() :
 {
 }
 
-void ATransform::BeginPlay()
+void ATransformComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void ATransform::TickComponent(float deltaTime)
+void ATransformComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
 	_dirtyCount = FTimeModule::Get().GetFrameCount();
 }
 
-void ATransform::SetPosition(const TVector3F& newPosition)
+void ATransformComponent::SetPosition(const TVector3F& newPosition)
 {
     _position = newPosition;
     OnTransformChanged();
 }
 
-void ATransform::SetRotation(const FQuaternion& newRotation)
+void ATransformComponent::SetRotation(const FQuaternion& newRotation)
 {
     _rotation = newRotation;
     OnTransformChanged();
 }
 
-void ATransform::SetDirection(const TVector3F& newDirection)
+void ATransformComponent::SetDirection(const TVector3F& newDirection)
 {
     _rotation = FQuaternion(TVector3F::FORWARD, newDirection);
     OnTransformChanged();
 }
 
-void ATransform::SetScale(float newScale)
+void ATransformComponent::SetScale(float newScale)
 {
 	SetScale(TVector3F(newScale, newScale, newScale));
 	OnTransformChanged();
 }
 
-void ATransform::SetScale(const TVector3F& newScale)
+void ATransformComponent::SetScale(const TVector3F& newScale)
 {
     _scale = newScale;
     // Make sure scale components never go to exactly zero, to prevent problems with decomposing the world matrix
@@ -65,14 +65,14 @@ void ATransform::SetScale(const TVector3F& newScale)
     OnTransformChanged();
 }
 
-void ATransform::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
+void ATransformComponent::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
 {
     _position = newPosition;
     _rotation = newRotation;
     OnTransformChanged();
 }
 
-void ATransform::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
+void ATransformComponent::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
 {
     _position = newPosition;
     _rotation = newRotation;
@@ -80,43 +80,43 @@ void ATransform::SetTransform(const TVector3F& newPosition, const FQuaternion& n
     OnTransformChanged();
 }
 
-void ATransform::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
+void ATransformComponent::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
 {
     SetTransform(newPosition, newRotation, TVector3F(newScale, newScale, newScale));
 }
 
-void ATransform::SetWorldPosition(const TVector3F& newPosition)
+void ATransformComponent::SetWorldPosition(const TVector3F& newPosition)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     SetPosition(parentNode ? parentNode->GetWorldTransform().Inverse() * newPosition : newPosition);
 }
 
-void ATransform::SetWorldRotation(const FQuaternion& newRotation)
+void ATransformComponent::SetWorldRotation(const FQuaternion& newRotation)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     SetRotation(parentNode ? parentNode->GetWorldRotation().Inverse() * newRotation : newRotation);
 }
 
-void ATransform::SetWorldDirection(const TVector3F& newDirection)
+void ATransformComponent::SetWorldDirection(const TVector3F& newDirection)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     SetDirection(parentNode ? parentNode->GetWorldRotation().Inverse() * newDirection : newDirection);
 }
 
-void ATransform::SetWorldScale(const TVector3F& newScale)
+void ATransformComponent::SetWorldScale(const TVector3F& newScale)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     SetScale(parentNode ? newScale / parentNode->GetWorldScale() : newScale);
 }
 
-void ATransform::SetWorldScale(float newScale)
+void ATransformComponent::SetWorldScale(float newScale)
 {
     SetWorldScale(TVector3F(newScale, newScale, newScale));
 }
 
-void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
+void ATransformComponent::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     if (parentNode)
     {
         TVector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -127,9 +127,9 @@ void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaterni
         SetTransform(newPosition, newRotation);
 }
 
-void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
+void ATransformComponent::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     if (parentNode)
     {
         TVector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -141,14 +141,14 @@ void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaterni
         SetTransform(newPosition, newRotation);
 }
 
-void ATransform::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
+void ATransformComponent::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
 {
     SetWorldTransform(newPosition, newRotation, TVector3F(newScale, newScale, newScale));
 }
 
-void ATransform::Translate(const TVector3F& delta, ETransformSpace::Type space)
+void ATransformComponent::Translate(const TVector3F& delta, ETransformSpace::Type space)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
 
     switch (space)
     {
@@ -169,9 +169,9 @@ void ATransform::Translate(const TVector3F& delta, ETransformSpace::Type space)
     OnTransformChanged();
 }
 
-void ATransform::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
+void ATransformComponent::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     
     switch (space)
     {
@@ -197,9 +197,9 @@ void ATransform::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
     OnTransformChanged();
 }
 
-void ATransform::RotateAround(const TVector3F& point, const FQuaternion& delta, ETransformSpace::Type space)
+void ATransformComponent::RotateAround(const TVector3F& point, const FQuaternion& delta, ETransformSpace::Type space)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     TVector3F parentSpacePoint;
     FQuaternion oldRotation = _rotation;
 
@@ -236,24 +236,24 @@ void ATransform::RotateAround(const TVector3F& point, const FQuaternion& delta, 
     OnTransformChanged();
 }
 
-void ATransform::Yaw(float angle, ETransformSpace::Type space)
+void ATransformComponent::Yaw(float angle, ETransformSpace::Type space)
 {
     Rotate(FQuaternion(angle, TVector3F::UP), space);
 }
 
-void ATransform::Pitch(float angle, ETransformSpace::Type space)
+void ATransformComponent::Pitch(float angle, ETransformSpace::Type space)
 {
     Rotate(FQuaternion(angle, TVector3F::RIGHT), space);
 }
 
-void ATransform::Roll(float angle, ETransformSpace::Type space)
+void ATransformComponent::Roll(float angle, ETransformSpace::Type space)
 {
     Rotate(FQuaternion(angle, TVector3F::FORWARD), space);
 }
 
-bool ATransform::LookAt(const TVector3F& target, const TVector3F& up, ETransformSpace::Type space)
+bool ATransformComponent::LookAt(const TVector3F& target, const TVector3F& up, ETransformSpace::Type space)
 {
-    ATransform* parentNode = GetParentTransform();
+    ATransformComponent* parentNode = GetParentTransform();
     TVector3F worldSpaceTarget;
 
     switch (space)
@@ -284,24 +284,24 @@ bool ATransform::LookAt(const TVector3F& target, const TVector3F& up, ETransform
     return true;
 }
 
-void ATransform::ApplyScale(float delta)
+void ATransformComponent::ApplyScale(float delta)
 {
     ApplyScale(TVector3F(delta, delta, delta));
 }
 
-void ATransform::ApplyScale(const TVector3F& delta)
+void ATransformComponent::ApplyScale(const TVector3F& delta)
 {
     _scale *= delta;
     OnTransformChanged();
 }
 
-ATransform* ATransform::GetParentTransform() const
+ATransformComponent* ATransformComponent::GetParentTransform() const
 { 
 	auto owner = GetOwner();
 	return owner->TestFlag(NF_SPATIAL_PARENT) ? owner->GetParentNode()->GetTransform() : nullptr;
 }
 
-const TMatrix3x4F& ATransform::GetWorldTransform() const
+const TMatrix3x4F& ATransformComponent::GetWorldTransform() const
 {
 	auto owner = GetOwner();
 
@@ -311,7 +311,7 @@ const TMatrix3x4F& ATransform::GetWorldTransform() const
 	return _worldTransform; 
 }
 
-void ATransform::OnTransformChanged()
+void ATransformComponent::OnTransformChanged()
 {
 	AActor* owner = GetOwner();
 	owner->SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
@@ -330,7 +330,7 @@ void ATransform::OnTransformChanged()
 	_dirtyCount = FTimeModule::Get().GetFrameCount();
 }
 
-void ATransform::UpdateWorldTransform() const
+void ATransformComponent::UpdateWorldTransform() const
 {
 	auto owner = GetOwner();
 
@@ -341,7 +341,7 @@ void ATransform::UpdateWorldTransform() const
 	owner->SetFlag(NF_WORLD_TRANSFORM_DIRTY, false);
 }
 
-bool ATransform::IsDirty()
+bool ATransformComponent::IsDirty()
 {
 	if (_dirtyCount >= FTimeModule::Get().GetFrameCount())
 		return true;

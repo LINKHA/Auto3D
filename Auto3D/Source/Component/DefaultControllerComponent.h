@@ -1,5 +1,5 @@
 #pragma once
-#include "Component/Controller.h"
+#include "Component/ControllerComponent.h"
 #include "Math/Vector2.h"
 
 namespace Auto3D
@@ -13,13 +13,13 @@ namespace Auto3D
 #define DEFAULT_CONTROLLER_KEY_UP        UINT8_C(0x10)
 #define DEFAULT_CONTROLLER_KEY_DOWN      UINT8_C(0x20)
 
-class AUTO_API ADefaultController : public AController
+class AUTO_API ADefaultControllerComponent : public AControllerComponent
 {
-	DECLARE_A_CLASS(ADefaultController, AController)
+	DECLARE_A_CLASS(ADefaultControllerComponent, AControllerComponent)
 
 public:
-	ADefaultController();
-	~ADefaultController();
+	ADefaultControllerComponent();
+	~ADefaultControllerComponent();
 	/// BeginPlay
 	virtual void BeginPlay();
 	/// Called every frame.

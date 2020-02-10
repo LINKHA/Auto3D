@@ -9,7 +9,7 @@
 #include "Renderer/Pass.h"
 #include "Resource/Material.h"
 
-#include "Component/Transform.h"
+#include "Component/TransformComponent.h"
 #include "Component/CameraComponent.h"
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"

@@ -14,7 +14,7 @@ namespace Auto3D
 
 class AWorld;
 class FObjectResolver;
-class ATransform;
+class ATransformComponent;
 class AActorComponent;
 class AGeometryComponent;
 
@@ -201,7 +201,7 @@ public:
 
 	/// Each actor is fixed with a transform.Any operation of this class can be performed.
 	/// This class does not initialize a transform and is created the first time the function is looked up
-	ATransform* GetTransform();
+	ATransformComponent* GetTransform();
 
 	TVector<AGeometryComponent*>& GetGeometryComponents();
 protected:
@@ -215,7 +215,7 @@ protected:
 protected:
 	bool _hasBegunPlay;
 	/// Each actor is fixed with a transform
-	ATransform* _transform;
+	ATransformComponent* _transform;
     /// Parent node.
 	AActor* _parent;
     /// Parent scene (If in the scene)

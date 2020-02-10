@@ -16,7 +16,7 @@
   ],
   "components": [
     {
-      "type": "ATransform",
+      "type": "ATransformComponent",
       "position": "0 0 0",
       "rotation": "1 0 0 0",
       "scale": "1 1 1"
@@ -33,7 +33,7 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform",
+          "type": "ATransformComponent",
           "position": "0 1 -2.5",
           "rotation": "1 0 0 0",
           "scale": "1 1 1"
@@ -47,7 +47,7 @@
           "viewLayoutMask": 3.45282e+09
         },
         {
-          "type": "ADefaultController"
+          "type": "ADefaultControllerComponent"
         }
       ]
     },
@@ -61,7 +61,7 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform",
+          "type": "ATransformComponent",
           "position": "0 0 1",
           "rotation": "1 0 0 0",
           "scale": "1 1 1"
@@ -82,7 +82,7 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform",
+          "type": "ATransformComponent",
           "position": "0 0 5",
           "rotation": "1 0 0 0",
           "scale": "0.2 0.2 0.2"
@@ -103,7 +103,7 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform",
+          "type": "ATransformComponent",
           "position": "-1 0 0",
           "rotation": "1 0 0 0",
           "scale": "1 1 1"
@@ -124,7 +124,7 @@
       "tag": 0,
       "components": [
         {
-          "type": "ATransform",
+          "type": "ATransformComponent",
           "position": "-2 0 0",
           "rotation": "1 0 0 0",
           "scale": "1 1 1"

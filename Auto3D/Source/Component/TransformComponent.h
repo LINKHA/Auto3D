@@ -25,13 +25,13 @@ namespace ETransformSpace
 /// |Rotation |	  x:pitch  |   y:yaw  |	  z:roll	 |
 /// |Scale    |	  x:right  |   y:up   |   z:forward  |
 /// Base class for actor with position in three-dimensional space.
-class AUTO_API ATransform : public AActorComponent
+class AUTO_API ATransformComponent : public AActorComponent
 {
-	DECLARE_A_CLASS(ATransform, AActorComponent)
+	DECLARE_A_CLASS(ATransformComponent, AActorComponent)
 public:
     /// Construct.
-    ATransform();
-	~ATransform() {}
+    ATransformComponent();
+	~ATransformComponent() {}
 	/// BeginPlay
 	virtual void BeginPlay() override;
 	/// Called every frame.
@@ -89,7 +89,7 @@ public:
     void ApplyScale(float delta);
 
     /// Return the parent spatial node, or null if it is not spatial.
-	ATransform* GetParentTransform() const;
+	ATransformComponent* GetParentTransform() const;
     /// Return _position in parent space.
     const TVector3F& GetPosition() const { return _position; }
     /// Return rotation in parent space.

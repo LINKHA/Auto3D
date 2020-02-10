@@ -3,7 +3,7 @@
 #include "Resource/Material.h"
 #include "Resource/Shader.h"
 #include "Debug/Log.h"
-#include "Component/Transform.h"
+#include "Component/TransformComponent.h"
 
 namespace Auto3D
 {

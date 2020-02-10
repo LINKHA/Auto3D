@@ -2,7 +2,7 @@
 #include "Debug/Log.h"
 #include "Container/HashMap.h"
 #include "Component/ActorComponent.h"
-#include "Component/Transform.h"
+#include "Component/TransformComponent.h"
 #include "Component/CameraComponent.h"
 
 #include "IO/Stream.h"
@@ -26,7 +26,7 @@ AActor::AActor() :
 {
 	SetFlag(NF_SPATIAL, true);
 	// Each Actor has a Transform by default
-	_transform = CreateComponent<ATransform>();
+	_transform = CreateComponent<ATransformComponent>();
 }
 
 AActor::~AActor()
@@ -707,11 +707,11 @@ void AActor::SetId(unsigned newId)
 {
     _id = newId;
 }
-ATransform* AActor::GetTransform()
+ATransformComponent* AActor::GetTransform()
 { 
 	if (!_transform)
 	{
-		_transform = CreateComponent<ATransform>();
+		_transform = CreateComponent<ATransformComponent>();
 	}
 
 	return _transform;
