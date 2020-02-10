@@ -70,7 +70,7 @@ bool FEngine::Update()
 		renderer->SetDebugMode(GProcessWindow::_debug);
 		renderer->SetResetMode(GProcessWindow::_reset);
 
-		imguiBeginFrame(GProcessWindow::_mouseState._mx
+		/*imguiBeginFrame(GProcessWindow::_mouseState._mx
 			, GProcessWindow::_mouseState._my
 			, (GProcessWindow::_mouseState._buttons[Auto3D::MouseButton::Left] ? IMGUI_MBUT_LEFT : 0)
 			| (GProcessWindow::_mouseState._buttons[Auto3D::MouseButton::Right] ? IMGUI_MBUT_RIGHT : 0)
@@ -78,7 +78,7 @@ bool FEngine::Update()
 			, GProcessWindow::_mouseState._mz
 			, uint16_t(GProcessWindow::_width)
 			, uint16_t(GProcessWindow::_height)
-		);
+		);*/
 	}
 	else
 		return false;

@@ -38,13 +38,6 @@ public:
 
 	void init(uint32_t _width, uint32_t _height) override
 	{
-		FArgs args = FArgs::Get();
-
-		m_width  = _width;
-		m_height = _height;
-		m_debug  = BGFX_DEBUG_NONE;
-		m_reset  = BGFX_RESET_VSYNC;
-
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
@@ -121,14 +114,6 @@ public:
 		return true;
 	}
 
-	Auto3D::MouseState m_mouseState;
-
-	uint32_t m_width;
-	uint32_t m_height;
-	uint32_t m_debug;
-	uint32_t m_reset;
-
-	int64_t m_timeOffset;
 	OMesh* m_mesh;
 	OMaterial* _material;
 
