@@ -75,7 +75,7 @@ public:
 
 	void init(uint32_t _width, uint32_t _height) override
 	{
-		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
+		/*GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
 		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
@@ -90,31 +90,16 @@ public:
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		actor->CreateComponent<ADefaultControllerComponent>();
-		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
+		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });*/
 
-
-
-
-
+		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/MeshShadowTest.json");
 		// Uniforms.
 		s_shadowMap = bgfx::createUniform("s_shadowMap", bgfx::UniformType::Sampler);
 		u_lightPos = bgfx::createUniform("u_lightPos", bgfx::UniformType::Vec4);
 		u_lightMtx = bgfx::createUniform("u_lightMtx", bgfx::UniformType::Mat4);
 
-		// When using GL clip space depth range [-1, 1] and packing depth into color buffer, we need to
-		// adjust the depth range to be [0, 1] for writing to the color buffer
-		u_depthScaleOffset = bgfx::createUniform("u_depthScaleOffset", bgfx::UniformType::Vec4);
-
 		// Get renderer capabilities info.
 		const bgfx::Caps* caps = bgfx::getCaps();
-
-		float depthScaleOffset[4] = { 1.0f, 0.0f, 0.0f, 0.0f };
-		if (caps->homogeneousDepth)
-		{
-			depthScaleOffset[0] = 0.5f;
-			depthScaleOffset[1] = 0.5f;
-		}
-		bgfx::setUniform(u_depthScaleOffset, depthScaleOffset);
 
 		// Create vertex stream declaration.
 		PosNormalVertex::init();
@@ -160,6 +145,7 @@ public:
 			| BGFX_STATE_CULL_CCW
 			| BGFX_STATE_MSAA
 			;
+
 		m_state[1]->_program = m_progMesh;
 		m_state[1]->_viewId = RENDER_SCENE_PASS_ID;
 		m_state[1]->_numTextures = 1;
@@ -223,35 +209,7 @@ public:
 					shadowMapTexture = fbtextures[0];
 					m_shadowMapFB = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 				}
-				else
-				{
-					// Depth textures and shadow samplers are not supported. Use float
-					// depth packing into color buffer instead.
-					m_progShadow = loadProgram("vs_sms_shadow_pd", "fs_sms_shadow_pd");
-					m_progMesh = loadProgram("vs_sms_mesh", "fs_sms_mesh_pd");
-
-					bgfx::TextureHandle fbtextures[] =
-					{
-						bgfx::createTexture2D(
-							  m_shadowMapSize
-							, m_shadowMapSize
-							, false
-							, 1
-							, bgfx::TextureFormat::BGRA8
-							, BGFX_TEXTURE_RT
-							),
-						bgfx::createTexture2D(
-							  m_shadowMapSize
-							, m_shadowMapSize
-							, false
-							, 1
-							, bgfx::TextureFormat::D16
-							, BGFX_TEXTURE_RT_WRITE_ONLY
-							),
-					};
-					shadowMapTexture = fbtextures[0];
-					m_shadowMapFB = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
-				}
+				
 
 				m_state[0]->_program = m_progShadow;
 				m_state[0]->_state = 0
@@ -386,16 +344,16 @@ public:
 			//// Hollow cube.
 			//bx::mtxMul(lightMtx, mtxHollowcube, mtxShadow);
 			//bgfx::setUniform(u_lightMtx, lightMtx);
-			//meshSubmit(m_hollowcube, &m_state[0], 1, mtxHollowcube);
+			//m_hollowcube->submit(&m_state[0], 1, mtxHollowcube);
 			//bgfx::setUniform(u_lightMtx, lightMtx);
-			//meshSubmit(m_hollowcube, &m_state[1], 1, mtxHollowcube);
+			//m_hollowcube->submit(&m_state[0], 1, mtxHollowcube);
 
-			//// Cube.
-			//bx::mtxMul(lightMtx, mtxCube, mtxShadow);
-			//bgfx::setUniform(u_lightMtx, lightMtx);
-			//meshSubmit(m_cube, &m_state[0], 1, mtxCube);
-			//bgfx::setUniform(u_lightMtx, lightMtx);
-			//meshSubmit(m_cube, &m_state[1], 1, mtxCube);
+			// Cube.
+			bx::mtxMul(lightMtx, mtxCube, mtxShadow);
+			bgfx::setUniform(u_lightMtx, lightMtx);
+			m_cube->submit(&m_state[0], 1, mtxCube);
+			bgfx::setUniform(u_lightMtx, lightMtx);
+			m_cube->submit(&m_state[1], 1, mtxCube);
 
 			// Advance to next frame. Rendering thread will be kicked to
 			// process submitted rendering primitives.

@@ -2,6 +2,7 @@
 #include "IO/JSONFile.h"
 #include "IO/JSONValue.h"
 #include "Renderer/Pass.h"
+#include "Debug/Log.h"
 
 namespace Auto3D
 {
@@ -27,27 +28,62 @@ bool OMaterial::BeginLoad(const FString& pathName)
 
 	if (root.Contains("shaders"))
 	{
-		
 		const JSONObject& jsonShader = root["shaders"].GetObject();
+
+		bool shaderFlag = false;
+		bool shaderInstanceFlag = false;
 
 		if (jsonShader.Contains("vs"))
 		{
 			_shaderProgram.CreateVertexShader(jsonShader.Find("vs")->_second.GetString());
+			shaderFlag = true;
 		}
 
 		if (jsonShader.Contains("vsi"))
 		{
 			_shaderInstanceProgram.CreateVertexShader(jsonShader.Find("vsi")->_second.GetString());
+			shaderInstanceFlag = true;
 		}
 
 		if (jsonShader.Contains("ps"))
 		{
-			_shaderProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
-			_shaderInstanceProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
+			if(shaderFlag)
+				_shaderProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
+			if(shaderInstanceFlag)
+				_shaderInstanceProgram.CreatePixelShader(jsonShader.Find("ps")->_second.GetString());
 		}
 
-		_shaderProgram.Link();
-		_shaderInstanceProgram.Link();
+		if (jsonShader.Contains("uniforms"))
+		{
+			_uniforms.Clear();
+
+			const JSONObject& uniforms = root["shaders"]["uniforms"].GetObject();
+			for (auto it = uniforms.Begin(); it != uniforms.End(); ++it)
+			{
+				FString uniformType = it->_first;
+				const FJSONValue& jsonValue = it->_second;
+				bgfx::UniformHandle uniformHandle = BGFX_INVALID_HANDLE;
+
+				if (uniformType == "sampler")
+					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Sampler);
+				else if (uniformType == "end")
+					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::End);
+				else if (uniformType == "vec4")
+					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Vec4);
+				else if (uniformType == "mat3")
+					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Mat3);
+				else if (uniformType == "mat4")
+					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Mat4);
+				else
+					ErrorString("Fail set uniform.");
+
+				_uniforms.Push(uniformHandle);
+			}
+		}
+		if(shaderFlag)
+			_shaderProgram.Link();
+		if(shaderInstanceFlag)
+			_shaderInstanceProgram.Link();
 	}
 
 	if (root.Contains("textures"))
@@ -75,6 +111,12 @@ FShaderProgram& OMaterial::GetShaderInstanceProgram()
 {
 	return _shaderInstanceProgram;
 }
+
+TVector<bgfx::UniformHandle>& OMaterial::GetUniforms()
+{
+	return _uniforms;
+}
+
 OMaterial* OMaterial::DefaultMaterial()
 {
 	// Create on demand
@@ -96,5 +138,6 @@ OMaterial* OMaterial::DefaultMaterial()
 
 	return _defaultMaterial.get();
 }
+
 
 }

@@ -17,6 +17,47 @@ class OMesh;
 class AWorld;
 class ACameraComponent;
 
+struct FRenderState
+{
+	struct Texture
+	{
+		uint32_t            _flags;
+		bgfx::UniformHandle _sampler;
+		bgfx::TextureHandle _texture;
+		uint8_t             _stage;
+	};
+
+	Texture             _textures[4];
+	uint64_t            _state;
+	bgfx::ProgramHandle _program;
+	uint8_t             _numTextures;
+	bgfx::ViewId        _viewId;
+};
+struct FShadowMap
+{
+	FShadowMap() = default;
+
+	FShadowMap(int size):
+		_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
+		_size(size)
+	{
+		fbtextures[0] = bgfx::createTexture2D(
+			_size
+			, _size
+			, false
+			, 1
+			, bgfx::TextureFormat::D16
+			, BGFX_TEXTURE_RT | BGFX_SAMPLER_COMPARE_LEQUAL
+		);
+
+		_shadowMapFrameBuffer = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
+	}
+	bgfx::TextureHandle fbtextures[1];
+	bgfx::FrameBufferHandle _shadowMapFrameBuffer;
+	uint16_t _size;
+	FRenderState _state;
+};
+
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public ISceneRenderer
 {
@@ -30,7 +71,13 @@ public:
 	/// Render scene
 	void Render()override;
 
-	void RenderBatch();
+	void RenderBatches();
+
+	void RenderBatch(FRenderState& renderState);
+
+	void RenderShadowMaps();
+
+	void SetupShadowMaps(size_t num, int size);
 
 	void CollectGeometries(AWorld* world, ACameraComponent* camera);
 
@@ -66,6 +113,8 @@ private:
 
 	int _invisibleBatch;
 	int _visibleBatch;
+
+	TVector<FShadowMap> _shadowMaps;
 };
 
 }

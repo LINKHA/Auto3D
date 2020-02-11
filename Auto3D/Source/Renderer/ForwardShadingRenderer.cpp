@@ -8,6 +8,7 @@
 
 #include "Renderer/Pass.h"
 #include "Resource/Material.h"
+#include "Resource/ResourceCache.h"
 
 #include "Component/TransformComponent.h"
 #include "Component/CameraComponent.h"
@@ -19,6 +20,9 @@
 
 namespace Auto3D
 {
+#define RENDER_SHADOW_PASS_ID 0
+#define RENDER_SCENE_PASS_ID  1
+#define RENDER_OCCLUSION_PASS_ID 2
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
@@ -78,7 +82,8 @@ void FForwardShadingRenderer::Render()
 	// This dummy draw call is here to make sure that view 0 is cleared
 	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
-	bgfx::touch(2);
+	bgfx::touch(1);
+	bgfx::touch(3);
 
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
@@ -88,6 +93,10 @@ void FForwardShadingRenderer::Render()
 		PrepareView();
 		CollectGeometries(world, *it);
 		CollectBatch();
+
+		if(_shadowMaps.Size())
+			RenderShadowMaps();
+
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 
 		// Set the view transform each camera is set once in the view
@@ -101,24 +110,22 @@ void FForwardShadingRenderer::Render()
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 
 			bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
-			bgfx::setViewRect(0, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
+			bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 
 			// Ordinary pipeline view rect
 			bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
-			bgfx::setViewRect(1, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
+			bgfx::setViewRect(RENDER_OCCLUSION_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 		}
 
-		RenderBatch();
+		RenderBatches();
 	}
 	
 	// Advance to next frame. Rendering thread will be kicked to
 	// process submitted rendering primitives.
 	bgfx::frame();
-
-	
 }
 
-void FForwardShadingRenderer::RenderBatch()
+void FForwardShadingRenderer::RenderBatches()
 {
 	TVector<FBatch>& batches = _batchQueues._batches;
 
@@ -175,7 +182,7 @@ void FForwardShadingRenderer::RenderBatch()
 					bgfx::setCondition(geometry->_occlusionQuery, true);
 					bgfx::setInstanceDataBuffer(&idb);
 					bgfx::setState(state);
-					bgfx::submit(0, material->GetShaderInstanceProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+					bgfx::submit(RENDER_SCENE_PASS_ID, material->GetShaderInstanceProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
 				}
 
 				// occlusion query pipeline
@@ -187,7 +194,7 @@ void FForwardShadingRenderer::RenderBatch()
 						| BGFX_STATE_DEPTH_TEST_LEQUAL
 						| BGFX_STATE_CULL_CCW
 					);
-					bgfx::submit(1, material->GetShaderInstanceProgram().GetProgram(), geometry->_occlusionQuery);
+					bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderInstanceProgram().GetProgram(), geometry->_occlusionQuery);
 				}
 			
 
@@ -212,14 +219,53 @@ void FForwardShadingRenderer::RenderBatch()
 
 			for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
 			{
+				TVector<bgfx::UniformHandle>& uniformHandles = material->GetUniforms();
 				// Ordinary pipeline
 				{
+					FRenderState renderState;
+					/*
+						renderState._state = 0
+						| BGFX_STATE_WRITE_RGB
+						| BGFX_STATE_WRITE_A
+						| BGFX_STATE_WRITE_Z
+						| BGFX_STATE_DEPTH_TEST_LESS
+						| BGFX_STATE_CULL_CCW
+						| BGFX_STATE_MSAA;
+			;
+						renderState._program = m_progMesh;
+						renderState._viewId = RENDER_SCENE_PASS_ID;
+						renderState._numTextures = 1;*/
+					for (auto it = uniformHandles.Begin(); it != uniformHandles.End(); ++it)
+					{
+						/*
+						if(samples)
+							renderState._textures[0]._flags = UINT32_MAX;
+							renderState._textures[0]._stage = 0;
+							renderState._textures[0]._sampler = s_shadowMap;
+							renderState._textures[0]._texture = BGFX_INVALID_HANDLE;
+							m_state[1]->_textures[0]._texture = shadowMapTexture;*/
+					}
+
+					for (auto it = uniformHandles.Begin(); it != uniformHandles.End(); ++it)
+					{
+						/*bgfx::setUniform(*it, lightMtx);
+						/*for (uint8_t tex = 0; tex < meshState._numTextures; ++tex)
+						{
+							const FMeshState::Texture& texture = meshState._textures[tex];
+							bgfx::setTexture(texture._stage
+								, texture._sampler
+								, texture._texture
+								, texture._flags
+							);
+						}*/
+					}
+
 					bgfx::setTransform(modelMatrix.Data());
 					bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
 					bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
 					bgfx::setCondition(geometry->_occlusionQuery, true);
 					bgfx::setState(state);
-					bgfx::submit(0, material->GetShaderProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+					bgfx::submit(RENDER_SCENE_PASS_ID, material->GetShaderProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
 				}
 				// occlusion query pipeline
 				{
@@ -230,7 +276,7 @@ void FForwardShadingRenderer::RenderBatch()
 						| BGFX_STATE_DEPTH_TEST_LEQUAL
 						| BGFX_STATE_CULL_CCW
 					);
-					bgfx::submit(1, material->GetShaderProgram().GetProgram(), geometry->_occlusionQuery);
+					bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderProgram().GetProgram(), geometry->_occlusionQuery);
 				}
 
 				switch (bgfx::getResult(geometry->_occlusionQuery))
@@ -249,10 +295,95 @@ void FForwardShadingRenderer::RenderBatch()
 	}
 }
 
+void FForwardShadingRenderer::RenderBatch(FRenderState& renderState)
+{
+
+}
+bgfx::UniformHandle s_shadowMap;
+bgfx::UniformHandle u_lightPos;
+bgfx::UniformHandle u_lightMtx;
+FRenderState* renderState[2];
+float m_view[16];
+float m_proj[16];
+
+void FForwardShadingRenderer::RenderShadowMaps()
+{
+	{
+		// Set view and projection matrices.
+		const bx::Vec3 at = { 0.0f,  5.0f,   0.0f };
+		const bx::Vec3 eye = { 0.0f, 30.0f, -60.0f };
+		bx::mtxLookAt(m_view, eye, at);
+
+		const float aspect = float(int32_t(AUTO_DEFAULT_WIDTH)) / float(int32_t(AUTO_DEFAULT_HEIGHT));
+		bx::mtxProj(m_proj, 60.0f, aspect, 0.1f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
+	}
+	
+	// Setup lights.
+	float lightPos[4];
+	lightPos[0] = -0.5f;
+	lightPos[1] = -1.0f;
+	lightPos[2] = -0.5f;
+	lightPos[3] = 0.0f;
+
+	bgfx::setUniform(u_lightPos, lightPos);
+
+	// Define matrices.
+	float lightView[16];
+	float lightProj[16];
+
+	const bx::Vec3 at = { 0.0f,  0.0f,   0.0f };
+	const bx::Vec3 eye = { -lightPos[0], -lightPos[1], -lightPos[2] };
+	bx::mtxLookAt(lightView, eye, at);
+
+	const bgfx::Caps* caps = bgfx::getCaps();
+	const float area = 30.0f;
+	bx::mtxOrtho(lightProj, -area, area, -area, area, -100.0f, 100.0f, 0.0f, caps->homogeneousDepth);
+
+	for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
+	{
+		FShadowMap& shadowMap = *it;
+		bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, shadowMap._size, shadowMap._size);
+		bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, shadowMap._shadowMapFrameBuffer);
+		bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView, lightProj);
+
+		// Clear backbuffer and shadowmap framebuffer at beginning.
+		bgfx::setViewClear(RENDER_SHADOW_PASS_ID
+			, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+			, 0x303030ff, 1.0f, 0
+		);
+
+	}
+
+}
+
+void FForwardShadingRenderer::SetupShadowMaps(size_t num, int size)
+{
+	if (size < 1)
+		size = 1;
+	size = NextPowerOfTwo(size);
+	_shadowMaps.Clear();
+	OMaterial* material = GResourceModule::Get().LoadResource<OMaterial>("Material/Shadow.json");
+	for (int i = 0; i < num; ++i)
+	{
+		_shadowMaps.Push(FShadowMap(size));
+		FRenderState& state = _shadowMaps[i]._state;
+		state._state = 0
+			| BGFX_STATE_WRITE_RGB
+			| BGFX_STATE_WRITE_Z
+			| BGFX_STATE_DEPTH_TEST_LEQUAL
+			| BGFX_STATE_CULL_CCW
+			| BGFX_STATE_MSAA
+			;
+		state._program = material->GetShaderProgram().GetProgram();
+		state._viewId = RENDER_SHADOW_PASS_ID;
+		state._numTextures = 0;
+	}
+}
+
 void FForwardShadingRenderer::ShutDowm()
 {
 	bgfx::shutdown();
-}	
+}
 
 
 void FForwardShadingRenderer::CollectGeometries(AWorld* world, ACameraComponent* camera)

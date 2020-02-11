@@ -36,6 +36,8 @@ public:
 
 	bool CreateVertexShader(const FString& path);
 	bool CreatePixelShader(const FString& path);
+
+	bool IsValid();
 private:
 	/// Shader program identifier.
 	bgfx::ProgramHandle _program;

@@ -23,6 +23,9 @@ public:
 
 	FShaderProgram& GetShaderProgram();
 	FShaderProgram& GetShaderInstanceProgram();
+
+	TVector<bgfx::UniformHandle>& GetUniforms();
+
 	static OMaterial* DefaultMaterial();
 private:
 	/// Default material.
@@ -32,6 +35,7 @@ private:
 
 	FShaderProgram _shaderProgram;
 	FShaderProgram _shaderInstanceProgram;
+	TVector<bgfx::UniformHandle> _uniforms;
 };
 
 }

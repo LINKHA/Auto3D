@@ -91,4 +91,9 @@ bool FShaderProgram::CreatePixelShader(const FString& path)
 	return true;
 }
 
+bool FShaderProgram::IsValid()
+{
+	return isValid(_program);
+}
+
 }

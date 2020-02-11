@@ -1,0 +1,6 @@
+{
+  "shaders":{
+	"vs": "vs_sms_shadow",
+    "ps": "fs_sms_shadow"
+  }
+}

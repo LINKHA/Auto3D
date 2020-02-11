@@ -353,7 +353,7 @@ int FApplication::RunAppInstance(IAppInstance* app, int argc, const char* const*
 		{
 			if (!app->update())
 				break;
-			//_engine->Render();
+			_engine->Render();
 			_engine->FrameFinish();
 		}
 		else

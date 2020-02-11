@@ -1,0 +1,11 @@
+{
+  "shaders":{
+	"vs": "vs_sms_mesh",
+    "ps": "fs_sms_mesh",
+	"uniforms":{
+		"sampler" : "s_shadowMap",
+		"vec4" : "u_lightPos",
+		"mat4" : "u_lightMtx"
+	}
+  }
+}
