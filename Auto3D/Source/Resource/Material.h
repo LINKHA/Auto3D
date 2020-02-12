@@ -4,6 +4,12 @@
 
 namespace Auto3D
 {
+#define UNIFORM_SAMPLER "sampler"
+#define UNIFORM_END "end"
+#define UNIFORM_VEC4 "vec4"
+#define UNIFORM_MAT3 "mat3"
+#define UNIFORM_MAT4 "mat4"
+
 class OJSONFile;
 /// Material resource, which describes how to render 3D geometry and refers to textures. A material can contain several passes (for example normal rendering, and depth only.)
 class OMaterial : public OResource
@@ -24,7 +30,7 @@ public:
 	FShaderProgram& GetShaderProgram();
 	FShaderProgram& GetShaderInstanceProgram();
 
-	TVector<bgfx::UniformHandle>& GetUniforms();
+	THashMap<FString,bgfx::UniformHandle>& GetUniforms();
 
 	static OMaterial* DefaultMaterial();
 private:
@@ -35,7 +41,7 @@ private:
 
 	FShaderProgram _shaderProgram;
 	FShaderProgram _shaderInstanceProgram;
-	TVector<bgfx::UniformHandle> _uniforms;
+	THashMap<FString, bgfx::UniformHandle> _uniforms;
 };
 
 }

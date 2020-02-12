@@ -42,6 +42,7 @@ public:
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
 
 		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
+		_material2 = GResourceModule::Get().LoadResource<OMaterial>("Material/MeshShadowTest.json");
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
@@ -55,22 +56,22 @@ public:
 		actor->CreateComponent<ADefaultControllerComponent>();
 		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
 
-		AActor* meshActor = world->CreateChild<AActor>();
-		meshActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 1.0f });
-		meshActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
-		meshActor->GetTransform()->SetScale({ 1.0f, 1.0f, 1.0f });
-		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
+		AActor* plane = world->CreateChild<AActor>();
+		plane->GetTransform()->SetPosition({ 0.0f, -1.0f, 0.0f });
+		plane->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		plane->GetTransform()->SetScale({ 5.0f, 1.0f, 5.0f });
+		AMeshComponent* meshComponent = plane->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent->SetMaterial(_material);
+		meshComponent->SetMaterial(_material2);
 
 		AActor* meshActor4 = world->CreateChild<AActor>();
-		meshActor4->GetTransform()->SetPosition({ 0.0f, 0.0f, 5.0f });
+		meshActor4->GetTransform()->SetPosition({ 0.0f, 1.0f, 0.0f });
 		meshActor4->GetTransform()->SetScale({ 0.2f, 0.2f, 0.2f });
 		AMeshComponent* meshComponent4 = meshActor4->CreateComponent<AMeshComponent>();
-		meshComponent4->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent4->SetMaterial(_material);
+		meshComponent4->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
+		meshComponent4->SetMaterial(_material2);
 
-		AActor* meshActor3 = world->CreateChild<AActor>();
+		/*AActor* meshActor3 = world->CreateChild<AActor>();
 		meshActor3->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent3 = meshActor3->CreateComponent<AMeshComponent>();
 		meshComponent3->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
@@ -80,7 +81,7 @@ public:
 		meshActor5->GetTransform()->SetPosition({ -2.0f, 0.0f, 0.0f });
 		AMeshComponent* meshComponent5 = meshActor5->CreateComponent<AMeshComponent>();
 		meshComponent5->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent5->SetMaterial(_material);
+		meshComponent5->SetMaterial(_material);*/
 
 		/*
 		AActor* meshActor7 = world->CreateChild<AActor>();
@@ -116,6 +117,7 @@ public:
 
 	OMesh* m_mesh;
 	OMaterial* _material;
+	OMaterial* _material2;
 
 	bgfx::ProgramHandle m_program;
 	bgfx::UniformHandle u_time;

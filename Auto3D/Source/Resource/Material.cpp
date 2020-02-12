@@ -64,20 +64,23 @@ bool OMaterial::BeginLoad(const FString& pathName)
 				const FJSONValue& jsonValue = it->_second;
 				bgfx::UniformHandle uniformHandle = BGFX_INVALID_HANDLE;
 
-				if (uniformType == "sampler")
+				if (uniformType == UNIFORM_SAMPLER)
 					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Sampler);
-				else if (uniformType == "end")
+				else if (uniformType == UNIFORM_END)
 					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::End);
-				else if (uniformType == "vec4")
+				else if (uniformType == UNIFORM_VEC4)
 					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Vec4);
-				else if (uniformType == "mat3")
+				else if (uniformType == UNIFORM_MAT3)
 					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Mat3);
-				else if (uniformType == "mat4")
+				else if (uniformType == UNIFORM_MAT4)
 					uniformHandle = bgfx::createUniform(jsonValue.GetString().CString(), bgfx::UniformType::Mat4);
 				else
+				{
 					ErrorString("Fail set uniform.");
+					continue;
+				}
 
-				_uniforms.Push(uniformHandle);
+				_uniforms[uniformType] = uniformHandle;
 			}
 		}
 		if(shaderFlag)
@@ -112,7 +115,7 @@ FShaderProgram& OMaterial::GetShaderInstanceProgram()
 	return _shaderInstanceProgram;
 }
 
-TVector<bgfx::UniformHandle>& OMaterial::GetUniforms()
+THashMap<FString, bgfx::UniformHandle>& OMaterial::GetUniforms()
 {
 	return _uniforms;
 }

@@ -41,7 +41,7 @@ struct FShadowMap
 		_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
 		_size(size)
 	{
-		fbtextures[0] = bgfx::createTexture2D(
+		_fbtextures[0] = bgfx::createTexture2D(
 			_size
 			, _size
 			, false
@@ -50,9 +50,9 @@ struct FShadowMap
 			, BGFX_TEXTURE_RT | BGFX_SAMPLER_COMPARE_LEQUAL
 		);
 
-		_shadowMapFrameBuffer = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
+		_shadowMapFrameBuffer = bgfx::createFrameBuffer(BX_COUNTOF(_fbtextures), _fbtextures, true);
 	}
-	bgfx::TextureHandle fbtextures[1];
+	bgfx::TextureHandle _fbtextures[1];
 	bgfx::FrameBufferHandle _shadowMapFrameBuffer;
 	uint16_t _size;
 	FRenderState _state;
