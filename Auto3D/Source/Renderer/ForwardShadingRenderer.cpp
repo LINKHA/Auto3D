@@ -384,7 +384,7 @@ void FForwardShadingRenderer::RenderShadowMaps()
 
 	for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
 	{
-		FShadowMap& shadowMap = *it;
+		_FShadowMap& shadowMap = *it;
 		bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, shadowMap._size, shadowMap._size);
 		bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, shadowMap._shadowMapFrameBuffer);
 		bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView, lightProj);
@@ -408,7 +408,7 @@ void FForwardShadingRenderer::SetupShadowMaps(size_t num, int size)
 	OMaterial* material = GResourceModule::Get().LoadResource<OMaterial>("Material/Shadow.json");
 	for (int i = 0; i < num; ++i)
 	{
-		_shadowMaps.Push(FShadowMap(size));
+		_shadowMaps.Push(_FShadowMap(size));
 		FRenderState& state = _shadowMaps[i]._state;
 		state._state = 0
 			| BGFX_STATE_WRITE_RGB

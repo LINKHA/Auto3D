@@ -33,11 +33,11 @@ struct FRenderState
 	uint8_t             _numTextures;
 	bgfx::ViewId        _viewId;
 };
-struct FShadowMap
+struct _FShadowMap
 {
-	FShadowMap() = default;
+	_FShadowMap() = default;
 
-	FShadowMap(int size):
+	_FShadowMap(int size):
 		_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
 		_size(size)
 	{
@@ -114,7 +114,7 @@ private:
 	int _invisibleBatch;
 	int _visibleBatch;
 
-	TVector<FShadowMap> _shadowMaps;
+	TVector<_FShadowMap> _shadowMaps;
 };
 
 }

@@ -10,6 +10,7 @@
 #include "Gameplay/WorldContext.h"
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
+#include "Component/LightComponent.h"
 
 #include "Serialization/ToJson.h"
 #include "Serialization/FromJson.h"
@@ -75,10 +76,10 @@ public:
 
 	void init(uint32_t _width, uint32_t _height) override
 	{
-		/*GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
-		_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
+		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
+		_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
 
-		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
+		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/MeshShadowTest.json");
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
@@ -90,9 +91,29 @@ public:
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		actor->CreateComponent<ADefaultControllerComponent>();
-		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });*/
+		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
 
-		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/MeshShadowTest.json");
+		_cube = world->CreateChild<AActor>();
+		_cube->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
+		_cube->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		_cube->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		AMeshComponent* meshComponent = _cube->CreateComponent<AMeshComponent>();
+		meshComponent->SetMesh(_mesh);
+		meshComponent->SetMaterial(_material);
+
+		_plane = world->CreateChild<AActor>();
+		_plane->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
+		_plane->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		_plane->GetTransform()->SetScale({ 50.0f, 1.0f, 50.0f });
+		AMeshComponent* planeMeshComponent = _plane->CreateComponent<AMeshComponent>();
+		planeMeshComponent->SetMesh(_mesh);
+		planeMeshComponent->SetMaterial(_material);
+
+		_light = world->CreateChild<AActor>();
+		_light->GetTransform()->SetPosition({ 10.0f, 10.0f, 10.0f });
+		_light->GetTransform()->SetRotation(FQuaternion(45.0f, -45.0f, 45.0f));
+		_lightMeshComponent = _light->CreateComponent<ALightComponent>();
+
 		// Uniforms.
 		s_shadowMap = bgfx::createUniform("s_shadowMap", bgfx::UniformType::Sampler);
 		u_lightPos = bgfx::createUniform("u_lightPos", bgfx::UniformType::Vec4);
@@ -101,25 +122,9 @@ public:
 		// Get renderer capabilities info.
 		const bgfx::Caps* caps = bgfx::getCaps();
 
-		// Create vertex stream declaration.
-		PosNormalVertex::init();
-
-		// Meshes.
-		m_bunny = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
-		m_cube = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
-		m_hollowcube = GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin");
-
-		m_vbh = bgfx::createVertexBuffer(
-			bgfx::makeRef(s_hplaneVertices, sizeof(s_hplaneVertices))
-			, PosNormalVertex::ms_layout
-		);
-
-		m_ibh = bgfx::createIndexBuffer(
-			bgfx::makeRef(s_planeIndices, sizeof(s_planeIndices))
-		);
 
 		// Render targets.
-		m_shadowMapSize = 512;
+		m_shadowMapSize = 1024;
 
 		// Shadow samplers are supported at least partially supported if texture
 		// compare less equal feature is supported.
@@ -225,58 +230,15 @@ public:
 			}
 
 			// Setup lights.
-			float lightPos[4];
-			lightPos[0] = -bx::cos(time);
-			lightPos[1] = -1.0f;
-			lightPos[2] = -bx::sin(time);
-			lightPos[3] = 0.0f;
+			TVector3F lightPosition =  _light->GetTransform()->GetWorldPosition();
+			bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 
-			bgfx::setUniform(u_lightPos, lightPos);
-
-			// Setup instance matrices.
-			float mtxFloor[16];
-			bx::mtxSRT(mtxFloor
-				, 30.0f, 30.0f, 30.0f
-				, 0.0f, 0.0f, 0.0f
-				, 0.0f, 0.0f, 0.0f
-			);
-
-			float mtxBunny[16];
-			bx::mtxSRT(mtxBunny
-				, 5.0f, 5.0f, 5.0f
-				, 0.0f, bx::kPi - time, 0.0f
-				, 15.0f, 5.0f, 0.0f
-			);
-
-			float mtxHollowcube[16];
-			bx::mtxSRT(mtxHollowcube
-				, 2.5f, 2.5f, 2.5f
-				, 0.0f, 1.56f - time, 0.0f
-				, 0.0f, 10.0f, 0.0f
-			);
-
-			float mtxCube[16];
-			bx::mtxSRT(mtxCube
-				, 2.5f, 2.5f, 2.5f
-				, 0.0f, 1.56f - time, 0.0f
-				, -15.0f, 5.0f, 0.0f
-			);
-
-			// Define matrices.
-			float lightView[16];
-			float lightProj[16];
-
-			const bx::Vec3 at = { 0.0f,  0.0f,   0.0f };
-			const bx::Vec3 eye = { -lightPos[0], -lightPos[1], -lightPos[2] };
-			bx::mtxLookAt(lightView, eye, at);
-
-			const bgfx::Caps* caps = bgfx::getCaps();
-			const float area = 30.0f;
-			bx::mtxOrtho(lightProj, -area, area, -area, area, -100.0f, 100.0f, 0.0f, caps->homogeneousDepth);
+			TMatrix4x4F& lightProj_ = _lightMeshComponent->GetLightProj();
+			TMatrix4x4F& lightView_ = _lightMeshComponent->GetLightView();
 
 			bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, m_shadowMapSize, m_shadowMapSize);
 			bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, m_shadowMapFB);
-			bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView, lightProj);
+			bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView_.Data(), lightProj_.Data());
 
 			bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(AUTO_DEFAULT_WIDTH), uint16_t(AUTO_DEFAULT_HEIGHT));
 			bgfx::setViewTransform(RENDER_SCENE_PASS_ID, m_view, m_proj);
@@ -293,67 +255,25 @@ public:
 			);
 
 			// Render.
-			float mtxShadow[16];
 			float lightMtx[16];
 
-			const float sy = caps->originBottomLeft ? 0.5f : -0.5f;
-			const float sz = caps->homogeneousDepth ? 0.5f : 1.0f;
-			const float tz = caps->homogeneousDepth ? 0.5f : 0.0f;
-			const float mtxCrop[16] =
-			{
-				0.5f, 0.0f, 0.0f, 0.0f,
-				0.0f,   sy, 0.0f, 0.0f,
-				0.0f, 0.0f, sz,   0.0f,
-				0.5f, 0.5f, tz,   1.0f,
-			};
 
-			float mtxTmp[16];
-			bx::mtxMul(mtxTmp, lightProj, mtxCrop);
-			bx::mtxMul(mtxShadow, lightView, mtxTmp);
-
+			TMatrix4x4F& mtxShadow_ = _lightMeshComponent->GetMtxShadow();
 			// Floor.
-			bx::mtxMul(lightMtx, mtxFloor, mtxShadow);
-			uint32_t cached = bgfx::setTransform(mtxFloor);
-			for (uint32_t pass = 0; pass < 2; ++pass)
-			{
-				const FMeshState& st = *m_state[pass];
-				bgfx::setTransform(cached);
-				for (uint8_t tex = 0; tex < st._numTextures; ++tex)
-				{
-					const FMeshState::Texture& texture = st._textures[tex];
-					bgfx::setTexture(texture._stage
-						, texture._sampler
-						, texture._texture
-						, texture._flags
-					);
-				}
-				bgfx::setUniform(u_lightMtx, lightMtx);
-				bgfx::setIndexBuffer(m_ibh);
-				bgfx::setVertexBuffer(0, m_vbh);
-				bgfx::setState(st._state);
-				bgfx::submit(st._viewId, st._program);
-			}
-
-			// Bunny.
-			bx::mtxMul(lightMtx, mtxBunny, mtxShadow);
+			TMatrix4x4F& floorMatrix = _plane->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+			bx::mtxMul(lightMtx, floorMatrix.Data(), mtxShadow_.Data());
 			bgfx::setUniform(u_lightMtx, lightMtx);
-			m_bunny->submit(&m_state[0], 1, mtxBunny);
+			_mesh->submit(&m_state[0], 1, floorMatrix.Data());
 			bgfx::setUniform(u_lightMtx, lightMtx);
-			m_bunny->submit(&m_state[1], 1, mtxBunny);
-
-			//// Hollow cube.
-			//bx::mtxMul(lightMtx, mtxHollowcube, mtxShadow);
-			//bgfx::setUniform(u_lightMtx, lightMtx);
-			//m_hollowcube->submit(&m_state[0], 1, mtxHollowcube);
-			//bgfx::setUniform(u_lightMtx, lightMtx);
-			//m_hollowcube->submit(&m_state[0], 1, mtxHollowcube);
+			_mesh->submit(&m_state[1], 1, floorMatrix.Data());
 
 			// Cube.
-			bx::mtxMul(lightMtx, mtxCube, mtxShadow);
+			TMatrix4x4F& modelMatrix = _cube->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+			bx::mtxMul(lightMtx, modelMatrix.Data(), mtxShadow_.Data());
 			bgfx::setUniform(u_lightMtx, lightMtx);
-			m_cube->submit(&m_state[0], 1, mtxCube);
+			_mesh->submit(&m_state[0], 1, modelMatrix.Data());
 			bgfx::setUniform(u_lightMtx, lightMtx);
-			m_cube->submit(&m_state[1], 1, mtxCube);
+			_mesh->submit(&m_state[1], 1, modelMatrix.Data());
 
 			// Advance to next frame. Rendering thread will be kicked to
 			// process submitted rendering primitives.
@@ -375,9 +295,6 @@ public:
 	OMesh* m_cube;
 	OMesh* m_hollowcube;
 
-	bgfx::VertexBufferHandle m_vbh;
-	bgfx::IndexBufferHandle m_ibh;
-
 	uint16_t m_shadowMapSize;
 
 	bgfx::ProgramHandle m_progShadow;
@@ -393,6 +310,11 @@ public:
 	float m_proj[16];
 
 	int64_t m_timeOffset;
+
+	AActor* _cube;
+	AActor* _plane;
+	AActor* _light;
+	ALightComponent* _lightMeshComponent;
 };
 
 } // namespace
