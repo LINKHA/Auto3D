@@ -2,9 +2,20 @@
 #include "Component/ActorComponent.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Matrix3x4.h"
+#include <bgfx/bgfx.h>
 namespace Auto3D
 {
 
+struct FShadowMap
+{
+	FShadowMap();
+	void SetSize(int size);
+	void CreateTexture();
+
+	bgfx::TextureHandle _fbtexture;
+	bgfx::FrameBufferHandle _shadowMapFrameBuffer;
+	uint16_t _size;
+};
 
 class AUTO_API ALightComponent : public AActorComponent
 {

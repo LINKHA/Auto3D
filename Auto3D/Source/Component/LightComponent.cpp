@@ -7,6 +7,30 @@
 namespace Auto3D
 {
 
+FShadowMap::FShadowMap():
+	_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
+	_size(512)
+{}
+
+void FShadowMap::SetSize(int size)
+{
+	_size = size;
+}
+
+void FShadowMap::CreateTexture()
+{
+	_fbtexture = bgfx::createTexture2D(
+		_size
+		, _size
+		, false
+		, 1
+		, bgfx::TextureFormat::D16
+		, BGFX_TEXTURE_RT | BGFX_SAMPLER_COMPARE_LEQUAL
+	);
+
+	_shadowMapFrameBuffer = bgfx::createFrameBuffer(1, &_fbtexture, true);
+}
+
 ALightComponent::ALightComponent()
 {
 
