@@ -33,30 +33,6 @@ struct FRenderState
 	uint8_t             _numTextures;
 	bgfx::ViewId        _viewId;
 };
-struct _FShadowMap
-{
-	_FShadowMap() = default;
-
-	_FShadowMap(int size):
-		_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
-		_size(size)
-	{
-		_fbtextures[0] = bgfx::createTexture2D(
-			_size
-			, _size
-			, false
-			, 1
-			, bgfx::TextureFormat::D16
-			, BGFX_TEXTURE_RT | BGFX_SAMPLER_COMPARE_LEQUAL
-		);
-
-		_shadowMapFrameBuffer = bgfx::createFrameBuffer(BX_COUNTOF(_fbtextures), _fbtextures, true);
-	}
-	bgfx::TextureHandle _fbtextures[1];
-	bgfx::FrameBufferHandle _shadowMapFrameBuffer;
-	uint16_t _size;
-	FRenderState _state;
-};
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public ISceneRenderer
@@ -75,13 +51,11 @@ public:
 
 	void RenderBatch(FRenderState& renderState);
 
-	void RenderShadowMaps();
-
-	void SetupShadowMaps(size_t num, int size);
-
 	void CollectGeometries(AWorld* world, ACameraComponent* camera);
 
 	void CollectBatch();
+
+	void CollectLight(AWorld* world, ACameraComponent* camera);
 
 	void PrepareView();
 
@@ -100,6 +74,8 @@ private:
 
 	/// Geometries in frustum.
 	TVector<AActor*> _geometriesActor;
+	/// Light actor.
+	TVector<AActor*> _lightActor;
 
 	TVector2F _backbufferSize;
 	/// Renderer debug mode;
@@ -113,8 +89,6 @@ private:
 
 	int _invisibleBatch;
 	int _visibleBatch;
-
-	TVector<_FShadowMap> _shadowMaps;
 };
 
 }

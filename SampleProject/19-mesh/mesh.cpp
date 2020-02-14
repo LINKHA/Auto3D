@@ -10,6 +10,7 @@
 #include "Gameplay/WorldContext.h"
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
+#include "Component/LightComponent.h"
 
 #include "Serialization/ToJson.h"
 #include "Serialization/FromJson.h"
@@ -39,7 +40,7 @@ public:
 	void init(uint32_t _width, uint32_t _height) override
 	{
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
-		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin");
+		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
 
 		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
 		_material2 = GResourceModule::Get().LoadResource<OMaterial>("Material/MeshShadowTest.json");
@@ -54,45 +55,35 @@ public:
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		actor->CreateComponent<ADefaultControllerComponent>();
-		actor->GetTransform()->SetPosition({ 0.0f, 1.0f, -2.5f });
+		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
 
-		AActor* plane = world->CreateChild<AActor>();
-		plane->GetTransform()->SetPosition({ 0.0f, -1.0f, 0.0f });
-		plane->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
-		plane->GetTransform()->SetScale({ 5.0f, 1.0f, 5.0f });
-		AMeshComponent* meshComponent = plane->CreateComponent<AMeshComponent>();
+		AActor* cube = world->CreateChild<AActor>();
+		cube->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
+		cube->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		cube->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		AMeshComponent* meshComponent = cube->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		meshComponent->SetMaterial(_material2);
 
-		AActor* meshActor4 = world->CreateChild<AActor>();
-		meshActor4->GetTransform()->SetPosition({ 0.0f, 1.0f, 0.0f });
-		meshActor4->GetTransform()->SetScale({ 0.2f, 0.2f, 0.2f });
-		AMeshComponent* meshComponent4 = meshActor4->CreateComponent<AMeshComponent>();
-		meshComponent4->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		meshComponent4->SetMaterial(_material2);
+		AActor* plane = world->CreateChild<AActor>();
+		plane->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
+		plane->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		plane->GetTransform()->SetScale({ 50.0f, 1.0f, 50.0f });
+		AMeshComponent* planeMeshComponent = plane->CreateComponent<AMeshComponent>();
+		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
+		planeMeshComponent->SetMaterial(_material2);
 
-		/*AActor* meshActor3 = world->CreateChild<AActor>();
-		meshActor3->GetTransform()->SetPosition({ -1.0f, 0.0f, 0.0f });
-		AMeshComponent* meshComponent3 = meshActor3->CreateComponent<AMeshComponent>();
-		meshComponent3->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent3->SetMaterial(_material);
+		AActor* light = world->CreateChild<AActor>();
+		light->GetTransform()->SetPosition({ 10.0f, 10.0f, 10.0f });
+		light->GetTransform()->SetRotation(FQuaternion(45.0f, -45.0f, 45.0f));
+		auto lightMeshComponent = light->CreateComponent<ALightComponent>();
+		lightMeshComponent->SetupShadowMap();
 
-		AActor* meshActor5 = world->CreateChild<AActor>();
-		meshActor5->GetTransform()->SetPosition({ -2.0f, 0.0f, 0.0f });
-		AMeshComponent* meshComponent5 = meshActor5->CreateComponent<AMeshComponent>();
-		meshComponent5->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent5->SetMaterial(_material);*/
 
-		/*
-		AActor* meshActor7 = world->CreateChild<AActor>();
-		meshActor7->GetTransform()->SetPosition({ -3.0f, 0.0f, 0.0f });
-		AMeshComponent* meshComponent7 = meshActor7->CreateComponent<AMeshComponent>();
-		meshComponent7->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		meshComponent7->SetMaterial(_material);*/
-
-		FString fileJsonName = "Serialize_SerializeFile.json";
+		/*FString fileJsonName = "Serialize_SerializeFile.json";
 		UPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));
-		world->SaveJson(*streamJson);
+		world->SaveJson(*streamJson);*/
+
 		//ToJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json",world); // serialize the circle to 'json_string'
 
 		//FromJson("D:/Project/MyProject/Auto3D/Bin/output_utf32le.json");

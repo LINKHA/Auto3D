@@ -85,10 +85,6 @@ public:
 		u_lightPos = bgfx::createUniform("u_lightPos", bgfx::UniformType::Vec4);
 		u_lightMtx = bgfx::createUniform("u_lightMtx", bgfx::UniformType::Mat4);
 
-		// Get renderer capabilities info.
-		const bgfx::Caps* caps = bgfx::getCaps();
-
-
 		m_progShadow = BGFX_INVALID_HANDLE;
 		m_progMesh = BGFX_INVALID_HANDLE;
 
@@ -184,8 +180,8 @@ public:
 		bx::mtxMul(lightMtx, floorMatrix.Data(), mtxShadow.Data());
 		bgfx::setUniform(u_lightMtx, lightMtx);
 		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
-
 		_mesh->submit(&m_state[0], 1, floorMatrix.Data());
+
 		bgfx::setUniform(u_lightMtx, lightMtx);
 		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 		_mesh->submit(&m_state[1], 1, floorMatrix.Data());
