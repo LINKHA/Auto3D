@@ -79,7 +79,7 @@ public:
 		_light->GetTransform()->SetPosition({ 10.0f, 10.0f, 10.0f });
 		_light->GetTransform()->SetRotation(FQuaternion(45.0f, -45.0f, 45.0f));
 		_lightMeshComponent = _light->CreateComponent<ALightComponent>();
-
+		_lightMeshComponent->SetupShadowMap();
 		// Uniforms.
 		s_shadowMap = bgfx::createUniform("s_shadowMap", bgfx::UniformType::Sampler);
 		u_lightPos = bgfx::createUniform("u_lightPos", bgfx::UniformType::Vec4);
@@ -89,38 +89,14 @@ public:
 		const bgfx::Caps* caps = bgfx::getCaps();
 
 
-		// Render targets.
-		m_shadowMapSize = 1024;
-
-		m_shadowMapFB = BGFX_INVALID_HANDLE;
 		m_progShadow = BGFX_INVALID_HANDLE;
 		m_progMesh = BGFX_INVALID_HANDLE;
-
-		bgfx::TextureHandle shadowMapTexture;
-
-		if (bgfx::isValid(m_progShadow))
-			bgfx::destroy(m_progShadow);
-		if (bgfx::isValid(m_progMesh))
-			bgfx::destroy(m_progMesh);
-
-		if (bgfx::isValid(m_shadowMapFB))
-			bgfx::destroy(m_shadowMapFB);
-
 
 		// Depth textures and shadow samplers are supported.
 		m_progShadow = loadProgram("vs_sms_shadow", "fs_sms_shadow");
 		m_progMesh = loadProgram("vs_sms_mesh", "fs_sms_mesh");
 
-		bgfx::TextureHandle fbtextures = bgfx::createTexture2D(
-			m_shadowMapSize
-			, m_shadowMapSize
-			, false
-			, 1
-			, bgfx::TextureFormat::D16
-			, BGFX_TEXTURE_RT | BGFX_SAMPLER_COMPARE_LEQUAL
-		);
-		shadowMapTexture = fbtextures;
-		m_shadowMapFB = bgfx::createFrameBuffer(1, &fbtextures, true);
+		const FShadowMap& shadowMap = _lightMeshComponent->GetShadowMap();
 
 
 		m_state[0] = OMesh::meshStateCreate();
@@ -128,7 +104,6 @@ public:
 		m_state[0]->_program = m_progShadow;
 		m_state[0]->_viewId = RENDER_SHADOW_PASS_ID;
 		m_state[0]->_numTextures = 0;
-		m_state[0]->_program = m_progShadow;
 		m_state[0]->_state = 0
 			| BGFX_STATE_WRITE_RGB
 			| BGFX_STATE_WRITE_Z
@@ -154,7 +129,7 @@ public:
 		m_state[1]->_textures[0]._sampler = s_shadowMap;
 		m_state[1]->_textures[0]._texture = BGFX_INVALID_HANDLE;
 		m_state[1]->_program = m_progMesh;
-		m_state[1]->_textures[0]._texture = shadowMapTexture;
+		m_state[1]->_textures[0]._texture = shadowMap._fbtexture;
 	
 
 		// Set view and projection matrices.
@@ -165,8 +140,6 @@ public:
 
 		const float aspect = float(int32_t(AUTO_DEFAULT_WIDTH)) / float(int32_t(AUTO_DEFAULT_HEIGHT));
 		bx::mtxProj(m_proj, 60.0f, aspect, 0.1f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
-
-		m_timeOffset = bx::getHPCounter();
 	}
 
 	int shutdown() override
@@ -176,16 +149,16 @@ public:
 
 	bool update() override
 	{
+		const FShadowMap& shadowMap = _lightMeshComponent->GetShadowMap();
 		// Setup lights.
 		TVector3F lightPosition =  _light->GetTransform()->GetWorldPosition();
-		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 
-		TMatrix4x4F& lightProj_ = _lightMeshComponent->GetLightProj();
-		TMatrix4x4F& lightView_ = _lightMeshComponent->GetLightView();
+		TMatrix4x4F& lightProj = _lightMeshComponent->GetLightProj();
+		TMatrix4x4F& lightView = _lightMeshComponent->GetLightView();
 
-		bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, m_shadowMapSize, m_shadowMapSize);
-		bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, m_shadowMapFB);
-		bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView_.Data(), lightProj_.Data());
+		bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, shadowMap._size, shadowMap._size);
+		bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, shadowMap._shadowMapFrameBuffer);
+		bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView.Data(), lightProj.Data());
 
 		bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(AUTO_DEFAULT_WIDTH), uint16_t(AUTO_DEFAULT_HEIGHT));
 		bgfx::setViewTransform(RENDER_SCENE_PASS_ID, m_view, m_proj);
@@ -205,22 +178,27 @@ public:
 		float lightMtx[16];
 
 
-		TMatrix4x4F& mtxShadow_ = _lightMeshComponent->GetMtxShadow();
+		TMatrix4x4F& mtxShadow = _lightMeshComponent->GetMtxShadow();
 		// Floor.
 		TMatrix4x4F& floorMatrix = _plane->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-		bx::mtxMul(lightMtx, floorMatrix.Data(), mtxShadow_.Data());
+		bx::mtxMul(lightMtx, floorMatrix.Data(), mtxShadow.Data());
 		bgfx::setUniform(u_lightMtx, lightMtx);
+		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+
 		_mesh->submit(&m_state[0], 1, floorMatrix.Data());
 		bgfx::setUniform(u_lightMtx, lightMtx);
+		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 		_mesh->submit(&m_state[1], 1, floorMatrix.Data());
 
 		// Cube.
 		TMatrix4x4F& modelMatrix = _cube->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-		bx::mtxMul(lightMtx, modelMatrix.Data(), mtxShadow_.Data());
+		bx::mtxMul(lightMtx, modelMatrix.Data(), mtxShadow.Data());
 		bgfx::setUniform(u_lightMtx, lightMtx);
+		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 		_mesh->submit(&m_state[0], 1, modelMatrix.Data());
 
 		bgfx::setUniform(u_lightMtx, lightMtx);
+		bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 		bgfx::setTransform(modelMatrix.Data());
 		const FMeshState& meshState = *m_state[1];
 		bgfx::setState(meshState._state);
@@ -237,41 +215,6 @@ public:
 		bgfx::setIndexBuffer(ge->_indexBufferHandles[0]);
 
 		bgfx::submit(meshState._viewId, meshState._program, 0, 0);
-			
-
-		/*void OMesh::submit(const FMeshState*const* state, uint8_t numPasses, const float* mtx, uint16_t numMatrices) const
-		{
-			uint32_t cached = bgfx::setTransform(mtx, numMatrices);
-
-			for (uint32_t pass = 0; pass < numPasses; ++pass)
-			{
-				bgfx::setTransform(cached, numMatrices);
-
-				const FMeshState& meshState = *state[pass];
-				bgfx::setState(meshState._state);
-
-				for (uint8_t tex = 0; tex < meshState._numTextures; ++tex)
-				{
-					const FMeshState::Texture& texture = meshState._textures[tex];
-					bgfx::setTexture(texture._stage
-						, texture._sampler
-						, texture._texture
-						, texture._flags
-					);
-				}
-
-				for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
-				{
-					const Group& group = *it;
-
-					bgfx::setIndexBuffer(group._ibh);
-					bgfx::setVertexBuffer(0, group._vbh);
-					bgfx::submit(meshState._viewId, meshState._program, 0, it != itEnd - 1);
-				}
-			}
-		}*/
-		bgfx::setUniform(u_lightMtx, lightMtx);
-		_mesh->submit(&m_state[1], 1, modelMatrix.Data());
 
 		// Advance to next frame. Rendering thread will be kicked to
 		// process submitted rendering primitives.
@@ -287,27 +230,17 @@ public:
 	bgfx::UniformHandle u_lightPos;
 	bgfx::UniformHandle u_lightMtx;
 
-	bgfx::UniformHandle u_depthScaleOffset;
-
 	OMesh* m_bunny;
 	OMesh* m_cube;
 	OMesh* m_hollowcube;
 
-	uint16_t m_shadowMapSize;
-
 	bgfx::ProgramHandle m_progShadow;
 	bgfx::ProgramHandle m_progMesh;
-	bgfx::FrameBufferHandle m_shadowMapFB;
-
-	bool m_shadowSamplerSupported;
-	bool m_useShadowSampler;
 
 	FMeshState* m_state[2];
 
 	float m_view[16];
 	float m_proj[16];
-
-	int64_t m_timeOffset;
 
 	AActor* _cube;
 	AActor* _plane;

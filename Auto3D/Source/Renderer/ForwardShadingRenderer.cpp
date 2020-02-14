@@ -71,8 +71,6 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 		, _depth
 		, _stencil
 	);
-
-	SetupShadowMaps(1, 512);
 }
 
 void FForwardShadingRenderer::Render()
@@ -401,8 +399,8 @@ void FForwardShadingRenderer::RenderShadowMaps()
 
 void FForwardShadingRenderer::SetupShadowMaps(size_t num, int size)
 {
-	if (size < 1)
-		size = 1;
+	if (num < 1)
+		num = 1;
 	size = NextPowerOfTwo(size);
 	_shadowMaps.Clear();
 	OMaterial* material = GResourceModule::Get().LoadResource<OMaterial>("Material/Shadow.json");

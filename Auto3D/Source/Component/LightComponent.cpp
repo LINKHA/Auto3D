@@ -1,6 +1,10 @@
 #include "Component/LightComponent.h"
 #include "Gameplay/Actor.h"
 #include "Component/TransformComponent.h"
+
+#include "Resource/Material.h"
+#include "Resource/ResourceCache.h"
+
 #include <bx/math.h>
 #include <bgfx/bgfx.h>
 
@@ -9,6 +13,7 @@ namespace Auto3D
 
 FShadowMap::FShadowMap():
 	_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
+	_fbtexture(BGFX_INVALID_HANDLE),
 	_size(512)
 {}
 
@@ -80,6 +85,14 @@ TMatrix3x4F ALightComponent::EffectiveWorldTransform() const
 {
 	TMatrix3x4F worldTransform(GetOwner()->GetTransform()->GetWorldPosition(), GetOwner()->GetTransform()->GetWorldRotation(), 1.0f);
 	return worldTransform;
+}
+
+void ALightComponent::SetupShadowMap(int size)
+{
+	size = NextPowerOfTwo(size);
+
+	_shadowMap.SetSize(size);
+	_shadowMap.CreateTexture();
 }
 
 }

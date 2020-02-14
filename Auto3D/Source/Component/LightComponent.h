@@ -30,14 +30,17 @@ public:
 
 	TMatrix3x4F EffectiveWorldTransform() const;
 
+	void SetupShadowMap(int size = 512);
+
 	TMatrix4x4F& GetLightView() { return _lightView; }
 	TMatrix4x4F& GetLightProj() { return _lightProj; }
 	TMatrix4x4F& GetMtxShadow() { return _shadowMatrix; }
+	const FShadowMap& GetShadowMap() { return _shadowMap; }
 private:
 	TMatrix4x4F _lightView;
 	TMatrix4x4F _lightProj;
 	TMatrix4x4F _shadowMatrix;
-
+	FShadowMap _shadowMap;
 	float _area = 30.0f;
 };
 
