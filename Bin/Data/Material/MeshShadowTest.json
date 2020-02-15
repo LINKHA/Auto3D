@@ -1,6 +1,7 @@
 {
   "shaders":{
 	"vs": "vs_sms_mesh",
+	"vsi": "vs_sms_mesh_i",
     "ps": "fs_sms_mesh",
 	"uniforms":{
 		"sampler" : "s_shadowMap",
