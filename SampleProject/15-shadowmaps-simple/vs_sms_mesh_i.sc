@@ -1,14 +1,10 @@
 $input a_position, a_normal, i_data0, i_data1, i_data2, i_data3
 $output v_view, v_normal, v_shadowcoord
 
-/*
- * Copyright 2013-2014 Dario Manesku. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
 
 #include "../common.sh"
 
-uniform mat4 u_lightMtx;
+uniform mat4 u_shadowMtx;
 
 void main()
 {
@@ -17,6 +13,8 @@ void main()
 	model[1] = i_data1;
 	model[2] = i_data2;
 	model[3] = i_data3;
+	
+	mat4 lightMtx = mul(u_shadowMtx, model);
 	
 	vec4 worldPos = instMul(model, vec4(a_position, 1.0) );
 	
@@ -28,5 +26,5 @@ void main()
 
 	const float shadowMapOffset = 0.001;
 	vec3 posOffset = a_position + normal.xyz * shadowMapOffset;
-	v_shadowcoord = mul(u_lightMtx, vec4(posOffset, 1.0) );
+	v_shadowcoord = mul(lightMtx, vec4(posOffset, 1.0) );
 }

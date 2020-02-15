@@ -46,7 +46,7 @@ FForwardShadingRenderer::~FForwardShadingRenderer()
 }
 bgfx::UniformHandle s_shadowMap;
 bgfx::UniformHandle u_lightPos;
-bgfx::UniformHandle u_lightMtx;
+bgfx::UniformHandle u_shadowMtx;
 bgfx::ProgramHandle m_progShadow;
 bgfx::ProgramHandle m_progShadow_i;
 bgfx::ProgramHandle m_progMesh;
@@ -83,7 +83,7 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 
 	s_shadowMap = bgfx::createUniform("s_shadowMap", bgfx::UniformType::Sampler);
 	u_lightPos = bgfx::createUniform("u_lightPos", bgfx::UniformType::Vec4);
-	u_lightMtx = bgfx::createUniform("u_lightMtx", bgfx::UniformType::Mat4);
+	u_shadowMtx = bgfx::createUniform("u_shadowMtx", bgfx::UniformType::Mat4);
 	m_progShadow = loadProgram("vs_sms_shadow", "fs_sms_shadow");
 	m_progShadow_i = loadProgram("vs_sms_shadow_i", "fs_sms_shadow");
 	m_progMesh = loadProgram("vs_sms_mesh", "fs_sms_mesh");
@@ -248,7 +248,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 				// Ordinary pipeline
 				{
-					bgfx::setUniform(u_lightMtx, lightMtx.Data());
+					bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
 					bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 					bgfx::setTexture(sceneState._textures[0]._stage
 						, sceneState._textures[0]._sampler
@@ -265,7 +265,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 				// occlusion query pipeline
 				{
-					bgfx::setUniform(u_lightMtx, lightMtx.Data());
+					bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
 					bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 					bgfx::setTexture(sceneState._textures[0]._stage
 						, sceneState._textures[0]._sampler
@@ -322,7 +322,7 @@ void FForwardShadingRenderer::RenderBatches()
 				// Ordinary pipeline
 				{
 					bgfx::setTransform(modelMatrix.Data());
-					bgfx::setUniform(u_lightMtx, lightMtx.Data());
+					bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
 					bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 
 					bgfx::setTexture(sceneState._textures[0]._stage
@@ -341,7 +341,7 @@ void FForwardShadingRenderer::RenderBatches()
 				// occlusion query pipeline
 				{
 					bgfx::setTransform(modelMatrix.Data());
-					bgfx::setUniform(u_lightMtx, lightMtx.Data());
+					bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
 					bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
 
 					bgfx::setTexture(sceneState._textures[0]._stage
