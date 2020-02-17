@@ -1,13 +1,15 @@
-$input a_position
+$input v_normal, v_view, v_shadowcoord
 
 /*
  * Copyright 2013-2014 Dario Manesku. All rights reserved.
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "../common.sh"
+#define SM_PCF 1
+
+#include "fs_shadowmaps_color_lighting.sh"
 
 void main()
 {
-	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0) );
+#include "fs_shadowmaps_color_lighting_main.sh"
 }

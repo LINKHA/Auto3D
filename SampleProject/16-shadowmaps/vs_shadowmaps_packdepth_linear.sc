@@ -1,4 +1,5 @@
-$input v_view, v_normal, v_shadowcoord
+$input a_position
+$output v_depth
 
 /*
  * Copyright 2013-2014 Dario Manesku. All rights reserved.
@@ -7,5 +8,8 @@ $input v_view, v_normal, v_shadowcoord
 
 #include "../common/common.sh"
 
-#define SHADOW_PACKED_DEPTH 1
-#include "fs_sms_shadow.sh"
+void main()
+{
+	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0) );
+	v_depth = gl_Position.z * 0.5 + 0.5;
+}
