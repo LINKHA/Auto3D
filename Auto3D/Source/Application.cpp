@@ -14,7 +14,7 @@
 
 #include "Platform/ProcessWindow.h"
 #include "Adapter/FileWriterReader.h"
-
+#include "Platform/ProcessUtils.h"
 
 namespace Auto3D
 {
@@ -117,31 +117,6 @@ int cmdApp(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const*
 	return bx::kExitFailure;
 }
 
-IAppInstance* IAppInstance::getNextWrap(IAppInstance* app)
-{
-	IAppInstance* next = app->getNext();
-	if (NULL != next)
-	{
-		return next;
-	}
-
-	return getFirstApp();
-}
-
-IAppInstance* IAppInstance::getCurrentApp(IAppInstance* set)
-{
-	if (NULL != set)
-	{
-		_currentApp = set;
-	}
-	else if (NULL == _currentApp)
-	{
-		_currentApp = getFirstApp();
-	}
-
-	return _currentApp;
-}
-
 static int32_t sortApp(const void* _lhs, const void* _rhs)
 {
 	const IAppInstance* lhs = *(const IAppInstance**)_lhs;
@@ -185,6 +160,31 @@ IAppInstance::~IAppInstance()
 	}
 }
 
+IAppInstance* IAppInstance::getNextWrap(IAppInstance* app)
+{
+	IAppInstance* next = app->getNext();
+	if (NULL != next)
+	{
+		return next;
+	}
+
+	return getFirstApp();
+}
+
+IAppInstance* IAppInstance::getCurrentApp(IAppInstance* set)
+{
+	if (NULL != set)
+	{
+		_currentApp = set;
+	}
+	else if (NULL == _currentApp)
+	{
+		_currentApp = getFirstApp();
+	}
+
+	return _currentApp;
+}
+
 void IAppInstance::sortApps()
 {
 	if (2 > IAppInstance::_numApps)
@@ -217,7 +217,7 @@ IMPLEMENT_SINGLETON(GApplication)
 GApplication::GApplication() :
 	_exitCode(EXIT_SUCCESS)
 {
-	_engine = std::make_unique<FEngine>();
+	_engine = MakeUnique<FEngine>();
 }
 
 GApplication::~GApplication()
@@ -253,7 +253,7 @@ int GApplication::Run()
 	}
 	catch (std::bad_alloc&)
 	{
-		//ErrorDialog("Error", "An application that has an out-of-memory condition will exit immediately.");
+		ErrorDialog("Error", "An application that has an out-of-memory condition will exit immediately.");
 		return EXIT_FAILURE;
 	}
 	return EXIT_SUCCESS;
@@ -268,11 +268,11 @@ void GApplication::ErrorExit(const FString& message)
 
 	if (!message.Length())
 	{
-		//ErrorDialog("Error", _startupErrors.Length() ? _startupErrors :
-			//Application has been terminated due to unexpected error.");
+		ErrorDialog("Error", _startupErrors.Length() ? _startupErrors :
+		"Application has been terminated due to unexpected error.");
 	}
-	else {}
-		//ErrorDialog("Error", message);
+	else 
+		ErrorDialog("Error", message);
 }
 
 int GApplication::RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
