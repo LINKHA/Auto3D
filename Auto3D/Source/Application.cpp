@@ -13,19 +13,15 @@
 #include "Platform/Input.h"
 
 #include "Platform/ProcessWindow.h"
+#include "Adapter/FileWriterReader.h"
 
-//#include "Core/ProcessUtils.h"
-//#include "Core/ClassRegister.h"
 
 namespace Auto3D
 {
 
-extern bx::AllocatorI* getDefaultAllocator();
-bx::AllocatorI* g_allocator = getDefaultAllocator();
+//typedef bx::StringT<&g_allocator> String;
 
-typedef bx::StringT<&g_allocator> String;
-
-FString FApplication::_currentDir;
+FString GApplication::_currentDir;
 
 IAppInstance* IAppInstance::_currentApp = NULL;
 IAppInstance* IAppInstance::_apps = NULL;
@@ -57,19 +53,6 @@ static const InputBinding s_bindings[] =
 
 	INPUT_BINDING_END
 };
-
-static bx::FileReaderI* s_fileReader = NULL;
-static bx::FileWriterI* s_fileWriter = NULL;
-
-bx::AllocatorI* getAllocator()
-{
-	if (NULL == g_allocator)
-	{
-		g_allocator = getDefaultAllocator();
-	}
-
-	return g_allocator;
-}
 
 int cmdMouseLock(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
 {
@@ -134,33 +117,6 @@ int cmdApp(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const*
 	return bx::kExitFailure;
 }
 
-class FileReader : public bx::FileReader
-{
-	typedef bx::FileReader super;
-
-public:
-	virtual bool open(const bx::FilePath& _filePath, bx::Error* _err) override
-	{
-		String filePath(FApplication::_currentDir.CString());
-		filePath.append(_filePath);
-		return super::open(filePath.getPtr(), _err);
-	}
-};
-
-class FileWriter : public bx::FileWriter
-{
-	typedef bx::FileWriter super;
-
-public:
-	virtual bool open(const bx::FilePath& _filePath, bool _append, bx::Error* _err) override
-	{
-		String filePath(FApplication::_currentDir.CString());
-		filePath.append(_filePath);
-		return super::open(filePath.getPtr(), _append, _err);
-	}
-};
-
-
 IAppInstance* IAppInstance::getNextWrap(IAppInstance* app)
 {
 	IAppInstance* next = app->getNext();
@@ -192,16 +148,6 @@ static int32_t sortApp(const void* _lhs, const void* _rhs)
 	const IAppInstance* rhs = *(const IAppInstance**)_rhs;
 
 	return bx::strCmpI(lhs->getName(), rhs->getName());
-}
-
-bx::FileReaderI* getFileReader()
-{
-	return s_fileReader;
-}
-
-bx::FileWriterI* getFileWriter()
-{
-	return s_fileWriter;
 }
 
 IAppInstance::IAppInstance(const char* name, const char* description, const char* url)
@@ -246,7 +192,7 @@ void IAppInstance::sortApps()
 		return;
 	}
 
-	IAppInstance** apps = (IAppInstance**)BX_ALLOC(g_allocator, IAppInstance::_numApps * sizeof(IAppInstance*));
+	IAppInstance** apps = (IAppInstance**)BX_ALLOC(FDefaultFileWriterReader::FDefaultFileWriterReader::GetAllocator(), IAppInstance::_numApps * sizeof(IAppInstance*));
 
 	uint32_t ii = 0;
 	for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext())
@@ -263,22 +209,22 @@ void IAppInstance::sortApps()
 	}
 	apps[IAppInstance::_numApps - 1]->_next = NULL;
 
-	BX_FREE(g_allocator, apps);
+	BX_FREE(FDefaultFileWriterReader::GetAllocator(), apps);
 }
 
-IMPLEMENT_SINGLETON(FApplication)
+IMPLEMENT_SINGLETON(GApplication)
 
-FApplication::FApplication() :
+GApplication::GApplication() :
 	_exitCode(EXIT_SUCCESS)
 {
 	_engine = std::make_unique<FEngine>();
 }
 
-FApplication::~FApplication()
+GApplication::~GApplication()
 {
 }
 
-int FApplication::Run()
+int GApplication::Run()
 {
 	FClassRegister();
 #if !defined(__GNUC__) || __EXCEPTIONS
@@ -292,7 +238,7 @@ int FApplication::Run()
 
 		{
 			// Main threa the main operations are implemented here.
-			std::thread mainThread(&FApplication::RunMainThread, this);
+			std::thread mainThread(&GApplication::RunMainThread, this);
 			mainThread.detach();
 
 			if (!platfromContext.Run())
@@ -314,29 +260,29 @@ int FApplication::Run()
 #endif
 }
 
-void FApplication::ErrorExit(const FString& message)
+void GApplication::ErrorExit(const FString& message)
 {
 	// Close the rendering window
-	//_engine->Exit();
+	_engine->Exit();
 	_exitCode = EXIT_FAILURE;
 
 	if (!message.Length())
 	{
 		//ErrorDialog("Error", _startupErrors.Length() ? _startupErrors :
-			//"Application has been terminated due to unexpected error.");
+			//Application has been terminated due to unexpected error.");
 	}
 	else {}
 		//ErrorDialog("Error", message);
 }
 
-int FApplication::RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
+int GApplication::RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
 {
 	// Make sure the engine is created properly
 	if (!_engine.get())
 		_engine = std::make_unique<FEngine>();
 
 	_engine->Init();
-	app->init(AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
+	app->init();
 
 
 	bgfx::frame();
@@ -373,13 +319,10 @@ int FApplication::RunAppInstance(IAppInstance* app, int argc, const char* const*
 	return 1;
 }
 
-int FApplication::RunMainThread()
+int GApplication::RunMainThread()
 {
 	FArgs& args = FArgs::Get();
-	//DBG(BX_COMPILER_NAME " / " BX_CPU_NAME " / " BX_ARCH_NAME " / " BX_PLATFORM_NAME);
-
-	s_fileReader = BX_NEW(g_allocator, FileReader);
-	s_fileWriter = BX_NEW(g_allocator, FileWriter);
+	FDefaultFileWriterReader::Reset();
 
 	CmdInit();
 	CmdAdd("mouselock", cmdMouseLock);
@@ -449,11 +392,7 @@ restart:
 
 	CmdShutdown();
 
-	BX_DELETE(g_allocator, s_fileReader);
-	s_fileReader = NULL;
-
-	BX_DELETE(g_allocator, s_fileWriter);
-	s_fileWriter = NULL;
+	FDefaultFileWriterReader::Release();
 
 
 	SDL_Event event;
@@ -471,5 +410,5 @@ int main(int argc, char** argv)
 	using namespace Auto3D;
 	FArgs::Get().Init(argc, argv);
 
-	return FApplication::Get().Run();
+	return GApplication::Get().Run();
 }

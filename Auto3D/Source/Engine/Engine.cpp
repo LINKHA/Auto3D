@@ -48,7 +48,7 @@ void FEngine::Exit()
 void FEngine::Render()
 {
 	imguiEndFrame();
-	//renderer->Render();
+	renderer->Render();
 }
 
 bool FEngine::Update()

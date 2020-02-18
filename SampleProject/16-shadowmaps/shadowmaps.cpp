@@ -1,8 +1,3 @@
-/*
- * Copyright 2013-2014 Dario Manesku. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -1311,13 +1306,13 @@ public:
 	{
 	}
 
-	void init(uint32_t _width, uint32_t _height) override
+	void init() override
 	{
 		m_debug = BGFX_DEBUG_NONE;
 		m_reset = BGFX_RESET_VSYNC;
 
-		m_width  = _width;
-		m_height = _height;
+		m_width  = 1280;
+		m_height = 720;
 		m_viewState = ViewState(uint16_t(m_width), uint16_t(m_height));
 		m_clearValues = ClearValues(0x00000000, 1.0f, 0);
 
@@ -1333,6 +1328,7 @@ public:
 		_camera = actor->CreateComponent<ACameraComponent>();
 		actor->CreateComponent<ADefaultControllerComponent>();
 		actor->GetTransform()->SetPosition({ 0.0f, 60.0f, -105.0f });
+		actor->GetTransform()->SetRotation({ -45.0f, 0.0f, 0.0f });
 
 		// Setup root path for binary shaders. Shader binaries are different
 		// for each renderer.

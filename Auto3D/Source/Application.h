@@ -4,13 +4,14 @@
 #include "Platform/PlatformDef.h"
 #include "Engine/Engine.h"
 #include "Container/Singleton.h"
+#include "Adapter/Ptr.h"
 
 #include <thread>
-#include <memory>
+
 
 extern "C" int Auto3D_main(int argc, char** argv);
 
-#define AUTO3D_IMPLEMENT_MAIN(_App, ...)\
+#define AUTO_IMPLEMENT_MAIN(_App, ...)\
 int Auto3D_main(int argc, char** argv)\
 {\
 	_App app(__VA_ARGS__);\
@@ -30,7 +31,7 @@ public:
 	virtual ~IAppInstance();
 
 	///
-	virtual void init(uint32_t _width, uint32_t _height) = 0;
+	virtual void init() = 0;
 
 	///
 	virtual int  shutdown() = 0;
@@ -78,13 +79,13 @@ private:
 
 
 /// The superclass implementation of the project space, where the engine is implemented
-class AUTO_API FApplication
+class AUTO_API GApplication
 {
-	REGISTER_SINGLETON(FApplication)
+	REGISTER_SINGLETON(GApplication)
 
 public:
-	FApplication();
-	~FApplication();
+	GApplication();
+	~GApplication();
 
 	/// This is AEngine important funcation init awake runloop and finish run
 	int Run();
@@ -101,7 +102,7 @@ private:
 
 
 	/// Auto3D AEngine
-	std::unique_ptr<FEngine> _engine;
+	UPtr<FEngine> _engine;
 	/// Collected startup error log messages.
 	FString _startupErrors;
 	/// AApplication exit code.

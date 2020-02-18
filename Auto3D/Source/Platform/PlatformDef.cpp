@@ -136,20 +136,9 @@ namespace Auto3D
 
 	void FPlatform::SetCurrentDir(const char* _dir)
 	{
-		FApplication::_currentDir = _dir;
+		GApplication::_currentDir = _dir;
 	}
 
-#if ENTRY_CONFIG_IMPLEMENT_DEFAULT_ALLOCATOR
-	bx::AllocatorI* getDefaultAllocator()
-	{
-BX_PRAGMA_DIAGNOSTIC_PUSH();
-BX_PRAGMA_DIAGNOSTIC_IGNORED_MSVC(4459); // warning C4459: declaration of 's_allocator' hides global declaration
-BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG_GCC("-Wshadow");
-		static bx::DefaultAllocator s_allocator;
-		return &s_allocator;
-BX_PRAGMA_DIAGNOSTIC_POP();
-	}
-#endif // ENTRY_CONFIG_IMPLEMENT_DEFAULT_ALLOCATOR
 
 	static const char* s_keyName[] =
 	{
@@ -312,14 +301,14 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 
 	void* TinyStlAllocator::static_allocate(size_t _bytes)
 	{
-		return BX_ALLOC(getAllocator(), _bytes);
+		return BX_ALLOC(FDefaultFileWriterReader::GetAllocator(), _bytes);
 	}
 
 	void TinyStlAllocator::static_deallocate(void* _ptr, size_t /*_bytes*/)
 	{
 		if (NULL != _ptr)
 		{
-			BX_FREE(getAllocator(), _ptr);
+			BX_FREE(FDefaultFileWriterReader::GetAllocator(), _ptr);
 		}
 	}
 }

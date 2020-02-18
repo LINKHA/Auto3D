@@ -4,31 +4,7 @@
 
 #include <bx/spscqueue.h>
 #include <bx/filepath.h>
-
-#ifndef ENTRY_CONFIG_USE_NOOP
-#	define ENTRY_CONFIG_USE_NOOP 0
-#endif // ENTRY_CONFIG_USE_NOOP
-
-#ifndef ENTRY_CONFIG_USE_SDL
-#	define ENTRY_CONFIG_USE_SDL 1
-#endif // ENTRY_CONFIG_USE_SDL
-
-#ifndef ENTRY_CONFIG_USE_GLFW
-#	define ENTRY_CONFIG_USE_GLFW 0
-#endif // ENTRY_CONFIG_USE_GLFW
-
-#ifndef ENTRY_CONFIG_USE_WAYLAND
-#	define ENTRY_CONFIG_USE_WAYLAND 0
-#endif // ENTRY_CONFIG_USE_WAYLAND
-
-#if !defined(ENTRY_CONFIG_USE_NATIVE) \
-	&& !ENTRY_CONFIG_USE_NOOP \
-	&& !ENTRY_CONFIG_USE_SDL \
-	&& !ENTRY_CONFIG_USE_GLFW
-#	define ENTRY_CONFIG_USE_NATIVE 1
-#else
-#	define ENTRY_CONFIG_USE_NATIVE 0
-#endif // ...
+#include "Adapter/FileWriterReader.h"
 
 #ifndef ENTRY_CONFIG_MAX_WINDOWS
 #	define ENTRY_CONFIG_MAX_WINDOWS 8
@@ -44,10 +20,6 @@
 #elif !defined(AUTO_DEFAULT_WIDTH) || !defined(AUTO_DEFAULT_HEIGHT)
 #	error "Both ENTRY_DEFAULT_WIDTH and ENTRY_DEFAULT_HEIGHT must be defined."
 #endif // AUTO_DEFAULT_WIDTH
-
-#ifndef ENTRY_CONFIG_IMPLEMENT_DEFAULT_ALLOCATOR
-#	define ENTRY_CONFIG_IMPLEMENT_DEFAULT_ALLOCATOR 1
-#endif // ENTRY_CONFIG_IMPLEMENT_DEFAULT_ALLOCATOR
 
 #ifndef ENTRY_CONFIG_PROFILER
 #	define ENTRY_CONFIG_PROFILER 0
@@ -280,10 +252,6 @@ struct GamepadState
 	int32_t _axis[Auto3D::GamepadAxis::Count];
 };
 
-bx::FileReaderI* getFileReader();
-bx::FileWriterI* getFileWriter();
-bx::AllocatorI*  getAllocator();
-
 struct FPlatform
 {
 	static WindowHandle CreateWindowHandle(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags = ENTRY_WINDOW_FLAG_NONE, const char* _title = "");
@@ -439,7 +407,7 @@ class EventQueue
 {
 public:
 	EventQueue()
-		: _queue(getAllocator() )
+		: _queue(FDefaultFileWriterReader::GetAllocator() )
 	{
 	}
 
@@ -453,7 +421,7 @@ public:
 
 	void PostAxisEvent(WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
 	{
-		AxisEvent* ev = BX_NEW(getAllocator(), AxisEvent)(_handle);
+		AxisEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), AxisEvent)(_handle);
 		ev->_gamepad = _gamepad;
 		ev->_axis    = _axis;
 		ev->_value   = _value;
@@ -462,7 +430,7 @@ public:
 
 	void PostCharEvent(WindowHandle _handle, uint8_t _len, const uint8_t _char[4])
 	{
-		CharEvent* ev = BX_NEW(getAllocator(), CharEvent)(_handle);
+		CharEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), CharEvent)(_handle);
 		ev->_len = _len;
 		bx::memCopy(ev->_char, _char, 4);
 		_queue.push(ev);
@@ -470,13 +438,13 @@ public:
 
 	void PostExitEvent()
 	{
-		Event* ev = BX_NEW(getAllocator(), Event)(Event::Exit);
+		Event* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), Event)(Event::Exit);
 		_queue.push(ev);
 	}
 
 	void PostGamepadEvent(WindowHandle _handle, GamepadHandle _gamepad, bool _connected)
 	{
-		GamepadEvent* ev = BX_NEW(getAllocator(), GamepadEvent)(_handle);
+		GamepadEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), GamepadEvent)(_handle);
 		ev->_gamepad   = _gamepad;
 		ev->_connected = _connected;
 		_queue.push(ev);
@@ -484,7 +452,7 @@ public:
 
 	void PostKeyEvent(WindowHandle handle, Key::Enum key, uint8_t modifiers, bool down)
 	{
-		KeyEvent* ev = BX_NEW(getAllocator(), KeyEvent)(handle);
+		KeyEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), KeyEvent)(handle);
 		ev->_key       = key;
 		ev->_modifiers = modifiers;
 		ev->_down      = down;
@@ -493,7 +461,7 @@ public:
 
 	void PostMouseEvent(WindowHandle handle, int32_t mx, int32_t my, int32_t mz)
 	{
-		MouseEvent* ev = BX_NEW(getAllocator(), MouseEvent)(handle);
+		MouseEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), MouseEvent)(handle);
 		ev->_mx     = mx;
 		ev->_my     = my;
 		ev->_mz     = mz;
@@ -505,7 +473,7 @@ public:
 
 	void PostMouseEvent(WindowHandle _handle, int32_t _mx, int32_t _my, int32_t _mz, MouseButton::Enum _button, bool _down)
 	{
-		MouseEvent* ev = BX_NEW(getAllocator(), MouseEvent)(_handle);
+		MouseEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), MouseEvent)(_handle);
 		ev->_mx     = _mx;
 		ev->_my     = _my;
 		ev->_mz     = _mz;
@@ -517,7 +485,7 @@ public:
 
 	void PostSizeEvent(WindowHandle _handle, uint32_t _width, uint32_t _height)
 	{
-		SizeEvent* ev = BX_NEW(getAllocator(), SizeEvent)(_handle);
+		SizeEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), SizeEvent)(_handle);
 		ev->_width  = _width;
 		ev->_height = _height;
 		_queue.push(ev);
@@ -525,21 +493,21 @@ public:
 
 	void PostWindowEvent(WindowHandle handle, void* nwh = NULL)
 	{
-		WindowEvent* ev = BX_NEW(getAllocator(), WindowEvent)(handle);
+		WindowEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), WindowEvent)(handle);
 		ev->_nwh = nwh;
 		_queue.push(ev);
 	}
 
 	void PostSuspendEvent(WindowHandle handle, Suspend::Enum state)
 	{
-		SuspendEvent* ev = BX_NEW(getAllocator(), SuspendEvent)(handle);
+		SuspendEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), SuspendEvent)(handle);
 		ev->_state = state;
 		_queue.push(ev);
 	}
 
 	void PostDropFileEvent(WindowHandle handle, const bx::FilePath& filePath)
 	{
-		DropFileEvent* ev = BX_NEW(getAllocator(), DropFileEvent)(handle);
+		DropFileEvent* ev = BX_NEW(FDefaultFileWriterReader::GetAllocator(), DropFileEvent)(handle);
 		ev->_filePath = filePath;
 		_queue.push(ev);
 	}
@@ -566,7 +534,7 @@ public:
 
 	void Release(const Event* _event) const
 	{
-		BX_DELETE(getAllocator(), const_cast<Event*>(_event) );
+		BX_DELETE(FDefaultFileWriterReader::GetAllocator(), const_cast<Event*>(_event) );
 	}
 
 private:

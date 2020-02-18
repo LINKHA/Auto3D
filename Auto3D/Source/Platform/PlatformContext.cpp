@@ -203,13 +203,13 @@ int PlatfromContext::Run()
 	bx::FileReaderI* reader = NULL;
 	while (NULL == reader)
 	{
-		reader = getFileReader();
+		reader = FDefaultFileWriterReader::GetFileReader();
 		bx::sleep(100);
 	}
 
 	if (bx::open(reader, "gamecontrollerdb.txt"))
 	{
-		bx::AllocatorI* allocator = getAllocator();
+		bx::AllocatorI* allocator = FDefaultFileWriterReader::GetAllocator();
 		uint32_t size = (uint32_t)bx::getSize(reader);
 		void* data = BX_ALLOC(allocator, size + 1);
 		bx::read(reader, data, size);

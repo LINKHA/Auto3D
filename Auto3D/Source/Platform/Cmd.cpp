@@ -90,12 +90,12 @@ static CmdContext* cmdContext;
 
 void CmdInit()
 {
-	cmdContext = BX_NEW(Auto3D::getAllocator(), CmdContext);
+	cmdContext = BX_NEW(FDefaultFileWriterReader::GetAllocator(), CmdContext);
 }
 
 void CmdShutdown()
 {
-	BX_DELETE(Auto3D::getAllocator(), cmdContext);
+	BX_DELETE(FDefaultFileWriterReader::GetAllocator(), cmdContext);
 }
 
 void CmdAdd(const char* name, ConsoleFn fn, void* userData)

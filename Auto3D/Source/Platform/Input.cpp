@@ -294,12 +294,12 @@ static Input* s_input;
 
 void InputInit()
 {
-	s_input = BX_NEW(Auto3D::getAllocator(), Input);
+	s_input = BX_NEW(FDefaultFileWriterReader::GetAllocator(), Input);
 }
 
 void InputShutdown()
 {
-	BX_DELETE(Auto3D::getAllocator(), s_input);
+	BX_DELETE(FDefaultFileWriterReader::GetAllocator(), s_input);
 }
 
 void InputAddBindings(const char* _pathName, const InputBinding* _bindings)

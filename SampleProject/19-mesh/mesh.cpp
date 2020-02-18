@@ -37,7 +37,7 @@ public:
 	{
 	}
 
-	void init(uint32_t _width, uint32_t _height) override
+	void init() override
 	{
 		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
 		m_mesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
@@ -70,7 +70,7 @@ public:
 		plane->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		plane->GetTransform()->SetScale({ 50.0f, 1.0f, 50.0f });
 		AMeshComponent* planeMeshComponent = plane->CreateComponent<AMeshComponent>();
-		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		planeMeshComponent->SetMaterial(_material2);
 
 		AActor* light = world->CreateChild<AActor>();
@@ -123,7 +123,7 @@ int Auto3D_main(int _argc, char** _argv)
 		, "Loading meshes."
 		, "https://bkaradzic.github.io/bgfx/examples.html#mesh"
 	);
-	return FApplication::Get().RunAppInstance(&app, _argc, _argv);
+	return GApplication::Get().RunAppInstance(&app, _argc, _argv);
 }
 
 //ENTRY_IMPLEMENT_MAIN(

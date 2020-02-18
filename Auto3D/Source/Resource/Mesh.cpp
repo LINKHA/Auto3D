@@ -19,7 +19,7 @@ namespace Auto3D
 
 bool OMesh::BeginLoad(const FString& pathName)
 {
-	bx::FileReaderI* reader = Auto3D::getFileReader();
+	bx::FileReaderI* reader = Auto3D::FDefaultFileWriterReader::GetFileReader();
 	if (bx::open(reader, pathName.CString()))
 	{
 		PrivateLoad(reader);
@@ -47,7 +47,7 @@ void OMesh::PrivateLoad(bx::ReaderSeekerI* reader, bool ramcopy)
 
 	Group group;
 
-	bx::AllocatorI* allocator = Auto3D::getAllocator();
+	bx::AllocatorI* allocator = Auto3D::FDefaultFileWriterReader::GetAllocator();
 
 	uint32_t chunk;
 	bx::Error err;
@@ -200,7 +200,7 @@ void OMesh::PrivateLoad(bx::ReaderSeekerI* reader, bool ramcopy)
 
 void OMesh::Load(const char* filePath, bool ramcopy)
 {
-	bx::FileReaderI* reader = Auto3D::getFileReader();
+	bx::FileReaderI* reader = Auto3D::FDefaultFileWriterReader::GetFileReader();
 	if (bx::open(reader, filePath))
 	{
 		PrivateLoad(reader, ramcopy);
@@ -209,7 +209,7 @@ void OMesh::Load(const char* filePath, bool ramcopy)
 }
 void OMesh::unload()
 {
-	bx::AllocatorI* allocator = Auto3D::getAllocator();
+	bx::AllocatorI* allocator = Auto3D::FDefaultFileWriterReader::GetAllocator();
 
 	for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
 	{
