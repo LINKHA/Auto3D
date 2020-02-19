@@ -7,6 +7,7 @@
 #include "Gameplay/WorldContext.h"
 #include "Gameplay/World.h"
 #include "Platform/ProcessWindow.h"
+#include "Application.h"
 
 namespace Auto3D
 {
@@ -48,7 +49,8 @@ void FEngine::Exit()
 void FEngine::Render()
 {
 	imguiEndFrame();
-	renderer->Render();
+	if(!IAppInstance::_useCustomRender)
+		renderer->Render();
 }
 
 bool FEngine::Update()

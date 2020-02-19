@@ -68,6 +68,8 @@ public:
 	static uint32_t _numApps;
 
 	static char _restartArgs[1024];
+
+	static bool _useCustomRender;
 private:
 	const char* _pathName;
 	const char* _description;

@@ -27,8 +27,9 @@ IAppInstance* IAppInstance::_currentApp = NULL;
 IAppInstance* IAppInstance::_apps = NULL;
 uint32_t IAppInstance::_numApps = 0;
 char IAppInstance::_restartArgs[1024] = { '\0' };
+bool IAppInstance::_useCustomRender = false;
 
-static const InputBinding s_bindings[] =
+static const InputBinding defaultBindings[] =
 {
 	{ Auto3D::Key::KeyQ,         Auto3D::Modifier::LeftCtrl,  1, NULL, "exit"                              },
 	{ Auto3D::Key::KeyQ,         Auto3D::Modifier::RightCtrl, 1, NULL, "exit"                              },
@@ -279,7 +280,7 @@ int GApplication::RunAppInstance(IAppInstance* app, int argc, const char* const*
 {
 	// Make sure the engine is created properly
 	if (!_engine.get())
-		_engine = std::make_unique<FEngine>();
+		_engine = MakeUnique<FEngine>();
 
 	_engine->Init();
 	app->init();
@@ -331,7 +332,7 @@ int GApplication::RunMainThread()
 	CmdAdd("app", cmdApp);
 
 	InputInit();
-	InputAddBindings("bindings", s_bindings);
+	InputAddBindings("bindings", defaultBindings);
 
 	bx::FilePath fp(args._argv[0]);
 	char title[bx::kMaxFilePath];

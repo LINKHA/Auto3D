@@ -852,7 +852,7 @@ struct Mesh
 #define BGFX_CHUNK_MAGIC_IB  BX_MAKEFOURCC('I', 'B', ' ', 0x0)
 #define BGFX_CHUNK_MAGIC_PRI BX_MAKEFOURCC('P', 'R', 'I', 0x0)
 
-		bx::FileReaderI* reader = Auto3D::getFileReader();
+		bx::FileReaderI* reader = FDefaultFileWriterReader::GetFileReader();
 		bx::open(reader, _filePath);
 
 		Group group;
@@ -1298,12 +1298,14 @@ struct SceneSettings
 	bool m_stabilize;
 };
 
+
 class ExampleShadowmaps : public Auto3D::IAppInstance
 {
 public:
 	ExampleShadowmaps(const char* _name, const char* _description, const char* _url)
 		: Auto3D::IAppInstance(_name, _description, _url)
 	{
+		IAppInstance::_useCustomRender = true;
 	}
 
 	void init() override
@@ -1330,6 +1332,16 @@ public:
 		actor->GetTransform()->SetPosition({ 0.0f, 60.0f, -105.0f });
 		actor->GetTransform()->SetRotation({ -45.0f, 0.0f, 0.0f });
 
+		_meshActor = world->CreateChild<AActor>();
+		_meshComponent = _meshActor->CreateComponent<AMeshComponent>();
+		_meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		_meshActor->GetTransform()->SetPosition({ -15.0f, 5.0f, 0.0f });
+		_meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+
+		_planeActor = world->CreateChild<AActor>();
+		_planeComponent = _planeActor->CreateComponent<AMeshComponent>();
+		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		_planeActor->GetTransform()->SetScale({ 550.0f, 550.0f, 550.0f });
 		// Setup root path for binary shaders. Shader binaries are different
 		// for each renderer.
 		switch (bgfx::getRendererType() )
@@ -2240,73 +2252,53 @@ public:
 			// Setup instance matrices.
 			float mtxFloor[16];
 			const float floorScale = 550.0f;
-			bx::mtxSRT(mtxFloor
-					   , floorScale //scaleX
-					   , floorScale //scaleY
-					   , floorScale //scaleZ
-					   , 0.0f //rotX
-					   , 0.0f //rotY
-					   , 0.0f //rotZ
-					   , 0.0f //translateX
-					   , 0.0f //translateY
-					   , 0.0f //translateZ
-					   );
-
-			float mtxBunny[16];
-			bx::mtxSRT(mtxBunny
-					   , 5.0f
-					   , 5.0f
-					   , 5.0f
-					   , 0.0f
-					   , 1.56f - m_timeAccumulatorScene
-					   , 0.0f
-					   , 15.0f
-					   , 5.0f
-					   , 0.0f
-					   );
-
-			float mtxHollowcube[16];
-			bx::mtxSRT(mtxHollowcube
-					   , 2.5f
-					   , 2.5f
-					   , 2.5f
-					   , 0.0f
-					   , 1.56f - m_timeAccumulatorScene
-					   , 0.0f
-					   , 0.0f
-					   , 10.0f
-					   , 0.0f
-					   );
+			TMatrix4x4F& planeMatrix = _planeActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+			mtxFloor[0] = planeMatrix._m00;
+			mtxFloor[1] = planeMatrix._m01;
+			mtxFloor[2] = planeMatrix._m02;
+			mtxFloor[3] = planeMatrix._m03;
+			mtxFloor[4] = planeMatrix._m10;
+			mtxFloor[5] = planeMatrix._m11;
+			mtxFloor[6] = planeMatrix._m12;
+			mtxFloor[7] = planeMatrix._m13;
+			mtxFloor[8] = planeMatrix._m20;
+			mtxFloor[9] = planeMatrix._m21;
+			mtxFloor[10] = planeMatrix._m22;
+			mtxFloor[11] = planeMatrix._m23;
+			mtxFloor[12] = planeMatrix._m30;
+			mtxFloor[13] = planeMatrix._m31;
+			mtxFloor[14] = planeMatrix._m32;
+			mtxFloor[15] = planeMatrix._m33;
+			//bx::mtxSRT(mtxFloor
+			//		   , floorScale //scaleX
+			//		   , floorScale //scaleY
+			//		   , floorScale //scaleZ
+			//		   , 0.0f //rotX
+			//		   , 0.0f //rotY
+			//		   , 0.0f //rotZ
+			//		   , 0.0f //translateX
+			//		   , 0.0f //translateY
+			//		   , 0.0f //translateZ
+			//		   );
 
 			float mtxCube[16];
-			bx::mtxSRT(mtxCube
-					   , 2.5f
-					   , 2.5f
-					   , 2.5f
-					   , 0.0f
-					   , 1.56f - m_timeAccumulatorScene
-					   , 0.0f
-					   , -15.0f
-					   , 5.0f
-					   , 0.0f
-					   );
-
-			const uint8_t numTrees = 10;
-			float mtxTrees[numTrees][16];
-			for (uint8_t ii = 0; ii < numTrees; ++ii)
-			{
-				bx::mtxSRT(mtxTrees[ii]
-						   , 2.0f
-						   , 2.0f
-						   , 2.0f
-						   , 0.0f
-						   , float(ii)
-						   , 0.0f
-						   , bx::sin(float(ii)*2.0f*bx::kPi/float(numTrees) ) * 60.0f
-						   , 0.0f
-						   , bx::cos(float(ii)*2.0f*bx::kPi/float(numTrees) ) * 60.0f
-						   );
-			}
+			TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+			mtxCube[0] = meshMatrix._m00;
+			mtxCube[1] = meshMatrix._m01;
+			mtxCube[2] = meshMatrix._m02;
+			mtxCube[3] = meshMatrix._m03;
+			mtxCube[4] = meshMatrix._m10; 
+			mtxCube[5] = meshMatrix._m11; 
+			mtxCube[6] = meshMatrix._m12;
+			mtxCube[7] = meshMatrix._m13;
+			mtxCube[8] = meshMatrix._m20;
+			mtxCube[9] = meshMatrix._m21;
+			mtxCube[10] = meshMatrix._m22;
+			mtxCube[11] = meshMatrix._m23;
+			mtxCube[12] = meshMatrix._m30;
+			mtxCube[13] = meshMatrix._m31;
+			mtxCube[14] = meshMatrix._m32;
+			mtxCube[15] = meshMatrix._m33;
 
 			// Compute transform matrices.
 			const uint8_t shadowMapPasses = ShadowMapRenderTargets::Count;
@@ -3267,6 +3259,12 @@ public:
 	float m_timeAccumulatorScene;
 
 	ACameraComponent* _camera;
+
+	AActor* _meshActor;
+	AMeshComponent* _meshComponent;
+
+	AActor* _planeActor;
+	AMeshComponent* _planeComponent;
 };
 
 } // namespace
@@ -3277,5 +3275,5 @@ int Auto3D_main(int _argc, char** _argv)
 		, "Shadow maps example."
 		, "https://bkaradzic.github.io/bgfx/examples.html#shadowmaps"
 		);
-	return FApplication::Get().RunAppInstance(&app, _argc, _argv);
+	return GApplication::Get().RunAppInstance(&app, _argc, _argv);
 }
