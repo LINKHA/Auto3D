@@ -12,9 +12,9 @@ namespace Auto3D
 const int MIN_FRAMES_PER_SECOND = 10;
 const int MAX_FRAMES_PER_SECOND = 200;
 /// SubSystem class for time
-class AUTO_API FTimeModule
+class AUTO_API GTimeModule
 {
-	REGISTER_SINGLETON(FTimeModule)
+	REGISTER_SINGLETON(GTimeModule)
 
 	typedef void(__cdecl* TimerCallback) ();
 public:
@@ -44,9 +44,9 @@ public:
 	};
 
 	/// The constructor
-	FTimeModule();
+	GTimeModule();
 	/// The destructor
-	~FTimeModule();
+	~GTimeModule();
 	/// Reset time
 	void ResetTime();
 	/// SubSystem to engine update

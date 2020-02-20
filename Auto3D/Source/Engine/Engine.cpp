@@ -26,7 +26,7 @@ FEngine::~FEngine()
 bool FEngine::Init()
 {
 	// Set random seeds based on time
-	FTimeModule::RealTime& realTime = FTimeModule::Get().GetRealTime();
+	GTimeModule::RealTime& realTime = GTimeModule::Get().GetRealTime();
 
 	SetRandomSeed(((unsigned)(realTime._day & 0xff) << 24) |
 		((unsigned)(realTime._hour & 0xff) << 16) |
@@ -55,7 +55,7 @@ void FEngine::Render()
 
 bool FEngine::Update()
 {
-	FTimeModule& time = FTimeModule::Get();
+	GTimeModule& time = GTimeModule::Get();
 	// Begin is still dirty if you manually replace the world 
 	auto world = FWorldContext::Get().GetActiveWorld();
 	if (world && !world->HasBegunPlay())

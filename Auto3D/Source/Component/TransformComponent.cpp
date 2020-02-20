@@ -24,7 +24,7 @@ void ATransformComponent::BeginPlay()
 void ATransformComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
-	_dirtyCount = FTimeModule::Get().GetFrameCount();
+	_dirtyCount = GTimeModule::Get().GetFrameCount();
 }
 
 void ATransformComponent::SetPosition(const TVector3F& newPosition)
@@ -327,7 +327,7 @@ void ATransformComponent::OnTransformChanged()
 		if (child->TestFlag(NF_SPATIAL))
 			child->GetTransform()->OnTransformChanged();
 	}
-	_dirtyCount = FTimeModule::Get().GetFrameCount();
+	_dirtyCount = GTimeModule::Get().GetFrameCount();
 }
 
 void ATransformComponent::UpdateWorldTransform() const
@@ -343,7 +343,7 @@ void ATransformComponent::UpdateWorldTransform() const
 
 bool ATransformComponent::IsDirty()
 {
-	if (_dirtyCount >= FTimeModule::Get().GetFrameCount())
+	if (_dirtyCount >= GTimeModule::Get().GetFrameCount())
 		return true;
 	
 	return false;

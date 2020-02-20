@@ -6,6 +6,9 @@
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
 #include "Component/LightComponent.h"
+#include "Audio/AudioListener.h"
+#include "Audio/AudioSource.h"
+
 
 #include "Resource/Mesh.h"
 
@@ -16,6 +19,7 @@
 #include "IO/JSONFile.h"
 #include "Resource/Shader.h"
 #include "Resource/Material.h"
+#include "Resource/Sound.h"
 
 using namespace Auto3D;
 
@@ -41,6 +45,11 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_O_CALSS_IMP(OMaterial)
 		.constructor<>()
 		;
+	
+	REGISTER_O_CALSS_IMP(OSound)
+		.constructor<>()
+		;
+
 	REGISTER_A_CALSS_IMP(AActor)
 		.constructor<>()
 		.property("name", &AActor::GetPathName, &AActor::SetName)
@@ -135,7 +144,12 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(ALightComponent)
 		.constructor<>()
 		;
-
+	REGISTER_A_CALSS_IMP(AAudioListener)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(AAudioSource)
+		.constructor<>()
+		;
 }
 
 

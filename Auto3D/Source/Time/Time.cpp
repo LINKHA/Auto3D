@@ -25,19 +25,19 @@ const float MINIMUM_DELTA_TIME = 0.00001f;
 const float START_UP_DELTA_TIME = 0.02f;
 const float NEW_DELTA_TIME_WEIGHT = 0.2f; // for smoothing
 
-IMPLEMENT_SINGLETON(FTimeModule)
+IMPLEMENT_SINGLETON(GTimeModule)
 
-FTimeModule::FTimeModule()
+GTimeModule::GTimeModule()
 {
 	_timeSpeedScale = 1.0f;
 	_maximumTimestep = MAXIMUM_DELTA_TIME;
 	ResetTime();
 }
-FTimeModule::~FTimeModule()
+GTimeModule::~GTimeModule()
 {
 }
 
-void FTimeModule::Update()
+void GTimeModule::Update()
 {
 	_frameCount++;
 	if (!_frameCount)
@@ -100,7 +100,7 @@ void FTimeModule::Update()
 
 }
 
-void FTimeModule::ResetTime()
+void GTimeModule::ResetTime()
 {
 	_dynamicTime._curFrameTime = 0.0f;
 	_dynamicTime._lastFrameTime = 0.0f;
@@ -114,7 +114,7 @@ void FTimeModule::ResetTime()
 	_zeroTime = GetTimeSinceStartup();
 }
 
-void FTimeModule::CalcSmoothDeltaTime(TimeHolder& time)
+void GTimeModule::CalcSmoothDeltaTime(TimeHolder& time)
 {
 	// If existing weight is zero, don't take existing value into account
 	time._smoothingWeight *= (1.0f - NEW_DELTA_TIME_WEIGHT);
@@ -124,7 +124,7 @@ void FTimeModule::CalcSmoothDeltaTime(TimeHolder& time)
 	time._smoothDeltaTime = Lerp(time._smoothDeltaTime, time._deltaTime, normalized);
 }
 
-FTimeModule::RealTime& FTimeModule::GetRealTime()
+GTimeModule::RealTime& GTimeModule::GetRealTime()
 {
 	GetLocalTime(&sysTime);
 	_realTime._year = sysTime.wYear;
@@ -136,7 +136,7 @@ FTimeModule::RealTime& FTimeModule::GetRealTime()
 	return _realTime;
 }
 
-void FTimeModule::SetTime(double time)
+void GTimeModule::SetTime(double time)
 {
 	_dynamicTime._lastFrameTime = _dynamicTime._curFrameTime;
 	_dynamicTime._curFrameTime = time;
@@ -148,25 +148,25 @@ void FTimeModule::SetTime(double time)
 	_zeroTime = GetTimeSinceStartup() - _dynamicTime._curFrameTime;
 }
 
-double FTimeModule::GetTimeSinceStartup() const
+double GTimeModule::GetTimeSinceStartup() const
 {
 	double time = SDL_GetTicks();
 	return time / 1000;
 }
 
-float FTimeModule::GetFramesPerSecond() const
+float GTimeModule::GetFramesPerSecond() const
 {
 	if (_dynamicTime._deltaTime == 0)
 		return 60.0;
 	return 1.0f / _dynamicTime._deltaTime;
 }
 
-void FTimeModule::SetPause(bool pause)
+void GTimeModule::SetPause(bool pause)
 {
 	_isTimerPause = pause;
 }
 
-void FTimeModule::Sleep(unsigned millisecond)
+void GTimeModule::Sleep(unsigned millisecond)
 {
 #ifdef _WIN32
 	::Sleep(millisecond);
@@ -176,12 +176,12 @@ void FTimeModule::Sleep(unsigned millisecond)
 #endif
 }
 
-void FTimeModule::SetMaximumDeltaTime(float maxStep)
+void GTimeModule::SetMaximumDeltaTime(float maxStep)
 {
 	_maximumTimestep = Max(maxStep, _dynamicTime._deltaTime);
 }
 
-void FTimeModule::SetTimeScale(float scale)
+void GTimeModule::SetTimeScale(float scale)
 {
 	bool isOutRange = scale <= 100 && scale >= 0.0f;
 	if (isOutRange)
@@ -192,19 +192,19 @@ void FTimeModule::SetTimeScale(float scale)
 	}
 }
 
-void FTimeModule::ShotTimer(TimerCallback callback, int msTime, int count)
+void GTimeModule::ShotTimer(TimerCallback callback, int msTime, int count)
 {
-	std::thread timerThread(&FTimeModule::TimerCount, this, callback, msTime, count);
+	std::thread timerThread(&GTimeModule::TimerCount, this, callback, msTime, count);
 	timerThread.detach();
 }
 
-void FTimeModule::ShotTimer(std::function<void()> callback, int msTime, int count)
+void GTimeModule::ShotTimer(std::function<void()> callback, int msTime, int count)
 {
-	std::thread timerThread(&FTimeModule::TimerCountClass, this, callback, msTime, count);
+	std::thread timerThread(&GTimeModule::TimerCountClass, this, callback, msTime, count);
 	timerThread.detach();
 }
 
-void FTimeModule::TimerCount(TimerCallback callback, int msTime, int count)
+void GTimeModule::TimerCount(TimerCallback callback, int msTime, int count)
 {
 	if (count <= 0)
 		return;
@@ -217,7 +217,7 @@ void FTimeModule::TimerCount(TimerCallback callback, int msTime, int count)
 	}
 }
 
-void FTimeModule::TimerCountClass(std::function<void()> callback, int msTime, int count)
+void GTimeModule::TimerCountClass(std::function<void()> callback, int msTime, int count)
 {
 	if (count <= 0)
 		return;
