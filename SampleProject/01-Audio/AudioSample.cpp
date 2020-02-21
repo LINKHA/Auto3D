@@ -53,6 +53,25 @@ public:
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
 
+		AActor* actor = world->CreateChild<AActor>();
+		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
+		actor->CreateComponent<ADefaultControllerComponent>();
+		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
+
+	/*	AActor* cube = world->CreateChild<AActor>();
+		cube->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
+		cube->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		cube->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		AMeshComponent* meshComponent = cube->CreateComponent<AMeshComponent>();
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json"));
+
+		AActor* light = world->CreateChild<AActor>();
+		light->GetTransform()->SetPosition({ 10.0f, 10.0f, 10.0f });
+		light->GetTransform()->SetRotation(FQuaternion(45.0f, -45.0f, 45.0f));
+		auto lightMeshComponent = light->CreateComponent<ALightComponent>();
+		lightMeshComponent->SetupShadowMap();*/
+
 		AActor* listenerActor = world->CreateChild<AActor>();
 		listener = listenerActor->CreateComponent<AAudioListener>();
 
@@ -64,6 +83,7 @@ public:
 		source2 = sourceActor2->CreateComponent<AAudioSource>();
 		source2->SetSound(sound);
 
+	
 	}
 
 	int shutdown() override
@@ -76,7 +96,15 @@ public:
 	{
 
 		showExampleDialog(this);
-		ImGui::Begin("Sound 1");
+		ImGui::SetNextWindowPos(
+			ImVec2(400.0, 50.0f)
+			, ImGuiCond_FirstUseEver
+		);
+		ImGui::SetNextWindowSize(
+			ImVec2(90.0f, 150.0f)
+			, ImGuiCond_FirstUseEver
+		);
+		ImGui::Begin("Sound-1");
 		if (ImGui::Button("Play"))
 			source1->Play();
 		if (ImGui::Button("Pause"))
@@ -87,7 +115,15 @@ public:
 			source1->Rewind();
 		ImGui::End();
 
-		ImGui::Begin("Sound 2");
+		ImGui::SetNextWindowPos(
+			ImVec2(500.0f, 50.0f)
+			, ImGuiCond_FirstUseEver
+		);
+		ImGui::SetNextWindowSize(
+			ImVec2(90.0f, 150.0f)
+			, ImGuiCond_FirstUseEver
+		);
+		ImGui::Begin("Sound-2");
 		if (ImGui::Button("Play"))
 			source2->Play();
 		if (ImGui::Button("Pause"))
