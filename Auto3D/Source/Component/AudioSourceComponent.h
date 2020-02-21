@@ -1,6 +1,6 @@
 #pragma once
-#include "AudioNode.h"
-#include "Audio.h"
+#include "Component/AudioComponent.h"
+#include "Audio/Audio.h"
 #include "Resource/ResourceRef.h"
 
 namespace Auto3D 
@@ -9,14 +9,14 @@ namespace Auto3D
 class OSound;
 class FAudioBuffer;
 /// Responsible for the operation of 3d sound source
-class AUTO_API AAudioSource : public AAudioComponent
+class AUTO_API AAudioSourceComponent : public AAudioComponent
 {
-	DECLARE_A_CLASS(AAudioSource, AAudioComponent)
+	DECLARE_A_CLASS(AAudioSourceComponent, AAudioComponent)
 public:
 	/// The constructor
-	AAudioSource();
+	AAudioSourceComponent();
 	/// The destructor
-	~AAudioSource();
+	~AAudioSourceComponent();
 
 	/// Plays the active audioclip at (future) scheduled time. If time < 0 it specifies a delay
 	void Play(int delayTime = 0);

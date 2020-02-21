@@ -1,18 +1,18 @@
 #pragma once
-#include "AudioNode.h"
+#include "Component/AudioComponent.h"
 #include "Math/Vector3.h"
 
 namespace Auto3D
 {
 
-class AUTO_API AAudioListener : public AAudioComponent
+class AUTO_API AAudioListenerComponent : public AAudioComponent
 {
-	DECLARE_A_CLASS(AAudioListener, AAudioComponent)
+	DECLARE_A_CLASS(AAudioListenerComponent, AAudioComponent)
 public:
 	/// Constructor
-	AAudioListener();
+	AAudioListenerComponent();
 	/// Destructor
-	~AAudioListener();
+	~AAudioListenerComponent();
 
 public:
 	/// Get listener vel.

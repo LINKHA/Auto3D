@@ -4,8 +4,8 @@
 #include "Debug/Log.h"
 
 #include "Resource/Sound.h"
-#include "Audio/AudioListener.h"
-#include "Audio/AudioSource.h"
+#include "Component/AudioListenerComponent.h"
+#include "Component/AudioSourceComponent.h"
 #include "Audio/AudioBuffer.h"
 #include "Component/TransformComponent.h"
 #include "Gameplay/Actor.h"
@@ -32,7 +32,7 @@ GAudioModule::GAudioModule() :
 	_device = alcOpenDevice(NULL);
 	_context = alcCreateContext(_device, contextAttr);
 	alcMakeContextCurrent(_context);
-	// The application has been placed in the AAudioListener
+	// The application has been placed in the AAudioListenerComponent
 	//RegisterModule(this);
 }
 
@@ -43,14 +43,14 @@ GAudioModule::~GAudioModule()
 	alcCloseDevice(_device);
 }
 
-void GAudioModule::AddSource(unsigned sourceID, AAudioSource* source)
+void GAudioModule::AddSource(unsigned sourceID, AAudioSourceComponent* source)
 {
 	if (_sources.Find(sourceID) != _sources.End())
 		return;
 	_sources[sourceID] = source;
 }
 
-void GAudioModule::SetListener(AAudioListener* listener)
+void GAudioModule::SetListener(AAudioListenerComponent* listener)
 {
 	_listener = listener;
 }
@@ -82,7 +82,7 @@ void GAudioModule::SourcePlay(unsigned source, int delay)
 	CallSourcePlay(source, delay);
 }
 
-void GAudioModule::SourcePlay(AAudioSource* source, int delay)
+void GAudioModule::SourcePlay(AAudioSourceComponent* source, int delay)
 {
 	if (!source)
 	{
@@ -107,7 +107,7 @@ void GAudioModule::SourcePause(unsigned source, int delay)
 	CallSourcePause(source, delay);
 }
 
-void GAudioModule::SourcePause(AAudioSource* source, int delay)
+void GAudioModule::SourcePause(AAudioSourceComponent* source, int delay)
 {
 	if (!source)
 	{
@@ -132,7 +132,7 @@ void GAudioModule::SourceStop(unsigned source, int delay)
 	CallSourceStop(source, delay);
 }
 
-void GAudioModule::SourceStop(AAudioSource* source, int delay)
+void GAudioModule::SourceStop(AAudioSourceComponent* source, int delay)
 {
 	if (!source)
 	{
@@ -157,7 +157,7 @@ void GAudioModule::SourceRewind(unsigned source, int delay)
 	CallSourceRewind(source, delay);
 }
 
-void GAudioModule::SourceRewind(AAudioSource* source, int delay)
+void GAudioModule::SourceRewind(AAudioSourceComponent* source, int delay)
 {
 	if (!source)
 	{
@@ -205,7 +205,7 @@ EAudioSourceState::Type GAudioModule::GetState(unsigned source)
 	else
 		return EAudioSourceState::DEFAULT;
 }
-EAudioSourceState::Type GAudioModule::GetState(AAudioSource* source)
+EAudioSourceState::Type GAudioModule::GetState(AAudioSourceComponent* source)
 {
 	if (!source)
 	{
@@ -230,7 +230,7 @@ EAudioSourceState::Type GAudioModule::GetState(AAudioSource* source)
 	else
 		return EAudioSourceState::DEFAULT;
 }
-const AAudioSource* GAudioModule::GetSource(unsigned index)
+const AAudioSourceComponent* GAudioModule::GetSource(unsigned index)
 {
 	return _sources.Find(index) != _sources.End() ? _sources[index] : nullptr;
 }
@@ -256,7 +256,7 @@ void GAudioModule::Update()
 
 	for (auto it = _sources.Begin(); it != _sources.End(); it++)
 	{
-		AAudioSource& source = *it->_second;
+		AAudioSourceComponent& source = *it->_second;
 		TVector3F vec = (*it)._second->GetOwner()->GetTransform()->GetWorldPosition();
 		alSource3f((*it)._second->GetBuffer()->Source(), AL_POSITION, vec._x, vec._y, vec._z);
 	}

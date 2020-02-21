@@ -1,4 +1,4 @@
-#include "Audio/AudioListener.h"
+#include "Component/AudioListenerComponent.h"
 #include "Audio/Audio.h"
 
 #include <AL/al.h>
@@ -8,7 +8,7 @@
 namespace Auto3D
 {
 
-AAudioListener::AAudioListener() :
+AAudioListenerComponent::AAudioListenerComponent() :
 	_listenerVel(0.0f, 0.0f, 0.0f),
 	_listenerOriAt(0.0f, 0.0f, -1.0f),
 	_listenerOriUp(0.0f, 1.0f, 0.0f)
@@ -16,7 +16,7 @@ AAudioListener::AAudioListener() :
 	GAudioModule::Get().SetListener(this);
 
 }
-AAudioListener::~AAudioListener()
+AAudioListenerComponent::~AAudioListenerComponent()
 {
 
 }

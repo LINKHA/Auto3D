@@ -6,8 +6,8 @@
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
 #include "Component/LightComponent.h"
-#include "Audio/AudioListener.h"
-#include "Audio/AudioSource.h"
+#include "Component/AudioListenerComponent.h"
+#include "Component/AudioSourceComponent.h"
 
 
 #include "Resource/Mesh.h"
@@ -144,10 +144,10 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(ALightComponent)
 		.constructor<>()
 		;
-	REGISTER_A_CALSS_IMP(AAudioListener)
+	REGISTER_A_CALSS_IMP(AAudioListenerComponent)
 		.constructor<>()
 		;
-	REGISTER_A_CALSS_IMP(AAudioSource)
+	REGISTER_A_CALSS_IMP(AAudioSourceComponent)
 		.constructor<>()
 		;
 }

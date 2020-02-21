@@ -1,8 +1,8 @@
-#include "AudioSource.h"
+#include "Component/AudioSourceComponent.h"
 #include "Resource/Sound.h"
-#include "Audio.h"
+#include "Audio/Audio.h"
 #include "Debug/Log.h"
-#include "AudioBuffer.h"
+#include "Audio/AudioBuffer.h"
 #include "Resource/ResourceCache.h"
 
 #include <AL/al.h>
@@ -16,44 +16,44 @@ namespace Auto3D
 {
 
 
-AAudioSource::AAudioSource() :
+AAudioSourceComponent::AAudioSourceComponent() :
 	_pitch(1.0f),
 	_gain(1.0f),
 	_vel(0.0f, 0.0f, 0.1f)
 {
 }
 
-AAudioSource::~AAudioSource()
+AAudioSourceComponent::~AAudioSourceComponent()
 {
 }
 
-void AAudioSource::Play(int delayTime)
+void AAudioSourceComponent::Play(int delayTime)
 {
 	GAudioModule::Get().SourcePlay(_buffer->Source(), delayTime);
 }
 
-void AAudioSource::Pause(int delayTime)
+void AAudioSourceComponent::Pause(int delayTime)
 {
 	GAudioModule::Get().SourcePause(_buffer->Source(), delayTime);
 }
 
-void AAudioSource::Stop(int delayTime)
+void AAudioSourceComponent::Stop(int delayTime)
 {
 	GAudioModule::Get().SourceStop(_buffer->Source(), delayTime);
 }
 
-void AAudioSource::Rewind(int delayTime)
+void AAudioSourceComponent::Rewind(int delayTime)
 {
 	GAudioModule::Get().SourceRewind(_buffer->Source(), delayTime);
 }
 
-EAudioSourceState::Type AAudioSource::GetState()
+EAudioSourceState::Type AAudioSourceComponent::GetState()
 {
 	return GAudioModule::Get().GetState(GetBuffer()->Source());
 }
 
 
-void AAudioSource::SetSound(OSound* sound)
+void AAudioSourceComponent::SetSound(OSound* sound)
 {
 	_sound = sound;
 	_buffer = new FAudioBuffer();
@@ -65,14 +65,14 @@ void AAudioSource::SetSound(OSound* sound)
 	GAudioModule::Get().SetVel(GetBuffer()->Source(), _vel);
 }
 
-void AAudioSource::SetSoundAttr(FResourceRef sound)
+void AAudioSourceComponent::SetSoundAttr(FResourceRef sound)
 {
 	GResourceModule& cache = GResourceModule::Get();
 	SetSound(cache.LoadResource<OSound>(sound._pathName.CString()));
 }
 
-FResourceRef AAudioSource::GetSoundAttr() const
+FResourceRef AAudioSourceComponent::GetSoundAttr() const
 {
-	return FResourceRef(AAudioSource::GetTypeNameStatic(), ResourceName(_sound));
+	return FResourceRef(AAudioSourceComponent::GetTypeNameStatic(), ResourceName(_sound));
 }
 }

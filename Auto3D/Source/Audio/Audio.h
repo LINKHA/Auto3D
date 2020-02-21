@@ -25,9 +25,9 @@ namespace EAudioSourceState
 };
 
 
-class AAudioListener;
+class AAudioListenerComponent;
 
-class AAudioSource;
+class AAudioSourceComponent;
 
 /// AAudio sub system ,Process all sound sources and calculate sound
 class AUTO_API GAudioModule
@@ -39,27 +39,27 @@ public:
 	/// Destructor
 	~GAudioModule();
 	/// Add source with source address and source
-	void AddSource(unsigned sourceID, AAudioSource* source);
+	void AddSource(unsigned sourceID, AAudioSourceComponent* source);
 	/// Set listener (if listener NULL this subsystem cant run)
-	void SetListener(AAudioListener* listener);
+	void SetListener(AAudioListenerComponent* listener);
 	/// Set listener value
 	void SetListenerValue(TVector3F position, TVector3F listenerVel, TVector3F listenerOriAt, TVector3F listenerOriUp);
 	/// The first person delays ms according to the buffer play
 	void SourcePlay(unsigned source,int delay = 0);
 	/// The first person delays ms according to the buffer play
-	void SourcePlay(AAudioSource* source, int delay = 0);
+	void SourcePlay(AAudioSourceComponent* source, int delay = 0);
 	/// The first person delays ms according to the buffer pause
 	void SourcePause(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer pause
-	void SourcePause(AAudioSource* source, int delay = 0);
+	void SourcePause(AAudioSourceComponent* source, int delay = 0);
 	/// The first person delays ms according to the buffer stop
 	void SourceStop(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer stop
-	void SourceStop(AAudioSource* source, int delay = 0);
+	void SourceStop(AAudioSourceComponent* source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
 	void SourceRewind(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
-	void SourceRewind(AAudioSource* source, int delay = 0);
+	void SourceRewind(AAudioSourceComponent* source, int delay = 0);
 	/// Set pitch of source address
 	void SetPitch(unsigned source, float val);
 	/// Set gain of source address
@@ -69,11 +69,11 @@ public:
 	/// Set get state of source
 	EAudioSourceState::Type GetState(unsigned source);
 	/// Set get state of source
-	EAudioSourceState::Type GetState(AAudioSource* source);
+	EAudioSourceState::Type GetState(AAudioSourceComponent* source);
 	/// Get source of index
-	const AAudioSource* GetSource(unsigned index);
+	const AAudioSourceComponent* GetSource(unsigned index);
 	/// Return sources
-	THashMap<unsigned, AAudioSource*>& Sources(AAudioSource* source) { return _sources; }
+	THashMap<unsigned, AAudioSourceComponent*>& Sources(AAudioSourceComponent* source) { return _sources; }
 	/// Update all dynamic listener and source
 	void Update();
 	/// Return is initialized flag
@@ -92,9 +92,9 @@ private:
 	/// OpenAL context
 	ALCcontext* _context;
 	/// Listener
-	AAudioListener* _listener;
+	AAudioListenerComponent* _listener;
 	/// Source array of hash
-	THashMap<unsigned, AAudioSource*> _sources;
+	THashMap<unsigned, AAudioSourceComponent*> _sources;
 };
 
 
