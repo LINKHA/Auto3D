@@ -92,13 +92,9 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 void FForwardShadingRenderer::Render()
 {
 	PrepareView();
-
 	// This dummy draw call is here to make sure that view 0 is cleared
 	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
-	bgfx::touch(1);
-	bgfx::touch(2);
-	//bgfx::touch(3);
 
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
@@ -452,6 +448,7 @@ void FForwardShadingRenderer::PrepareView()
 	_geometriesActor.Clear();
 	_invisibleBatch = 0;
 	_visibleBatch = 0;
+	bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 }
 
 }
