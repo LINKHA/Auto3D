@@ -8,6 +8,7 @@ namespace Auto3D
 {
 
 class ACameraComponent;
+class FPhysicsWorld;
 
 /// %AWorld root node, which also represents the whole world.
 class AUTO_API AWorld : public AActor
@@ -40,6 +41,8 @@ public:
 	/// Destroy child nodes recursively, leaving the world empty.
 	void Clear();
 
+	/// Get physics world.
+	FPhysicsWorld* GetPhysicsWorld();
 
 	THashMap<unsigned, AActor*> GetActors() { return _actors; }
 	TVector<ACameraComponent*> GetCameras() { return _cameras; }
@@ -70,6 +73,8 @@ private:
 	THashMap<unsigned, AActor*> _actors;
 	/// ACamera to nodes
 	TVector<ACameraComponent*> _cameras;
+	/// APhysics world custom assign this variable
+	FPhysicsWorld* _physicsWorld;
 	/// Next free node id.
 	unsigned _nextNodeId;
 

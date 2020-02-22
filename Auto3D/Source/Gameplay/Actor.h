@@ -185,7 +185,7 @@ public:
 	/// Return first component of specified type, template version.
 	template <typename _Ty> _Ty* FindComponent(bool recursive = false) const { return static_cast<_Ty*>(FindComponent(RtToStr(FType::get<_Ty>().get_name()), recursive)); }
 	/// Find components of specified type, template version.
-	template <typename _Ty> void FindComponents(TVector<_Ty*>& result, bool recursive = false) const { return FindComponents(reinterpret_cast<TVector<AActorComponent*>&>(result), _Ty::GetTypeHashStatic(), recursive); }
+	template <typename _Ty> void FindComponents(TVector<_Ty*>& result, bool recursive = false) const { return FindComponents(reinterpret_cast<TVector<AActorComponent*>&>(result), RtToStr(FType::get<_Ty>().get_name()), recursive); }
 
 
     /// Set bit flag. Called internally.

@@ -1,6 +1,7 @@
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
 #include "Serialization/Serialization.h"
+#include "Physics/PhysicsWorld.h"
 
 namespace Auto3D
 {
@@ -102,6 +103,15 @@ bool AWorld::SaveJson(FStream& dest)
 bool AWorld::LoadJson(const FString& path)
 {
 	return true;
+}
+
+FPhysicsWorld* AWorld::GetPhysicsWorld()
+{
+	if (!_physicsWorld)
+	{
+		_physicsWorld = new FPhysicsWorld;
+	}
+	return _physicsWorld;
 }
 
 void AWorld::Clear()
