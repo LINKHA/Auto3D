@@ -7,7 +7,8 @@ namespace Auto3D
 {
 
 AWorld::AWorld():
-	_nextNodeId(1)
+	_nextNodeId(1),
+	_physicsWorld(nullptr)
 {
 	AddActor(this);
 }

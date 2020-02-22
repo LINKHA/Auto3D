@@ -8,6 +8,7 @@
 #include "Gameplay/World.h"
 #include "Platform/ProcessWindow.h"
 #include "Application.h"
+#include "Physics/Physics.h"
 
 namespace Auto3D
 {
@@ -62,6 +63,7 @@ bool FEngine::Update()
 		world->BeginPlay();
 
 	time.Update();
+	GPhysicsModule::Get().Update();
 
 	if (world && world->HasBegunPlay())
 		world->Tick(time.GetDeltaTime());

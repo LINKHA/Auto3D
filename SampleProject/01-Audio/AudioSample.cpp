@@ -11,8 +11,8 @@
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
 #include "Component/LightComponent.h"
-#include "Audio/AudioListener.h"
-#include "Audio/AudioSource.h"
+#include "Component/AudioListenerComponent.h"
+#include "Component/AudioSourceComponent.h"
 
 #include "Serialization/ToJson.h"
 #include "Serialization/FromJson.h"
@@ -54,14 +54,14 @@ public:
 		world->DefineTag(1, "Player");
 
 		AActor* listenerActor = world->CreateChild<AActor>();
-		listener = listenerActor->CreateComponent<AAudioListener>();
+		listener = listenerActor->CreateComponent<AAudioListenerComponent>();
 
 		AActor* sourceActor1 = world->CreateChild<AActor>();
-		source1 = sourceActor1->CreateComponent<AAudioSource>();
+		source1 = sourceActor1->CreateComponent<AAudioSourceComponent>();
 		source1->SetSound(sound);
 
 		AActor* sourceActor2 = world->CreateChild<AActor>();
-		source2 = sourceActor2->CreateComponent<AAudioSource>();
+		source2 = sourceActor2->CreateComponent<AAudioSourceComponent>();
 		source2->SetSound(sound);
 
 	
@@ -116,9 +116,9 @@ public:
 		ImGui::End();
 		return true;
 	}
-	AAudioListener* listener;
-	AAudioSource* source1;
-	AAudioSource* source2;
+	AAudioListenerComponent* listener;
+	AAudioSourceComponent* source1;
+	AAudioSourceComponent* source2;
 };
 
 } // namespace

@@ -34,7 +34,7 @@ public:
 	/// Return Bullet rigid body.
 	btRigidBody* GetBody() const { return _body; }
 	/// Return compound shape.
-	btCompoundShape* GetCompoundShape() { return _compoundShape.get(); }
+	btCompoundShape* GetCompoundShape() { return _compoundShape; }
 	/// Remove the rigid body.
 	void ReleaseBody();
 
@@ -49,7 +49,7 @@ private:
 	/// bullet rigid body (Automatically destructs when the physical world is eliminated).
 	btRigidBody* _body;
 	/// Bullet compound collision shape.
-	UPtr<btCompoundShape> _compoundShape;
+	btCompoundShape* _compoundShape;
 	/// Rigidbody mass
 	float _mass;
 	/// Is dynamic ot staitc

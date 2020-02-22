@@ -8,6 +8,8 @@
 #include "Component/LightComponent.h"
 #include "Component/AudioListenerComponent.h"
 #include "Component/AudioSourceComponent.h"
+#include "Physics/ColliderBox.h"
+#include "Physics/RigidBody.h"
 
 
 #include "Resource/Mesh.h"
@@ -148,6 +150,15 @@ static void REGISTER_REFLECTION_FUNCATION()
 		.constructor<>()
 		;
 	REGISTER_A_CALSS_IMP(AAudioSourceComponent)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(ARigidBody)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(ACollider)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(AColliderBox)
 		.constructor<>()
 		;
 }

@@ -11,7 +11,9 @@ namespace Auto3D {
 
 ACollider::ACollider() :
 	_cachedWorldScale(TVector3F::ONE),
-	_shapeType(EShapeType::DEFAULT)
+	_shapeType(EShapeType::DEFAULT),
+	_rigidBody(nullptr),
+	_shape(nullptr)
 {
 }
 
@@ -28,8 +30,11 @@ void ACollider::ReleaseShape()
 		compound->removeChildShape(_shape);
 		_rigidBody->UpdateMass();
 	}
-	delete _shape;
-	_shape = nullptr;
+	if (_shape)
+	{
+		delete _shape;
+		_shape = nullptr;
+	}
 }
 
 void ACollider::NotifyRigidBody(bool updateMass)

@@ -17,7 +17,7 @@ ARigidBody::ARigidBody() :
 	_inWorld(false),
 	_body(nullptr)
 {
-	_compoundShape = MakeUnique<btCompoundShape>();
+	_compoundShape = new btCompoundShape();
 }
 
 
@@ -68,7 +68,7 @@ void ARigidBody::UpdateMass()
 
 	if (numShapes && physicsWorld)
 	{
-		_body->setCollisionShape(_compoundShape.get());
+		_body->setCollisionShape(_compoundShape);
 	}
 
 	btVector3 localInertia(0, 0, 0);
@@ -105,6 +105,7 @@ void ARigidBody::ReleaseBody()
 //void ARigidBody::OnWorldSet(AWorld* newWorld, AWorld* oldWorld)
 void ARigidBody::OnActorSet(AActor* newParent, AActor* oldParent)
 {
+	Super::OnActorSet(newParent, oldParent);
 	if (newParent)
 	{
 		GetWorld()->GetPhysicsWorld()->AddRigidBody(this);
@@ -131,7 +132,7 @@ void ARigidBody::AddBodyToWorld()
 		// Correct inertia will be calculated below
 		btVector3 localInertia(0.0f, 0.0f, 0.0f);
 
-		_body = new btRigidBody(_mass, this, _compoundShape.get(), localInertia);
+		_body = new btRigidBody(_mass, this, _compoundShape, localInertia);
 		
 		_body->setUserPointer(this);
 

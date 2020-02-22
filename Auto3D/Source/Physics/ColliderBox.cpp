@@ -38,7 +38,6 @@ void AColliderBox::SetSize(float scale)
 void AColliderBox::Resize(const TVector3F& vec)
 {
 	ReleaseShape();
-	_shape;
 	_shape = new btBoxShape(ToBtVector3(vec));
 	
 	NotifyRigidBody();
