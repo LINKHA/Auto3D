@@ -2,6 +2,7 @@
 
 namespace Auto3D
 {
+	IMPLEMENT_SINGLETON(FShadowRenderer)
 
 FShadowRenderer::FShadowRenderer() 
 {}
