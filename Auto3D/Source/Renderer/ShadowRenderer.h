@@ -719,6 +719,11 @@ public:
 	~FShadowRenderer();
 	void init();
 	void update();
+	static uint16_t s_currentShadowMapSize;
+
+	static SceneSettings s_settings;
+
+	static ShadowMapSettings s_smSettings[LightType::Count][DepthImpl::Count][SmImpl::Count];
 
 	static Programs s_programs;
 
@@ -730,6 +735,9 @@ public:
 
 	static bgfx::UniformHandle s_texColor;
 	static bgfx::UniformHandle s_shadowMap[ShadowMapRenderTargets::Count];
+
+	static bgfx::FrameBufferHandle s_rtShadowMap[ShadowMapRenderTargets::Count];
+	static bgfx::FrameBufferHandle s_rtBlur;
 };
 
 }
