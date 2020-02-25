@@ -1,6 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/Singleton.h"
+#include "RHI/bgfx_utils.h"
 
 #include <bx/math.h>
 #include <bgfx/bgfx.h>
@@ -592,6 +593,123 @@ namespace Auto3D
 		bool m_stencilPack;
 		bool m_stabilize;
 	};
+
+
+	struct Programs
+	{
+		void init()
+		{
+			// Misc.
+			m_black = loadProgram("vs_shadowmaps_color", "fs_shadowmaps_color_black");
+			m_texture = loadProgram("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+			m_colorTexture = loadProgram("vs_shadowmaps_color_texture", "fs_shadowmaps_color_texture");
+
+			// Blur.
+			m_vBlur[PackDepth::RGBA] = loadProgram("vs_shadowmaps_vblur", "fs_shadowmaps_vblur");
+			m_hBlur[PackDepth::RGBA] = loadProgram("vs_shadowmaps_hblur", "fs_shadowmaps_hblur");
+			m_vBlur[PackDepth::VSM] = loadProgram("vs_shadowmaps_vblur", "fs_shadowmaps_vblur_vsm");
+			m_hBlur[PackDepth::VSM] = loadProgram("vs_shadowmaps_hblur", "fs_shadowmaps_hblur_vsm");
+
+			// Draw depth.
+			m_drawDepth[PackDepth::RGBA] = loadProgram("vs_shadowmaps_unpackdepth", "fs_shadowmaps_unpackdepth");
+			m_drawDepth[PackDepth::VSM] = loadProgram("vs_shadowmaps_unpackdepth", "fs_shadowmaps_unpackdepth_vsm");
+
+			// Pack depth.
+			m_packDepth[DepthImpl::InvZ][PackDepth::RGBA] = loadProgram("vs_shadowmaps_packdepth", "fs_shadowmaps_packdepth");
+			m_packDepth[DepthImpl::InvZ][PackDepth::VSM] = loadProgram("vs_shadowmaps_packdepth", "fs_shadowmaps_packdepth_vsm");
+
+			m_packDepth[DepthImpl::Linear][PackDepth::RGBA] = loadProgram("vs_shadowmaps_packdepth_linear", "fs_shadowmaps_packdepth_linear");
+			m_packDepth[DepthImpl::Linear][PackDepth::VSM] = loadProgram("vs_shadowmaps_packdepth_linear", "fs_shadowmaps_packdepth_vsm_linear");
+
+			// Color lighting.
+			m_colorLighting[SmType::Single][DepthImpl::InvZ][SmImpl::Hard] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_hard");
+			m_colorLighting[SmType::Single][DepthImpl::InvZ][SmImpl::PCF] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_pcf");
+			m_colorLighting[SmType::Single][DepthImpl::InvZ][SmImpl::VSM] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_vsm");
+			m_colorLighting[SmType::Single][DepthImpl::InvZ][SmImpl::ESM] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_esm");
+
+			m_colorLighting[SmType::Single][DepthImpl::Linear][SmImpl::Hard] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_hard_linear");
+			m_colorLighting[SmType::Single][DepthImpl::Linear][SmImpl::PCF] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_pcf_linear");
+			m_colorLighting[SmType::Single][DepthImpl::Linear][SmImpl::VSM] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_vsm_linear");
+			m_colorLighting[SmType::Single][DepthImpl::Linear][SmImpl::ESM] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_esm_linear");
+
+			m_colorLighting[SmType::Omni][DepthImpl::InvZ][SmImpl::Hard] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_hard_omni");
+			m_colorLighting[SmType::Omni][DepthImpl::InvZ][SmImpl::PCF] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_pcf_omni");
+			m_colorLighting[SmType::Omni][DepthImpl::InvZ][SmImpl::VSM] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_vsm_omni");
+			m_colorLighting[SmType::Omni][DepthImpl::InvZ][SmImpl::ESM] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_esm_omni");
+
+			m_colorLighting[SmType::Omni][DepthImpl::Linear][SmImpl::Hard] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_hard_linear_omni");
+			m_colorLighting[SmType::Omni][DepthImpl::Linear][SmImpl::PCF] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_pcf_linear_omni");
+			m_colorLighting[SmType::Omni][DepthImpl::Linear][SmImpl::VSM] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_vsm_linear_omni");
+			m_colorLighting[SmType::Omni][DepthImpl::Linear][SmImpl::ESM] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_esm_linear_omni");
+
+			m_colorLighting[SmType::Cascade][DepthImpl::InvZ][SmImpl::Hard] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_hard_csm");
+			m_colorLighting[SmType::Cascade][DepthImpl::InvZ][SmImpl::PCF] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_pcf_csm");
+			m_colorLighting[SmType::Cascade][DepthImpl::InvZ][SmImpl::VSM] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_vsm_csm");
+			m_colorLighting[SmType::Cascade][DepthImpl::InvZ][SmImpl::ESM] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_esm_csm");
+
+			m_colorLighting[SmType::Cascade][DepthImpl::Linear][SmImpl::Hard] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_hard_linear_csm");
+			m_colorLighting[SmType::Cascade][DepthImpl::Linear][SmImpl::PCF] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_pcf_linear_csm");
+			m_colorLighting[SmType::Cascade][DepthImpl::Linear][SmImpl::VSM] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_vsm_linear_csm");
+			m_colorLighting[SmType::Cascade][DepthImpl::Linear][SmImpl::ESM] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_esm_linear_csm");
+		}
+
+		void destroy()
+		{
+			// Color lighting.
+			for (uint8_t ii = 0; ii < SmType::Count; ++ii)
+			{
+				for (uint8_t jj = 0; jj < DepthImpl::Count; ++jj)
+				{
+					for (uint8_t kk = 0; kk < SmImpl::Count; ++kk)
+					{
+						bgfx::destroy(m_colorLighting[ii][jj][kk]);
+					}
+				}
+			}
+
+			// Pack depth.
+			for (uint8_t ii = 0; ii < DepthImpl::Count; ++ii)
+			{
+				for (uint8_t jj = 0; jj < PackDepth::Count; ++jj)
+				{
+					bgfx::destroy(m_packDepth[ii][jj]);
+				}
+			}
+
+			// Draw depth.
+			for (uint8_t ii = 0; ii < PackDepth::Count; ++ii)
+			{
+				bgfx::destroy(m_drawDepth[ii]);
+			}
+
+			// Hblur.
+			for (uint8_t ii = 0; ii < PackDepth::Count; ++ii)
+			{
+				bgfx::destroy(m_hBlur[ii]);
+			}
+
+			// Vblur.
+			for (uint8_t ii = 0; ii < PackDepth::Count; ++ii)
+			{
+				bgfx::destroy(m_vBlur[ii]);
+			}
+
+			// Misc.
+			bgfx::destroy(m_colorTexture);
+			bgfx::destroy(m_texture);
+			bgfx::destroy(m_black);
+		}
+
+		bgfx::ProgramHandle m_black;
+		bgfx::ProgramHandle m_texture;
+		bgfx::ProgramHandle m_colorTexture;
+		bgfx::ProgramHandle m_vBlur[PackDepth::Count];
+		bgfx::ProgramHandle m_hBlur[PackDepth::Count];
+		bgfx::ProgramHandle m_drawDepth[PackDepth::Count];
+		bgfx::ProgramHandle m_packDepth[DepthImpl::Count][PackDepth::Count];
+		bgfx::ProgramHandle m_colorLighting[SmType::Count][DepthImpl::Count][SmImpl::Count];
+	};
+
 class AUTO_API FShadowRenderer
 {
 	REGISTER_SINGLETON(FShadowRenderer)
@@ -602,6 +720,16 @@ public:
 	void init();
 	void update();
 
+	static Programs s_programs;
+
+	static Uniforms s_uniforms;
+
+
+	static bool s_flipV;
+	static float s_texelHalf;
+
+	static bgfx::UniformHandle s_texColor;
+	static bgfx::UniformHandle s_shadowMap[ShadowMapRenderTargets::Count];
 };
 
 }
