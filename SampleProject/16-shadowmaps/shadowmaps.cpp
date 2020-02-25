@@ -604,12 +604,9 @@ public:
 
 	void init() override
 	{
-		m_debug = BGFX_DEBUG_NONE;
-		m_reset = BGFX_RESET_VSYNC;
+		GProcessWindow& processWindow = GProcessWindow::Get();
 
-		m_width  = 1280;
-		m_height = 720;
-		m_viewState = ViewState(uint16_t(m_width), uint16_t(m_height));
+		m_viewState = ViewState(uint16_t(processWindow._width), uint16_t(processWindow._height));
 		m_clearValues = ClearValues(0x00000000, 1.0f, 0);
 
 
@@ -668,52 +665,8 @@ public:
 		m_hplaneMesh.load(s_hplaneVertices, BX_COUNTOF(s_hplaneVertices), PosNormalTexcoordLayout, s_planeIndices, BX_COUNTOF(s_planeIndices) );
 		m_vplaneMesh.load(s_vplaneVertices, BX_COUNTOF(s_vplaneVertices), PosNormalTexcoordLayout, s_planeIndices, BX_COUNTOF(s_planeIndices) );
 
-		// Materials.
-		m_defaultMaterial =
-		{
-			{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //ambient
-			{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //diffuse
-			{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //specular, exponent
-		};
-
-		// Lights.
-		m_pointLight =
-		{
-			{ { 0.0f, 0.0f, 0.0f, 1.0f   } }, //position
-			{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
-			{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //ambient
-			{ { 1.0f, 1.0f, 1.0f, 850.0f } }, //diffuse
-			{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //specular
-			{ { 0.0f,-0.4f,-0.6f, 0.0f   } }, //spotdirection, spotexponent
-			{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
-			{ { 1.0f, 0.0f, 1.0f, 91.0f  } }, //attenuation, spotcutoff
-		};
-
-		m_directionalLight =
-		{
-			{ { 0.5f,-1.0f, 0.1f, 0.0f  } }, //position
-			{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
-			{ { 1.0f, 1.0f, 1.0f, 0.02f } }, //ambient
-			{ { 1.0f, 1.0f, 1.0f, 0.4f  } }, //diffuse
-			{ { 1.0f, 1.0f, 1.0f, 0.0f  } }, //specular
-			{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //spotdirection, spotexponent
-			{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
-			{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //attenuation, spotcutoff
-		};
-
-		// Setup uniforms.
-		m_color[0] = m_color[1] = m_color[2] = m_color[3] = 1.0f;
-		FShadowRenderer::s_uniforms.setPtrs(&m_defaultMaterial
-						   , &m_pointLight
-						   , m_color
-						   , m_lightMtx
-						   , &m_shadowMapMtx[ShadowMapRenderTargets::First][0]
-						   , &m_shadowMapMtx[ShadowMapRenderTargets::Second][0]
-						   , &m_shadowMapMtx[ShadowMapRenderTargets::Third][0]
-						   , &m_shadowMapMtx[ShadowMapRenderTargets::Fourth][0]
-						   );
-		FShadowRenderer::s_uniforms.submitConstUniforms();
-
+		
+		
 		//// Setup camera.
 		//cameraCreate();
 		//cameraSetPosition({ 0.0f, 60.0f, -105.0f });
@@ -731,52 +684,6 @@ public:
 
 	bool update() override
 	{
-		if (1)
-		{
-			GProcessWindow& processWindow = GProcessWindow::Get();
-			m_width = processWindow._width;
-			m_height = processWindow._height;
-			m_reset = processWindow._reset;
-
-
-			m_viewState.m_width  = uint16_t(m_width);
-			m_viewState.m_height = uint16_t(m_height);
-
-			const bgfx::Caps* caps = bgfx::getCaps();
-
-			// Set view and projection matrices.
-			const float camFovy    = 60.0f;
-			const float camAspect  = float(int32_t(m_viewState.m_width) ) / float(int32_t(m_viewState.m_height) );
-			const float camNear    = 0.1f;
-			const float camFar     = 2000.0f;
-			const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
-			const float projWidth  = projHeight * camAspect;
-			bx::mtxProj(m_viewState.m_proj, camFovy, camAspect, camNear, camFar, caps->homogeneousDepth);
-
-			TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
-			TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
-			m_viewState.m_view[0] = transposeViewMatrix._m00;
-			m_viewState.m_view[1] = transposeViewMatrix._m01;
-			m_viewState.m_view[2] = transposeViewMatrix._m02;
-			m_viewState.m_view[3] = transposeViewMatrix._m03;
-			m_viewState.m_view[4] = transposeViewMatrix._m10;
-			m_viewState.m_view[5] = transposeViewMatrix._m11;
-			m_viewState.m_view[6] = transposeViewMatrix._m12;
-			m_viewState.m_view[7] = transposeViewMatrix._m13;
-			m_viewState.m_view[8] = transposeViewMatrix._m20;
-			m_viewState.m_view[9] = transposeViewMatrix._m21;
-			m_viewState.m_view[10] = transposeViewMatrix._m22;
-			m_viewState.m_view[11] = transposeViewMatrix._m23;
-			m_viewState.m_view[12] = transposeViewMatrix._m30;
-			m_viewState.m_view[13] = transposeViewMatrix._m31;
-			m_viewState.m_view[14] = transposeViewMatrix._m32;
-			m_viewState.m_view[15] = transposeViewMatrix._m33;
-			//cameraGetViewMtx(m_viewState.m_view);
-
-			float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize) );
-			FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
-
-			FShadowRenderer::s_uniforms.submitConstUniforms();
 
 #pragma region gui
 			//		FShadowRenderer::s_uniforms.submitConstUniforms();
@@ -956,202 +863,282 @@ public:
 			ImGui::End();
 
 #pragma endregion gui
-			// Update uniforms.
-			FShadowRenderer::s_uniforms.m_shadowMapBias   = currentSmSettings->m_bias;
-			FShadowRenderer::s_uniforms.m_shadowMapOffset = currentSmSettings->m_normalOffset;
-			FShadowRenderer::s_uniforms.m_shadowMapParam0 = currentSmSettings->m_customParam0;
-			FShadowRenderer::s_uniforms.m_shadowMapParam1 = currentSmSettings->m_customParam1;
-			FShadowRenderer::s_uniforms.m_depthValuePow   = currentSmSettings->m_depthValuePow;
-			FShadowRenderer::s_uniforms.m_XNum            = currentSmSettings->m_xNum;
-			FShadowRenderer::s_uniforms.m_YNum            = currentSmSettings->m_yNum;
-			FShadowRenderer::s_uniforms.m_XOffset         = currentSmSettings->m_xOffset;
-			FShadowRenderer::s_uniforms.m_YOffset         = currentSmSettings->m_yOffset;
-			FShadowRenderer::s_uniforms.m_showSmCoverage  = float(FShadowRenderer::s_settings.m_showSmCoverage);
-			FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? &m_directionalLight : &m_pointLight;
 
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+		FShadowRenderer::Get().update();
+
+		GProcessWindow& processWindow = GProcessWindow::Get();
+
+		m_viewState.m_width = uint16_t(processWindow._width);
+		m_viewState.m_height = uint16_t(processWindow._height);
+
+		const bgfx::Caps* caps = bgfx::getCaps();
+
+		// Set view and projection matrices.
+		const float camFovy = 60.0f;
+		const float camAspect = float(int32_t(m_viewState.m_width)) / float(int32_t(m_viewState.m_height));
+		const float camNear = 0.1f;
+		const float camFar = 2000.0f;
+		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
+		const float projWidth = projHeight * camAspect;
+		bx::mtxProj(m_viewState.m_proj, camFovy, camAspect, camNear, camFar, caps->homogeneousDepth);
+
+		TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
+		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
+		m_viewState.m_view[0] = transposeViewMatrix._m00;
+		m_viewState.m_view[1] = transposeViewMatrix._m01;
+		m_viewState.m_view[2] = transposeViewMatrix._m02;
+		m_viewState.m_view[3] = transposeViewMatrix._m03;
+		m_viewState.m_view[4] = transposeViewMatrix._m10;
+		m_viewState.m_view[5] = transposeViewMatrix._m11;
+		m_viewState.m_view[6] = transposeViewMatrix._m12;
+		m_viewState.m_view[7] = transposeViewMatrix._m13;
+		m_viewState.m_view[8] = transposeViewMatrix._m20;
+		m_viewState.m_view[9] = transposeViewMatrix._m21;
+		m_viewState.m_view[10] = transposeViewMatrix._m22;
+		m_viewState.m_view[11] = transposeViewMatrix._m23;
+		m_viewState.m_view[12] = transposeViewMatrix._m30;
+		m_viewState.m_view[13] = transposeViewMatrix._m31;
+		m_viewState.m_view[14] = transposeViewMatrix._m32;
+		m_viewState.m_view[15] = transposeViewMatrix._m33;
+		//cameraGetViewMtx(m_viewState.m_view);
+
+		float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
+		FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+
+		FShadowRenderer::s_uniforms.submitConstUniforms();
+
+		// Update uniforms.
+		FShadowRenderer::s_uniforms.m_shadowMapBias   = currentSmSettings->m_bias;
+		FShadowRenderer::s_uniforms.m_shadowMapOffset = currentSmSettings->m_normalOffset;
+		FShadowRenderer::s_uniforms.m_shadowMapParam0 = currentSmSettings->m_customParam0;
+		FShadowRenderer::s_uniforms.m_shadowMapParam1 = currentSmSettings->m_customParam1;
+		FShadowRenderer::s_uniforms.m_depthValuePow   = currentSmSettings->m_depthValuePow;
+		FShadowRenderer::s_uniforms.m_XNum            = currentSmSettings->m_xNum;
+		FShadowRenderer::s_uniforms.m_YNum            = currentSmSettings->m_yNum;
+		FShadowRenderer::s_uniforms.m_XOffset         = currentSmSettings->m_xOffset;
+		FShadowRenderer::s_uniforms.m_YOffset         = currentSmSettings->m_yOffset;
+		FShadowRenderer::s_uniforms.m_showSmCoverage  = float(FShadowRenderer::s_settings.m_showSmCoverage);
+		FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? &FShadowRenderer::s_directionalLight : &FShadowRenderer::s_pointLight;
+
+		if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
+			FShadowRenderer::s_pointLight.m_spotDirectionInner.m_inner   = FShadowRenderer::s_settings.m_spotInnerAngle;
+		}
+		else
+		{
+			FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = 91.0f; //above 90.0f means point light
+		}
+
+		FShadowRenderer::s_uniforms.submitPerFrameUniforms();
+
+		// Time.
+		int64_t now = bx::getHPCounter();
+		static int64_t last = now;
+		const int64_t frameTime = now - last;
+		last = now;
+		const double freq = double(bx::getHPFrequency() );
+		const float deltaTime = float(frameTime/freq);
+
+		// Update camera.
+		//cameraUpdate(deltaTime, m_mouseState);
+
+		TMatrix3x4F viewMatrix2 = _camera->GetViewMatrix();
+		TMatrix4x4F transposeViewMatrix2 = viewMatrix.ToMatrix4().Transpose();
+		m_viewState.m_view[0] = transposeViewMatrix2._m00;
+		m_viewState.m_view[1] = transposeViewMatrix2._m01;
+		m_viewState.m_view[2] = transposeViewMatrix2._m02;
+		m_viewState.m_view[3] = transposeViewMatrix2._m03;
+		m_viewState.m_view[4] = transposeViewMatrix2._m10;
+		m_viewState.m_view[5] = transposeViewMatrix2._m11;
+		m_viewState.m_view[6] = transposeViewMatrix2._m12;
+		m_viewState.m_view[7] = transposeViewMatrix2._m13;
+		m_viewState.m_view[8] = transposeViewMatrix2._m20;
+		m_viewState.m_view[9] = transposeViewMatrix2._m21;
+		m_viewState.m_view[10] = transposeViewMatrix2._m22;
+		m_viewState.m_view[11] = transposeViewMatrix2._m23;
+		m_viewState.m_view[12] = transposeViewMatrix2._m30;
+		m_viewState.m_view[13] = transposeViewMatrix2._m31;
+		m_viewState.m_view[14] = transposeViewMatrix2._m32;
+		m_viewState.m_view[15] = transposeViewMatrix2._m33;
+		// Update view mtx.
+		//cameraGetViewMtx(m_viewState.m_view);
+
+		// Update lights.
+		FShadowRenderer::s_pointLight.computeViewSpaceComponents(m_viewState.m_view);
+		FShadowRenderer::s_directionalLight.computeViewSpaceComponents(m_viewState.m_view);
+
+		// Update time accumulators.
+		if (FShadowRenderer::s_settings.m_updateLights) { m_timeAccumulatorLight += deltaTime; }
+		if (FShadowRenderer::s_settings.m_updateScene)  { m_timeAccumulatorScene += deltaTime; }
+
+		// Setup lights.
+		FShadowRenderer::s_pointLight.m_position.m_x = bx::cos(m_timeAccumulatorLight) * 20.0f;
+		FShadowRenderer::s_pointLight.m_position.m_y = 26.0f;
+		FShadowRenderer::s_pointLight.m_position.m_z = bx::sin(m_timeAccumulatorLight) * 20.0f;
+		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_x = -FShadowRenderer::s_pointLight.m_position.m_x;
+		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_y = -FShadowRenderer::s_pointLight.m_position.m_y;
+		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_z = -FShadowRenderer::s_pointLight.m_position.m_z;
+
+		FShadowRenderer::s_directionalLight.m_position.m_x = -bx::cos(m_timeAccumulatorLight);
+		FShadowRenderer::s_directionalLight.m_position.m_y = -1.0f;
+		FShadowRenderer::s_directionalLight.m_position.m_z = -bx::sin(m_timeAccumulatorLight);
+
+		// Setup instance matrices.
+		float mtxFloor[16];
+		const float floorScale = 550.0f;
+		TMatrix4x4F& planeMatrix = _planeActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+		mtxFloor[0] = planeMatrix._m00;
+		mtxFloor[1] = planeMatrix._m01;
+		mtxFloor[2] = planeMatrix._m02;
+		mtxFloor[3] = planeMatrix._m03;
+		mtxFloor[4] = planeMatrix._m10;
+		mtxFloor[5] = planeMatrix._m11;
+		mtxFloor[6] = planeMatrix._m12;
+		mtxFloor[7] = planeMatrix._m13;
+		mtxFloor[8] = planeMatrix._m20;
+		mtxFloor[9] = planeMatrix._m21;
+		mtxFloor[10] = planeMatrix._m22;
+		mtxFloor[11] = planeMatrix._m23;
+		mtxFloor[12] = planeMatrix._m30;
+		mtxFloor[13] = planeMatrix._m31;
+		mtxFloor[14] = planeMatrix._m32;
+		mtxFloor[15] = planeMatrix._m33;
+		//bx::mtxSRT(mtxFloor
+		//		   , floorScale //scaleX
+		//		   , floorScale //scaleY
+		//		   , floorScale //scaleZ
+		//		   , 0.0f //rotX
+		//		   , 0.0f //rotY
+		//		   , 0.0f //rotZ
+		//		   , 0.0f //translateX
+		//		   , 0.0f //translateY
+		//		   , 0.0f //translateZ
+		//		   );
+
+		float mtxCube[16];
+		TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+		mtxCube[0] = meshMatrix._m00;
+		mtxCube[1] = meshMatrix._m01;
+		mtxCube[2] = meshMatrix._m02;
+		mtxCube[3] = meshMatrix._m03;
+		mtxCube[4] = meshMatrix._m10; 
+		mtxCube[5] = meshMatrix._m11; 
+		mtxCube[6] = meshMatrix._m12;
+		mtxCube[7] = meshMatrix._m13;
+		mtxCube[8] = meshMatrix._m20;
+		mtxCube[9] = meshMatrix._m21;
+		mtxCube[10] = meshMatrix._m22;
+		mtxCube[11] = meshMatrix._m23;
+		mtxCube[12] = meshMatrix._m30;
+		mtxCube[13] = meshMatrix._m31;
+		mtxCube[14] = meshMatrix._m32;
+		mtxCube[15] = meshMatrix._m33;
+
+		// Compute transform matrices.
+		const uint8_t shadowMapPasses = ShadowMapRenderTargets::Count;
+		float lightView[shadowMapPasses][16];
+		float lightProj[shadowMapPasses][16];
+		float mtxYpr[TetrahedronFaces::Count][16];
+
+		float screenProj[16];
+		float screenView[16];
+		bx::mtxIdentity(screenView);
+
+		bx::mtxOrtho(
+						screenProj
+						, 0.0f
+						, 1.0f
+						, 1.0f
+						, 0.0f
+						, 0.0f
+						, 100.0f
+						, 0.0f
+						, caps->homogeneousDepth
+						);
+
+		// Update render target size.
+		uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
+		if (bLtChanged || FShadowRenderer::s_currentShadowMapSize != shadowMapSize)
+		{
+			FShadowRenderer::s_currentShadowMapSize = shadowMapSize;
+			FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+
 			{
-				m_pointLight.m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
-				m_pointLight.m_spotDirectionInner.m_inner   = FShadowRenderer::s_settings.m_spotInnerAngle;
-			}
-			else
-			{
-				m_pointLight.m_attenuationSpotOuter.m_outer = 91.0f; //above 90.0f means point light
-			}
+				bgfx::destroy(FShadowRenderer::s_rtShadowMap[0]);
 
-			FShadowRenderer::s_uniforms.submitPerFrameUniforms();
-
-			// Time.
-			int64_t now = bx::getHPCounter();
-			static int64_t last = now;
-			const int64_t frameTime = now - last;
-			last = now;
-			const double freq = double(bx::getHPFrequency() );
-			const float deltaTime = float(frameTime/freq);
-
-			// Update camera.
-			//cameraUpdate(deltaTime, m_mouseState);
-
-			TMatrix3x4F viewMatrix2 = _camera->GetViewMatrix();
-			TMatrix4x4F transposeViewMatrix2 = viewMatrix.ToMatrix4().Transpose();
-			m_viewState.m_view[0] = transposeViewMatrix2._m00;
-			m_viewState.m_view[1] = transposeViewMatrix2._m01;
-			m_viewState.m_view[2] = transposeViewMatrix2._m02;
-			m_viewState.m_view[3] = transposeViewMatrix2._m03;
-			m_viewState.m_view[4] = transposeViewMatrix2._m10;
-			m_viewState.m_view[5] = transposeViewMatrix2._m11;
-			m_viewState.m_view[6] = transposeViewMatrix2._m12;
-			m_viewState.m_view[7] = transposeViewMatrix2._m13;
-			m_viewState.m_view[8] = transposeViewMatrix2._m20;
-			m_viewState.m_view[9] = transposeViewMatrix2._m21;
-			m_viewState.m_view[10] = transposeViewMatrix2._m22;
-			m_viewState.m_view[11] = transposeViewMatrix2._m23;
-			m_viewState.m_view[12] = transposeViewMatrix2._m30;
-			m_viewState.m_view[13] = transposeViewMatrix2._m31;
-			m_viewState.m_view[14] = transposeViewMatrix2._m32;
-			m_viewState.m_view[15] = transposeViewMatrix2._m33;
-			// Update view mtx.
-			//cameraGetViewMtx(m_viewState.m_view);
-
-			// Update lights.
-			m_pointLight.computeViewSpaceComponents(m_viewState.m_view);
-			m_directionalLight.computeViewSpaceComponents(m_viewState.m_view);
-
-			// Update time accumulators.
-			if (FShadowRenderer::s_settings.m_updateLights) { m_timeAccumulatorLight += deltaTime; }
-			if (FShadowRenderer::s_settings.m_updateScene)  { m_timeAccumulatorScene += deltaTime; }
-
-			// Setup lights.
-			m_pointLight.m_position.m_x = bx::cos(m_timeAccumulatorLight) * 20.0f;
-			m_pointLight.m_position.m_y = 26.0f;
-			m_pointLight.m_position.m_z = bx::sin(m_timeAccumulatorLight) * 20.0f;
-			m_pointLight.m_spotDirectionInner.m_x = -m_pointLight.m_position.m_x;
-			m_pointLight.m_spotDirectionInner.m_y = -m_pointLight.m_position.m_y;
-			m_pointLight.m_spotDirectionInner.m_z = -m_pointLight.m_position.m_z;
-
-			m_directionalLight.m_position.m_x = -bx::cos(m_timeAccumulatorLight);
-			m_directionalLight.m_position.m_y = -1.0f;
-			m_directionalLight.m_position.m_z = -bx::sin(m_timeAccumulatorLight);
-
-			// Setup instance matrices.
-			float mtxFloor[16];
-			const float floorScale = 550.0f;
-			TMatrix4x4F& planeMatrix = _planeActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-			mtxFloor[0] = planeMatrix._m00;
-			mtxFloor[1] = planeMatrix._m01;
-			mtxFloor[2] = planeMatrix._m02;
-			mtxFloor[3] = planeMatrix._m03;
-			mtxFloor[4] = planeMatrix._m10;
-			mtxFloor[5] = planeMatrix._m11;
-			mtxFloor[6] = planeMatrix._m12;
-			mtxFloor[7] = planeMatrix._m13;
-			mtxFloor[8] = planeMatrix._m20;
-			mtxFloor[9] = planeMatrix._m21;
-			mtxFloor[10] = planeMatrix._m22;
-			mtxFloor[11] = planeMatrix._m23;
-			mtxFloor[12] = planeMatrix._m30;
-			mtxFloor[13] = planeMatrix._m31;
-			mtxFloor[14] = planeMatrix._m32;
-			mtxFloor[15] = planeMatrix._m33;
-			//bx::mtxSRT(mtxFloor
-			//		   , floorScale //scaleX
-			//		   , floorScale //scaleY
-			//		   , floorScale //scaleZ
-			//		   , 0.0f //rotX
-			//		   , 0.0f //rotY
-			//		   , 0.0f //rotZ
-			//		   , 0.0f //translateX
-			//		   , 0.0f //translateY
-			//		   , 0.0f //translateZ
-			//		   );
-
-			float mtxCube[16];
-			TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-			mtxCube[0] = meshMatrix._m00;
-			mtxCube[1] = meshMatrix._m01;
-			mtxCube[2] = meshMatrix._m02;
-			mtxCube[3] = meshMatrix._m03;
-			mtxCube[4] = meshMatrix._m10; 
-			mtxCube[5] = meshMatrix._m11; 
-			mtxCube[6] = meshMatrix._m12;
-			mtxCube[7] = meshMatrix._m13;
-			mtxCube[8] = meshMatrix._m20;
-			mtxCube[9] = meshMatrix._m21;
-			mtxCube[10] = meshMatrix._m22;
-			mtxCube[11] = meshMatrix._m23;
-			mtxCube[12] = meshMatrix._m30;
-			mtxCube[13] = meshMatrix._m31;
-			mtxCube[14] = meshMatrix._m32;
-			mtxCube[15] = meshMatrix._m33;
-
-			// Compute transform matrices.
-			const uint8_t shadowMapPasses = ShadowMapRenderTargets::Count;
-			float lightView[shadowMapPasses][16];
-			float lightProj[shadowMapPasses][16];
-			float mtxYpr[TetrahedronFaces::Count][16];
-
-			float screenProj[16];
-			float screenView[16];
-			bx::mtxIdentity(screenView);
-
-			bx::mtxOrtho(
-						 screenProj
-						 , 0.0f
-						 , 1.0f
-						 , 1.0f
-						 , 0.0f
-						 , 0.0f
-						 , 100.0f
-						 , 0.0f
-						 , caps->homogeneousDepth
-						 );
-
-			// Update render target size.
-			uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
-			if (bLtChanged || FShadowRenderer::s_currentShadowMapSize != shadowMapSize)
-			{
-				FShadowRenderer::s_currentShadowMapSize = shadowMapSize;
-				FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
-
+				bgfx::TextureHandle fbtextures[] =
 				{
-					bgfx::destroy(FShadowRenderer::s_rtShadowMap[0]);
+					bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
+					bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
+				};
+				FShadowRenderer::s_rtShadowMap[0] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
+			}
 
-					bgfx::TextureHandle fbtextures[] =
-					{
-						bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
-						bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
-					};
-					FShadowRenderer::s_rtShadowMap[0] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
-				}
-
-				if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+			if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+			{
+				for (uint8_t ii = 1; ii < ShadowMapRenderTargets::Count; ++ii)
 				{
-					for (uint8_t ii = 1; ii < ShadowMapRenderTargets::Count; ++ii)
 					{
+						bgfx::destroy(FShadowRenderer::s_rtShadowMap[ii]);
+
+						bgfx::TextureHandle fbtextures[] =
 						{
-							bgfx::destroy(FShadowRenderer::s_rtShadowMap[ii]);
-
-							bgfx::TextureHandle fbtextures[] =
-							{
-								bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
-								bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
-							};
-							FShadowRenderer::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
-						}
+							bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
+							bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
+						};
+						FShadowRenderer::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 					}
 				}
-
-				bgfx::destroy(FShadowRenderer::s_rtBlur);
-				FShadowRenderer::s_rtBlur = bgfx::createFrameBuffer(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
 			}
 
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+			bgfx::destroy(FShadowRenderer::s_rtBlur);
+			FShadowRenderer::s_rtBlur = bgfx::createFrameBuffer(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
+		}
+
+		if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			const float fovy = FShadowRenderer::s_settings.m_coverageSpotL;
+			const float aspect = 1.0f;
+			bx::mtxProj(
+						lightProj[ProjType::Horizontal]
+						, fovy
+						, aspect
+						, currentSmSettings->m_near
+						, currentSmSettings->m_far
+						, false
+						);
+
+			//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
+			if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
 			{
-				const float fovy = FShadowRenderer::s_settings.m_coverageSpotL;
-				const float aspect = 1.0f;
+				lightProj[ProjType::Horizontal][10] /= currentSmSettings->m_far;
+				lightProj[ProjType::Horizontal][14] /= currentSmSettings->m_far;
+			}
+
+			const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_spotDirectionInner.m_v) );
+			bx::mtxLookAt(lightView[TetrahedronFaces::Green], bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), at);
+		}
+		else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			float ypr[TetrahedronFaces::Count][3] =
+			{
+				{ bx::toRad(  0.0f), bx::toRad( 27.36780516f), bx::toRad(0.0f) },
+				{ bx::toRad(180.0f), bx::toRad( 27.36780516f), bx::toRad(0.0f) },
+				{ bx::toRad(-90.0f), bx::toRad(-27.36780516f), bx::toRad(0.0f) },
+				{ bx::toRad( 90.0f), bx::toRad(-27.36780516f), bx::toRad(0.0f) },
+			};
+
+
+			if (FShadowRenderer::s_settings.m_stencilPack)
+			{
+				const float fovx = 143.98570868f + 3.51f + FShadowRenderer::s_settings.m_fovXAdjust;
+				const float fovy = 125.26438968f + 9.85f + FShadowRenderer::s_settings.m_fovYAdjust;
+				const float aspect = bx::tan(bx::toRad(fovx*0.5f) )/bx::tan(bx::toRad(fovy*0.5f) );
+
 				bx::mtxProj(
-							lightProj[ProjType::Horizontal]
-							, fovy
+						lightProj[ProjType::Vertical]
+							, fovx
 							, aspect
 							, currentSmSettings->m_near
 							, currentSmSettings->m_far
@@ -1161,854 +1148,809 @@ public:
 				//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
 				if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
 				{
-					lightProj[ProjType::Horizontal][10] /= currentSmSettings->m_far;
-					lightProj[ProjType::Horizontal][14] /= currentSmSettings->m_far;
+					lightProj[ProjType::Vertical][10] /= currentSmSettings->m_far;
+					lightProj[ProjType::Vertical][14] /= currentSmSettings->m_far;
 				}
 
-				const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(m_pointLight.m_position.m_v), bx::load<bx::Vec3>(m_pointLight.m_spotDirectionInner.m_v) );
-				bx::mtxLookAt(lightView[TetrahedronFaces::Green], bx::load<bx::Vec3>(m_pointLight.m_position.m_v), at);
+				ypr[TetrahedronFaces::Green ][2] = bx::toRad(180.0f);
+				ypr[TetrahedronFaces::Yellow][2] = bx::toRad(  0.0f);
+				ypr[TetrahedronFaces::Blue  ][2] = bx::toRad( 90.0f);
+				ypr[TetrahedronFaces::Red   ][2] = bx::toRad(-90.0f);
 			}
-			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+
+			const float fovx = 143.98570868f + 7.8f + FShadowRenderer::s_settings.m_fovXAdjust;
+			const float fovy = 125.26438968f + 3.0f + FShadowRenderer::s_settings.m_fovYAdjust;
+			const float aspect = bx::tan(bx::toRad(fovx*0.5f) )/bx::tan(bx::toRad(fovy*0.5f) );
+
+			bx::mtxProj(
+						lightProj[ProjType::Horizontal]
+						, fovy
+						, aspect
+						, currentSmSettings->m_near
+						, currentSmSettings->m_far
+						, caps->homogeneousDepth
+						);
+
+			//For linear depth, prevent depth division by variable w component in shaders and divide here by far plane
+			if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
 			{
-				float ypr[TetrahedronFaces::Count][3] =
+				lightProj[ProjType::Horizontal][10] /= currentSmSettings->m_far;
+				lightProj[ProjType::Horizontal][14] /= currentSmSettings->m_far;
+			}
+
+
+			for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
+			{
+				float mtxTmp[16];
+				mtxYawPitchRoll(mtxTmp, ypr[ii][0], ypr[ii][1], ypr[ii][2]);
+
+				float tmp[3] =
 				{
-					{ bx::toRad(  0.0f), bx::toRad( 27.36780516f), bx::toRad(0.0f) },
-					{ bx::toRad(180.0f), bx::toRad( 27.36780516f), bx::toRad(0.0f) },
-					{ bx::toRad(-90.0f), bx::toRad(-27.36780516f), bx::toRad(0.0f) },
-					{ bx::toRad( 90.0f), bx::toRad(-27.36780516f), bx::toRad(0.0f) },
+					-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[0]) ),
+					-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[4]) ),
+					-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[8]) ),
 				};
 
+				bx::mtxTranspose(mtxYpr[ii], mtxTmp);
 
-				if (FShadowRenderer::s_settings.m_stencilPack)
+				bx::memCopy(lightView[ii], mtxYpr[ii], 12*sizeof(float) );
+				lightView[ii][12] = tmp[0];
+				lightView[ii][13] = tmp[1];
+				lightView[ii][14] = tmp[2];
+				lightView[ii][15] = 1.0f;
+			}
+		}
+		else // LightType::DirectionalLight == settings.m_lightType
+		{
+			// Setup light view mtx.
+			const bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
+			const bx::Vec3 eye =
+			{
+				-FShadowRenderer::s_directionalLight.m_position.m_x,
+				-FShadowRenderer::s_directionalLight.m_position.m_y,
+				-FShadowRenderer::s_directionalLight.m_position.m_z,
+			};
+			bx::mtxLookAt(lightView[0], eye, at);
+
+			// Compute camera inverse view mtx.
+			float mtxViewInv[16];
+			bx::mtxInverse(mtxViewInv, m_viewState.m_view);
+
+			// Compute split distances.
+			const uint8_t maxNumSplits = 4;
+			BX_CHECK(maxNumSplits >= settings.m_numSplits, "Error! Max num splits.");
+
+			float splitSlices[maxNumSplits*2];
+			splitFrustum(splitSlices
+				, uint8_t(FShadowRenderer::s_settings.m_numSplits)
+				, currentSmSettings->m_near
+				, currentSmSettings->m_far
+				, FShadowRenderer::s_settings.m_splitDistribution
+				);
+
+			// Update uniforms.
+			for (uint8_t ii = 0, ff = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, ff+=2)
+			{
+				// This lags for 1 frame, but it's not a problem.
+				FShadowRenderer::s_uniforms.m_csmFarDistances[ii] = splitSlices[ff];
+			}
+
+			float mtxProj[16];
+			bx::mtxOrtho(
+					mtxProj
+				, 1.0f
+				, -1.0f
+				, 1.0f
+				, -1.0f
+				, -currentSmSettings->m_far
+				, currentSmSettings->m_far
+				, 0.0f
+				, caps->homogeneousDepth
+				);
+
+			const uint8_t numCorners = 8;
+			float frustumCorners[maxNumSplits][numCorners][3];
+			for (uint8_t ii = 0, nn = 0, ff = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, nn+=2, ff+=2)
+			{
+				// Compute frustum corners for one split in world space.
+				worldSpaceFrustumCorners( (float*)frustumCorners[ii], splitSlices[nn], splitSlices[ff], projWidth, projHeight, mtxViewInv);
+
+				bx::Vec3 min = {  9000.0f,  9000.0f,  9000.0f };
+				bx::Vec3 max = { -9000.0f, -9000.0f, -9000.0f };
+
+				for (uint8_t jj = 0; jj < numCorners; ++jj)
 				{
-					const float fovx = 143.98570868f + 3.51f + FShadowRenderer::s_settings.m_fovXAdjust;
-					const float fovy = 125.26438968f + 9.85f + FShadowRenderer::s_settings.m_fovYAdjust;
-					const float aspect = bx::tan(bx::toRad(fovx*0.5f) )/bx::tan(bx::toRad(fovy*0.5f) );
+					// Transform to light space.
+					const bx::Vec3 xyz = bx::mul(bx::load<bx::Vec3>(frustumCorners[ii][jj]), lightView[0]);
 
-					bx::mtxProj(
-						  lightProj[ProjType::Vertical]
-								, fovx
-								, aspect
-								, currentSmSettings->m_near
-								, currentSmSettings->m_far
-								, false
-								);
-
-					//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
-					if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
-					{
-						lightProj[ProjType::Vertical][10] /= currentSmSettings->m_far;
-						lightProj[ProjType::Vertical][14] /= currentSmSettings->m_far;
-					}
-
-					ypr[TetrahedronFaces::Green ][2] = bx::toRad(180.0f);
-					ypr[TetrahedronFaces::Yellow][2] = bx::toRad(  0.0f);
-					ypr[TetrahedronFaces::Blue  ][2] = bx::toRad( 90.0f);
-					ypr[TetrahedronFaces::Red   ][2] = bx::toRad(-90.0f);
+					// Update bounding box.
+					min = bx::min(min, xyz);
+					max = bx::max(max, xyz);
 				}
 
-				const float fovx = 143.98570868f + 7.8f + FShadowRenderer::s_settings.m_fovXAdjust;
-				const float fovy = 125.26438968f + 3.0f + FShadowRenderer::s_settings.m_fovYAdjust;
-				const float aspect = bx::tan(bx::toRad(fovx*0.5f) )/bx::tan(bx::toRad(fovy*0.5f) );
+				const bx::Vec3 minproj = bx::mulH(min, mtxProj);
+				const bx::Vec3 maxproj = bx::mulH(max, mtxProj);
 
-				bx::mtxProj(
-							lightProj[ProjType::Horizontal]
-							, fovy
-							, aspect
-							, currentSmSettings->m_near
-							, currentSmSettings->m_far
-							, caps->homogeneousDepth
+				float scalex = 2.0f / (maxproj.x - minproj.x);
+				float scaley = 2.0f / (maxproj.y - minproj.y);
+
+				if (FShadowRenderer::s_settings.m_stabilize)
+				{
+					const float quantizer = 64.0f;
+					scalex = quantizer / bx::ceil(quantizer / scalex);
+					scaley = quantizer / bx::ceil(quantizer / scaley);
+				}
+
+				float offsetx = 0.5f * (maxproj.x + minproj.x) * scalex;
+				float offsety = 0.5f * (maxproj.y + minproj.y) * scaley;
+
+				if (FShadowRenderer::s_settings.m_stabilize)
+				{
+					const float halfSize = currentShadowMapSizef * 0.5f;
+					offsetx = bx::ceil(offsetx * halfSize) / halfSize;
+					offsety = bx::ceil(offsety * halfSize) / halfSize;
+				}
+
+				float mtxCrop[16];
+				bx::mtxIdentity(mtxCrop);
+				mtxCrop[ 0] = scalex;
+				mtxCrop[ 5] = scaley;
+				mtxCrop[12] = offsetx;
+				mtxCrop[13] = offsety;
+
+				bx::mtxMul(lightProj[ii], mtxCrop, mtxProj);
+			}
+		}
+
+		// Reset render targets.
+		const bgfx::FrameBufferHandle invalidRt = BGFX_INVALID_HANDLE;
+		for (uint8_t ii = 0; ii < RENDERVIEW_DRAWDEPTH_3_ID+1; ++ii)
+		{
+			bgfx::setViewFrameBuffer(ii, invalidRt);
+			bgfx::setViewRect(ii, 0, 0, m_viewState.m_width, m_viewState.m_height);
+		}
+
+		// Determine on-screen rectangle size where depth buffer will be drawn.
+		uint16_t depthRectHeight = uint16_t(float(m_viewState.m_height) / 2.5f);
+		uint16_t depthRectWidth  = depthRectHeight;
+		uint16_t depthRectX = 0;
+		uint16_t depthRectY = m_viewState.m_height - depthRectHeight;
+
+		// Setup views and render targets.
+		bgfx::setViewRect(0, 0, 0, m_viewState.m_width, m_viewState.m_height);
+		bgfx::setViewTransform(0, m_viewState.m_view, m_viewState.m_proj);
+
+		if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			/**
+				* RENDERVIEW_SHADOWMAP_0_ID - Clear shadow map. (used as convenience, otherwise render_pass_1 could be cleared)
+				* RENDERVIEW_SHADOWMAP_1_ID - Craft shadow map.
+				* RENDERVIEW_VBLUR_0_ID - Vertical blur.
+				* RENDERVIEW_HBLUR_0_ID - Horizontal blur.
+				* RENDERVIEW_DRAWSCENE_0_ID - Draw scene.
+				* RENDERVIEW_DRAWSCENE_1_ID - Draw floor bottom.
+				* RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer.
+				*/
+
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
+
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[0], lightProj[ProjType::Horizontal]);
+			bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
+
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
+			bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+		}
+		else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			/**
+				* RENDERVIEW_SHADOWMAP_0_ID - Clear entire shadow map.
+				* RENDERVIEW_SHADOWMAP_1_ID - Craft green tetrahedron shadow face.
+				* RENDERVIEW_SHADOWMAP_2_ID - Craft yellow tetrahedron shadow face.
+				* RENDERVIEW_SHADOWMAP_3_ID - Craft blue tetrahedron shadow face.
+				* RENDERVIEW_SHADOWMAP_4_ID - Craft red tetrahedron shadow face.
+				* RENDERVIEW_VBLUR_0_ID - Vertical blur.
+				* RENDERVIEW_HBLUR_0_ID - Horizontal blur.
+				* RENDERVIEW_DRAWSCENE_0_ID - Draw scene.
+				* RENDERVIEW_DRAWSCENE_1_ID - Draw floor bottom.
+				* RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer.
+				*/
+
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			if (FShadowRenderer::s_settings.m_stencilPack)
+			{
+				const uint16_t f = FShadowRenderer::s_currentShadowMapSize;   //full size
+				const uint16_t h = FShadowRenderer::s_currentShadowMapSize/2; //half size
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, f, h);
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, h, f, h);
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, h, f);
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, h, 0, h, f);
+			}
+			else
+			{
+				const uint16_t h = FShadowRenderer::s_currentShadowMapSize/2; //half size
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, h, h);
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, h, 0, h, h);
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, h, h, h);
+				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, h, h, h, h);
+			}
+			bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
+
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[TetrahedronFaces::Green],  lightProj[ProjType::Horizontal]);
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, lightView[TetrahedronFaces::Yellow], lightProj[ProjType::Horizontal]);
+			if(FShadowRenderer::s_settings.m_stencilPack)
+			{
+				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, lightView[TetrahedronFaces::Blue], lightProj[ProjType::Vertical]);
+				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, lightView[TetrahedronFaces::Red],  lightProj[ProjType::Vertical]);
+			}
+			else
+			{
+				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, lightView[TetrahedronFaces::Blue], lightProj[ProjType::Horizontal]);
+				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, lightView[TetrahedronFaces::Red],  lightProj[ProjType::Horizontal]);
+			}
+			bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
+
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
+			bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+		}
+		else // LightType::DirectionalLight == settings.m_lightType
+		{
+			/**
+				* RENDERVIEW_SHADOWMAP_1_ID - Craft shadow map for first  split.
+				* RENDERVIEW_SHADOWMAP_2_ID - Craft shadow map for second split.
+				* RENDERVIEW_SHADOWMAP_3_ID - Craft shadow map for third  split.
+				* RENDERVIEW_SHADOWMAP_4_ID - Craft shadow map for fourth split.
+				* RENDERVIEW_VBLUR_0_ID - Vertical   blur for first  split.
+				* RENDERVIEW_HBLUR_0_ID - Horizontal blur for first  split.
+				* RENDERVIEW_VBLUR_1_ID - Vertical   blur for second split.
+				* RENDERVIEW_HBLUR_1_ID - Horizontal blur for second split.
+				* RENDERVIEW_VBLUR_2_ID - Vertical   blur for third  split.
+				* RENDERVIEW_HBLUR_2_ID - Horizontal blur for third  split.
+				* RENDERVIEW_VBLUR_3_ID - Vertical   blur for fourth split.
+				* RENDERVIEW_HBLUR_3_ID - Horizontal blur for fourth split.
+				* RENDERVIEW_DRAWSCENE_0_ID - Draw scene.
+				* RENDERVIEW_DRAWSCENE_1_ID - Draw floor bottom.
+				* RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer for first  split.
+				* RENDERVIEW_DRAWDEPTH_1_ID - Draw depth buffer for second split.
+				* RENDERVIEW_DRAWDEPTH_2_ID - Draw depth buffer for third  split.
+				* RENDERVIEW_DRAWDEPTH_3_ID - Draw depth buffer for fourth split.
+				*/
+
+			depthRectHeight = m_viewState.m_height / 3;
+			depthRectWidth  = depthRectHeight;
+			depthRectX = 0;
+			depthRectY = m_viewState.m_height - depthRectHeight;
+
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_VBLUR_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_HBLUR_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_VBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_HBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_VBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_HBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX+(0*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
+			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_1_ID, depthRectX+(1*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
+			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_2_ID, depthRectX+(2*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
+			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_3_ID, depthRectX+(3*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
+
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[0], lightProj[0]);
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, lightView[0], lightProj[1]);
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, lightView[0], lightProj[2]);
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, lightView[0], lightProj[3]);
+			bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_VBLUR_1_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_HBLUR_1_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_VBLUR_2_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_HBLUR_2_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_VBLUR_3_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_HBLUR_3_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_1_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, screenView, screenProj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_3_ID, screenView, screenProj);
+
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[1]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_rtShadowMap[2]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_rtShadowMap[3]);
+			bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);         //vblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]); //hblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_1_ID, FShadowRenderer::s_rtBlur);         //vblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_1_ID, FShadowRenderer::s_rtShadowMap[1]); //hblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_2_ID, FShadowRenderer::s_rtBlur);         //vblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_2_ID, FShadowRenderer::s_rtShadowMap[2]); //hblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_3_ID, FShadowRenderer::s_rtBlur);         //vblur
+			bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_3_ID, FShadowRenderer::s_rtShadowMap[3]); //hblur
+		}
+
+		// Clear backbuffer at beginning.
+		bgfx::setViewClear(0
+							, BGFX_CLEAR_COLOR
+							| BGFX_CLEAR_DEPTH
+							, m_clearValues.m_clearRgba
+							, m_clearValues.m_clearDepth
+							, m_clearValues.m_clearStencil
 							);
+		bgfx::touch(0);
 
-				//For linear depth, prevent depth division by variable w component in shaders and divide here by far plane
-				if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
+		// Clear shadowmap rendertarget at beginning.
+		const uint8_t flags0 = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		? 0
+		: BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL
+		;
+
+		bgfx::setViewClear(RENDERVIEW_SHADOWMAP_0_ID
+							, flags0
+							, 0xfefefefe //blur fails on completely white regions
+							, m_clearValues.m_clearDepth
+							, m_clearValues.m_clearStencil
+							);
+		bgfx::touch(RENDERVIEW_SHADOWMAP_0_ID);
+
+		const uint8_t flags1 = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		? BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+		: 0
+		;
+
+		for (uint8_t ii = 0; ii < 4; ++ii)
+		{
+			bgfx::setViewClear(RENDERVIEW_SHADOWMAP_1_ID+ii
+								, flags1
+								, 0xfefefefe //blur fails on completely white regions
+								, m_clearValues.m_clearDepth
+								, m_clearValues.m_clearStencil
+								);
+			bgfx::touch(RENDERVIEW_SHADOWMAP_1_ID+ii);
+		}
+
+		// Render.
+
+		// Craft shadow map.
+		{
+			// Craft stencil mask for point light shadow map packing.
+			if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+			{
+				if (6 == bgfx::getAvailTransientVertexBuffer(6, m_posLayout) )
 				{
-					lightProj[ProjType::Horizontal][10] /= currentSmSettings->m_far;
-					lightProj[ProjType::Horizontal][14] /= currentSmSettings->m_far;
-				}
-
-
-				for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
-				{
-					float mtxTmp[16];
-					mtxYawPitchRoll(mtxTmp, ypr[ii][0], ypr[ii][1], ypr[ii][2]);
-
-					float tmp[3] =
+					struct Pos
 					{
-						-bx::dot(bx::load<bx::Vec3>(m_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[0]) ),
-						-bx::dot(bx::load<bx::Vec3>(m_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[4]) ),
-						-bx::dot(bx::load<bx::Vec3>(m_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[8]) ),
+						float m_x, m_y, m_z;
 					};
 
-					bx::mtxTranspose(mtxYpr[ii], mtxTmp);
+					bgfx::TransientVertexBuffer vb;
+					bgfx::allocTransientVertexBuffer(&vb, 6, m_posLayout);
+					Pos* vertex = (Pos*)vb.data;
 
-					bx::memCopy(lightView[ii], mtxYpr[ii], 12*sizeof(float) );
-					lightView[ii][12] = tmp[0];
-					lightView[ii][13] = tmp[1];
-					lightView[ii][14] = tmp[2];
-					lightView[ii][15] = 1.0f;
-				}
-			}
-			else // LightType::DirectionalLight == settings.m_lightType
-			{
-				// Setup light view mtx.
-				const bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
-				const bx::Vec3 eye =
-				{
-					-m_directionalLight.m_position.m_x,
-					-m_directionalLight.m_position.m_y,
-					-m_directionalLight.m_position.m_z,
-				};
-				bx::mtxLookAt(lightView[0], eye, at);
+					const float min = 0.0f;
+					const float max = 1.0f;
+					const float center = 0.5f;
+					const float zz = 0.0f;
 
-				// Compute camera inverse view mtx.
-				float mtxViewInv[16];
-				bx::mtxInverse(mtxViewInv, m_viewState.m_view);
+					vertex[0].m_x = min;
+					vertex[0].m_y = min;
+					vertex[0].m_z = zz;
 
-				// Compute split distances.
-				const uint8_t maxNumSplits = 4;
-				BX_CHECK(maxNumSplits >= settings.m_numSplits, "Error! Max num splits.");
+					vertex[1].m_x = max;
+					vertex[1].m_y = min;
+					vertex[1].m_z = zz;
 
-				float splitSlices[maxNumSplits*2];
-				splitFrustum(splitSlices
-					, uint8_t(FShadowRenderer::s_settings.m_numSplits)
-					, currentSmSettings->m_near
-					, currentSmSettings->m_far
-					, FShadowRenderer::s_settings.m_splitDistribution
-					);
+					vertex[2].m_x = center;
+					vertex[2].m_y = center;
+					vertex[2].m_z = zz;
 
-				// Update uniforms.
-				for (uint8_t ii = 0, ff = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, ff+=2)
-				{
-					// This lags for 1 frame, but it's not a problem.
-					FShadowRenderer::s_uniforms.m_csmFarDistances[ii] = splitSlices[ff];
-				}
+					vertex[3].m_x = center;
+					vertex[3].m_y = center;
+					vertex[3].m_z = zz;
 
-				float mtxProj[16];
-				bx::mtxOrtho(
-					  mtxProj
-					, 1.0f
-					, -1.0f
-					, 1.0f
-					, -1.0f
-					, -currentSmSettings->m_far
-					, currentSmSettings->m_far
-					, 0.0f
-					, caps->homogeneousDepth
-					);
+					vertex[4].m_x = max;
+					vertex[4].m_y = max;
+					vertex[4].m_z = zz;
 
-				const uint8_t numCorners = 8;
-				float frustumCorners[maxNumSplits][numCorners][3];
-				for (uint8_t ii = 0, nn = 0, ff = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, nn+=2, ff+=2)
-				{
-					// Compute frustum corners for one split in world space.
-					worldSpaceFrustumCorners( (float*)frustumCorners[ii], splitSlices[nn], splitSlices[ff], projWidth, projHeight, mtxViewInv);
+					vertex[5].m_x = min;
+					vertex[5].m_y = max;
+					vertex[5].m_z = zz;
 
-					bx::Vec3 min = {  9000.0f,  9000.0f,  9000.0f };
-					bx::Vec3 max = { -9000.0f, -9000.0f, -9000.0f };
-
-					for (uint8_t jj = 0; jj < numCorners; ++jj)
-					{
-						// Transform to light space.
-						const bx::Vec3 xyz = bx::mul(bx::load<bx::Vec3>(frustumCorners[ii][jj]), lightView[0]);
-
-						// Update bounding box.
-						min = bx::min(min, xyz);
-						max = bx::max(max, xyz);
-					}
-
-					const bx::Vec3 minproj = bx::mulH(min, mtxProj);
-					const bx::Vec3 maxproj = bx::mulH(max, mtxProj);
-
-					float scalex = 2.0f / (maxproj.x - minproj.x);
-					float scaley = 2.0f / (maxproj.y - minproj.y);
-
-					if (FShadowRenderer::s_settings.m_stabilize)
-					{
-						const float quantizer = 64.0f;
-						scalex = quantizer / bx::ceil(quantizer / scalex);
-						scaley = quantizer / bx::ceil(quantizer / scaley);
-					}
-
-					float offsetx = 0.5f * (maxproj.x + minproj.x) * scalex;
-					float offsety = 0.5f * (maxproj.y + minproj.y) * scaley;
-
-					if (FShadowRenderer::s_settings.m_stabilize)
-					{
-						const float halfSize = currentShadowMapSizef * 0.5f;
-						offsetx = bx::ceil(offsetx * halfSize) / halfSize;
-						offsety = bx::ceil(offsety * halfSize) / halfSize;
-					}
-
-					float mtxCrop[16];
-					bx::mtxIdentity(mtxCrop);
-					mtxCrop[ 0] = scalex;
-					mtxCrop[ 5] = scaley;
-					mtxCrop[12] = offsetx;
-					mtxCrop[13] = offsety;
-
-					bx::mtxMul(lightProj[ii], mtxCrop, mtxProj);
+					bgfx::setState(0);
+					bgfx::setStencil(BGFX_STENCIL_TEST_ALWAYS
+										| BGFX_STENCIL_FUNC_REF(1)
+										| BGFX_STENCIL_FUNC_RMASK(0xff)
+										| BGFX_STENCIL_OP_FAIL_S_REPLACE
+										| BGFX_STENCIL_OP_FAIL_Z_REPLACE
+										| BGFX_STENCIL_OP_PASS_Z_REPLACE
+										);
+					bgfx::setVertexBuffer(0, &vb);
+					bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_programs.m_black);
 				}
 			}
 
-			// Reset render targets.
-			const bgfx::FrameBufferHandle invalidRt = BGFX_INVALID_HANDLE;
-			for (uint8_t ii = 0; ii < RENDERVIEW_DRAWDEPTH_3_ID+1; ++ii)
-			{
-				bgfx::setViewFrameBuffer(ii, invalidRt);
-				bgfx::setViewRect(ii, 0, 0, m_viewState.m_width, m_viewState.m_height);
-			}
-
-			// Determine on-screen rectangle size where depth buffer will be drawn.
-			uint16_t depthRectHeight = uint16_t(float(m_viewState.m_height) / 2.5f);
-			uint16_t depthRectWidth  = depthRectHeight;
-			uint16_t depthRectX = 0;
-			uint16_t depthRectY = m_viewState.m_height - depthRectHeight;
-
-			// Setup views and render targets.
-			bgfx::setViewRect(0, 0, 0, m_viewState.m_width, m_viewState.m_height);
-			bgfx::setViewTransform(0, m_viewState.m_view, m_viewState.m_proj);
-
+			// Draw scene into shadowmap.
+			uint8_t drawNum;
 			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 			{
-				/**
-				 * RENDERVIEW_SHADOWMAP_0_ID - Clear shadow map. (used as convenience, otherwise render_pass_1 could be cleared)
-				 * RENDERVIEW_SHADOWMAP_1_ID - Craft shadow map.
-				 * RENDERVIEW_VBLUR_0_ID - Vertical blur.
-				 * RENDERVIEW_HBLUR_0_ID - Horizontal blur.
-				 * RENDERVIEW_DRAWSCENE_0_ID - Draw scene.
-				 * RENDERVIEW_DRAWSCENE_1_ID - Draw floor bottom.
-				 * RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer.
-				 */
-
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-				bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-				bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
-
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[0], lightProj[ProjType::Horizontal]);
-				bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
-
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
-				bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+				drawNum = 1;
 			}
 			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 			{
-				/**
-				 * RENDERVIEW_SHADOWMAP_0_ID - Clear entire shadow map.
-				 * RENDERVIEW_SHADOWMAP_1_ID - Craft green tetrahedron shadow face.
-				 * RENDERVIEW_SHADOWMAP_2_ID - Craft yellow tetrahedron shadow face.
-				 * RENDERVIEW_SHADOWMAP_3_ID - Craft blue tetrahedron shadow face.
-				 * RENDERVIEW_SHADOWMAP_4_ID - Craft red tetrahedron shadow face.
-				 * RENDERVIEW_VBLUR_0_ID - Vertical blur.
-				 * RENDERVIEW_HBLUR_0_ID - Horizontal blur.
-				 * RENDERVIEW_DRAWSCENE_0_ID - Draw scene.
-				 * RENDERVIEW_DRAWSCENE_1_ID - Draw floor bottom.
-				 * RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer.
-				 */
-
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				if (FShadowRenderer::s_settings.m_stencilPack)
-				{
-					const uint16_t f = FShadowRenderer::s_currentShadowMapSize;   //full size
-					const uint16_t h = FShadowRenderer::s_currentShadowMapSize/2; //half size
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, f, h);
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, h, f, h);
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, h, f);
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, h, 0, h, f);
-				}
-				else
-				{
-					const uint16_t h = FShadowRenderer::s_currentShadowMapSize/2; //half size
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, h, h);
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, h, 0, h, h);
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, h, h, h);
-					bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, h, h, h, h);
-				}
-				bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-				bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-				bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
-
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[TetrahedronFaces::Green],  lightProj[ProjType::Horizontal]);
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, lightView[TetrahedronFaces::Yellow], lightProj[ProjType::Horizontal]);
-				if(FShadowRenderer::s_settings.m_stencilPack)
-				{
-					bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, lightView[TetrahedronFaces::Blue], lightProj[ProjType::Vertical]);
-					bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, lightView[TetrahedronFaces::Red],  lightProj[ProjType::Vertical]);
-				}
-				else
-				{
-					bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, lightView[TetrahedronFaces::Blue], lightProj[ProjType::Horizontal]);
-					bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, lightView[TetrahedronFaces::Red],  lightProj[ProjType::Horizontal]);
-				}
-				bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
-
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
-				bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+				drawNum = 4;
 			}
-			else // LightType::DirectionalLight == settings.m_lightType
+			else //LightType::DirectionalLight == settings.m_lightType)
 			{
-				/**
-				 * RENDERVIEW_SHADOWMAP_1_ID - Craft shadow map for first  split.
-				 * RENDERVIEW_SHADOWMAP_2_ID - Craft shadow map for second split.
-				 * RENDERVIEW_SHADOWMAP_3_ID - Craft shadow map for third  split.
-				 * RENDERVIEW_SHADOWMAP_4_ID - Craft shadow map for fourth split.
-				 * RENDERVIEW_VBLUR_0_ID - Vertical   blur for first  split.
-				 * RENDERVIEW_HBLUR_0_ID - Horizontal blur for first  split.
-				 * RENDERVIEW_VBLUR_1_ID - Vertical   blur for second split.
-				 * RENDERVIEW_HBLUR_1_ID - Horizontal blur for second split.
-				 * RENDERVIEW_VBLUR_2_ID - Vertical   blur for third  split.
-				 * RENDERVIEW_HBLUR_2_ID - Horizontal blur for third  split.
-				 * RENDERVIEW_VBLUR_3_ID - Vertical   blur for fourth split.
-				 * RENDERVIEW_HBLUR_3_ID - Horizontal blur for fourth split.
-				 * RENDERVIEW_DRAWSCENE_0_ID - Draw scene.
-				 * RENDERVIEW_DRAWSCENE_1_ID - Draw floor bottom.
-				 * RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer for first  split.
-				 * RENDERVIEW_DRAWDEPTH_1_ID - Draw depth buffer for second split.
-				 * RENDERVIEW_DRAWDEPTH_2_ID - Draw depth buffer for third  split.
-				 * RENDERVIEW_DRAWDEPTH_3_ID - Draw depth buffer for fourth split.
-				 */
-
-				depthRectHeight = m_viewState.m_height / 3;
-				depthRectWidth  = depthRectHeight;
-				depthRectX = 0;
-				depthRectY = m_viewState.m_height - depthRectHeight;
-
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_VBLUR_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_HBLUR_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_VBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_HBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_VBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_HBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-				bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-				bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-				bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX+(0*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
-				bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_1_ID, depthRectX+(1*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
-				bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_2_ID, depthRectX+(2*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
-				bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_3_ID, depthRectX+(3*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
-
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[0], lightProj[0]);
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, lightView[0], lightProj[1]);
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, lightView[0], lightProj[2]);
-				bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, lightView[0], lightProj[3]);
-				bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_VBLUR_1_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_HBLUR_1_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_VBLUR_2_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_HBLUR_2_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_VBLUR_3_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_HBLUR_3_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_1_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, screenView, screenProj);
-				bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_3_ID, screenView, screenProj);
-
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[1]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_rtShadowMap[2]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_rtShadowMap[3]);
-				bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);         //vblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]); //hblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_1_ID, FShadowRenderer::s_rtBlur);         //vblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_1_ID, FShadowRenderer::s_rtShadowMap[1]); //hblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_2_ID, FShadowRenderer::s_rtBlur);         //vblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_2_ID, FShadowRenderer::s_rtShadowMap[2]); //hblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_3_ID, FShadowRenderer::s_rtBlur);         //vblur
-				bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_3_ID, FShadowRenderer::s_rtShadowMap[3]); //hblur
+				drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
 			}
 
-			// Clear backbuffer at beginning.
-			bgfx::setViewClear(0
-							   , BGFX_CLEAR_COLOR
-							   | BGFX_CLEAR_DEPTH
-							   , m_clearValues.m_clearRgba
-							   , m_clearValues.m_clearDepth
-							   , m_clearValues.m_clearStencil
-							   );
-			bgfx::touch(0);
-
-			// Clear shadowmap rendertarget at beginning.
-			const uint8_t flags0 = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
-			? 0
-			: BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL
-			;
-
-			bgfx::setViewClear(RENDERVIEW_SHADOWMAP_0_ID
-							   , flags0
-							   , 0xfefefefe //blur fails on completely white regions
-							   , m_clearValues.m_clearDepth
-							   , m_clearValues.m_clearStencil
-							   );
-			bgfx::touch(RENDERVIEW_SHADOWMAP_0_ID);
-
-			const uint8_t flags1 = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
-			? BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-			: 0
-			;
-
-			for (uint8_t ii = 0; ii < 4; ++ii)
+			for (uint8_t ii = 0; ii < drawNum; ++ii)
 			{
-				bgfx::setViewClear(RENDERVIEW_SHADOWMAP_1_ID+ii
-								   , flags1
-								   , 0xfefefefe //blur fails on completely white regions
-								   , m_clearValues.m_clearDepth
-								   , m_clearValues.m_clearStencil
-								   );
-				bgfx::touch(RENDERVIEW_SHADOWMAP_1_ID+ii);
-			}
+				const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
 
-			// Render.
-
-			// Craft shadow map.
-			{
-				// Craft stencil mask for point light shadow map packing.
+				uint8_t renderStateIndex = RenderState::ShadowMap_PackDepth;
 				if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
 				{
-					if (6 == bgfx::getAvailTransientVertexBuffer(6, m_posLayout) )
-					{
-						struct Pos
-						{
-							float m_x, m_y, m_z;
-						};
-
-						bgfx::TransientVertexBuffer vb;
-						bgfx::allocTransientVertexBuffer(&vb, 6, m_posLayout);
-						Pos* vertex = (Pos*)vb.data;
-
-						const float min = 0.0f;
-						const float max = 1.0f;
-						const float center = 0.5f;
-						const float zz = 0.0f;
-
-						vertex[0].m_x = min;
-						vertex[0].m_y = min;
-						vertex[0].m_z = zz;
-
-						vertex[1].m_x = max;
-						vertex[1].m_y = min;
-						vertex[1].m_z = zz;
-
-						vertex[2].m_x = center;
-						vertex[2].m_y = center;
-						vertex[2].m_z = zz;
-
-						vertex[3].m_x = center;
-						vertex[3].m_y = center;
-						vertex[3].m_z = zz;
-
-						vertex[4].m_x = max;
-						vertex[4].m_y = max;
-						vertex[4].m_z = zz;
-
-						vertex[5].m_x = min;
-						vertex[5].m_y = max;
-						vertex[5].m_z = zz;
-
-						bgfx::setState(0);
-						bgfx::setStencil(BGFX_STENCIL_TEST_ALWAYS
-										 | BGFX_STENCIL_FUNC_REF(1)
-										 | BGFX_STENCIL_FUNC_RMASK(0xff)
-										 | BGFX_STENCIL_OP_FAIL_S_REPLACE
-										 | BGFX_STENCIL_OP_FAIL_Z_REPLACE
-										 | BGFX_STENCIL_OP_PASS_Z_REPLACE
-										 );
-						bgfx::setVertexBuffer(0, &vb);
-						bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_programs.m_black);
-					}
-				}
-
-				// Draw scene into shadowmap.
-				uint8_t drawNum;
-				if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
-				{
-					drawNum = 1;
-				}
-				else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
-				{
-					drawNum = 4;
-				}
-				else //LightType::DirectionalLight == settings.m_lightType)
-				{
-					drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
-				}
-
-				for (uint8_t ii = 0; ii < drawNum; ++ii)
-				{
-					const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
-
-					uint8_t renderStateIndex = RenderState::ShadowMap_PackDepth;
-					if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
-					{
-						renderStateIndex = uint8_t( (ii < 2) ? RenderState::ShadowMap_PackDepthHoriz : RenderState::ShadowMap_PackDepthVert);
-					}
-
-					// Floor.
-					m_hplaneMesh.submit(viewId
-										, mtxFloor
-										, *currentSmSettings->m_progPack
-										, s_renderStates[renderStateIndex]
-										);
-
-					//// Bunny.
-					//m_bunnyMesh.submit(viewId
-					//				   , mtxBunny
-					//				   , *currentSmSettings->m_progPack
-					//				   , s_renderStates[renderStateIndex]
-					//				   );
-
-					//// Hollow cube.
-					//m_hollowcubeMesh.submit(viewId
-					//						, mtxHollowcube
-					//						, *currentSmSettings->m_progPack
-					//						, s_renderStates[renderStateIndex]
-					//						);
-
-					// Cube.
-					m_cubeMesh.submit(viewId
-									  , mtxCube
-									  , *currentSmSettings->m_progPack
-									  , s_renderStates[renderStateIndex]
-									  );
-
-					//// Trees.
-					//for (uint8_t jj = 0; jj < numTrees; ++jj)
-					//{
-					//	m_treeMesh.submit(viewId
-					//					  , mtxTrees[jj]
-					//					  , *currentSmSettings->m_progPack
-					//					  , s_renderStates[renderStateIndex]
-					//					  );
-					//}
-				}
-			}
-
-			PackDepth::Enum depthType = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) ? PackDepth::VSM : PackDepth::RGBA;
-			bool bVsmOrEsm = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) || (SmImpl::ESM == FShadowRenderer::s_settings.m_smImpl);
-
-			// Blur shadow map.
-			if (bVsmOrEsm
-				&&  currentSmSettings->m_doBlur)
-			{
-				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]) );
-				bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-				bgfx::submit(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_programs.m_vBlur[depthType]);
-
-				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur) );
-				bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-				bgfx::submit(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_programs.m_hBlur[depthType]);
-
-				if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
-				{
-					for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, jj+=2)
-					{
-						const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
-
-						bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]) );
-						bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-						screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-						bgfx::submit(viewId, FShadowRenderer::s_programs.m_vBlur[depthType]);
-
-						bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur) );
-						bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-						screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-						bgfx::submit(viewId+1, FShadowRenderer::s_programs.m_hBlur[depthType]);
-					}
-				}
-			}
-
-			// Draw scene.
-			{
-				// Setup shadow mtx.
-				float mtxShadow[16];
-
-				const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
-				float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
-
-				const float mtxBias[16] =
-				{
-					0.5f, 0.0f, 0.0f, 0.0f,
-					0.0f, ymul, 0.0f, 0.0f,
-					0.0f, 0.0f, 0.5f, 0.0f,
-					0.5f, 0.5f, zadd, 1.0f,
-				};
-
-				if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
-				{
-					float mtxTmp[16];
-					bx::mtxMul(mtxTmp, lightProj[ProjType::Horizontal], mtxBias);
-					bx::mtxMul(mtxShadow, lightView[0], mtxTmp); //lightViewProjBias
-				}
-				else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
-				{
-					const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
-					zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
-
-					const float mtxCropBias[2][TetrahedronFaces::Count][16] =
-					{
-						{ // settings.m_stencilPack == false
-
-							{ // D3D: Green, OGL: Blue
-								0.25f,    0.0f, 0.0f, 0.0f,
-							 0.0f, s*0.25f, 0.0f, 0.0f,
-							 0.0f,    0.0f, 0.5f, 0.0f,
-								0.25f,   0.25f, zadd, 1.0f,
-							},
-							{ // D3D: Yellow, OGL: Red
-								0.25f,    0.0f, 0.0f, 0.0f,
-							 0.0f, s*0.25f, 0.0f, 0.0f,
-							 0.0f,    0.0f, 0.5f, 0.0f,
-								0.75f,   0.25f, zadd, 1.0f,
-							},
-							{ // D3D: Blue, OGL: Green
-								0.25f,    0.0f, 0.0f, 0.0f,
-							 0.0f, s*0.25f, 0.0f, 0.0f,
-							 0.0f,    0.0f, 0.5f, 0.0f,
-								0.25f,   0.75f, zadd, 1.0f,
-							},
-							{ // D3D: Red, OGL: Yellow
-								0.25f,    0.0f, 0.0f, 0.0f,
-							 0.0f, s*0.25f, 0.0f, 0.0f,
-							 0.0f,    0.0f, 0.5f, 0.0f,
-								0.75f,   0.75f, zadd, 1.0f,
-							},
-						},
-						{ // settings.m_stencilPack == true
-
-							{ // D3D: Red, OGL: Blue
-								0.25f,   0.0f, 0.0f, 0.0f,
-							 0.0f, s*0.5f, 0.0f, 0.0f,
-							 0.0f,   0.0f, 0.5f, 0.0f,
-								0.25f,   0.5f, zadd, 1.0f,
-							},
-							{ // D3D: Blue, OGL: Red
-								0.25f,   0.0f, 0.0f, 0.0f,
-							 0.0f, s*0.5f, 0.0f, 0.0f,
-							 0.0f,   0.0f, 0.5f, 0.0f,
-								0.75f,   0.5f, zadd, 1.0f,
-							},
-							{ // D3D: Green, OGL: Green
-								0.5f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.5f,   0.75f, zadd, 1.0f,
-							},
-							{ // D3D: Yellow, OGL: Yellow
-								0.5f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.5f,   0.25f, zadd, 1.0f,
-							},
-						}
-					};
-
-					//Use as: [stencilPack][flipV][tetrahedronFace]
-					static const uint8_t cropBiasIndices[2][2][4] =
-					{
-						{ // settings.m_stencilPack == false
-							{ 0, 1, 2, 3 }, //flipV == false
-							{ 2, 3, 0, 1 }, //flipV == true
-						},
-						{ // settings.m_stencilPack == true
-							{ 3, 2, 0, 1 }, //flipV == false
-							{ 2, 3, 0, 1 }, //flipV == true
-						},
-					};
-
-					for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
-					{
-						ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii>1) : ProjType::Horizontal;
-						uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
-
-						float mtxTmp[16];
-						bx::mtxMul(mtxTmp, mtxYpr[ii], lightProj[projType]);
-						bx::mtxMul(m_shadowMapMtx[ii], mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //mtxYprProjBias
-					}
-
-					bx::mtxTranslate(mtxShadow //lightInvTranslate
-									 , -m_pointLight.m_position.m_v[0]
-									 , -m_pointLight.m_position.m_v[1]
-									 , -m_pointLight.m_position.m_v[2]
-									 );
-				}
-				else //LightType::DirectionalLight == settings.m_lightType
-				{
-					for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
-					{
-						float mtxTmp[16];
-
-						bx::mtxMul(mtxTmp, lightProj[ii], mtxBias);
-						bx::mtxMul(m_shadowMapMtx[ii], lightView[0], mtxTmp); //lViewProjCropBias
-					}
+					renderStateIndex = uint8_t( (ii < 2) ? RenderState::ShadowMap_PackDepthHoriz : RenderState::ShadowMap_PackDepthVert);
 				}
 
 				// Floor.
-				if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-				{
-					bx::mtxMul(m_lightMtx, mtxFloor, mtxShadow); //not needed for directional light
-				}
-				m_hplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+				m_hplaneMesh.submit(viewId
 									, mtxFloor
-									, *currentSmSettings->m_progDraw
-									, s_renderStates[RenderState::Default]
-									, true
+									, *currentSmSettings->m_progPack
+									, s_renderStates[renderStateIndex]
 									);
 
 				//// Bunny.
-				//if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-				//{
-				//	bx::mtxMul(m_lightMtx, mtxBunny, mtxShadow);
-				//}
-				//m_bunnyMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+				//m_bunnyMesh.submit(viewId
 				//				   , mtxBunny
-				//				   , *currentSmSettings->m_progDraw
-				//				   , s_renderStates[RenderState::Default]
-				//				   , true
+				//				   , *currentSmSettings->m_progPack
+				//				   , s_renderStates[renderStateIndex]
 				//				   );
 
 				//// Hollow cube.
-				//if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-				//{
-				//	bx::mtxMul(m_lightMtx, mtxHollowcube, mtxShadow);
-				//}
-				//m_hollowcubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+				//m_hollowcubeMesh.submit(viewId
 				//						, mtxHollowcube
-				//						, *currentSmSettings->m_progDraw
-				//						, s_renderStates[RenderState::Default]
-				//						, true
+				//						, *currentSmSettings->m_progPack
+				//						, s_renderStates[renderStateIndex]
 				//						);
 
 				// Cube.
-				if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-				{
-					bx::mtxMul(m_lightMtx, mtxCube, mtxShadow);
-				}
-				m_cubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-								  , mtxCube
-								  , *currentSmSettings->m_progDraw
-								  , s_renderStates[RenderState::Default]
-								  , true
-								  );
+				m_cubeMesh.submit(viewId
+									, mtxCube
+									, *currentSmSettings->m_progPack
+									, s_renderStates[renderStateIndex]
+									);
 
 				//// Trees.
-				//for (uint8_t ii = 0; ii < numTrees; ++ii)
+				//for (uint8_t jj = 0; jj < numTrees; ++jj)
 				//{
-				//	if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-				//	{
-				//		bx::mtxMul(m_lightMtx, mtxTrees[ii], mtxShadow);
-				//	}
-				//	m_treeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-				//					  , mtxTrees[ii]
-				//					  , *currentSmSettings->m_progDraw
-				//					  , s_renderStates[RenderState::Default]
-				//					  , true
+				//	m_treeMesh.submit(viewId
+				//					  , mtxTrees[jj]
+				//					  , *currentSmSettings->m_progPack
+				//					  , s_renderStates[renderStateIndex]
 				//					  );
 				//}
+			}
+		}
 
-				// Lights.
-				if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType || LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+		PackDepth::Enum depthType = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) ? PackDepth::VSM : PackDepth::RGBA;
+		bool bVsmOrEsm = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) || (SmImpl::ESM == FShadowRenderer::s_settings.m_smImpl);
+
+		// Blur shadow map.
+		if (bVsmOrEsm
+			&&  currentSmSettings->m_doBlur)
+		{
+			bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]) );
+			bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
+			screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+			bgfx::submit(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_programs.m_vBlur[depthType]);
+
+			bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur) );
+			bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
+			screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+			bgfx::submit(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_programs.m_hBlur[depthType]);
+
+			if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+			{
+				for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, jj+=2)
 				{
-					const float lightScale[3] = { 1.5f, 1.5f, 1.5f };
-					float mtx[16];
-					mtxBillboard(mtx, m_viewState.m_view, m_pointLight.m_position.m_v, lightScale);
-					m_vplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-										, mtx
-										, FShadowRenderer::s_programs.m_colorTexture
-										, s_renderStates[RenderState::Custom_BlendLightTexture]
-										, m_texFlare
-										);
+					const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
+
+					bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]) );
+					bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
+					screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+					bgfx::submit(viewId, FShadowRenderer::s_programs.m_vBlur[depthType]);
+
+					bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur) );
+					bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
+					screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+					bgfx::submit(viewId+1, FShadowRenderer::s_programs.m_hBlur[depthType]);
+				}
+			}
+		}
+
+		// Draw scene.
+		{
+			// Setup shadow mtx.
+			float mtxShadow[16];
+
+			const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
+			float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+
+			const float mtxBias[16] =
+			{
+				0.5f, 0.0f, 0.0f, 0.0f,
+				0.0f, ymul, 0.0f, 0.0f,
+				0.0f, 0.0f, 0.5f, 0.0f,
+				0.5f, 0.5f, zadd, 1.0f,
+			};
+
+			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+			{
+				float mtxTmp[16];
+				bx::mtxMul(mtxTmp, lightProj[ProjType::Horizontal], mtxBias);
+				bx::mtxMul(mtxShadow, lightView[0], mtxTmp); //lightViewProjBias
+			}
+			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+			{
+				const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
+				zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+
+				const float mtxCropBias[2][TetrahedronFaces::Count][16] =
+				{
+					{ // settings.m_stencilPack == false
+
+						{ // D3D: Green, OGL: Blue
+							0.25f,    0.0f, 0.0f, 0.0f,
+							0.0f, s*0.25f, 0.0f, 0.0f,
+							0.0f,    0.0f, 0.5f, 0.0f,
+							0.25f,   0.25f, zadd, 1.0f,
+						},
+						{ // D3D: Yellow, OGL: Red
+							0.25f,    0.0f, 0.0f, 0.0f,
+							0.0f, s*0.25f, 0.0f, 0.0f,
+							0.0f,    0.0f, 0.5f, 0.0f,
+							0.75f,   0.25f, zadd, 1.0f,
+						},
+						{ // D3D: Blue, OGL: Green
+							0.25f,    0.0f, 0.0f, 0.0f,
+							0.0f, s*0.25f, 0.0f, 0.0f,
+							0.0f,    0.0f, 0.5f, 0.0f,
+							0.25f,   0.75f, zadd, 1.0f,
+						},
+						{ // D3D: Red, OGL: Yellow
+							0.25f,    0.0f, 0.0f, 0.0f,
+							0.0f, s*0.25f, 0.0f, 0.0f,
+							0.0f,    0.0f, 0.5f, 0.0f,
+							0.75f,   0.75f, zadd, 1.0f,
+						},
+					},
+					{ // settings.m_stencilPack == true
+
+						{ // D3D: Red, OGL: Blue
+							0.25f,   0.0f, 0.0f, 0.0f,
+							0.0f, s*0.5f, 0.0f, 0.0f,
+							0.0f,   0.0f, 0.5f, 0.0f,
+							0.25f,   0.5f, zadd, 1.0f,
+						},
+						{ // D3D: Blue, OGL: Red
+							0.25f,   0.0f, 0.0f, 0.0f,
+							0.0f, s*0.5f, 0.0f, 0.0f,
+							0.0f,   0.0f, 0.5f, 0.0f,
+							0.75f,   0.5f, zadd, 1.0f,
+						},
+						{ // D3D: Green, OGL: Green
+							0.5f,    0.0f, 0.0f, 0.0f,
+							0.0f, s*0.25f, 0.0f, 0.0f,
+							0.0f,    0.0f, 0.5f, 0.0f,
+							0.5f,   0.75f, zadd, 1.0f,
+						},
+						{ // D3D: Yellow, OGL: Yellow
+							0.5f,    0.0f, 0.0f, 0.0f,
+							0.0f, s*0.25f, 0.0f, 0.0f,
+							0.0f,    0.0f, 0.5f, 0.0f,
+							0.5f,   0.25f, zadd, 1.0f,
+						},
+					}
+				};
+
+				//Use as: [stencilPack][flipV][tetrahedronFace]
+				static const uint8_t cropBiasIndices[2][2][4] =
+				{
+					{ // settings.m_stencilPack == false
+						{ 0, 1, 2, 3 }, //flipV == false
+						{ 2, 3, 0, 1 }, //flipV == true
+					},
+					{ // settings.m_stencilPack == true
+						{ 3, 2, 0, 1 }, //flipV == false
+						{ 2, 3, 0, 1 }, //flipV == true
+					},
+				};
+
+				for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
+				{
+					ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii>1) : ProjType::Horizontal;
+					uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
+
+					float mtxTmp[16];
+					bx::mtxMul(mtxTmp, mtxYpr[ii], lightProj[projType]);
+					bx::mtxMul(FShadowRenderer::s_shadowMapMtx[ii], mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //mtxYprProjBias
 				}
 
-				// Draw floor bottom.
-				float floorBottomMtx[16];
-				bx::mtxSRT(floorBottomMtx
-						   , floorScale //scaleX
-						   , floorScale //scaleY
-						   , floorScale //scaleZ
-						   , 0.0f  //rotX
-						   , 0.0f  //rotY
-						   , 0.0f  //rotZ
-						   , 0.0f  //translateX
-						   , -0.1f //translateY
-						   , 0.0f  //translateZ
-						   );
+				bx::mtxTranslate(mtxShadow //lightInvTranslate
+									, -FShadowRenderer::s_pointLight.m_position.m_v[0]
+									, -FShadowRenderer::s_pointLight.m_position.m_v[1]
+									, -FShadowRenderer::s_pointLight.m_position.m_v[2]
+									);
+			}
+			else //LightType::DirectionalLight == settings.m_lightType
+			{
+				for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+				{
+					float mtxTmp[16];
 
-				m_hplaneMesh.submit(RENDERVIEW_DRAWSCENE_1_ID
-									, floorBottomMtx
-									, FShadowRenderer::s_programs.m_texture
-									, s_renderStates[RenderState::Custom_DrawPlaneBottom]
-									, m_texFigure
+					bx::mtxMul(mtxTmp, lightProj[ii], mtxBias);
+					bx::mtxMul(FShadowRenderer::s_shadowMapMtx[ii], lightView[0], mtxTmp); //lViewProjCropBias
+				}
+			}
+
+			// Floor.
+			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			{
+				bx::mtxMul(FShadowRenderer::s_lightMtx, mtxFloor, mtxShadow); //not needed for directional light
+			}
+			m_hplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+								, mtxFloor
+								, *currentSmSettings->m_progDraw
+								, s_renderStates[RenderState::Default]
+								, true
+								);
+
+			//// Bunny.
+			//if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			//{
+			//	bx::mtxMul(FShadowRenderer::s_lightMtx, mtxBunny, mtxShadow);
+			//}
+			//m_bunnyMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+			//				   , mtxBunny
+			//				   , *currentSmSettings->m_progDraw
+			//				   , s_renderStates[RenderState::Default]
+			//				   , true
+			//				   );
+
+			//// Hollow cube.
+			//if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			//{
+			//	bx::mtxMul(FShadowRenderer::s_lightMtx, mtxHollowcube, mtxShadow);
+			//}
+			//m_hollowcubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+			//						, mtxHollowcube
+			//						, *currentSmSettings->m_progDraw
+			//						, s_renderStates[RenderState::Default]
+			//						, true
+			//						);
+
+			// Cube.
+			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			{
+				bx::mtxMul(FShadowRenderer::s_lightMtx, mtxCube, mtxShadow);
+			}
+			m_cubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+								, mtxCube
+								, *currentSmSettings->m_progDraw
+								, s_renderStates[RenderState::Default]
+								, true
+								);
+
+			//// Trees.
+			//for (uint8_t ii = 0; ii < numTrees; ++ii)
+			//{
+			//	if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			//	{
+			//		bx::mtxMul(FShadowRenderer::s_lightMtx, mtxTrees[ii], mtxShadow);
+			//	}
+			//	m_treeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+			//					  , mtxTrees[ii]
+			//					  , *currentSmSettings->m_progDraw
+			//					  , s_renderStates[RenderState::Default]
+			//					  , true
+			//					  );
+			//}
+
+			// Lights.
+			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType || LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+			{
+				const float lightScale[3] = { 1.5f, 1.5f, 1.5f };
+				float mtx[16];
+				mtxBillboard(mtx, m_viewState.m_view, FShadowRenderer::s_pointLight.m_position.m_v, lightScale);
+				m_vplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+									, mtx
+									, FShadowRenderer::s_programs.m_colorTexture
+									, s_renderStates[RenderState::Custom_BlendLightTexture]
+									, m_texFlare
 									);
 			}
 
-			// Draw depth rect.
-			if (FShadowRenderer::s_settings.m_drawDepthBuffer)
-			{
-				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]) );
-				bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_programs.m_drawDepth[depthType]);
+			// Draw floor bottom.
+			float floorBottomMtx[16];
+			bx::mtxSRT(floorBottomMtx
+						, floorScale //scaleX
+						, floorScale //scaleY
+						, floorScale //scaleZ
+						, 0.0f  //rotX
+						, 0.0f  //rotY
+						, 0.0f  //rotZ
+						, 0.0f  //translateX
+						, -0.1f //translateY
+						, 0.0f  //translateZ
+						);
 
-				if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
-				{
-					for (uint8_t ii = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
-					{
-						bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]) );
-						bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-						screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-						bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID+ii, FShadowRenderer::s_programs.m_drawDepth[depthType]);
-					}
-				}
-			}
-
-
-			// Advance to next frame. Rendering thread will be kicked to
-			// process submitted rendering primitives.
-			bgfx::frame();
-
-			return true;
+			m_hplaneMesh.submit(RENDERVIEW_DRAWSCENE_1_ID
+								, floorBottomMtx
+								, FShadowRenderer::s_programs.m_texture
+								, s_renderStates[RenderState::Custom_DrawPlaneBottom]
+								, m_texFigure
+								);
 		}
 
-		return false;
-	}
+		// Draw depth rect.
+		if (FShadowRenderer::s_settings.m_drawDepthBuffer)
+		{
+			bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]) );
+			bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
+			screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+			bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_programs.m_drawDepth[depthType]);
 
-	MouseState m_mouseState;
-	uint32_t m_width;
-	uint32_t m_height;
-	uint32_t m_debug;
-	uint32_t m_reset;
+			if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+			{
+				for (uint8_t ii = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+				{
+					bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]) );
+					bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
+					screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+					bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID+ii, FShadowRenderer::s_programs.m_drawDepth[depthType]);
+				}
+			}
+		}
+
+
+		// Advance to next frame. Rendering thread will be kicked to
+		// process submitted rendering primitives.
+		bgfx::frame();
+
+		return true;
+	}
 
 	ViewState m_viewState;
 	ClearValues m_clearValues;
@@ -2026,13 +1968,10 @@ public:
 	Mesh m_hplaneMesh;
 	Mesh m_vplaneMesh;
 
-	float m_color[4];
-	Material m_defaultMaterial;
-	Light m_pointLight;
-	Light m_directionalLight;
+	//float FShadowRenderer::s_color[4];
 
-	float m_lightMtx[16];
-	float m_shadowMapMtx[ShadowMapRenderTargets::Count][16];
+	//float FShadowRenderer::s_lightMtx[16];
+	//float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 
 	float m_timeAccumulatorLight;
 	float m_timeAccumulatorScene;

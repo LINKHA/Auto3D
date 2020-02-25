@@ -738,6 +738,15 @@ public:
 
 	static bgfx::FrameBufferHandle s_rtShadowMap[ShadowMapRenderTargets::Count];
 	static bgfx::FrameBufferHandle s_rtBlur;
+
+	static Material s_defaultMaterial;
+	static Light s_pointLight;
+	static Light s_directionalLight;
+
+	static float s_color[4];
+
+	static float s_lightMtx[16];
+	static float s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 };
 
 }

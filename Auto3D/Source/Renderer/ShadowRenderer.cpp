@@ -1,4 +1,5 @@
 #include "Renderer/ShadowRenderer.h"
+#include "Platform/ProcessWindow.h"
 
 namespace Auto3D
 {
@@ -16,6 +17,13 @@ SceneSettings FShadowRenderer::s_settings;
 uint16_t FShadowRenderer::s_currentShadowMapSize;
 bgfx::FrameBufferHandle FShadowRenderer::s_rtShadowMap[ShadowMapRenderTargets::Count];
 bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
+
+Material FShadowRenderer::s_defaultMaterial;
+Light FShadowRenderer::s_pointLight;
+Light FShadowRenderer::s_directionalLight;
+float FShadowRenderer::s_color[4];
+float FShadowRenderer::s_lightMtx[16];
+float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 
 FShadowRenderer::FShadowRenderer() 
 {}
@@ -535,6 +543,54 @@ void FShadowRenderer::init()
 		FShadowRenderer::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 	}
 	FShadowRenderer::s_rtBlur = bgfx::createFrameBuffer(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
+
+	FShadowRenderer::s_uniforms.submitConstUniforms();
+
+	// Materials.
+	s_defaultMaterial =
+	{
+		{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //ambient
+		{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //diffuse
+		{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //specular, exponent
+	};
+
+	// Lights.
+	s_pointLight =
+	{
+		{ { 0.0f, 0.0f, 0.0f, 1.0f   } }, //position
+		{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
+		{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //ambient
+		{ { 1.0f, 1.0f, 1.0f, 850.0f } }, //diffuse
+		{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //specular
+		{ { 0.0f,-0.4f,-0.6f, 0.0f   } }, //spotdirection, spotexponent
+		{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
+		{ { 1.0f, 0.0f, 1.0f, 91.0f  } }, //attenuation, spotcutoff
+	};
+
+	s_directionalLight =
+	{
+		{ { 0.5f,-1.0f, 0.1f, 0.0f  } }, //position
+		{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
+		{ { 1.0f, 1.0f, 1.0f, 0.02f } }, //ambient
+		{ { 1.0f, 1.0f, 1.0f, 0.4f  } }, //diffuse
+		{ { 1.0f, 1.0f, 1.0f, 0.0f  } }, //specular
+		{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //spotdirection, spotexponent
+		{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
+		{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //attenuation, spotcutoff
+	};
+
+	// Setup uniforms.
+	FShadowRenderer::s_color[0] = FShadowRenderer::s_color[1] = FShadowRenderer::s_color[2] = FShadowRenderer::s_color[3] = 1.0f;
+	FShadowRenderer::s_uniforms.setPtrs(&FShadowRenderer::s_defaultMaterial
+		, &FShadowRenderer::s_pointLight
+		, FShadowRenderer::s_color
+		, FShadowRenderer::s_lightMtx
+		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::First][0]
+		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Second][0]
+		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Third][0]
+		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Fourth][0]
+	);
+
 
 }
 void FShadowRenderer::update()
