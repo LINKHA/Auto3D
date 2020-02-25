@@ -618,7 +618,11 @@ public:
 		world->DefineTag(1, "Player");
 
 		AActor* actor = world->CreateChild<AActor>();
-		_camera = actor->CreateComponent<ACameraComponent>();
+		_camera = actor->CreateComponent<ACameraComponent>();		//const float camFovy = 60.0f;
+		_camera->SetFov(60.0f);
+		_camera->SetNearClip(0.1f);
+		_camera->SetFarClip(2000.0f);
+
 		actor->CreateComponent<ADefaultControllerComponent>();
 		actor->GetTransform()->SetPosition({ 0.0f, 60.0f, -105.0f });
 		actor->GetTransform()->SetRotation({ -45.0f, 0.0f, 0.0f });
@@ -876,11 +880,32 @@ public:
 		// Set view and projection matrices.
 		const float camFovy = 60.0f;
 		const float camAspect = float(int32_t(m_viewState.m_width)) / float(int32_t(m_viewState.m_height));
-		const float camNear = 0.1f;
-		const float camFar = 2000.0f;
 		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
 		const float projWidth = projHeight * camAspect;
-		bx::mtxProj(m_viewState.m_proj, camFovy, camAspect, camNear, camFar, caps->homogeneousDepth);
+		//bx::mtxProj(m_viewState.m_proj, camFovy, camAspect, camNear, camFar, caps->homogeneousDepth);
+
+		_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
+
+		TMatrix4x4F projectionMatrix = _camera->GetProjectionMatrix();
+		m_viewState.m_proj[0] = projectionMatrix._m00;
+		m_viewState.m_proj[1] = projectionMatrix._m01;
+		m_viewState.m_proj[2] = projectionMatrix._m02;
+		m_viewState.m_proj[3] = projectionMatrix._m03;
+		m_viewState.m_proj[4] = projectionMatrix._m10;
+		m_viewState.m_proj[5] = projectionMatrix._m11;
+		m_viewState.m_proj[6] = projectionMatrix._m12;
+		m_viewState.m_proj[7] = projectionMatrix._m13;
+		m_viewState.m_proj[8] = projectionMatrix._m20;
+		m_viewState.m_proj[9] = projectionMatrix._m21;
+		m_viewState.m_proj[10] = projectionMatrix._m22;
+		m_viewState.m_proj[11] = projectionMatrix._m23;
+		m_viewState.m_proj[12] = projectionMatrix._m30;
+		m_viewState.m_proj[13] = projectionMatrix._m31;
+		m_viewState.m_proj[14] = projectionMatrix._m32;
+		m_viewState.m_proj[15] = projectionMatrix._m33;
+
+
+
 
 		TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
 		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
@@ -939,30 +964,6 @@ public:
 		last = now;
 		const double freq = double(bx::getHPFrequency() );
 		const float deltaTime = float(frameTime/freq);
-
-		// Update camera.
-		//cameraUpdate(deltaTime, m_mouseState);
-
-		TMatrix3x4F viewMatrix2 = _camera->GetViewMatrix();
-		TMatrix4x4F transposeViewMatrix2 = viewMatrix.ToMatrix4().Transpose();
-		m_viewState.m_view[0] = transposeViewMatrix2._m00;
-		m_viewState.m_view[1] = transposeViewMatrix2._m01;
-		m_viewState.m_view[2] = transposeViewMatrix2._m02;
-		m_viewState.m_view[3] = transposeViewMatrix2._m03;
-		m_viewState.m_view[4] = transposeViewMatrix2._m10;
-		m_viewState.m_view[5] = transposeViewMatrix2._m11;
-		m_viewState.m_view[6] = transposeViewMatrix2._m12;
-		m_viewState.m_view[7] = transposeViewMatrix2._m13;
-		m_viewState.m_view[8] = transposeViewMatrix2._m20;
-		m_viewState.m_view[9] = transposeViewMatrix2._m21;
-		m_viewState.m_view[10] = transposeViewMatrix2._m22;
-		m_viewState.m_view[11] = transposeViewMatrix2._m23;
-		m_viewState.m_view[12] = transposeViewMatrix2._m30;
-		m_viewState.m_view[13] = transposeViewMatrix2._m31;
-		m_viewState.m_view[14] = transposeViewMatrix2._m32;
-		m_viewState.m_view[15] = transposeViewMatrix2._m33;
-		// Update view mtx.
-		//cameraGetViewMtx(m_viewState.m_view);
 
 		// Update lights.
 		FShadowRenderer::s_pointLight.computeViewSpaceComponents(m_viewState.m_view);
