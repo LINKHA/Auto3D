@@ -74,9 +74,8 @@ public:
 
 
 		AActor* plane = world->CreateChild<AActor>();
-		plane->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
-		plane->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
-		plane->GetTransform()->SetScale({ 50.0f, 1.0f, 50.0f });
+		plane->GetTransform()->SetPosition({ 0.0f, -20.0f, 0.0f });
+		plane->GetTransform()->SetScale({ 100.0f, 1.0f, 100.0f });
 		AMeshComponent* planeMeshComponent = plane->CreateComponent<AMeshComponent>();
 		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		planeMeshComponent->SetMaterial(_material2);

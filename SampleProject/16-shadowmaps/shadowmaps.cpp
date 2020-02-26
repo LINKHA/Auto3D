@@ -882,7 +882,6 @@ public:
 		const float camAspect = float(int32_t(m_viewState.m_width)) / float(int32_t(m_viewState.m_height));
 		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
 		const float projWidth = projHeight * camAspect;
-		//bx::mtxProj(m_viewState.m_proj, camFovy, camAspect, camNear, camFar, caps->homogeneousDepth);
 
 		_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
 
@@ -904,9 +903,6 @@ public:
 		m_viewState.m_proj[14] = projectionMatrix._m32;
 		m_viewState.m_proj[15] = projectionMatrix._m33;
 
-
-
-
 		TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
 		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
 		m_viewState.m_view[0] = transposeViewMatrix._m00;
@@ -925,7 +921,6 @@ public:
 		m_viewState.m_view[13] = transposeViewMatrix._m31;
 		m_viewState.m_view[14] = transposeViewMatrix._m32;
 		m_viewState.m_view[15] = transposeViewMatrix._m33;
-		//cameraGetViewMtx(m_viewState.m_view);
 
 		float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
 		FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
@@ -1005,17 +1000,7 @@ public:
 		mtxFloor[13] = planeMatrix._m31;
 		mtxFloor[14] = planeMatrix._m32;
 		mtxFloor[15] = planeMatrix._m33;
-		//bx::mtxSRT(mtxFloor
-		//		   , floorScale //scaleX
-		//		   , floorScale //scaleY
-		//		   , floorScale //scaleZ
-		//		   , 0.0f //rotX
-		//		   , 0.0f //rotY
-		//		   , 0.0f //rotZ
-		//		   , 0.0f //translateX
-		//		   , 0.0f //translateY
-		//		   , 0.0f //translateZ
-		//		   );
+
 
 		float mtxCube[16];
 		TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
