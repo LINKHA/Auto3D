@@ -664,15 +664,6 @@ public:
 		m_hplaneMesh.load(s_hplaneVertices, BX_COUNTOF(s_hplaneVertices), PosNormalTexcoordLayout, s_planeIndices, BX_COUNTOF(s_planeIndices) );
 		m_vplaneMesh.load(s_vplaneVertices, BX_COUNTOF(s_vplaneVertices), PosNormalTexcoordLayout, s_planeIndices, BX_COUNTOF(s_planeIndices) );
 
-		
-		
-		//// Setup camera.
-		//cameraCreate();
-		//cameraSetPosition({ 0.0f, 60.0f, -105.0f });
-		//cameraSetVerticalAngle(-0.45f);
-
-		m_timeAccumulatorLight = 0.0f;
-		m_timeAccumulatorScene = 0.0f;
 	}
 
 	virtual int shutdown() override
@@ -876,7 +867,7 @@ public:
 		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
 		const float projWidth = projHeight * camAspect;
 
-		_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
+		/*_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
 
 		TMatrix4x4F projectionMatrix = _camera->GetProjectionMatrix();
 		FShadowRenderer::s_viewState.m_proj[0] = projectionMatrix._m00;
@@ -913,66 +904,14 @@ public:
 		FShadowRenderer::s_viewState.m_view[12] = transposeViewMatrix._m30;
 		FShadowRenderer::s_viewState.m_view[13] = transposeViewMatrix._m31;
 		FShadowRenderer::s_viewState.m_view[14] = transposeViewMatrix._m32;
-		FShadowRenderer::s_viewState.m_view[15] = transposeViewMatrix._m33;
+		FShadowRenderer::s_viewState.m_view[15] = transposeViewMatrix._m33;*/
 
 		float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
-		FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+		//FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
-		FShadowRenderer::s_uniforms.submitConstUniforms();
+		//FShadowRenderer::s_uniforms.submitConstUniforms();
 
 		ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
-		// Update uniforms.
-		FShadowRenderer::s_uniforms.m_shadowMapBias   = currentShadowMapSettings->m_bias;
-		FShadowRenderer::s_uniforms.m_shadowMapOffset = currentShadowMapSettings->m_normalOffset;
-		FShadowRenderer::s_uniforms.m_shadowMapParam0 = currentShadowMapSettings->m_customParam0;
-		FShadowRenderer::s_uniforms.m_shadowMapParam1 = currentShadowMapSettings->m_customParam1;
-		FShadowRenderer::s_uniforms.m_depthValuePow   = currentShadowMapSettings->m_depthValuePow;
-		FShadowRenderer::s_uniforms.m_XNum            = currentShadowMapSettings->m_xNum;
-		FShadowRenderer::s_uniforms.m_YNum            = currentShadowMapSettings->m_yNum;
-		FShadowRenderer::s_uniforms.m_XOffset         = currentShadowMapSettings->m_xOffset;
-		FShadowRenderer::s_uniforms.m_YOffset         = currentShadowMapSettings->m_yOffset;
-		FShadowRenderer::s_uniforms.m_showSmCoverage  = float(FShadowRenderer::s_settings.m_showSmCoverage);
-		FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? &FShadowRenderer::s_directionalLight : &FShadowRenderer::s_pointLight;
-
-		if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
-		{
-			FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
-			FShadowRenderer::s_pointLight.m_spotDirectionInner.m_inner   = FShadowRenderer::s_settings.m_spotInnerAngle;
-		}
-		else
-		{
-			FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = 91.0f; //above 90.0f means point light
-		}
-
-		FShadowRenderer::s_uniforms.submitPerFrameUniforms();
-
-		// Time.
-		int64_t now = bx::getHPCounter();
-		static int64_t last = now;
-		const int64_t frameTime = now - last;
-		last = now;
-		const double freq = double(bx::getHPFrequency() );
-		const float deltaTime = float(frameTime/freq);
-
-		// Update lights.
-		FShadowRenderer::s_pointLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
-		FShadowRenderer::s_directionalLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
-
-		// Update time accumulators.
-		if (FShadowRenderer::s_settings.m_updateLights) { m_timeAccumulatorLight += deltaTime; }
-		if (FShadowRenderer::s_settings.m_updateScene)  { m_timeAccumulatorScene += deltaTime; }
-
-		// Setup lights.
-		FShadowRenderer::s_pointLight.m_position.m_x = bx::cos(m_timeAccumulatorLight) * 20.0f;
-		FShadowRenderer::s_pointLight.m_position.m_y = 26.0f;
-		FShadowRenderer::s_pointLight.m_position.m_z = bx::sin(m_timeAccumulatorLight) * 20.0f;
-		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_x = -FShadowRenderer::s_pointLight.m_position.m_x;
-		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_y = -FShadowRenderer::s_pointLight.m_position.m_y;
-		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_z = -FShadowRenderer::s_pointLight.m_position.m_z;
-
-		FShadowRenderer::s_directionalLight.m_position.m_x = -bx::cos(m_timeAccumulatorLight);
-		FShadowRenderer::s_directionalLight.m_position.m_y = -1.0f;
-		FShadowRenderer::s_directionalLight.m_position.m_z = -bx::sin(m_timeAccumulatorLight);
 
 		// Setup instance matrices.
 		float mtxFloor[16];
@@ -1945,14 +1884,6 @@ public:
 	Mesh m_hollowcubeMesh;
 	Mesh m_hplaneMesh;
 	Mesh m_vplaneMesh;
-
-	//float FShadowRenderer::s_color[4];
-
-	//float FShadowRenderer::s_lightMtx[16];
-	//float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
-
-	float m_timeAccumulatorLight;
-	float m_timeAccumulatorScene;
 
 	ACameraComponent* _camera;
 

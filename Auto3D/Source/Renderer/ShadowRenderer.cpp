@@ -1,6 +1,8 @@
 #include "Renderer/ShadowRenderer.h"
 #include "Platform/ProcessWindow.h"
 
+#include <bx/timer.h>
+
 namespace Auto3D
 {
 IMPLEMENT_SINGLETON(FShadowRenderer)
@@ -27,6 +29,11 @@ float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 
 ViewState FShadowRenderer::s_viewState;
 ClearValues FShadowRenderer::s_clearValues;
+
+ACameraComponent* FShadowRenderer::s_camera;
+
+float FShadowRenderer::s_timeAccumulatorLight;
+float FShadowRenderer::s_timeAccumulatorScene;
 
 FShadowRenderer::FShadowRenderer() 
 {}
@@ -600,7 +607,8 @@ void FShadowRenderer::init()
 		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Fourth][0]
 	);
 
-
+	FShadowRenderer::s_timeAccumulatorLight = 0.0f;
+	FShadowRenderer::s_timeAccumulatorScene = 0.0f;
 }
 void FShadowRenderer::update()
 {
@@ -609,7 +617,110 @@ void FShadowRenderer::update()
 	FShadowRenderer::s_viewState.m_width = uint16_t(processWindow._width);
 	FShadowRenderer::s_viewState.m_height = uint16_t(processWindow._height);
 
+	const bgfx::Caps* caps = bgfx::getCaps();
 
+	// Set view and projection matrices.
+	const float camFovy = s_camera->GetFov();
+	const float camAspect = s_camera->GetAspectRatio();
+	const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
+	const float projWidth = projHeight * camAspect;
+
+	s_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
+
+	TMatrix4x4F projectionMatrix = s_camera->GetProjectionMatrix();
+	FShadowRenderer::s_viewState.m_proj[0] = projectionMatrix._m00;
+	FShadowRenderer::s_viewState.m_proj[1] = projectionMatrix._m01;
+	FShadowRenderer::s_viewState.m_proj[2] = projectionMatrix._m02;
+	FShadowRenderer::s_viewState.m_proj[3] = projectionMatrix._m03;
+	FShadowRenderer::s_viewState.m_proj[4] = projectionMatrix._m10;
+	FShadowRenderer::s_viewState.m_proj[5] = projectionMatrix._m11;
+	FShadowRenderer::s_viewState.m_proj[6] = projectionMatrix._m12;
+	FShadowRenderer::s_viewState.m_proj[7] = projectionMatrix._m13;
+	FShadowRenderer::s_viewState.m_proj[8] = projectionMatrix._m20;
+	FShadowRenderer::s_viewState.m_proj[9] = projectionMatrix._m21;
+	FShadowRenderer::s_viewState.m_proj[10] = projectionMatrix._m22;
+	FShadowRenderer::s_viewState.m_proj[11] = projectionMatrix._m23;
+	FShadowRenderer::s_viewState.m_proj[12] = projectionMatrix._m30;
+	FShadowRenderer::s_viewState.m_proj[13] = projectionMatrix._m31;
+	FShadowRenderer::s_viewState.m_proj[14] = projectionMatrix._m32;
+	FShadowRenderer::s_viewState.m_proj[15] = projectionMatrix._m33;
+
+	TMatrix3x4F viewMatrix = s_camera->GetViewMatrix();
+	TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
+	FShadowRenderer::s_viewState.m_view[0] = transposeViewMatrix._m00;
+	FShadowRenderer::s_viewState.m_view[1] = transposeViewMatrix._m01;
+	FShadowRenderer::s_viewState.m_view[2] = transposeViewMatrix._m02;
+	FShadowRenderer::s_viewState.m_view[3] = transposeViewMatrix._m03;
+	FShadowRenderer::s_viewState.m_view[4] = transposeViewMatrix._m10;
+	FShadowRenderer::s_viewState.m_view[5] = transposeViewMatrix._m11;
+	FShadowRenderer::s_viewState.m_view[6] = transposeViewMatrix._m12;
+	FShadowRenderer::s_viewState.m_view[7] = transposeViewMatrix._m13;
+	FShadowRenderer::s_viewState.m_view[8] = transposeViewMatrix._m20;
+	FShadowRenderer::s_viewState.m_view[9] = transposeViewMatrix._m21;
+	FShadowRenderer::s_viewState.m_view[10] = transposeViewMatrix._m22;
+	FShadowRenderer::s_viewState.m_view[11] = transposeViewMatrix._m23;
+	FShadowRenderer::s_viewState.m_view[12] = transposeViewMatrix._m30;
+	FShadowRenderer::s_viewState.m_view[13] = transposeViewMatrix._m31;
+	FShadowRenderer::s_viewState.m_view[14] = transposeViewMatrix._m32;
+	FShadowRenderer::s_viewState.m_view[15] = transposeViewMatrix._m33;
+
+	float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
+	FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+
+	FShadowRenderer::s_uniforms.submitConstUniforms();
+
+	ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+	// Update uniforms.
+	FShadowRenderer::s_uniforms.m_shadowMapBias = currentShadowMapSettings->m_bias;
+	FShadowRenderer::s_uniforms.m_shadowMapOffset = currentShadowMapSettings->m_normalOffset;
+	FShadowRenderer::s_uniforms.m_shadowMapParam0 = currentShadowMapSettings->m_customParam0;
+	FShadowRenderer::s_uniforms.m_shadowMapParam1 = currentShadowMapSettings->m_customParam1;
+	FShadowRenderer::s_uniforms.m_depthValuePow = currentShadowMapSettings->m_depthValuePow;
+	FShadowRenderer::s_uniforms.m_XNum = currentShadowMapSettings->m_xNum;
+	FShadowRenderer::s_uniforms.m_YNum = currentShadowMapSettings->m_yNum;
+	FShadowRenderer::s_uniforms.m_XOffset = currentShadowMapSettings->m_xOffset;
+	FShadowRenderer::s_uniforms.m_YOffset = currentShadowMapSettings->m_yOffset;
+	FShadowRenderer::s_uniforms.m_showSmCoverage = float(FShadowRenderer::s_settings.m_showSmCoverage);
+	FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? &FShadowRenderer::s_directionalLight : &FShadowRenderer::s_pointLight;
+
+	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+	{
+		FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
+		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_inner = FShadowRenderer::s_settings.m_spotInnerAngle;
+	}
+	else
+	{
+		FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = 91.0f; //above 90.0f means point light
+	}
+
+	FShadowRenderer::s_uniforms.submitPerFrameUniforms();
+
+	int64_t now = bx::getHPCounter();
+	static int64_t last = now;
+	const int64_t frameTime = now - last;
+	last = now;
+	const double freq = double(bx::getHPFrequency());
+	const float deltaTime = float(frameTime / freq);
+
+	// Update lights.
+	FShadowRenderer::s_pointLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
+	FShadowRenderer::s_directionalLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
+
+	// Update time accumulators.
+	if (FShadowRenderer::s_settings.m_updateLights) { FShadowRenderer::s_timeAccumulatorLight += deltaTime; }
+	if (FShadowRenderer::s_settings.m_updateScene) { FShadowRenderer::s_timeAccumulatorScene += deltaTime; }
+
+	// Setup lights.
+	FShadowRenderer::s_pointLight.m_position.m_x = bx::cos(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
+	FShadowRenderer::s_pointLight.m_position.m_y = 26.0f;
+	FShadowRenderer::s_pointLight.m_position.m_z = bx::sin(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
+	FShadowRenderer::s_pointLight.m_spotDirectionInner.m_x = -FShadowRenderer::s_pointLight.m_position.m_x;
+	FShadowRenderer::s_pointLight.m_spotDirectionInner.m_y = -FShadowRenderer::s_pointLight.m_position.m_y;
+	FShadowRenderer::s_pointLight.m_spotDirectionInner.m_z = -FShadowRenderer::s_pointLight.m_position.m_z;
+
+	FShadowRenderer::s_directionalLight.m_position.m_x = -bx::cos(FShadowRenderer::s_timeAccumulatorLight);
+	FShadowRenderer::s_directionalLight.m_position.m_y = -1.0f;
+	FShadowRenderer::s_directionalLight.m_position.m_z = -bx::sin(FShadowRenderer::s_timeAccumulatorLight);
 }
 
 }

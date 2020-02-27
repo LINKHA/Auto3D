@@ -756,6 +756,10 @@ public:
 	static ClearValues s_clearValues;
 
 	static ACameraComponent* s_camera;
+
+
+	static float s_timeAccumulatorLight;
+	static float s_timeAccumulatorScene;
 };
 
 }
