@@ -25,12 +25,21 @@ float FShadowRenderer::s_color[4];
 float FShadowRenderer::s_lightMtx[16];
 float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 
+ViewState FShadowRenderer::s_viewState;
+ClearValues FShadowRenderer::s_clearValues;
+
 FShadowRenderer::FShadowRenderer() 
 {}
 FShadowRenderer::~FShadowRenderer() 
 {}
 void FShadowRenderer::init()
 {
+	GProcessWindow& processWindow = GProcessWindow::Get();
+
+	FShadowRenderer::s_viewState = ViewState(uint16_t(processWindow._width), uint16_t(processWindow._height));
+	FShadowRenderer::s_clearValues = ClearValues(0x00000000, 1.0f, 0);
+
+
 	// Setup root path for binary shaders. Shader binaries are different
 	// for each renderer.
 	switch (bgfx::getRendererType())
@@ -595,6 +604,11 @@ void FShadowRenderer::init()
 }
 void FShadowRenderer::update()
 {
+	GProcessWindow& processWindow = GProcessWindow::Get();
+
+	FShadowRenderer::s_viewState.m_width = uint16_t(processWindow._width);
+	FShadowRenderer::s_viewState.m_height = uint16_t(processWindow._height);
+
 
 }
 

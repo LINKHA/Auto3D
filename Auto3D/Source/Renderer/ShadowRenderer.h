@@ -6,6 +6,8 @@
 #include <bx/math.h>
 #include <bgfx/bgfx.h>
 
+#include "Component/CameraComponent.h"
+
 namespace Auto3D
 {
 
@@ -747,6 +749,13 @@ public:
 
 	static float s_lightMtx[16];
 	static float s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
+
+
+	static ViewState s_viewState;
+
+	static ClearValues s_clearValues;
+
+	static ACameraComponent* s_camera;
 };
 
 }

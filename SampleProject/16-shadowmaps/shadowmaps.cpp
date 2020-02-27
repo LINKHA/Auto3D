@@ -604,11 +604,6 @@ public:
 
 	void init() override
 	{
-		GProcessWindow& processWindow = GProcessWindow::Get();
-
-		m_viewState = ViewState(uint16_t(processWindow._width), uint16_t(processWindow._height));
-		m_clearValues = ClearValues(0x00000000, 1.0f, 0);
-
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
@@ -695,11 +690,11 @@ public:
 			showExampleDialog(this);
 
 			ImGui::SetNextWindowPos(
-				  ImVec2(m_viewState.m_width - m_viewState.m_width / 5.0f - 10.0f, 10.0f)
+				  ImVec2(FShadowRenderer::s_viewState.m_width - FShadowRenderer::s_viewState.m_width / 5.0f - 10.0f, 10.0f)
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::SetNextWindowSize(
-				  ImVec2(m_viewState.m_width / 5.0f, m_viewState.m_height - 20.0f)
+				  ImVec2(FShadowRenderer::s_viewState.m_width / 5.0f, FShadowRenderer::s_viewState.m_height - 20.0f)
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::Begin("Settings"
@@ -804,7 +799,7 @@ public:
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::SetNextWindowSize(
-				  ImVec2(m_viewState.m_width / 5.0f, 350.0f)
+				  ImVec2(FShadowRenderer::s_viewState.m_width / 5.0f, 350.0f)
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::Begin("Light"
@@ -868,75 +863,74 @@ public:
 
 #pragma endregion gui
 
+		FShadowRenderer::s_camera = _camera;
 		FShadowRenderer::Get().update();
 
-		GProcessWindow& processWindow = GProcessWindow::Get();
 
-		m_viewState.m_width = uint16_t(processWindow._width);
-		m_viewState.m_height = uint16_t(processWindow._height);
 
 		const bgfx::Caps* caps = bgfx::getCaps();
 
 		// Set view and projection matrices.
-		const float camFovy = 60.0f;
-		const float camAspect = float(int32_t(m_viewState.m_width)) / float(int32_t(m_viewState.m_height));
+		const float camFovy = _camera->GetFov();
+		const float camAspect = _camera->GetAspectRatio();
 		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
 		const float projWidth = projHeight * camAspect;
 
 		_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
 
 		TMatrix4x4F projectionMatrix = _camera->GetProjectionMatrix();
-		m_viewState.m_proj[0] = projectionMatrix._m00;
-		m_viewState.m_proj[1] = projectionMatrix._m01;
-		m_viewState.m_proj[2] = projectionMatrix._m02;
-		m_viewState.m_proj[3] = projectionMatrix._m03;
-		m_viewState.m_proj[4] = projectionMatrix._m10;
-		m_viewState.m_proj[5] = projectionMatrix._m11;
-		m_viewState.m_proj[6] = projectionMatrix._m12;
-		m_viewState.m_proj[7] = projectionMatrix._m13;
-		m_viewState.m_proj[8] = projectionMatrix._m20;
-		m_viewState.m_proj[9] = projectionMatrix._m21;
-		m_viewState.m_proj[10] = projectionMatrix._m22;
-		m_viewState.m_proj[11] = projectionMatrix._m23;
-		m_viewState.m_proj[12] = projectionMatrix._m30;
-		m_viewState.m_proj[13] = projectionMatrix._m31;
-		m_viewState.m_proj[14] = projectionMatrix._m32;
-		m_viewState.m_proj[15] = projectionMatrix._m33;
+		FShadowRenderer::s_viewState.m_proj[0] = projectionMatrix._m00;
+		FShadowRenderer::s_viewState.m_proj[1] = projectionMatrix._m01;
+		FShadowRenderer::s_viewState.m_proj[2] = projectionMatrix._m02;
+		FShadowRenderer::s_viewState.m_proj[3] = projectionMatrix._m03;
+		FShadowRenderer::s_viewState.m_proj[4] = projectionMatrix._m10;
+		FShadowRenderer::s_viewState.m_proj[5] = projectionMatrix._m11;
+		FShadowRenderer::s_viewState.m_proj[6] = projectionMatrix._m12;
+		FShadowRenderer::s_viewState.m_proj[7] = projectionMatrix._m13;
+		FShadowRenderer::s_viewState.m_proj[8] = projectionMatrix._m20;
+		FShadowRenderer::s_viewState.m_proj[9] = projectionMatrix._m21;
+		FShadowRenderer::s_viewState.m_proj[10] = projectionMatrix._m22;
+		FShadowRenderer::s_viewState.m_proj[11] = projectionMatrix._m23;
+		FShadowRenderer::s_viewState.m_proj[12] = projectionMatrix._m30;
+		FShadowRenderer::s_viewState.m_proj[13] = projectionMatrix._m31;
+		FShadowRenderer::s_viewState.m_proj[14] = projectionMatrix._m32;
+		FShadowRenderer::s_viewState.m_proj[15] = projectionMatrix._m33;
 
 		TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
 		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
-		m_viewState.m_view[0] = transposeViewMatrix._m00;
-		m_viewState.m_view[1] = transposeViewMatrix._m01;
-		m_viewState.m_view[2] = transposeViewMatrix._m02;
-		m_viewState.m_view[3] = transposeViewMatrix._m03;
-		m_viewState.m_view[4] = transposeViewMatrix._m10;
-		m_viewState.m_view[5] = transposeViewMatrix._m11;
-		m_viewState.m_view[6] = transposeViewMatrix._m12;
-		m_viewState.m_view[7] = transposeViewMatrix._m13;
-		m_viewState.m_view[8] = transposeViewMatrix._m20;
-		m_viewState.m_view[9] = transposeViewMatrix._m21;
-		m_viewState.m_view[10] = transposeViewMatrix._m22;
-		m_viewState.m_view[11] = transposeViewMatrix._m23;
-		m_viewState.m_view[12] = transposeViewMatrix._m30;
-		m_viewState.m_view[13] = transposeViewMatrix._m31;
-		m_viewState.m_view[14] = transposeViewMatrix._m32;
-		m_viewState.m_view[15] = transposeViewMatrix._m33;
+		FShadowRenderer::s_viewState.m_view[0] = transposeViewMatrix._m00;
+		FShadowRenderer::s_viewState.m_view[1] = transposeViewMatrix._m01;
+		FShadowRenderer::s_viewState.m_view[2] = transposeViewMatrix._m02;
+		FShadowRenderer::s_viewState.m_view[3] = transposeViewMatrix._m03;
+		FShadowRenderer::s_viewState.m_view[4] = transposeViewMatrix._m10;
+		FShadowRenderer::s_viewState.m_view[5] = transposeViewMatrix._m11;
+		FShadowRenderer::s_viewState.m_view[6] = transposeViewMatrix._m12;
+		FShadowRenderer::s_viewState.m_view[7] = transposeViewMatrix._m13;
+		FShadowRenderer::s_viewState.m_view[8] = transposeViewMatrix._m20;
+		FShadowRenderer::s_viewState.m_view[9] = transposeViewMatrix._m21;
+		FShadowRenderer::s_viewState.m_view[10] = transposeViewMatrix._m22;
+		FShadowRenderer::s_viewState.m_view[11] = transposeViewMatrix._m23;
+		FShadowRenderer::s_viewState.m_view[12] = transposeViewMatrix._m30;
+		FShadowRenderer::s_viewState.m_view[13] = transposeViewMatrix._m31;
+		FShadowRenderer::s_viewState.m_view[14] = transposeViewMatrix._m32;
+		FShadowRenderer::s_viewState.m_view[15] = transposeViewMatrix._m33;
 
 		float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
 		FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
 		FShadowRenderer::s_uniforms.submitConstUniforms();
 
+		ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 		// Update uniforms.
-		FShadowRenderer::s_uniforms.m_shadowMapBias   = currentSmSettings->m_bias;
-		FShadowRenderer::s_uniforms.m_shadowMapOffset = currentSmSettings->m_normalOffset;
-		FShadowRenderer::s_uniforms.m_shadowMapParam0 = currentSmSettings->m_customParam0;
-		FShadowRenderer::s_uniforms.m_shadowMapParam1 = currentSmSettings->m_customParam1;
-		FShadowRenderer::s_uniforms.m_depthValuePow   = currentSmSettings->m_depthValuePow;
-		FShadowRenderer::s_uniforms.m_XNum            = currentSmSettings->m_xNum;
-		FShadowRenderer::s_uniforms.m_YNum            = currentSmSettings->m_yNum;
-		FShadowRenderer::s_uniforms.m_XOffset         = currentSmSettings->m_xOffset;
-		FShadowRenderer::s_uniforms.m_YOffset         = currentSmSettings->m_yOffset;
+		FShadowRenderer::s_uniforms.m_shadowMapBias   = currentShadowMapSettings->m_bias;
+		FShadowRenderer::s_uniforms.m_shadowMapOffset = currentShadowMapSettings->m_normalOffset;
+		FShadowRenderer::s_uniforms.m_shadowMapParam0 = currentShadowMapSettings->m_customParam0;
+		FShadowRenderer::s_uniforms.m_shadowMapParam1 = currentShadowMapSettings->m_customParam1;
+		FShadowRenderer::s_uniforms.m_depthValuePow   = currentShadowMapSettings->m_depthValuePow;
+		FShadowRenderer::s_uniforms.m_XNum            = currentShadowMapSettings->m_xNum;
+		FShadowRenderer::s_uniforms.m_YNum            = currentShadowMapSettings->m_yNum;
+		FShadowRenderer::s_uniforms.m_XOffset         = currentShadowMapSettings->m_xOffset;
+		FShadowRenderer::s_uniforms.m_YOffset         = currentShadowMapSettings->m_yOffset;
 		FShadowRenderer::s_uniforms.m_showSmCoverage  = float(FShadowRenderer::s_settings.m_showSmCoverage);
 		FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? &FShadowRenderer::s_directionalLight : &FShadowRenderer::s_pointLight;
 
@@ -961,8 +955,8 @@ public:
 		const float deltaTime = float(frameTime/freq);
 
 		// Update lights.
-		FShadowRenderer::s_pointLight.computeViewSpaceComponents(m_viewState.m_view);
-		FShadowRenderer::s_directionalLight.computeViewSpaceComponents(m_viewState.m_view);
+		FShadowRenderer::s_pointLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
+		FShadowRenderer::s_directionalLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
 
 		// Update time accumulators.
 		if (FShadowRenderer::s_settings.m_updateLights) { m_timeAccumulatorLight += deltaTime; }
@@ -1044,7 +1038,7 @@ public:
 						);
 
 		// Update render target size.
-		uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
+		uint16_t shadowMapSize = 1 << uint32_t(currentShadowMapSettings->m_sizePwrTwo);
 		if (bLtChanged || FShadowRenderer::s_currentShadowMapSize != shadowMapSize)
 		{
 			FShadowRenderer::s_currentShadowMapSize = shadowMapSize;
@@ -1090,16 +1084,16 @@ public:
 						lightProj[ProjType::Horizontal]
 						, fovy
 						, aspect
-						, currentSmSettings->m_near
-						, currentSmSettings->m_far
+						, currentShadowMapSettings->m_near
+						, currentShadowMapSettings->m_far
 						, false
 						);
 
 			//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
 			if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
 			{
-				lightProj[ProjType::Horizontal][10] /= currentSmSettings->m_far;
-				lightProj[ProjType::Horizontal][14] /= currentSmSettings->m_far;
+				lightProj[ProjType::Horizontal][10] /= currentShadowMapSettings->m_far;
+				lightProj[ProjType::Horizontal][14] /= currentShadowMapSettings->m_far;
 			}
 
 			const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_spotDirectionInner.m_v) );
@@ -1126,16 +1120,16 @@ public:
 						lightProj[ProjType::Vertical]
 							, fovx
 							, aspect
-							, currentSmSettings->m_near
-							, currentSmSettings->m_far
+							, currentShadowMapSettings->m_near
+							, currentShadowMapSettings->m_far
 							, false
 							);
 
 				//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
 				if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
 				{
-					lightProj[ProjType::Vertical][10] /= currentSmSettings->m_far;
-					lightProj[ProjType::Vertical][14] /= currentSmSettings->m_far;
+					lightProj[ProjType::Vertical][10] /= currentShadowMapSettings->m_far;
+					lightProj[ProjType::Vertical][14] /= currentShadowMapSettings->m_far;
 				}
 
 				ypr[TetrahedronFaces::Green ][2] = bx::toRad(180.0f);
@@ -1152,16 +1146,16 @@ public:
 						lightProj[ProjType::Horizontal]
 						, fovy
 						, aspect
-						, currentSmSettings->m_near
-						, currentSmSettings->m_far
+						, currentShadowMapSettings->m_near
+						, currentShadowMapSettings->m_far
 						, caps->homogeneousDepth
 						);
 
 			//For linear depth, prevent depth division by variable w component in shaders and divide here by far plane
 			if (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
 			{
-				lightProj[ProjType::Horizontal][10] /= currentSmSettings->m_far;
-				lightProj[ProjType::Horizontal][14] /= currentSmSettings->m_far;
+				lightProj[ProjType::Horizontal][10] /= currentShadowMapSettings->m_far;
+				lightProj[ProjType::Horizontal][14] /= currentShadowMapSettings->m_far;
 			}
 
 
@@ -1200,7 +1194,7 @@ public:
 
 			// Compute camera inverse view mtx.
 			float mtxViewInv[16];
-			bx::mtxInverse(mtxViewInv, m_viewState.m_view);
+			bx::mtxInverse(mtxViewInv, FShadowRenderer::s_viewState.m_view);
 
 			// Compute split distances.
 			const uint8_t maxNumSplits = 4;
@@ -1209,8 +1203,8 @@ public:
 			float splitSlices[maxNumSplits*2];
 			splitFrustum(splitSlices
 				, uint8_t(FShadowRenderer::s_settings.m_numSplits)
-				, currentSmSettings->m_near
-				, currentSmSettings->m_far
+				, currentShadowMapSettings->m_near
+				, currentShadowMapSettings->m_far
 				, FShadowRenderer::s_settings.m_splitDistribution
 				);
 
@@ -1228,8 +1222,8 @@ public:
 				, -1.0f
 				, 1.0f
 				, -1.0f
-				, -currentSmSettings->m_far
-				, currentSmSettings->m_far
+				, -currentShadowMapSettings->m_far
+				, currentShadowMapSettings->m_far
 				, 0.0f
 				, caps->homogeneousDepth
 				);
@@ -1293,18 +1287,18 @@ public:
 		for (uint8_t ii = 0; ii < RENDERVIEW_DRAWDEPTH_3_ID+1; ++ii)
 		{
 			bgfx::setViewFrameBuffer(ii, invalidRt);
-			bgfx::setViewRect(ii, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(ii, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
 		}
 
 		// Determine on-screen rectangle size where depth buffer will be drawn.
-		uint16_t depthRectHeight = uint16_t(float(m_viewState.m_height) / 2.5f);
+		uint16_t depthRectHeight = uint16_t(float(FShadowRenderer::s_viewState.m_height) / 2.5f);
 		uint16_t depthRectWidth  = depthRectHeight;
 		uint16_t depthRectX = 0;
-		uint16_t depthRectY = m_viewState.m_height - depthRectHeight;
+		uint16_t depthRectY = FShadowRenderer::s_viewState.m_height - depthRectHeight;
 
 		// Setup views and render targets.
-		bgfx::setViewRect(0, 0, 0, m_viewState.m_width, m_viewState.m_height);
-		bgfx::setViewTransform(0, m_viewState.m_view, m_viewState.m_proj);
+		bgfx::setViewRect(0, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+		bgfx::setViewTransform(0, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
 
 		if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 		{
@@ -1322,16 +1316,16 @@ public:
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 			bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 			bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
 			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, lightView[0], lightProj[ProjType::Horizontal]);
 			bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
-			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
-			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
 			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
 
 			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
@@ -1374,8 +1368,8 @@ public:
 			}
 			bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 			bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
 			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, screenView, screenProj);
@@ -1393,8 +1387,8 @@ public:
 			}
 			bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, screenView, screenProj);
-			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
-			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
 			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
 
 			bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
@@ -1428,10 +1422,10 @@ public:
 				* RENDERVIEW_DRAWDEPTH_3_ID - Draw depth buffer for fourth split.
 				*/
 
-			depthRectHeight = m_viewState.m_height / 3;
+			depthRectHeight = FShadowRenderer::s_viewState.m_height / 3;
 			depthRectWidth  = depthRectHeight;
 			depthRectX = 0;
-			depthRectY = m_viewState.m_height - depthRectHeight;
+			depthRectY = FShadowRenderer::s_viewState.m_height - depthRectHeight;
 
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
@@ -1445,8 +1439,8 @@ public:
 			bgfx::setViewRect(RENDERVIEW_HBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 			bgfx::setViewRect(RENDERVIEW_VBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 			bgfx::setViewRect(RENDERVIEW_HBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
-			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, m_viewState.m_width, m_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+			bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
 			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX+(0*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
 			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_1_ID, depthRectX+(1*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
 			bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_2_ID, depthRectX+(2*depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
@@ -1464,8 +1458,8 @@ public:
 			bgfx::setViewTransform(RENDERVIEW_HBLUR_2_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_VBLUR_3_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_HBLUR_3_ID, screenView, screenProj);
-			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, m_viewState.m_view, m_viewState.m_proj);
-			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, m_viewState.m_view, m_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+			bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
 			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_1_ID, screenView, screenProj);
 			bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, screenView, screenProj);
@@ -1489,9 +1483,9 @@ public:
 		bgfx::setViewClear(0
 							, BGFX_CLEAR_COLOR
 							| BGFX_CLEAR_DEPTH
-							, m_clearValues.m_clearRgba
-							, m_clearValues.m_clearDepth
-							, m_clearValues.m_clearStencil
+							, FShadowRenderer::s_clearValues.m_clearRgba
+							, FShadowRenderer::s_clearValues.m_clearDepth
+							, FShadowRenderer::s_clearValues.m_clearStencil
 							);
 		bgfx::touch(0);
 
@@ -1504,8 +1498,8 @@ public:
 		bgfx::setViewClear(RENDERVIEW_SHADOWMAP_0_ID
 							, flags0
 							, 0xfefefefe //blur fails on completely white regions
-							, m_clearValues.m_clearDepth
-							, m_clearValues.m_clearStencil
+							, FShadowRenderer::s_clearValues.m_clearDepth
+							, FShadowRenderer::s_clearValues.m_clearStencil
 							);
 		bgfx::touch(RENDERVIEW_SHADOWMAP_0_ID);
 
@@ -1519,8 +1513,8 @@ public:
 			bgfx::setViewClear(RENDERVIEW_SHADOWMAP_1_ID+ii
 								, flags1
 								, 0xfefefefe //blur fails on completely white regions
-								, m_clearValues.m_clearDepth
-								, m_clearValues.m_clearStencil
+								, FShadowRenderer::s_clearValues.m_clearDepth
+								, FShadowRenderer::s_clearValues.m_clearStencil
 								);
 			bgfx::touch(RENDERVIEW_SHADOWMAP_1_ID+ii);
 		}
@@ -1613,28 +1607,28 @@ public:
 				// Floor.
 				m_hplaneMesh.submit(viewId
 									, mtxFloor
-									, *currentSmSettings->m_progPack
+									, *currentShadowMapSettings->m_progPack
 									, s_renderStates[renderStateIndex]
 									);
 
 				//// Bunny.
 				//m_bunnyMesh.submit(viewId
 				//				   , mtxBunny
-				//				   , *currentSmSettings->m_progPack
+				//				   , *currentShadowMapSettings->m_progPack
 				//				   , s_renderStates[renderStateIndex]
 				//				   );
 
 				//// Hollow cube.
 				//m_hollowcubeMesh.submit(viewId
 				//						, mtxHollowcube
-				//						, *currentSmSettings->m_progPack
+				//						, *currentShadowMapSettings->m_progPack
 				//						, s_renderStates[renderStateIndex]
 				//						);
 
 				// Cube.
 				m_cubeMesh.submit(viewId
 									, mtxCube
-									, *currentSmSettings->m_progPack
+									, *currentShadowMapSettings->m_progPack
 									, s_renderStates[renderStateIndex]
 									);
 
@@ -1643,7 +1637,7 @@ public:
 				//{
 				//	m_treeMesh.submit(viewId
 				//					  , mtxTrees[jj]
-				//					  , *currentSmSettings->m_progPack
+				//					  , *currentShadowMapSettings->m_progPack
 				//					  , s_renderStates[renderStateIndex]
 				//					  );
 				//}
@@ -1655,7 +1649,7 @@ public:
 
 		// Blur shadow map.
 		if (bVsmOrEsm
-			&&  currentSmSettings->m_doBlur)
+			&&  currentShadowMapSettings->m_doBlur)
 		{
 			bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]) );
 			bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
@@ -1818,7 +1812,7 @@ public:
 			}
 			m_hplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
 								, mtxFloor
-								, *currentSmSettings->m_progDraw
+								, *currentShadowMapSettings->m_progDraw
 								, s_renderStates[RenderState::Default]
 								, true
 								);
@@ -1830,7 +1824,7 @@ public:
 			//}
 			//m_bunnyMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
 			//				   , mtxBunny
-			//				   , *currentSmSettings->m_progDraw
+			//				   , *currentShadowMapSettings->m_progDraw
 			//				   , s_renderStates[RenderState::Default]
 			//				   , true
 			//				   );
@@ -1842,7 +1836,7 @@ public:
 			//}
 			//m_hollowcubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
 			//						, mtxHollowcube
-			//						, *currentSmSettings->m_progDraw
+			//						, *currentShadowMapSettings->m_progDraw
 			//						, s_renderStates[RenderState::Default]
 			//						, true
 			//						);
@@ -1854,7 +1848,7 @@ public:
 			}
 			m_cubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
 								, mtxCube
-								, *currentSmSettings->m_progDraw
+								, *currentShadowMapSettings->m_progDraw
 								, s_renderStates[RenderState::Default]
 								, true
 								);
@@ -1868,7 +1862,7 @@ public:
 			//	}
 			//	m_treeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
 			//					  , mtxTrees[ii]
-			//					  , *currentSmSettings->m_progDraw
+			//					  , *currentShadowMapSettings->m_progDraw
 			//					  , s_renderStates[RenderState::Default]
 			//					  , true
 			//					  );
@@ -1879,7 +1873,7 @@ public:
 			{
 				const float lightScale[3] = { 1.5f, 1.5f, 1.5f };
 				float mtx[16];
-				mtxBillboard(mtx, m_viewState.m_view, FShadowRenderer::s_pointLight.m_position.m_v, lightScale);
+				mtxBillboard(mtx, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_pointLight.m_position.m_v, lightScale);
 				m_vplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
 									, mtx
 									, FShadowRenderer::s_programs.m_colorTexture
@@ -1938,8 +1932,6 @@ public:
 		return true;
 	}
 
-	ViewState m_viewState;
-	ClearValues m_clearValues;
 
 	bgfx::VertexLayout m_posLayout;
 
