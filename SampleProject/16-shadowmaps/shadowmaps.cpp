@@ -867,49 +867,7 @@ public:
 		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
 		const float projWidth = projHeight * camAspect;
 
-		/*_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
-
-		TMatrix4x4F projectionMatrix = _camera->GetProjectionMatrix();
-		FShadowRenderer::s_viewState.m_proj[0] = projectionMatrix._m00;
-		FShadowRenderer::s_viewState.m_proj[1] = projectionMatrix._m01;
-		FShadowRenderer::s_viewState.m_proj[2] = projectionMatrix._m02;
-		FShadowRenderer::s_viewState.m_proj[3] = projectionMatrix._m03;
-		FShadowRenderer::s_viewState.m_proj[4] = projectionMatrix._m10;
-		FShadowRenderer::s_viewState.m_proj[5] = projectionMatrix._m11;
-		FShadowRenderer::s_viewState.m_proj[6] = projectionMatrix._m12;
-		FShadowRenderer::s_viewState.m_proj[7] = projectionMatrix._m13;
-		FShadowRenderer::s_viewState.m_proj[8] = projectionMatrix._m20;
-		FShadowRenderer::s_viewState.m_proj[9] = projectionMatrix._m21;
-		FShadowRenderer::s_viewState.m_proj[10] = projectionMatrix._m22;
-		FShadowRenderer::s_viewState.m_proj[11] = projectionMatrix._m23;
-		FShadowRenderer::s_viewState.m_proj[12] = projectionMatrix._m30;
-		FShadowRenderer::s_viewState.m_proj[13] = projectionMatrix._m31;
-		FShadowRenderer::s_viewState.m_proj[14] = projectionMatrix._m32;
-		FShadowRenderer::s_viewState.m_proj[15] = projectionMatrix._m33;
-
-		TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
-		TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
-		FShadowRenderer::s_viewState.m_view[0] = transposeViewMatrix._m00;
-		FShadowRenderer::s_viewState.m_view[1] = transposeViewMatrix._m01;
-		FShadowRenderer::s_viewState.m_view[2] = transposeViewMatrix._m02;
-		FShadowRenderer::s_viewState.m_view[3] = transposeViewMatrix._m03;
-		FShadowRenderer::s_viewState.m_view[4] = transposeViewMatrix._m10;
-		FShadowRenderer::s_viewState.m_view[5] = transposeViewMatrix._m11;
-		FShadowRenderer::s_viewState.m_view[6] = transposeViewMatrix._m12;
-		FShadowRenderer::s_viewState.m_view[7] = transposeViewMatrix._m13;
-		FShadowRenderer::s_viewState.m_view[8] = transposeViewMatrix._m20;
-		FShadowRenderer::s_viewState.m_view[9] = transposeViewMatrix._m21;
-		FShadowRenderer::s_viewState.m_view[10] = transposeViewMatrix._m22;
-		FShadowRenderer::s_viewState.m_view[11] = transposeViewMatrix._m23;
-		FShadowRenderer::s_viewState.m_view[12] = transposeViewMatrix._m30;
-		FShadowRenderer::s_viewState.m_view[13] = transposeViewMatrix._m31;
-		FShadowRenderer::s_viewState.m_view[14] = transposeViewMatrix._m32;
-		FShadowRenderer::s_viewState.m_view[15] = transposeViewMatrix._m33;*/
-
 		float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
-		//FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
-
-		//FShadowRenderer::s_uniforms.submitConstUniforms();
 
 		ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 
