@@ -1,15 +1,15 @@
 #pragma once
-#include "Component/LightComponent.h"
+#include "Component/PointLightComponent.h"
 
 namespace Auto3D
 {
 
-class AUTO_API ASpotLightComponent : public ALightComponent
+class AUTO_API ASpotLightComponent : public APointLightComponent
 {
 	DECLARE_A_CLASS(ASpotLightComponent, ALightComponent)
 public:
 	ASpotLightComponent();
-	~ASpotLightComponent();
+	virtual ~ASpotLightComponent();
 	/// BeginPlay
 	virtual void BeginPlay();
 	/// Called every frame.

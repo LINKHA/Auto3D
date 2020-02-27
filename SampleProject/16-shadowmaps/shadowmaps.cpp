@@ -1508,36 +1508,12 @@ public:
 									, s_renderStates[renderStateIndex]
 									);
 
-				//// Bunny.
-				//m_bunnyMesh.submit(viewId
-				//				   , mtxBunny
-				//				   , *currentShadowMapSettings->m_progPack
-				//				   , s_renderStates[renderStateIndex]
-				//				   );
-
-				//// Hollow cube.
-				//m_hollowcubeMesh.submit(viewId
-				//						, mtxHollowcube
-				//						, *currentShadowMapSettings->m_progPack
-				//						, s_renderStates[renderStateIndex]
-				//						);
-
 				// Cube.
 				m_cubeMesh.submit(viewId
 									, mtxCube
 									, *currentShadowMapSettings->m_progPack
 									, s_renderStates[renderStateIndex]
 									);
-
-				//// Trees.
-				//for (uint8_t jj = 0; jj < numTrees; ++jj)
-				//{
-				//	m_treeMesh.submit(viewId
-				//					  , mtxTrees[jj]
-				//					  , *currentShadowMapSettings->m_progPack
-				//					  , s_renderStates[renderStateIndex]
-				//					  );
-				//}
 			}
 		}
 
@@ -1714,30 +1690,6 @@ public:
 								, true
 								);
 
-			//// Bunny.
-			//if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-			//{
-			//	bx::mtxMul(FShadowRenderer::s_lightMtx, mtxBunny, mtxShadow);
-			//}
-			//m_bunnyMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-			//				   , mtxBunny
-			//				   , *currentShadowMapSettings->m_progDraw
-			//				   , s_renderStates[RenderState::Default]
-			//				   , true
-			//				   );
-
-			//// Hollow cube.
-			//if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-			//{
-			//	bx::mtxMul(FShadowRenderer::s_lightMtx, mtxHollowcube, mtxShadow);
-			//}
-			//m_hollowcubeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-			//						, mtxHollowcube
-			//						, *currentShadowMapSettings->m_progDraw
-			//						, s_renderStates[RenderState::Default]
-			//						, true
-			//						);
-
 			// Cube.
 			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
 			{
@@ -1749,21 +1701,6 @@ public:
 								, s_renderStates[RenderState::Default]
 								, true
 								);
-
-			//// Trees.
-			//for (uint8_t ii = 0; ii < numTrees; ++ii)
-			//{
-			//	if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-			//	{
-			//		bx::mtxMul(FShadowRenderer::s_lightMtx, mtxTrees[ii], mtxShadow);
-			//	}
-			//	m_treeMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-			//					  , mtxTrees[ii]
-			//					  , *currentShadowMapSettings->m_progDraw
-			//					  , s_renderStates[RenderState::Default]
-			//					  , true
-			//					  );
-			//}
 
 			// Lights.
 			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType || LightType::PointLight == FShadowRenderer::s_settings.m_lightType)

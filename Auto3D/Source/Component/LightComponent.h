@@ -22,7 +22,7 @@ class AUTO_API ALightComponent : public AActorComponent
 	DECLARE_A_CLASS(ALightComponent, AActorComponent)
 public:
 	ALightComponent();
-	~ALightComponent();
+	virtual ~ALightComponent();
 	/// BeginPlay
 	virtual void BeginPlay();
 	/// Called every frame.
