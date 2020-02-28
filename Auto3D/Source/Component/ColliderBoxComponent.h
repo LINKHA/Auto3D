@@ -1,17 +1,17 @@
 #pragma once
-#include "Collider.h"
+#include "Component/ColliderComponent.h"
 
 namespace Auto3D 
 {
 
-class AUTO_API AColliderBox : public ACollider
+class AUTO_API AColliderBoxComponent : public AColliderComponent
 {
-	DECLARE_A_CLASS(AColliderBox, ACollider)
+	DECLARE_A_CLASS(AColliderBoxComponent, AColliderComponent)
 public:
 	/// Construct
-	AColliderBox();
+	AColliderBoxComponent();
 	/// Destructer
-	~AColliderBox();
+	~AColliderBoxComponent();
 
 	/// Set size form TVector3
 	void SetSize(const TVector3F& vec);

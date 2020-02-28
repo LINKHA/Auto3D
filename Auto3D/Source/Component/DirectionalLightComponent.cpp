@@ -22,7 +22,7 @@ void ADirectionalLightComponent::BeginPlay()
 
 void ADirectionalLightComponent::TickComponent(float deltaTime)
 {
-
+	Super::TickComponent(deltaTime);
 }
 
 

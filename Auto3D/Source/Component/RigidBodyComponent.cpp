@@ -1,7 +1,7 @@
-#include "RigidBody.h"
-#include "Collider.h"
-#include "PhysicsWorld.h"
-#include "PhysicsUtils.h"
+#include "Component/RigidBodyComponent.h"
+#include "Component/ColliderComponent.h"
+#include "Physics/PhysicsWorld.h"
+#include "Physics/PhysicsUtils.h"
 
 #include "Component/TransformComponent.h"
 #include "Gameplay/World.h"
@@ -10,7 +10,7 @@
 namespace Auto3D 
 {
 
-ARigidBody::ARigidBody() :
+	ARigidBodyComponent::ARigidBodyComponent() :
 	_mass(0.0f),
 	_isDynamic(false),
 	_isDirty(false),
@@ -21,7 +21,7 @@ ARigidBody::ARigidBody() :
 }
 
 
-ARigidBody::~ARigidBody()
+ARigidBodyComponent::~ARigidBodyComponent()
 {
 	ReleaseBody();
 	FPhysicsWorld* physicsWorld = GetWorld()->GetPhysicsWorld();
@@ -29,7 +29,7 @@ ARigidBody::~ARigidBody()
 		physicsWorld->RemoveRigidBody(this);
 }
 
-void ARigidBody::getWorldTransform(btTransform& worldTrans) const
+void ARigidBodyComponent::getWorldTransform(btTransform& worldTrans) const
 {
 	AActor* owner = GetOwner();
 	if (owner)
@@ -40,12 +40,12 @@ void ARigidBody::getWorldTransform(btTransform& worldTrans) const
 	}
 }
 
-void ARigidBody::setWorldTransform(const btTransform& worldTrans)
+void ARigidBodyComponent::setWorldTransform(const btTransform& worldTrans)
 {
 
 	FQuaternion newWorldRotation = BtToQuaternion(worldTrans.getRotation());
 	TVector3F newWorldPosition = BtToVector3(worldTrans.getOrigin());
-	ARigidBody* parentRigidBody = nullptr;
+	ARigidBodyComponent* parentRigidBody = nullptr;
 	AActor* owner = GetOwner();
 
 	if (owner)
@@ -56,7 +56,7 @@ void ARigidBody::setWorldTransform(const btTransform& worldTrans)
 	}
 }
 
-void ARigidBody::UpdateMass()
+void ARigidBodyComponent::UpdateMass()
 {
 	if (!_body)
 		return;
@@ -83,7 +83,7 @@ void ARigidBody::UpdateMass()
 	
 }
 
-void ARigidBody::SetMass(float mass)
+void ARigidBodyComponent::SetMass(float mass)
 {
 	mass = Max(mass, 0.0f);
 
@@ -94,7 +94,7 @@ void ARigidBody::SetMass(float mass)
 	}
 }
 
-void ARigidBody::ReleaseBody()
+void ARigidBodyComponent::ReleaseBody()
 {
 	if (_body)
 	{
@@ -103,7 +103,7 @@ void ARigidBody::ReleaseBody()
 }
 
 //void ARigidBody::OnWorldSet(AWorld* newWorld, AWorld* oldWorld)
-void ARigidBody::OnActorSet(AActor* newParent, AActor* oldParent)
+void ARigidBodyComponent::OnActorSet(AActor* newParent, AActor* oldParent)
 {
 	Super::OnActorSet(newParent, oldParent);
 	if (newParent)
@@ -113,7 +113,7 @@ void ARigidBody::OnActorSet(AActor* newParent, AActor* oldParent)
 	}
 }
 
-void ARigidBody::AddBodyToWorld()
+void ARigidBodyComponent::AddBodyToWorld()
 {
 	FPhysicsWorld* physicsWorld = GetWorld()->GetPhysicsWorld();
 
@@ -138,8 +138,8 @@ void ARigidBody::AddBodyToWorld()
 
 		// Check if CollisionShapes already exist in the node and add them to the compound shape.
 		// Do not update mass yet, but do it once all shapes have been added.
-		TVector<ACollider*> shapes;
-		GetOwner()->FindComponents<ACollider>(shapes, false);
+		TVector<AColliderComponent*> shapes;
+		GetOwner()->FindComponents<AColliderComponent>(shapes, false);
 		for (auto it = shapes.Begin(); it != shapes.End(); ++it)
 		{
 			(*it)->NotifyRigidBody(false);
@@ -151,7 +151,7 @@ void ARigidBody::AddBodyToWorld()
 	_inWorld = true;
 }
 
-void ARigidBody::RemoveBodyFromWorld()
+void ARigidBodyComponent::RemoveBodyFromWorld()
 {
 	if (_body && _inWorld)
 	{

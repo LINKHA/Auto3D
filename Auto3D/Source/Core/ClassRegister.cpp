@@ -8,11 +8,16 @@
 #include "Component/LightComponent.h"
 #include "Component/AudioListenerComponent.h"
 #include "Component/AudioSourceComponent.h"
-#include "Physics/ColliderBox.h"
-#include "Physics/RigidBody.h"
 
+#include "Component/SpotLightComponent.h"
+#include "Component/DirectionalLightComponent.h"
 
-#include "Resource/Mesh.h"
+#include "Component/RigidBodyComponent.h"
+#include "Component/ColliderBoxComponent.h"
+#include "Component/ColliderCapsuleComponent.h"
+#include "Component/ColliderConeComponent.h"
+#include "Component/ColliderSphereComponent.h"
+
 
 #include "Gameplay/World.h"
 #include "Core/Object.h"
@@ -22,6 +27,7 @@
 #include "Resource/Shader.h"
 #include "Resource/Material.h"
 #include "Resource/Sound.h"
+#include "Resource/Mesh.h"
 
 using namespace Auto3D;
 
@@ -152,15 +158,38 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(AAudioSourceComponent)
 		.constructor<>()
 		;
-	REGISTER_A_CALSS_IMP(ARigidBody)
+	REGISTER_A_CALSS_IMP(ARigidBodyComponent)
 		.constructor<>()
 		;
-	REGISTER_A_CALSS_IMP(ACollider)
+	REGISTER_A_CALSS_IMP(AColliderComponent)
 		.constructor<>()
 		;
-	REGISTER_A_CALSS_IMP(AColliderBox)
+	REGISTER_A_CALSS_IMP(AColliderBoxComponent)
 		.constructor<>()
 		;
+	REGISTER_A_CALSS_IMP(AColliderCapsuleComponent)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(AColliderConeComponent)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(AColliderSphereComponent)
+		.constructor<>()
+		;
+
+	REGISTER_A_CALSS_IMP(ALightComponent)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(ASpotLightComponent)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(ADirectionalLightComponent)
+		.constructor<>()
+		;
+	REGISTER_A_CALSS_IMP(APointLightComponent)
+		.constructor<>()
+		;
+
 }
 
 

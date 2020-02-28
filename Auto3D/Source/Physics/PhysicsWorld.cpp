@@ -1,5 +1,5 @@
-#include "PhysicsWorld.h"
-#include "PhysicsUtils.h"
+#include "Physics/PhysicsWorld.h"
+#include "Physics/PhysicsUtils.h"
 #include "Physics/Physics.h"
 
 namespace Auto3D {
@@ -77,12 +77,12 @@ void FPhysicsWorld::SetFPS(int fps)
 	_fps = (unsigned)Clamp(fps, 1, 1000);
 }
 
-void FPhysicsWorld::AddRigidBody(ARigidBody* rigidbody)
+void FPhysicsWorld::AddRigidBody(ARigidBodyComponent* rigidbody)
 {
 	_rigidBody.Push(rigidbody);
 }
 
-void FPhysicsWorld::RemoveRigidBody(ARigidBody* rigidbody)
+void FPhysicsWorld::RemoveRigidBody(ARigidBodyComponent* rigidbody)
 {
 	_rigidBody.Remove(rigidbody);
 }

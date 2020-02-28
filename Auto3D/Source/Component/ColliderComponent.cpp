@@ -1,6 +1,6 @@
-#include "Collider.h"
-#include "PhysicsWorld.h"
-#include "PhysicsUtils.h"
+#include "Component/ColliderComponent.h"
+#include "Physics/PhysicsWorld.h"
+#include "Physics/PhysicsUtils.h"
 
 #include "Debug/Log.h"
 #include "Component/TransformComponent.h"
@@ -9,7 +9,7 @@
 
 namespace Auto3D {
 
-ACollider::ACollider() :
+AColliderComponent::AColliderComponent() :
 	_cachedWorldScale(TVector3F::ONE),
 	_shapeType(EShapeType::DEFAULT),
 	_rigidBody(nullptr),
@@ -18,11 +18,11 @@ ACollider::ACollider() :
 }
 
 
-ACollider::~ACollider()
+AColliderComponent::~AColliderComponent()
 {
 }
 
-void ACollider::ReleaseShape()
+void AColliderComponent::ReleaseShape()
 {
 	btCompoundShape* compound = GetParentCompoundShape();
 	if (_shape && compound)
@@ -37,7 +37,7 @@ void ACollider::ReleaseShape()
 	}
 }
 
-void ACollider::NotifyRigidBody(bool updateMass)
+void AColliderComponent::NotifyRigidBody(bool updateMass)
 {
 	// Get this component rigidBody
 	btCompoundShape* compound = GetParentCompoundShape();
@@ -62,10 +62,10 @@ void ACollider::NotifyRigidBody(bool updateMass)
 }
 
 
-btCompoundShape* ACollider::GetParentCompoundShape()
+btCompoundShape* AColliderComponent::GetParentCompoundShape()
 {
 	if (!_rigidBody)
-		_rigidBody = GetOwner()->FindComponent<ARigidBody>();
+		_rigidBody = GetOwner()->FindComponent<ARigidBodyComponent>();
 
 	return _rigidBody ? _rigidBody->GetCompoundShape() : nullptr;
 }

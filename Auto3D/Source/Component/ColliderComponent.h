@@ -1,7 +1,7 @@
 #pragma once
 #include "Component/ActorComponent.h"
 #include "Math/Vector3.h"
-#include "RigidBody.h"
+#include "Component/RigidBodyComponent.h"
 
 #include <LinearMath/btMotionState.h>
 
@@ -34,14 +34,14 @@ namespace EShapeType
 
 class FPhysicsWorld;
 
-class ACollider : public AActorComponent
+class AColliderComponent : public AActorComponent
 {
-	DECLARE_A_CLASS(ACollider, AActorComponent)
+	DECLARE_A_CLASS(AColliderComponent, AActorComponent)
 public:
 	/// Construct
-	ACollider();
+	AColliderComponent();
 	/// Destructor
-	virtual ~ACollider();
+	virtual ~AColliderComponent();
 
 	/// Get shape
 	btCollisionShape* GetShape() { return _shape; }
@@ -54,7 +54,7 @@ protected:
 	/// Find the parent rigid body component and return its compound collision shape.
 	btCompoundShape* GetParentCompoundShape();
 	/// Rigidbody form this collider
-	ARigidBody* _rigidBody;
+	ARigidBodyComponent* _rigidBody;
 	/// Cached world scale.
 	TVector3F _cachedWorldScale;
 	/// Shape form this collider

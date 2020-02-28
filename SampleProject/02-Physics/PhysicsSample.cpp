@@ -25,8 +25,8 @@
 #include "Time/Time.h"
 #include "Resource/Mesh.h"
 #include "Resource/Sound.h"
-#include "Physics/ColliderBox.h"
-#include "Physics/RigidBody.h"
+#include "Component/ColliderBoxComponent.h"
+#include "Component/RigidBodyComponent.h"
 
 using namespace Auto3D;
 
@@ -67,9 +67,9 @@ public:
 		AMeshComponent* meshComponent = cube->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		meshComponent->SetMaterial(_material2);
-		ARigidBody* cubeRigidBody = cube->CreateComponent<ARigidBody>();
+		ARigidBodyComponent* cubeRigidBody = cube->CreateComponent<ARigidBodyComponent>();
 		cubeRigidBody->SetMass(1.0f);
-		AColliderBox* cubeColliderBox = cube->CreateComponent<AColliderBox>();
+		AColliderBoxComponent* cubeColliderBox = cube->CreateComponent<AColliderBoxComponent>();
 		cubeColliderBox->SetSize({ 4.0f, 4.0f, 4.0f });
 
 
@@ -79,9 +79,9 @@ public:
 		AMeshComponent* planeMeshComponent = plane->CreateComponent<AMeshComponent>();
 		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		planeMeshComponent->SetMaterial(_material2);
-		ARigidBody* fenceRigidBody = plane->CreateComponent<ARigidBody>();
+		ARigidBodyComponent* fenceRigidBody = plane->CreateComponent<ARigidBodyComponent>();
 		fenceRigidBody->SetMass(0.0f);
-		AColliderBox* fenceColliderBox = plane->CreateComponent<AColliderBox>();
+		AColliderBoxComponent* fenceColliderBox = plane->CreateComponent<AColliderBoxComponent>();
 		fenceColliderBox->SetSize({ 50.0f, 1.0f, 50.0f });
 
 

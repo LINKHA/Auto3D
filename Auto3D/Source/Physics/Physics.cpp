@@ -1,11 +1,11 @@
 #include "Physics.h"
-#include "PhysicsWorld.h"
-#include "RigidBody.h"
-#include "Collider.h"
-#include "ColliderBox.h"
-#include "ColliderSphere.h"
-#include "ColliderCapsule.h"
-#include "ColliderCone.h"
+#include "Physics/PhysicsWorld.h"
+#include "Component/RigidBodyComponent.h"
+#include "Component/ColliderComponent.h"
+#include "Component/ColliderBoxComponent.h"
+#include "Component/ColliderSphereComponent.h"
+#include "Component/ColliderCapsuleComponent.h"
+#include "Component/ColliderConeComponent.h"
 
 namespace Auto3D
 {

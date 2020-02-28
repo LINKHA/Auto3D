@@ -11,14 +11,14 @@ namespace Auto3D
 {
 class FPhysicsWorld;
 
-class AUTO_API ARigidBody : public AActorComponent, public btMotionState
+class AUTO_API ARigidBodyComponent : public AActorComponent, public btMotionState
 {
-	DECLARE_A_CLASS(ARigidBody, AActorComponent)
+	DECLARE_A_CLASS(ARigidBodyComponent, AActorComponent)
 public:
 	/// Construct
-	ARigidBody();
+	ARigidBodyComponent();
 	/// Destructor
-	~ARigidBody();
+	~ARigidBodyComponent();
 
 	/// Return initial world transform to Bullet.
 	void getWorldTransform(btTransform& worldTrans) const override;

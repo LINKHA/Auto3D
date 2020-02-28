@@ -9,7 +9,7 @@
 
 namespace Auto3D {
 
-class ARigidBody;
+class ARigidBodyComponent;
 
 struct FPhysicsWorldConfig
 {
@@ -36,12 +36,12 @@ public:
 	/// Return 3d dynamics world
 	btDiscreteDynamicsWorld* GetWorld() { return _world.Get(); }
 	/// Add ARigidBody
-	void AddRigidBody(ARigidBody* rigidbody);
+	void AddRigidBody(ARigidBodyComponent* rigidbody);
 	/// Remove collider
-	void RemoveRigidBody(ARigidBody* rigidbody);
+	void RemoveRigidBody(ARigidBodyComponent* rigidbody);
 
 	/// Get colliders with current physics world.
-	TVector<ARigidBody*> GetColliders() { return _rigidBody; }
+	TVector<ARigidBodyComponent*> GetColliders() { return _rigidBody; }
 
 	/// Overrides of the internal configuration
 	static struct FPhysicsWorldConfig config;
@@ -63,7 +63,7 @@ private:
 	/// Bullet physics world
 	TUniquePtr<btDiscreteDynamicsWorld> _world;
 	/// Collision shapes in the world
-	TVector<ARigidBody*> _rigidBody;
+	TVector<ARigidBodyComponent*> _rigidBody;
 };
 
 }
