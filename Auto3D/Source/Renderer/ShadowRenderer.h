@@ -8,10 +8,30 @@
 
 #include "Component/CameraComponent.h"
 
+#define RENDERVIEW_SHADOWMAP_0_ID 1
+#define RENDERVIEW_SHADOWMAP_1_ID 2
+#define RENDERVIEW_SHADOWMAP_2_ID 3
+#define RENDERVIEW_SHADOWMAP_3_ID 4
+#define RENDERVIEW_SHADOWMAP_4_ID 5
+#define RENDERVIEW_VBLUR_0_ID     6
+#define RENDERVIEW_HBLUR_0_ID     7
+#define RENDERVIEW_VBLUR_1_ID     8
+#define RENDERVIEW_HBLUR_1_ID     9
+#define RENDERVIEW_VBLUR_2_ID     10
+#define RENDERVIEW_HBLUR_2_ID     11
+#define RENDERVIEW_VBLUR_3_ID     12
+#define RENDERVIEW_HBLUR_3_ID     13
+#define RENDERVIEW_DRAWSCENE_0_ID 14
+#define RENDERVIEW_DRAWSCENE_1_ID 15
+#define RENDERVIEW_DRAWDEPTH_0_ID 16
+#define RENDERVIEW_DRAWDEPTH_1_ID 17
+#define RENDERVIEW_DRAWDEPTH_2_ID 18
+#define RENDERVIEW_DRAWDEPTH_3_ID 19
+
+
 namespace Auto3D
 {
-
-
+	
 	struct LightType
 	{
 		enum Enum
@@ -712,6 +732,22 @@ namespace Auto3D
 		bgfx::ProgramHandle m_colorLighting[SmType::Count][DepthImpl::Count][SmImpl::Count];
 	};
 
+	void mtxYawPitchRoll(float* __restrict _result
+		, float _yaw
+		, float _pitch
+		, float _roll
+	);
+
+	void splitFrustum(float* _splits, uint8_t _numSplits, float _near, float _far, float _splitWeight = 0.75f);
+
+	void worldSpaceFrustumCorners(float* _corners24f
+		, float _near
+		, float _far
+		, float _projWidth
+		, float _projHeight
+		, const float* __restrict _invViewMtx
+	);
+
 class AUTO_API FShadowRenderer
 {
 	REGISTER_SINGLETON(FShadowRenderer)
@@ -760,6 +796,18 @@ public:
 
 	static float s_timeAccumulatorLight;
 	static float s_timeAccumulatorScene;
+
+	// Compute transform matrices.
+	static uint8_t s_shadowMapPasses;
+	static float s_lightView[4][16];
+	static float s_lightProj[4][16];
+	static float s_mtxYpr[4][16];
+
+	static float s_screenProj[16];
+	static float s_screenView[16];
+
+
+	static bgfx::VertexLayout s_posLayout;
 };
 
 }
