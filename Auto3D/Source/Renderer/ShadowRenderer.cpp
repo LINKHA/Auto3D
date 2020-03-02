@@ -44,6 +44,66 @@ float FShadowRenderer::s_screenProj[16];
 float FShadowRenderer::s_screenView[16];
 bgfx::VertexLayout FShadowRenderer::s_posLayout;
 
+
+
+bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
+
+
+void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft, float _width, float _height)
+{
+	if (3 == bgfx::getAvailTransientVertexBuffer(3, PosColorTexCoord0Vertex::ms_layout))
+	{
+		bgfx::TransientVertexBuffer vb;
+		bgfx::allocTransientVertexBuffer(&vb, 3, PosColorTexCoord0Vertex::ms_layout);
+		PosColorTexCoord0Vertex* vertex = (PosColorTexCoord0Vertex*)vb.data;
+
+		const float zz = 0.0f;
+
+		const float minx = -_width;
+		const float maxx = _width;
+		const float miny = 0.0f;
+		const float maxy = _height * 2.0f;
+
+		const float texelHalfW = FShadowRenderer::s_texelHalf / _textureWidth;
+		const float texelHalfH = FShadowRenderer::s_texelHalf / _textureHeight;
+		const float minu = -1.0f + texelHalfW;
+		const float maxu = 1.0f + texelHalfW;
+
+		float minv = texelHalfH;
+		float maxv = 2.0f + texelHalfH;
+
+		if (_originBottomLeft)
+		{
+			std::swap(minv, maxv);
+			minv -= 1.0f;
+			maxv -= 1.0f;
+		}
+
+		vertex[0].m_x = minx;
+		vertex[0].m_y = miny;
+		vertex[0].m_z = zz;
+		vertex[0].m_rgba = 0xffffffff;
+		vertex[0].m_u = minu;
+		vertex[0].m_v = minv;
+
+		vertex[1].m_x = maxx;
+		vertex[1].m_y = miny;
+		vertex[1].m_z = zz;
+		vertex[1].m_rgba = 0xffffffff;
+		vertex[1].m_u = maxu;
+		vertex[1].m_v = minv;
+
+		vertex[2].m_x = maxx;
+		vertex[2].m_y = maxy;
+		vertex[2].m_z = zz;
+		vertex[2].m_rgba = 0xffffffff;
+		vertex[2].m_u = maxu;
+		vertex[2].m_v = maxv;
+
+		bgfx::setVertexBuffer(0, &vb);
+	}
+}
+
 void mtxYawPitchRoll(float* __restrict _result
 	, float _yaw
 	, float _pitch
@@ -1322,6 +1382,42 @@ void FShadowRenderer::update()
 		bgfx::touch(RENDERVIEW_SHADOWMAP_1_ID + ii);
 	}
 
+
+	PackDepth::Enum depthType = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) ? PackDepth::VSM : PackDepth::RGBA;
+	bool bVsmOrEsm = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) || (SmImpl::ESM == FShadowRenderer::s_settings.m_smImpl);
+
+	// Blur shadow map.
+	if (bVsmOrEsm
+		&&  currentShadowMapSettings->m_doBlur)
+	{
+		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
+		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+		bgfx::submit(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_programs.m_vBlur[depthType]);
+
+		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur));
+		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+		bgfx::submit(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_programs.m_hBlur[depthType]);
+
+		if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, jj += 2)
+			{
+				const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
+
+				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
+				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+				bgfx::submit(viewId, FShadowRenderer::s_programs.m_vBlur[depthType]);
+
+				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur));
+				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+				bgfx::submit(viewId + 1, FShadowRenderer::s_programs.m_hBlur[depthType]);
+			}
+		}
+	}
 
 }
 

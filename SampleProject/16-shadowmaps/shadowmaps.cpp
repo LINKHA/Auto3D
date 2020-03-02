@@ -399,33 +399,10 @@ struct Mesh
 	GroupArray m_groups;
 };
 
-struct PosColorTexCoord0Vertex
-{
-	float m_x;
-	float m_y;
-	float m_z;
-	uint32_t m_rgba;
-	float m_u;
-	float m_v;
-
-	static void init()
-	{
-		ms_layout
-			.begin()
-			.add(bgfx::Attrib::Position,  3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Color0,    4, bgfx::AttribType::Uint8, true)
-			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-			.end();
-	}
-
-	static bgfx::VertexLayout ms_layout;
-};
-
-bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f)
 {
-	if (3 == bgfx::getAvailTransientVertexBuffer(3, PosColorTexCoord0Vertex::ms_layout) )
+	if (3 == bgfx::getAvailTransientVertexBuffer(3, PosColorTexCoord0Vertex::ms_layout))
 	{
 		bgfx::TransientVertexBuffer vb;
 		bgfx::allocTransientVertexBuffer(&vb, 3, PosColorTexCoord0Vertex::ms_layout);
@@ -434,14 +411,14 @@ void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBott
 		const float zz = 0.0f;
 
 		const float minx = -_width;
-		const float maxx =  _width;
+		const float maxx = _width;
 		const float miny = 0.0f;
-		const float maxy = _height*2.0f;
+		const float maxy = _height * 2.0f;
 
-		const float texelHalfW = FShadowRenderer::s_texelHalf/_textureWidth;
-		const float texelHalfH = FShadowRenderer::s_texelHalf/_textureHeight;
+		const float texelHalfW = FShadowRenderer::s_texelHalf / _textureWidth;
+		const float texelHalfH = FShadowRenderer::s_texelHalf / _textureHeight;
 		const float minu = -1.0f + texelHalfW;
-		const float maxu =  1.0f + texelHalfW;
+		const float maxu = 1.0f + texelHalfW;
 
 		float minv = texelHalfH;
 		float maxv = 2.0f + texelHalfH;
@@ -899,42 +876,6 @@ public:
 									, *currentShadowMapSettings->m_progPack
 									, s_renderStates[renderStateIndex]
 									);
-			}
-		}
-
-		PackDepth::Enum depthType = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) ? PackDepth::VSM : PackDepth::RGBA;
-		bool bVsmOrEsm = (SmImpl::VSM == FShadowRenderer::s_settings.m_smImpl) || (SmImpl::ESM == FShadowRenderer::s_settings.m_smImpl);
-
-		// Blur shadow map.
-		if (bVsmOrEsm
-			&&  currentShadowMapSettings->m_doBlur)
-		{
-			bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]) );
-			bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-			screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-			bgfx::submit(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_programs.m_vBlur[depthType]);
-
-			bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur) );
-			bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-			screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-			bgfx::submit(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_programs.m_hBlur[depthType]);
-
-			if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, jj+=2)
-				{
-					const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
-
-					bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]) );
-					bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-					screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-					bgfx::submit(viewId, FShadowRenderer::s_programs.m_vBlur[depthType]);
-
-					bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur) );
-					bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-					screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-					bgfx::submit(viewId+1, FShadowRenderer::s_programs.m_hBlur[depthType]);
-				}
 			}
 		}
 

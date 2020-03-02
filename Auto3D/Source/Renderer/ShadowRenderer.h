@@ -732,6 +732,28 @@ namespace Auto3D
 		bgfx::ProgramHandle m_colorLighting[SmType::Count][DepthImpl::Count][SmImpl::Count];
 	};
 
+	struct PosColorTexCoord0Vertex
+	{
+		float m_x;
+		float m_y;
+		float m_z;
+		uint32_t m_rgba;
+		float m_u;
+		float m_v;
+
+		static void init()
+		{
+			ms_layout
+				.begin()
+				.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+				.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+				.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+				.end();
+		}
+
+		static bgfx::VertexLayout ms_layout;
+	};
+
 	void mtxYawPitchRoll(float* __restrict _result
 		, float _yaw
 		, float _pitch
@@ -747,6 +769,8 @@ namespace Auto3D
 		, float _projHeight
 		, const float* __restrict _invViewMtx
 	);
+
+	void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
 
 class AUTO_API FShadowRenderer
 {
