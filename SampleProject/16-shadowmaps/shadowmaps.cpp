@@ -1100,27 +1100,6 @@ public:
 									, m_texFlare
 									);
 			}
-
-			// Draw floor bottom.
-			float floorBottomMtx[16];
-			bx::mtxSRT(floorBottomMtx
-						, floorScale //scaleX
-						, floorScale //scaleY
-						, floorScale //scaleZ
-						, 0.0f  //rotX
-						, 0.0f  //rotY
-						, 0.0f  //rotZ
-						, 0.0f  //translateX
-						, -0.1f //translateY
-						, 0.0f  //translateZ
-						);
-
-			m_hplaneMesh.submit(RENDERVIEW_DRAWSCENE_1_ID
-								, floorBottomMtx
-								, FShadowRenderer::s_programs.m_texture
-								, s_renderStates[RenderState::Custom_DrawPlaneBottom]
-								, m_texFigure
-								);
 		}
 
 		//// Draw depth rect.
