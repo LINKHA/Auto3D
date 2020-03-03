@@ -1419,6 +1419,26 @@ void FShadowRenderer::update()
 		}
 	}
 
+	// Draw depth rect.
+	if (FShadowRenderer::s_settings.m_drawDepthBuffer)
+	{
+		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
+		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_programs.m_drawDepth[depthType]);
+
+		if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		{
+			for (uint8_t ii = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+			{
+				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
+				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, FShadowRenderer::s_programs.m_drawDepth[depthType]);
+			}
+		}
+	}
+
 }
 
 }

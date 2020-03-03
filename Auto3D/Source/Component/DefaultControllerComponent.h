@@ -28,6 +28,11 @@ public:
 	void Reset();
 
 	void SetKeyState(uint8_t key, bool down);
+
+	void SetMouseSpeed(float mouseSpeed) { _mouseSpeed = mouseSpeed; }
+	void SetGamepadSpeed(float gamepadSpeed) { _gamepadSpeed = gamepadSpeed; }
+	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
+
 private:
 	float _mouseSpeed;
 	float _gamepadSpeed;
