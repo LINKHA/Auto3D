@@ -287,23 +287,21 @@ public:
 		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
 		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
-		FShadowRenderer::Get().init();
 
+		_planeActor = world->CreateChild<AActor>();
+		_planeComponent = _planeActor->CreateComponent<AMeshComponent>();
+		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
+		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
+
+		AActor* lightActor = world->CreateChild<AActor>();
+		_lightComponent = lightActor->CreateComponent<ALightComponent>();
+		
 		
 
-		// Vertex declarations.
-		bgfx::VertexLayout PosNormalTexcoordLayout;
-		PosNormalTexcoordLayout.begin()
-			.add(bgfx::Attrib::Position,  3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Normal,    4, bgfx::AttribType::Uint8, true, true)
-			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-			.end();
 
-		FShadowRenderer::s_posLayout.begin();
-		FShadowRenderer::s_posLayout.add(bgfx::Attrib::Position,  3, bgfx::AttribType::Float);
-		FShadowRenderer::s_posLayout.end();
+		FShadowRenderer::Get().init();
 
-		PosColorTexCoord0Vertex::init();
 	}
 
 	virtual int shutdown() override
@@ -837,6 +835,8 @@ public:
 
 	AActor* _planeActor;
 	AMeshComponent* _planeComponent;
+
+	ALightComponent* _lightComponent;
 };
 
 } // namespace

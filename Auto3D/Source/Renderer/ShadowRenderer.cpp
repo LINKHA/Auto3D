@@ -21,8 +21,8 @@ bgfx::FrameBufferHandle FShadowRenderer::s_rtShadowMap[ShadowMapRenderTargets::C
 bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
 
 Material FShadowRenderer::s_defaultMaterial;
-Light FShadowRenderer::s_pointLight;
-Light FShadowRenderer::s_directionalLight;
+ALightComponent FShadowRenderer::s_pointLight;
+ALightComponent FShadowRenderer::s_directionalLight;
 float FShadowRenderer::s_color[4];
 float FShadowRenderer::s_lightMtx[16];
 float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
@@ -732,31 +732,59 @@ void FShadowRenderer::init()
 		{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //diffuse
 		{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //specular, exponent
 	};
-
 	// Lights.
-	s_pointLight =
-	{
-		{ { 0.0f, 0.0f, 0.0f, 1.0f   } }, //position
-		{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
-		{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //ambient
-		{ { 1.0f, 1.0f, 1.0f, 850.0f } }, //diffuse
-		{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //specular
-		{ { 0.0f,-0.4f,-0.6f, 0.0f   } }, //spotdirection, spotexponent
-		{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
-		{ { 1.0f, 0.0f, 1.0f, 91.0f  } }, //attenuation, spotcutoff
-	};
+	s_pointLight.m_position = { 0.0f, 0.0f, 0.0f, 1.0f };
+	s_pointLight.m_position_viewSpace[0] = 0.0f;
+	s_pointLight.m_position_viewSpace[1] = 0.0f;
+	s_pointLight.m_position_viewSpace[2] = 0.0f;
+	s_pointLight.m_position_viewSpace[3] = 0.0f;
+	s_pointLight.m_ambientPower = { 1.0f, 1.0f, 1.0f, 0.0f };
+	s_pointLight.m_diffusePower = { 1.0f, 1.0f, 1.0f, 850.0f };
+	s_pointLight.m_specularPower = { 1.0f, 1.0f, 1.0f, 0.0f };
+	s_pointLight.m_spotDirectionInner = { 0.0f,-0.4f,-0.6f, 0.0f };
+	s_pointLight.m_spotDirectionInner_viewSpace[0] = 0.0f;
+	s_pointLight.m_spotDirectionInner_viewSpace[1] = 0.0f;
+	s_pointLight.m_spotDirectionInner_viewSpace[2] = 0.0f;
+	s_pointLight.m_spotDirectionInner_viewSpace[3] = 0.0f;
+	s_pointLight.m_attenuationSpotOuter = { 1.0f, 0.0f, 1.0f, 91.0f };
+	//s_pointLight =
+	//{
+	//	{ { 0.0f, 0.0f, 0.0f, 1.0f   } }, //position
+	//	{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
+	//	{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //ambient
+	//	{ { 1.0f, 1.0f, 1.0f, 850.0f } }, //diffuse
+	//	{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //specular
+	//	{ { 0.0f,-0.4f,-0.6f, 0.0f   } }, //spotdirection, spotexponent
+	//	{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
+	//	{ { 1.0f, 0.0f, 1.0f, 91.0f  } }, //attenuation, spotcutoff
+	//};
 
-	s_directionalLight =
-	{
-		{ { 0.5f,-1.0f, 0.1f, 0.0f  } }, //position
-		{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
-		{ { 1.0f, 1.0f, 1.0f, 0.02f } }, //ambient
-		{ { 1.0f, 1.0f, 1.0f, 0.4f  } }, //diffuse
-		{ { 1.0f, 1.0f, 1.0f, 0.0f  } }, //specular
-		{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //spotdirection, spotexponent
-		{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
-		{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //attenuation, spotcutoff
-	};
+	s_directionalLight.m_position = { 0.5f,-1.0f, 0.1f, 0.0f };
+	s_directionalLight.m_position_viewSpace[0] = 0.0f;
+	s_directionalLight.m_position_viewSpace[1] = 0.0f;
+	s_directionalLight.m_position_viewSpace[2] = 0.0f;
+	s_directionalLight.m_position_viewSpace[3] = 0.0f;
+	s_directionalLight.m_ambientPower = { 1.0f, 1.0f, 1.0f, 0.02f };
+	s_directionalLight.m_diffusePower = { 1.0f, 1.0f, 1.0f, 0.4f };
+	s_directionalLight.m_specularPower = { 1.0f, 1.0f, 1.0f, 0.0f };
+	s_directionalLight.m_spotDirectionInner = { 0.0f, 0.0f, 0.0f, 1.0f };
+	s_directionalLight.m_spotDirectionInner_viewSpace[0] = 0.0f;
+	s_directionalLight.m_spotDirectionInner_viewSpace[1] = 0.0f;
+	s_directionalLight.m_spotDirectionInner_viewSpace[2] = 0.0f;
+	s_directionalLight.m_spotDirectionInner_viewSpace[3] = 0.0f;
+	s_directionalLight.m_attenuationSpotOuter = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+	//s_directionalLight =
+	//{
+	//	{ { 0.5f,-1.0f, 0.1f, 0.0f  } }, //position
+	//	{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
+	//	{ { 1.0f, 1.0f, 1.0f, 0.02f } }, //ambient
+	//	{ { 1.0f, 1.0f, 1.0f, 0.4f  } }, //diffuse
+	//	{ { 1.0f, 1.0f, 1.0f, 0.0f  } }, //specular
+	//	{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //spotdirection, spotexponent
+	//	{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
+	//	{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //attenuation, spotcutoff
+	//};
 
 	// Setup uniforms.
 	FShadowRenderer::s_color[0] = FShadowRenderer::s_color[1] = FShadowRenderer::s_color[2] = FShadowRenderer::s_color[3] = 1.0f;
@@ -772,6 +800,13 @@ void FShadowRenderer::init()
 
 	FShadowRenderer::s_timeAccumulatorLight = 0.0f;
 	FShadowRenderer::s_timeAccumulatorScene = 0.0f;
+
+
+	FShadowRenderer::s_posLayout.begin();
+	FShadowRenderer::s_posLayout.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
+	FShadowRenderer::s_posLayout.end();
+
+	PosColorTexCoord0Vertex::init();
 }
 void FShadowRenderer::update()
 {
