@@ -27,7 +27,6 @@ float FShadowRenderer::s_color[4];
 float FShadowRenderer::s_lightMtx[16];
 float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 
-ViewState FShadowRenderer::s_viewState;
 ClearValues FShadowRenderer::s_clearValues;
 
 ACameraComponent* FShadowRenderer::s_camera;
@@ -206,7 +205,6 @@ void FShadowRenderer::init()
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
 
-	FShadowRenderer::s_viewState = ViewState(uint16_t(processWindow._width), uint16_t(processWindow._height));
 	FShadowRenderer::s_clearValues = ClearValues(0x00000000, 1.0f, 0);
 
 
@@ -826,41 +824,9 @@ void FShadowRenderer::update()
 	s_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
 
 	TMatrix4x4F projectionMatrix = s_camera->GetProjectionMatrix();
-	FShadowRenderer::s_viewState.m_proj[0] = projectionMatrix._m00;
-	FShadowRenderer::s_viewState.m_proj[1] = projectionMatrix._m01;
-	FShadowRenderer::s_viewState.m_proj[2] = projectionMatrix._m02;
-	FShadowRenderer::s_viewState.m_proj[3] = projectionMatrix._m03;
-	FShadowRenderer::s_viewState.m_proj[4] = projectionMatrix._m10;
-	FShadowRenderer::s_viewState.m_proj[5] = projectionMatrix._m11;
-	FShadowRenderer::s_viewState.m_proj[6] = projectionMatrix._m12;
-	FShadowRenderer::s_viewState.m_proj[7] = projectionMatrix._m13;
-	FShadowRenderer::s_viewState.m_proj[8] = projectionMatrix._m20;
-	FShadowRenderer::s_viewState.m_proj[9] = projectionMatrix._m21;
-	FShadowRenderer::s_viewState.m_proj[10] = projectionMatrix._m22;
-	FShadowRenderer::s_viewState.m_proj[11] = projectionMatrix._m23;
-	FShadowRenderer::s_viewState.m_proj[12] = projectionMatrix._m30;
-	FShadowRenderer::s_viewState.m_proj[13] = projectionMatrix._m31;
-	FShadowRenderer::s_viewState.m_proj[14] = projectionMatrix._m32;
-	FShadowRenderer::s_viewState.m_proj[15] = projectionMatrix._m33;
-
 	TMatrix3x4F viewMatrix = s_camera->GetViewMatrix();
 	TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
-	FShadowRenderer::s_viewState.m_view[0] = transposeViewMatrix._m00;
-	FShadowRenderer::s_viewState.m_view[1] = transposeViewMatrix._m01;
-	FShadowRenderer::s_viewState.m_view[2] = transposeViewMatrix._m02;
-	FShadowRenderer::s_viewState.m_view[3] = transposeViewMatrix._m03;
-	FShadowRenderer::s_viewState.m_view[4] = transposeViewMatrix._m10;
-	FShadowRenderer::s_viewState.m_view[5] = transposeViewMatrix._m11;
-	FShadowRenderer::s_viewState.m_view[6] = transposeViewMatrix._m12;
-	FShadowRenderer::s_viewState.m_view[7] = transposeViewMatrix._m13;
-	FShadowRenderer::s_viewState.m_view[8] = transposeViewMatrix._m20;
-	FShadowRenderer::s_viewState.m_view[9] = transposeViewMatrix._m21;
-	FShadowRenderer::s_viewState.m_view[10] = transposeViewMatrix._m22;
-	FShadowRenderer::s_viewState.m_view[11] = transposeViewMatrix._m23;
-	FShadowRenderer::s_viewState.m_view[12] = transposeViewMatrix._m30;
-	FShadowRenderer::s_viewState.m_view[13] = transposeViewMatrix._m31;
-	FShadowRenderer::s_viewState.m_view[14] = transposeViewMatrix._m32;
-	FShadowRenderer::s_viewState.m_view[15] = transposeViewMatrix._m33;
+
 
 	float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
 	FShadowRenderer::s_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
@@ -901,8 +867,8 @@ void FShadowRenderer::update()
 	const float deltaTime = float(frameTime / freq);
 
 	// Update lights.
-	FShadowRenderer::s_pointLight->computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
-	FShadowRenderer::s_directionalLight->computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
+	FShadowRenderer::s_pointLight->computeViewSpaceComponents(transposeViewMatrix.Data());
+	FShadowRenderer::s_directionalLight->computeViewSpaceComponents(transposeViewMatrix.Data());
 
 	// Update time accumulators.
 	if (FShadowRenderer::s_settings.m_updateLights) { FShadowRenderer::s_timeAccumulatorLight += deltaTime; }
@@ -1090,7 +1056,7 @@ void FShadowRenderer::update()
 
 		// Compute camera inverse view mtx.
 		float mtxViewInv[16];
-		bx::mtxInverse(mtxViewInv, FShadowRenderer::s_viewState.m_view);
+		bx::mtxInverse(mtxViewInv, transposeViewMatrix.Data());
 
 		// Compute split distances.
 		const uint8_t maxNumSplits = 4;
@@ -1195,7 +1161,7 @@ void FShadowRenderer::update()
 
 	// Setup views and render targets.
 	bgfx::setViewRect(0, 0, 0, processWindow._width, processWindow._height);
-	bgfx::setViewTransform(0, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+	bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 
 	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 	{
@@ -1221,8 +1187,8 @@ void FShadowRenderer::update()
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[0], FShadowRenderer::s_lightProj[ProjType::Horizontal]);
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
+		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
@@ -1284,8 +1250,8 @@ void FShadowRenderer::update()
 		}
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
+		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
@@ -1355,8 +1321,8 @@ void FShadowRenderer::update()
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_2_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_3_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_3_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
+		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
+		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_1_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);

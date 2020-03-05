@@ -465,20 +465,6 @@ namespace Auto3D
 		uint32_t m_bstencil;
 	};
 
-	struct ViewState
-	{
-		ViewState(uint16_t _width = 1280, uint16_t _height = 720)
-			: m_width(_width)
-			, m_height(_height)
-		{
-		}
-
-		uint16_t m_width;
-		uint16_t m_height;
-
-		float m_view[16];
-		float m_proj[16];
-	};
 
 	struct ClearValues
 	{
@@ -731,9 +717,6 @@ public:
 
 	static float s_lightMtx[16];
 	static float s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
-
-
-	static ViewState s_viewState;
 
 	static ClearValues s_clearValues;
 
