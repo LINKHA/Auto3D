@@ -1,5 +1,7 @@
 #include "Renderer/ShadowRenderer.h"
 #include "Platform/ProcessWindow.h"
+#include "Component/TransformComponent.h"
+#include "Gameplay/Actor.h"
 
 #include <bx/timer.h>
 
@@ -30,9 +32,6 @@ float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 ClearValues FShadowRenderer::s_clearValues;
 
 ACameraComponent* FShadowRenderer::s_camera;
-
-float FShadowRenderer::s_timeAccumulatorLight;
-float FShadowRenderer::s_timeAccumulatorScene;
 
 uint8_t FShadowRenderer::s_shadowMapPasses;
 float FShadowRenderer::s_lightView[4][16];
@@ -695,8 +694,6 @@ void FShadowRenderer::init()
 	FShadowRenderer::s_settings.m_coverageSpotL = 90.0f;
 	FShadowRenderer::s_settings.m_splitDistribution = 0.6f;
 	FShadowRenderer::s_settings.m_numSplits = 4;
-	FShadowRenderer::s_settings.m_updateLights = true;
-	FShadowRenderer::s_settings.m_updateScene = true;
 	FShadowRenderer::s_settings.m_drawDepthBuffer = false;
 	FShadowRenderer::s_settings.m_showSmCoverage = false;
 	FShadowRenderer::s_settings.m_stencilPack = true;
@@ -745,17 +742,6 @@ void FShadowRenderer::init()
 	s_pointLight->m_spotDirectionInner_viewSpace[2] = 0.0f;
 	s_pointLight->m_spotDirectionInner_viewSpace[3] = 0.0f;
 	s_pointLight->m_attenuationSpotOuter = { 1.0f, 0.0f, 1.0f, 91.0f };
-	//s_pointLight =
-	//{
-	//	{ { 0.0f, 0.0f, 0.0f, 1.0f   } }, //position
-	//	{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
-	//	{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //ambient
-	//	{ { 1.0f, 1.0f, 1.0f, 850.0f } }, //diffuse
-	//	{ { 1.0f, 1.0f, 1.0f, 0.0f   } }, //specular
-	//	{ { 0.0f,-0.4f,-0.6f, 0.0f   } }, //spotdirection, spotexponent
-	//	{   0.0f, 0.0f, 0.0f, 0.0f     }, //-ignore
-	//	{ { 1.0f, 0.0f, 1.0f, 91.0f  } }, //attenuation, spotcutoff
-	//};
 
 	s_directionalLight->m_position = { 0.5f,-1.0f, 0.1f, 0.0f };
 	s_directionalLight->m_position_viewSpace[0] = 0.0f;
@@ -772,18 +758,6 @@ void FShadowRenderer::init()
 	s_directionalLight->m_spotDirectionInner_viewSpace[3] = 0.0f;
 	s_directionalLight->m_attenuationSpotOuter = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-	//s_directionalLight =
-	//{
-	//	{ { 0.5f,-1.0f, 0.1f, 0.0f  } }, //position
-	//	{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
-	//	{ { 1.0f, 1.0f, 1.0f, 0.02f } }, //ambient
-	//	{ { 1.0f, 1.0f, 1.0f, 0.4f  } }, //diffuse
-	//	{ { 1.0f, 1.0f, 1.0f, 0.0f  } }, //specular
-	//	{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //spotdirection, spotexponent
-	//	{   0.0f, 0.0f, 0.0f, 0.0f    }, //-ignore
-	//	{ { 0.0f, 0.0f, 0.0f, 1.0f  } }, //attenuation, spotcutoff
-	//};
-
 	// Setup uniforms.
 	FShadowRenderer::s_color[0] = FShadowRenderer::s_color[1] = FShadowRenderer::s_color[2] = FShadowRenderer::s_color[3] = 1.0f;
 	FShadowRenderer::s_uniforms.setPtrs(&FShadowRenderer::s_defaultMaterial
@@ -796,10 +770,6 @@ void FShadowRenderer::init()
 		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Fourth][0]
 	);
 
-	FShadowRenderer::s_timeAccumulatorLight = 0.0f;
-	FShadowRenderer::s_timeAccumulatorScene = 0.0f;
-
-
 	FShadowRenderer::s_posLayout.begin();
 	FShadowRenderer::s_posLayout.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
 	FShadowRenderer::s_posLayout.end();
@@ -809,9 +779,6 @@ void FShadowRenderer::init()
 void FShadowRenderer::update()
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
-
-	processWindow._width = uint16_t(processWindow._width);
-	processWindow._height = uint16_t(processWindow._height);
 
 	const bgfx::Caps* caps = bgfx::getCaps();
 
@@ -824,8 +791,7 @@ void FShadowRenderer::update()
 	s_camera->SetAspectRatio(float(GProcessWindow::Get()._width) / float(GProcessWindow::Get()._height));
 
 	TMatrix4x4F projectionMatrix = s_camera->GetProjectionMatrix();
-	TMatrix3x4F viewMatrix = s_camera->GetViewMatrix();
-	TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
+	TMatrix4x4F transposeViewMatrix = s_camera->GetViewMatrix().ToMatrix4().Transpose();
 
 
 	float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
@@ -870,21 +836,20 @@ void FShadowRenderer::update()
 	FShadowRenderer::s_pointLight->computeViewSpaceComponents(transposeViewMatrix.Data());
 	FShadowRenderer::s_directionalLight->computeViewSpaceComponents(transposeViewMatrix.Data());
 
-	// Update time accumulators.
-	if (FShadowRenderer::s_settings.m_updateLights) { FShadowRenderer::s_timeAccumulatorLight += deltaTime; }
-	if (FShadowRenderer::s_settings.m_updateScene) { FShadowRenderer::s_timeAccumulatorScene += deltaTime; }
-
 	// Setup lights.
-	FShadowRenderer::s_pointLight->m_position.m_x = bx::cos(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
-	FShadowRenderer::s_pointLight->m_position.m_y = 26.0f;
-	FShadowRenderer::s_pointLight->m_position.m_z = bx::sin(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
-	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_x = -FShadowRenderer::s_pointLight->m_position.m_x;
-	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_y = -FShadowRenderer::s_pointLight->m_position.m_y;
-	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_z = -FShadowRenderer::s_pointLight->m_position.m_z;
+	TVector3F pointLightPosition = FShadowRenderer::s_pointLight->GetOwner()->GetTransform()->GetPosition();
+	TVector3F pointLightDirection = FShadowRenderer::s_pointLight->GetOwner()->GetTransform()->GetDirection();
+	FShadowRenderer::s_pointLight->m_position.m_x = pointLightPosition._x;
+	FShadowRenderer::s_pointLight->m_position.m_y = pointLightPosition._y;
+	FShadowRenderer::s_pointLight->m_position.m_z = pointLightPosition._z;
+	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_x = -(pointLightPosition._x + pointLightDirection._x);
+	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_y = -(pointLightPosition._y + pointLightDirection._y);
+	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_z = -(pointLightPosition._z + pointLightDirection._z);
 
-	FShadowRenderer::s_directionalLight->m_position.m_x = -bx::cos(FShadowRenderer::s_timeAccumulatorLight);
-	FShadowRenderer::s_directionalLight->m_position.m_y = -1.0f;
-	FShadowRenderer::s_directionalLight->m_position.m_z = -bx::sin(FShadowRenderer::s_timeAccumulatorLight);
+	TVector3F directionalLightPosition = FShadowRenderer::s_directionalLight->GetOwner()->GetTransform()->GetPosition();
+	FShadowRenderer::s_directionalLight->m_position.m_x = -directionalLightPosition._x;
+	FShadowRenderer::s_directionalLight->m_position.m_y = -directionalLightPosition._y;
+	FShadowRenderer::s_directionalLight->m_position.m_z = -directionalLightPosition._z;
 
 	bx::mtxIdentity(FShadowRenderer::s_screenView);
 	bx::mtxOrtho(

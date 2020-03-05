@@ -295,6 +295,7 @@ public:
 		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
 
 		AActor* lightActor = world->CreateChild<AActor>();
+		lightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
 		_lightComponent = lightActor->CreateComponent<ALightComponent>();
 		_pointLightComponent = lightActor->CreateComponent<ALightComponent>();
 		
@@ -344,9 +345,6 @@ public:
 	{                                             \
 		_var = _val;                              \
 	}
-
-			ImGui::Checkbox("Update lights", &FShadowRenderer::s_settings.m_updateLights);
-			ImGui::Checkbox("Update scene", &FShadowRenderer::s_settings.m_updateScene);
 
 			ImGui::Separator();
 			ImGui::Text("Shadow map depth:");

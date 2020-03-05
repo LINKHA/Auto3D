@@ -516,8 +516,6 @@ namespace Auto3D
 		float m_coverageSpotL;
 		float m_splitDistribution;
 		int   m_numSplits;
-		bool m_updateLights;
-		bool m_updateScene;
 		bool m_drawDepthBuffer;
 		bool m_showSmCoverage;
 		bool m_stencilPack;
@@ -721,10 +719,6 @@ public:
 	static ClearValues s_clearValues;
 
 	static ACameraComponent* s_camera;
-
-
-	static float s_timeAccumulatorLight;
-	static float s_timeAccumulatorScene;
 
 	// Compute transform matrices.
 	static uint8_t s_shadowMapPasses;
