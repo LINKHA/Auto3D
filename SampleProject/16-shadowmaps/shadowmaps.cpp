@@ -317,14 +317,14 @@ public:
 #pragma region gui
 			//		FShadowRenderer::s_uniforms.submitConstUniforms();
 		GProcessWindow& processWindow = GProcessWindow::Get();
+
 			showExampleDialog(this);
-			int i = FShadowRenderer::s_viewState.m_width;
 			ImGui::SetNextWindowPos(
-				  ImVec2(FShadowRenderer::s_viewState.m_width/* - FShadowRenderer::s_viewState.m_width / 5.0f */- 10.0f, 10.0f)
+				{ processWindow._width - processWindow._width / 5.0f - 10.0f, 10.0f }
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::SetNextWindowSize(
-				  ImVec2(FShadowRenderer::s_viewState.m_width / 5.0f, FShadowRenderer::s_viewState.m_height - 20.0f)
+				{ processWindow._width / 5.0f, processWindow._height - 20.0f }
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::Begin("Settings"
@@ -429,7 +429,7 @@ public:
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::SetNextWindowSize(
-				  ImVec2(FShadowRenderer::s_viewState.m_width / 5.0f, 350.0f)
+				  ImVec2(processWindow._width / 5.0f, 350.0f)
 				, ImGuiCond_FirstUseEver
 				);
 			ImGui::Begin("Light"

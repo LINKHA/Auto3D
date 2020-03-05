@@ -812,8 +812,8 @@ void FShadowRenderer::update()
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
 
-	FShadowRenderer::s_viewState.m_width = uint16_t(processWindow._width);
-	FShadowRenderer::s_viewState.m_height = uint16_t(processWindow._height);
+	processWindow._width = uint16_t(processWindow._width);
+	processWindow._height = uint16_t(processWindow._height);
 
 	const bgfx::Caps* caps = bgfx::getCaps();
 
@@ -1184,17 +1184,17 @@ void FShadowRenderer::update()
 	for (uint8_t ii = 0; ii < RENDERVIEW_DRAWDEPTH_3_ID + 1; ++ii)
 	{
 		bgfx::setViewFrameBuffer(ii, invalidRt);
-		bgfx::setViewRect(ii, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+		bgfx::setViewRect(ii, 0, 0, processWindow._width, processWindow._height);
 	}
 
 	// Determine on-screen rectangle size where depth buffer will be drawn.
-	uint16_t depthRectHeight = uint16_t(float(FShadowRenderer::s_viewState.m_height) / 2.5f);
+	uint16_t depthRectHeight = uint16_t(float(processWindow._height) / 2.5f);
 	uint16_t depthRectWidth = depthRectHeight;
 	uint16_t depthRectX = 0;
-	uint16_t depthRectY = FShadowRenderer::s_viewState.m_height - depthRectHeight;
+	uint16_t depthRectY = processWindow._height - depthRectHeight;
 
 	// Setup views and render targets.
-	bgfx::setViewRect(0, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+	bgfx::setViewRect(0, 0, 0, processWindow._width, processWindow._height);
 	bgfx::setViewTransform(0, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_viewState.m_proj);
 
 	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
@@ -1213,8 +1213,8 @@ void FShadowRenderer::update()
 		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
-		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, processWindow._width, processWindow._height);
+		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
@@ -1265,8 +1265,8 @@ void FShadowRenderer::update()
 		}
 		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
-		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, processWindow._width, processWindow._height);
+		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
@@ -1319,10 +1319,10 @@ void FShadowRenderer::update()
 			* RENDERVIEW_DRAWDEPTH_3_ID - Draw depth buffer for fourth split.
 			*/
 
-		depthRectHeight = FShadowRenderer::s_viewState.m_height / 3;
+		depthRectHeight = processWindow._height / 3;
 		depthRectWidth = depthRectHeight;
 		depthRectX = 0;
-		depthRectY = FShadowRenderer::s_viewState.m_height - depthRectHeight;
+		depthRectY = processWindow._height - depthRectHeight;
 
 		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
@@ -1336,8 +1336,8 @@ void FShadowRenderer::update()
 		bgfx::setViewRect(RENDERVIEW_HBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_VBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_HBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
-		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, FShadowRenderer::s_viewState.m_width, FShadowRenderer::s_viewState.m_height);
+		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, processWindow._width, processWindow._height);
+		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX + (0 * depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_1_ID, depthRectX + (1 * depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_2_ID, depthRectX + (2 * depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
