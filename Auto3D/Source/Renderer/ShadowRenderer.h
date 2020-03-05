@@ -724,8 +724,8 @@ public:
 	static bgfx::FrameBufferHandle s_rtBlur;
 
 	static Material s_defaultMaterial;
-	static ALightComponent s_pointLight;
-	static ALightComponent s_directionalLight;
+	static ALightComponent* s_pointLight;
+	static ALightComponent* s_directionalLight;
 
 	static float s_color[4];
 

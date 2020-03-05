@@ -21,8 +21,8 @@ bgfx::FrameBufferHandle FShadowRenderer::s_rtShadowMap[ShadowMapRenderTargets::C
 bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
 
 Material FShadowRenderer::s_defaultMaterial;
-ALightComponent FShadowRenderer::s_pointLight;
-ALightComponent FShadowRenderer::s_directionalLight;
+ALightComponent* FShadowRenderer::s_pointLight;
+ALightComponent* FShadowRenderer::s_directionalLight;
 float FShadowRenderer::s_color[4];
 float FShadowRenderer::s_lightMtx[16];
 float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
@@ -733,20 +733,20 @@ void FShadowRenderer::init()
 		{ { 1.0f, 1.0f, 1.0f, 0.0f } }, //specular, exponent
 	};
 	// Lights.
-	s_pointLight.m_position = { 0.0f, 0.0f, 0.0f, 1.0f };
-	s_pointLight.m_position_viewSpace[0] = 0.0f;
-	s_pointLight.m_position_viewSpace[1] = 0.0f;
-	s_pointLight.m_position_viewSpace[2] = 0.0f;
-	s_pointLight.m_position_viewSpace[3] = 0.0f;
-	s_pointLight.m_ambientPower = { 1.0f, 1.0f, 1.0f, 0.0f };
-	s_pointLight.m_diffusePower = { 1.0f, 1.0f, 1.0f, 850.0f };
-	s_pointLight.m_specularPower = { 1.0f, 1.0f, 1.0f, 0.0f };
-	s_pointLight.m_spotDirectionInner = { 0.0f,-0.4f,-0.6f, 0.0f };
-	s_pointLight.m_spotDirectionInner_viewSpace[0] = 0.0f;
-	s_pointLight.m_spotDirectionInner_viewSpace[1] = 0.0f;
-	s_pointLight.m_spotDirectionInner_viewSpace[2] = 0.0f;
-	s_pointLight.m_spotDirectionInner_viewSpace[3] = 0.0f;
-	s_pointLight.m_attenuationSpotOuter = { 1.0f, 0.0f, 1.0f, 91.0f };
+	s_pointLight->m_position = { 0.0f, 0.0f, 0.0f, 1.0f };
+	s_pointLight->m_position_viewSpace[0] = 0.0f;
+	s_pointLight->m_position_viewSpace[1] = 0.0f;
+	s_pointLight->m_position_viewSpace[2] = 0.0f;
+	s_pointLight->m_position_viewSpace[3] = 0.0f;
+	s_pointLight->m_ambientPower = { 1.0f, 1.0f, 1.0f, 0.0f };
+	s_pointLight->m_diffusePower = { 1.0f, 1.0f, 1.0f, 850.0f };
+	s_pointLight->m_specularPower = { 1.0f, 1.0f, 1.0f, 0.0f };
+	s_pointLight->m_spotDirectionInner = { 0.0f,-0.4f,-0.6f, 0.0f };
+	s_pointLight->m_spotDirectionInner_viewSpace[0] = 0.0f;
+	s_pointLight->m_spotDirectionInner_viewSpace[1] = 0.0f;
+	s_pointLight->m_spotDirectionInner_viewSpace[2] = 0.0f;
+	s_pointLight->m_spotDirectionInner_viewSpace[3] = 0.0f;
+	s_pointLight->m_attenuationSpotOuter = { 1.0f, 0.0f, 1.0f, 91.0f };
 	//s_pointLight =
 	//{
 	//	{ { 0.0f, 0.0f, 0.0f, 1.0f   } }, //position
@@ -759,20 +759,20 @@ void FShadowRenderer::init()
 	//	{ { 1.0f, 0.0f, 1.0f, 91.0f  } }, //attenuation, spotcutoff
 	//};
 
-	s_directionalLight.m_position = { 0.5f,-1.0f, 0.1f, 0.0f };
-	s_directionalLight.m_position_viewSpace[0] = 0.0f;
-	s_directionalLight.m_position_viewSpace[1] = 0.0f;
-	s_directionalLight.m_position_viewSpace[2] = 0.0f;
-	s_directionalLight.m_position_viewSpace[3] = 0.0f;
-	s_directionalLight.m_ambientPower = { 1.0f, 1.0f, 1.0f, 0.02f };
-	s_directionalLight.m_diffusePower = { 1.0f, 1.0f, 1.0f, 0.4f };
-	s_directionalLight.m_specularPower = { 1.0f, 1.0f, 1.0f, 0.0f };
-	s_directionalLight.m_spotDirectionInner = { 0.0f, 0.0f, 0.0f, 1.0f };
-	s_directionalLight.m_spotDirectionInner_viewSpace[0] = 0.0f;
-	s_directionalLight.m_spotDirectionInner_viewSpace[1] = 0.0f;
-	s_directionalLight.m_spotDirectionInner_viewSpace[2] = 0.0f;
-	s_directionalLight.m_spotDirectionInner_viewSpace[3] = 0.0f;
-	s_directionalLight.m_attenuationSpotOuter = { 0.0f, 0.0f, 0.0f, 1.0f };
+	s_directionalLight->m_position = { 0.5f,-1.0f, 0.1f, 0.0f };
+	s_directionalLight->m_position_viewSpace[0] = 0.0f;
+	s_directionalLight->m_position_viewSpace[1] = 0.0f;
+	s_directionalLight->m_position_viewSpace[2] = 0.0f;
+	s_directionalLight->m_position_viewSpace[3] = 0.0f;
+	s_directionalLight->m_ambientPower = { 1.0f, 1.0f, 1.0f, 0.02f };
+	s_directionalLight->m_diffusePower = { 1.0f, 1.0f, 1.0f, 0.4f };
+	s_directionalLight->m_specularPower = { 1.0f, 1.0f, 1.0f, 0.0f };
+	s_directionalLight->m_spotDirectionInner = { 0.0f, 0.0f, 0.0f, 1.0f };
+	s_directionalLight->m_spotDirectionInner_viewSpace[0] = 0.0f;
+	s_directionalLight->m_spotDirectionInner_viewSpace[1] = 0.0f;
+	s_directionalLight->m_spotDirectionInner_viewSpace[2] = 0.0f;
+	s_directionalLight->m_spotDirectionInner_viewSpace[3] = 0.0f;
+	s_directionalLight->m_attenuationSpotOuter = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 	//s_directionalLight =
 	//{
@@ -789,7 +789,7 @@ void FShadowRenderer::init()
 	// Setup uniforms.
 	FShadowRenderer::s_color[0] = FShadowRenderer::s_color[1] = FShadowRenderer::s_color[2] = FShadowRenderer::s_color[3] = 1.0f;
 	FShadowRenderer::s_uniforms.setPtrs(&FShadowRenderer::s_defaultMaterial
-		, &FShadowRenderer::s_pointLight
+		, FShadowRenderer::s_pointLight
 		, FShadowRenderer::s_color
 		, FShadowRenderer::s_lightMtx
 		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::First][0]
@@ -879,16 +879,16 @@ void FShadowRenderer::update()
 	FShadowRenderer::s_uniforms.m_XOffset = currentShadowMapSettings->m_xOffset;
 	FShadowRenderer::s_uniforms.m_YOffset = currentShadowMapSettings->m_yOffset;
 	FShadowRenderer::s_uniforms.m_showSmCoverage = float(FShadowRenderer::s_settings.m_showSmCoverage);
-	FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? &FShadowRenderer::s_directionalLight : &FShadowRenderer::s_pointLight;
+	FShadowRenderer::s_uniforms.m_lightPtr = (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? FShadowRenderer::s_directionalLight : FShadowRenderer::s_pointLight;
 
 	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 	{
-		FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
-		FShadowRenderer::s_pointLight.m_spotDirectionInner.m_inner = FShadowRenderer::s_settings.m_spotInnerAngle;
+		FShadowRenderer::s_pointLight->m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
+		FShadowRenderer::s_pointLight->m_spotDirectionInner.m_inner = FShadowRenderer::s_settings.m_spotInnerAngle;
 	}
 	else
 	{
-		FShadowRenderer::s_pointLight.m_attenuationSpotOuter.m_outer = 91.0f; //above 90.0f means point light
+		FShadowRenderer::s_pointLight->m_attenuationSpotOuter.m_outer = 91.0f; //above 90.0f means point light
 	}
 
 	FShadowRenderer::s_uniforms.submitPerFrameUniforms();
@@ -901,24 +901,24 @@ void FShadowRenderer::update()
 	const float deltaTime = float(frameTime / freq);
 
 	// Update lights.
-	FShadowRenderer::s_pointLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
-	FShadowRenderer::s_directionalLight.computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
+	FShadowRenderer::s_pointLight->computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
+	FShadowRenderer::s_directionalLight->computeViewSpaceComponents(FShadowRenderer::s_viewState.m_view);
 
 	// Update time accumulators.
 	if (FShadowRenderer::s_settings.m_updateLights) { FShadowRenderer::s_timeAccumulatorLight += deltaTime; }
 	if (FShadowRenderer::s_settings.m_updateScene) { FShadowRenderer::s_timeAccumulatorScene += deltaTime; }
 
 	// Setup lights.
-	FShadowRenderer::s_pointLight.m_position.m_x = bx::cos(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
-	FShadowRenderer::s_pointLight.m_position.m_y = 26.0f;
-	FShadowRenderer::s_pointLight.m_position.m_z = bx::sin(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
-	FShadowRenderer::s_pointLight.m_spotDirectionInner.m_x = -FShadowRenderer::s_pointLight.m_position.m_x;
-	FShadowRenderer::s_pointLight.m_spotDirectionInner.m_y = -FShadowRenderer::s_pointLight.m_position.m_y;
-	FShadowRenderer::s_pointLight.m_spotDirectionInner.m_z = -FShadowRenderer::s_pointLight.m_position.m_z;
+	FShadowRenderer::s_pointLight->m_position.m_x = bx::cos(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
+	FShadowRenderer::s_pointLight->m_position.m_y = 26.0f;
+	FShadowRenderer::s_pointLight->m_position.m_z = bx::sin(FShadowRenderer::s_timeAccumulatorLight) * 20.0f;
+	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_x = -FShadowRenderer::s_pointLight->m_position.m_x;
+	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_y = -FShadowRenderer::s_pointLight->m_position.m_y;
+	FShadowRenderer::s_pointLight->m_spotDirectionInner.m_z = -FShadowRenderer::s_pointLight->m_position.m_z;
 
-	FShadowRenderer::s_directionalLight.m_position.m_x = -bx::cos(FShadowRenderer::s_timeAccumulatorLight);
-	FShadowRenderer::s_directionalLight.m_position.m_y = -1.0f;
-	FShadowRenderer::s_directionalLight.m_position.m_z = -bx::sin(FShadowRenderer::s_timeAccumulatorLight);
+	FShadowRenderer::s_directionalLight->m_position.m_x = -bx::cos(FShadowRenderer::s_timeAccumulatorLight);
+	FShadowRenderer::s_directionalLight->m_position.m_y = -1.0f;
+	FShadowRenderer::s_directionalLight->m_position.m_z = -bx::sin(FShadowRenderer::s_timeAccumulatorLight);
 
 	bx::mtxIdentity(FShadowRenderer::s_screenView);
 	bx::mtxOrtho(
@@ -992,8 +992,8 @@ void FShadowRenderer::update()
 			FShadowRenderer::s_lightProj[ProjType::Horizontal][14] /= currentShadowMapSettings->m_far;
 		}
 
-		const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_spotDirectionInner.m_v));
-		bx::mtxLookAt(FShadowRenderer::s_lightView[TetrahedronFaces::Green], bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), at);
+		const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight->m_position.m_v), bx::load<bx::Vec3>(FShadowRenderer::s_pointLight->m_spotDirectionInner.m_v));
+		bx::mtxLookAt(FShadowRenderer::s_lightView[TetrahedronFaces::Green], bx::load<bx::Vec3>(FShadowRenderer::s_pointLight->m_position.m_v), at);
 	}
 	else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 	{
@@ -1062,9 +1062,9 @@ void FShadowRenderer::update()
 
 			float tmp[3] =
 			{
-				-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[0])),
-				-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[4])),
-				-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight.m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[8])),
+				-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight->m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[0])),
+				-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight->m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[4])),
+				-bx::dot(bx::load<bx::Vec3>(FShadowRenderer::s_pointLight->m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[8])),
 			};
 
 			bx::mtxTranspose(FShadowRenderer::s_mtxYpr[ii], mtxTmp);
@@ -1082,9 +1082,9 @@ void FShadowRenderer::update()
 		const bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
 		const bx::Vec3 eye =
 		{
-			-FShadowRenderer::s_directionalLight.m_position.m_x,
-			-FShadowRenderer::s_directionalLight.m_position.m_y,
-			-FShadowRenderer::s_directionalLight.m_position.m_z,
+			-FShadowRenderer::s_directionalLight->m_position.m_x,
+			-FShadowRenderer::s_directionalLight->m_position.m_y,
+			-FShadowRenderer::s_directionalLight->m_position.m_z,
 		};
 		bx::mtxLookAt(FShadowRenderer::s_lightView[0], eye, at);
 
