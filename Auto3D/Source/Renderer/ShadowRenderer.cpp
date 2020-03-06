@@ -1405,6 +1405,64 @@ void FShadowRenderer::update()
 		}
 	}
 
+	// Craft shadow map.
+	{
+		// Craft stencil mask for point light shadow map packing.
+		if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+		{
+			if (6 == bgfx::getAvailTransientVertexBuffer(6, FShadowRenderer::s_posLayout))
+			{
+				struct Pos
+				{
+					float m_x, m_y, m_z;
+				};
+
+				bgfx::TransientVertexBuffer vb;
+				bgfx::allocTransientVertexBuffer(&vb, 6, FShadowRenderer::s_posLayout);
+				Pos* vertex = (Pos*)vb.data;
+
+				const float min = 0.0f;
+				const float max = 1.0f;
+				const float center = 0.5f;
+				const float zz = 0.0f;
+
+				vertex[0].m_x = min;
+				vertex[0].m_y = min;
+				vertex[0].m_z = zz;
+
+				vertex[1].m_x = max;
+				vertex[1].m_y = min;
+				vertex[1].m_z = zz;
+
+				vertex[2].m_x = center;
+				vertex[2].m_y = center;
+				vertex[2].m_z = zz;
+
+				vertex[3].m_x = center;
+				vertex[3].m_y = center;
+				vertex[3].m_z = zz;
+
+				vertex[4].m_x = max;
+				vertex[4].m_y = max;
+				vertex[4].m_z = zz;
+
+				vertex[5].m_x = min;
+				vertex[5].m_y = max;
+				vertex[5].m_z = zz;
+
+				bgfx::setState(0);
+				bgfx::setStencil(BGFX_STENCIL_TEST_ALWAYS
+					| BGFX_STENCIL_FUNC_REF(1)
+					| BGFX_STENCIL_FUNC_RMASK(0xff)
+					| BGFX_STENCIL_OP_FAIL_S_REPLACE
+					| BGFX_STENCIL_OP_FAIL_Z_REPLACE
+					| BGFX_STENCIL_OP_PASS_Z_REPLACE
+				);
+				bgfx::setVertexBuffer(0, &vb);
+				bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_programs.m_black);
+			}
+		}
+	}
 }
 
 }

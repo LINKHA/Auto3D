@@ -288,12 +288,6 @@ public:
 		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
 		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
 
-		_planeActor = world->CreateChild<AActor>();
-		_planeComponent = _planeActor->CreateComponent<AMeshComponent>();
-		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
-		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
-
 		AActor* lightActor = world->CreateChild<AActor>();
 		lightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
 		_lightComponent = lightActor->CreateComponent<ALightComponent>();
@@ -494,123 +488,74 @@ public:
 		FShadowRenderer::s_camera = _camera;
 		FShadowRenderer::Get().update();
 
-
-
-		const bgfx::Caps* caps = bgfx::getCaps();
-
-		// Set view and projection matrices.
-		const float camFovy = _camera->GetFov();
-		const float camAspect = _camera->GetAspectRatio();
-		const float projHeight = bx::tan(bx::toRad(camFovy)*0.5f);
-		const float projWidth = projHeight * camAspect;
-
-		float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
-
 		ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 
 		// Setup instance matrices.
-		float mtxFloor[16];
 		TMatrix4x4F& planeMatrix = _planeActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-		mtxFloor[0] = planeMatrix._m00;
-		mtxFloor[1] = planeMatrix._m01;
-		mtxFloor[2] = planeMatrix._m02;
-		mtxFloor[3] = planeMatrix._m03;
-		mtxFloor[4] = planeMatrix._m10;
-		mtxFloor[5] = planeMatrix._m11;
-		mtxFloor[6] = planeMatrix._m12;
-		mtxFloor[7] = planeMatrix._m13;
-		mtxFloor[8] = planeMatrix._m20;
-		mtxFloor[9] = planeMatrix._m21;
-		mtxFloor[10] = planeMatrix._m22;
-		mtxFloor[11] = planeMatrix._m23;
-		mtxFloor[12] = planeMatrix._m30;
-		mtxFloor[13] = planeMatrix._m31;
-		mtxFloor[14] = planeMatrix._m32;
-		mtxFloor[15] = planeMatrix._m33;
-
-
-		float mtxCube[16];
 		TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-		mtxCube[0] = meshMatrix._m00;
-		mtxCube[1] = meshMatrix._m01;
-		mtxCube[2] = meshMatrix._m02;
-		mtxCube[3] = meshMatrix._m03;
-		mtxCube[4] = meshMatrix._m10; 
-		mtxCube[5] = meshMatrix._m11; 
-		mtxCube[6] = meshMatrix._m12;
-		mtxCube[7] = meshMatrix._m13;
-		mtxCube[8] = meshMatrix._m20;
-		mtxCube[9] = meshMatrix._m21;
-		mtxCube[10] = meshMatrix._m22;
-		mtxCube[11] = meshMatrix._m23;
-		mtxCube[12] = meshMatrix._m30;
-		mtxCube[13] = meshMatrix._m31;
-		mtxCube[14] = meshMatrix._m32;
-		mtxCube[15] = meshMatrix._m33;
 
 		TVector<AGeometryComponent*> planeComponents = _planeActor->GetGeometryComponents();
 		FGeometry* planeGeometry = planeComponents[0]->GetPass()._geometry;
 		TVector<AGeometryComponent*> meshComponents = _meshActor->GetGeometryComponents();
 		FGeometry* meshGeometry = meshComponents[0]->GetPass()._geometry;
 		// Render.
-
 		// Craft shadow map.
 		{
-			// Craft stencil mask for point light shadow map packing.
-			if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
-			{
-				if (6 == bgfx::getAvailTransientVertexBuffer(6, FShadowRenderer::s_posLayout) )
-				{
-					struct Pos
-					{
-						float m_x, m_y, m_z;
-					};
+			//// Craft stencil mask for point light shadow map packing.
+			//if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+			//{
+			//	if (6 == bgfx::getAvailTransientVertexBuffer(6, FShadowRenderer::s_posLayout) )
+			//	{
+			//		struct Pos
+			//		{
+			//			float m_x, m_y, m_z;
+			//		};
 
-					bgfx::TransientVertexBuffer vb;
-					bgfx::allocTransientVertexBuffer(&vb, 6, FShadowRenderer::s_posLayout);
-					Pos* vertex = (Pos*)vb.data;
+			//		bgfx::TransientVertexBuffer vb;
+			//		bgfx::allocTransientVertexBuffer(&vb, 6, FShadowRenderer::s_posLayout);
+			//		Pos* vertex = (Pos*)vb.data;
 
-					const float min = 0.0f;
-					const float max = 1.0f;
-					const float center = 0.5f;
-					const float zz = 0.0f;
+			//		const float min = 0.0f;
+			//		const float max = 1.0f;
+			//		const float center = 0.5f;
+			//		const float zz = 0.0f;
 
-					vertex[0].m_x = min;
-					vertex[0].m_y = min;
-					vertex[0].m_z = zz;
+			//		vertex[0].m_x = min;
+			//		vertex[0].m_y = min;
+			//		vertex[0].m_z = zz;
 
-					vertex[1].m_x = max;
-					vertex[1].m_y = min;
-					vertex[1].m_z = zz;
+			//		vertex[1].m_x = max;
+			//		vertex[1].m_y = min;
+			//		vertex[1].m_z = zz;
 
-					vertex[2].m_x = center;
-					vertex[2].m_y = center;
-					vertex[2].m_z = zz;
+			//		vertex[2].m_x = center;
+			//		vertex[2].m_y = center;
+			//		vertex[2].m_z = zz;
 
-					vertex[3].m_x = center;
-					vertex[3].m_y = center;
-					vertex[3].m_z = zz;
+			//		vertex[3].m_x = center;
+			//		vertex[3].m_y = center;
+			//		vertex[3].m_z = zz;
 
-					vertex[4].m_x = max;
-					vertex[4].m_y = max;
-					vertex[4].m_z = zz;
+			//		vertex[4].m_x = max;
+			//		vertex[4].m_y = max;
+			//		vertex[4].m_z = zz;
 
-					vertex[5].m_x = min;
-					vertex[5].m_y = max;
-					vertex[5].m_z = zz;
+			//		vertex[5].m_x = min;
+			//		vertex[5].m_y = max;
+			//		vertex[5].m_z = zz;
 
-					bgfx::setState(0);
-					bgfx::setStencil(BGFX_STENCIL_TEST_ALWAYS
-										| BGFX_STENCIL_FUNC_REF(1)
-										| BGFX_STENCIL_FUNC_RMASK(0xff)
-										| BGFX_STENCIL_OP_FAIL_S_REPLACE
-										| BGFX_STENCIL_OP_FAIL_Z_REPLACE
-										| BGFX_STENCIL_OP_PASS_Z_REPLACE
-										);
-					bgfx::setVertexBuffer(0, &vb);
-					bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_programs.m_black);
-				}
-			}
+			//		bgfx::setState(0);
+			//		bgfx::setStencil(BGFX_STENCIL_TEST_ALWAYS
+			//							| BGFX_STENCIL_FUNC_REF(1)
+			//							| BGFX_STENCIL_FUNC_RMASK(0xff)
+			//							| BGFX_STENCIL_OP_FAIL_S_REPLACE
+			//							| BGFX_STENCIL_OP_FAIL_Z_REPLACE
+			//							| BGFX_STENCIL_OP_PASS_Z_REPLACE
+			//							);
+			//		bgfx::setVertexBuffer(0, &vb);
+			//		bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_programs.m_black);
+			//	}
+			//}
 
 			// Draw scene into shadowmap.
 			uint8_t drawNum;
@@ -639,14 +584,14 @@ public:
 
 				// Floor.
 				Submit(planeGeometry, viewId
-					, mtxFloor
+					, planeMatrix.Data()
 					, *currentShadowMapSettings->m_progPack
 					, s_renderStates[renderStateIndex]
 				);
 
 				// Cube.
 				Submit(meshGeometry, viewId
-					, mtxCube
+					, meshMatrix.Data()
 					, *currentShadowMapSettings->m_progPack
 					, s_renderStates[renderStateIndex]
 				);
@@ -781,11 +726,11 @@ public:
 			// Floor.
 			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
 			{
-				bx::mtxMul(FShadowRenderer::s_lightMtx, mtxFloor, mtxShadow); //not needed for directional light
+				bx::mtxMul(FShadowRenderer::s_lightMtx, planeMatrix.Data(), mtxShadow); //not needed for directional light
 			}
 
 			Submit(meshGeometry,RENDERVIEW_DRAWSCENE_0_ID
-				, mtxFloor
+				, planeMatrix.Data()
 				, *currentShadowMapSettings->m_progDraw
 				, s_renderStates[RenderState::Default]
 				, true
@@ -795,11 +740,11 @@ public:
 			// Cube.
 			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
 			{
-				bx::mtxMul(FShadowRenderer::s_lightMtx, mtxCube, mtxShadow);
+				bx::mtxMul(FShadowRenderer::s_lightMtx, meshMatrix.Data(), mtxShadow);
 			}
 
 			Submit(meshGeometry, RENDERVIEW_DRAWSCENE_0_ID
-				, mtxCube
+				, meshMatrix.Data()
 				, *currentShadowMapSettings->m_progDraw
 				, s_renderStates[RenderState::Default]
 				, true
