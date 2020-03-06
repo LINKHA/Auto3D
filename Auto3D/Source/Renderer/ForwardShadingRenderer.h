@@ -50,12 +50,10 @@ public:
 	void RenderBatches();
 
 	void RenderBatch(FRenderState& renderState);
-
-	void CollectGeometries(AWorld* world, ACameraComponent* camera);
+	/// Categorize actors and the components they mount.
+	void CollectActors(AWorld* world, ACameraComponent* camera);
 
 	void CollectBatch();
-
-	void CollectLight(AWorld* world, ACameraComponent* camera);
 
 	void PrepareView();
 

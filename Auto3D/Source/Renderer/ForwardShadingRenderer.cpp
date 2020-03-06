@@ -21,11 +21,13 @@
 #include "Math/Matrix4x4.h"
 #include "RHI/bgfx_utils.h"
 
+#include "Resource/Material.h"
+
 namespace Auto3D
 {
-#define RENDER_SHADOW_PASS_ID 0
-#define RENDER_SCENE_PASS_ID  1
-#define RENDER_OCCLUSION_PASS_ID 2
+#define RENDER_SHADOW_PASS_ID 20
+#define RENDER_SCENE_PASS_ID  21
+#define RENDER_OCCLUSION_PASS_ID 22
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
@@ -94,7 +96,7 @@ void FForwardShadingRenderer::Render()
 	PrepareView();
 	// This dummy draw call is here to make sure that view 0 is cleared
 	// if no other draw calls are submitted to view 0.
-	bgfx::touch(0);
+	bgfx::touch(RENDER_SHADOW_PASS_ID);
 
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
@@ -102,11 +104,8 @@ void FForwardShadingRenderer::Render()
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
 		PrepareView();
-		CollectGeometries(world, *it);
+		CollectActors(world, *it);
 		CollectBatch();
-		CollectLight(world, *it);
-
-
 
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 
@@ -382,19 +381,53 @@ void FForwardShadingRenderer::ShutDowm()
 }
 
 
-void FForwardShadingRenderer::CollectGeometries(AWorld* world, ACameraComponent* camera)
+void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* camera)
 {
 	THashMap<unsigned, AActor*>& worldActors = world->GetActors();
-	
+
 	for (auto it = worldActors.Begin(); it != worldActors.End(); ++it)
 	{
 		AActor* actor = it->_second;
 		unsigned short flags = actor->Flags();
-		if ((flags & NF_ENABLED) && (flags & NF_GEOMETRY) && (actor->GetLayerMask() & camera->GetViewMask()))
+
+		if (!(flags & NF_ENABLED))
+			continue;
+
+		//Collect geometries
+		if ((flags & NF_GEOMETRY) && (actor->GetLayerMask() & camera->GetViewMask()))
 		{
 			_geometriesActor.Push(actor);
 		}
+
+		//Collect light
+		if (actor->FindComponent<ALightComponent>())
+			_lightActor.Push(actor);
 	}
+
+	if (_lightActor.Size())
+	{
+		for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
+		{
+			AActor* actor = *it;
+			TVector<AGeometryComponent*>& geometrys = actor->GetGeometryComponents();
+			for (auto git = geometrys.Begin(); git != geometrys.End(); ++git)
+			{
+				AGeometryComponent* comp = *git;
+				if(!comp->GetPass().isValid())
+					continue;
+				// Default material automatically matches shader according to the scene
+				if (comp->GetPass()._material == OMaterial::DefaultMaterial())
+				{
+					//Temp: hard shadaw map
+					OMaterial* material = new OMaterial;
+					comp->GetPass()._material = material;
+					material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
+					material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
+				}
+			}
+		}
+	}
+	
 }
 
 void FForwardShadingRenderer::CollectBatch()
@@ -430,17 +463,6 @@ void FForwardShadingRenderer::CollectBatch()
 	_batchQueues.Sort();
 }
 
-void FForwardShadingRenderer::CollectLight(AWorld* world, ACameraComponent* camera)
-{
-	THashMap<unsigned, AActor*>& worldActors = world->GetActors();
-
-	for (auto it = worldActors.Begin(); it != worldActors.End(); ++it)
-	{
-		AActor* actor = it->_second;
-		if (actor->FindComponent<ALightComponent>())
-			_lightActor.Push(actor);
-	}
-}
 
 void FForwardShadingRenderer::PrepareView()
 {

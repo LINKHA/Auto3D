@@ -13,8 +13,8 @@ class AUTO_API AGeometryComponent : public AActorComponent
 {
 	DECLARE_A_CLASS(AGeometryComponent, AActorComponent)
 public:
-	AGeometryComponent() {}
-	virtual ~AGeometryComponent() {}
+	AGeometryComponent();
+	virtual ~AGeometryComponent();
 
 	/// BeginPlay
 	virtual void BeginPlay();

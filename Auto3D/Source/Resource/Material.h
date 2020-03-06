@@ -35,7 +35,7 @@ public:
 	static OMaterial* DefaultMaterial();
 private:
 	/// Default material.
-	static SPtr<OMaterial> _defaultMaterial;
+	static OMaterial* _defaultMaterial;
 	/// JSON data used for loading.
 	UPtr<OJSONFile> _loadJSON;
 

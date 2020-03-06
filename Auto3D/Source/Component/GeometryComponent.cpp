@@ -8,6 +8,16 @@
 namespace Auto3D
 {
 
+AGeometryComponent::AGeometryComponent()
+{
+	SetMaterial(nullptr);
+}
+
+AGeometryComponent::~AGeometryComponent()
+{
+
+}
+
 void AGeometryComponent::BeginPlay()
 {
 	Super::BeginPlay();

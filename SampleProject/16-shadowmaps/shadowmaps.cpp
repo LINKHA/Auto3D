@@ -68,7 +68,7 @@ static RenderState s_renderStates[RenderState::Count] =
 		0
 		| BGFX_STATE_WRITE_RGB
 		| BGFX_STATE_WRITE_A
-		| BGFX_STATE_DEPTH_TEST_LESS
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
 		| BGFX_STATE_WRITE_Z
 		| BGFX_STATE_CULL_CCW
 		| BGFX_STATE_MSAA
@@ -81,7 +81,7 @@ static RenderState s_renderStates[RenderState::Count] =
 		| BGFX_STATE_WRITE_RGB
 		| BGFX_STATE_WRITE_A
 		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LESS
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
 		| BGFX_STATE_CULL_CCW
 		| BGFX_STATE_MSAA
 		, UINT32_MAX
@@ -93,7 +93,7 @@ static RenderState s_renderStates[RenderState::Count] =
 		| BGFX_STATE_WRITE_RGB
 		| BGFX_STATE_WRITE_A
 		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LESS
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
 		| BGFX_STATE_CULL_CCW
 		| BGFX_STATE_MSAA
 		, UINT32_MAX
@@ -110,7 +110,7 @@ static RenderState s_renderStates[RenderState::Count] =
 		| BGFX_STATE_WRITE_RGB
 		| BGFX_STATE_WRITE_A
 		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LESS
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
 		| BGFX_STATE_CULL_CCW
 		| BGFX_STATE_MSAA
 		, UINT32_MAX
@@ -126,7 +126,7 @@ static RenderState s_renderStates[RenderState::Count] =
 		BGFX_STATE_WRITE_RGB
 		| BGFX_STATE_WRITE_A
 		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LESS
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
 		| BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_COLOR, BGFX_STATE_BLEND_INV_SRC_COLOR)
 		| BGFX_STATE_CULL_CCW
 		| BGFX_STATE_MSAA
@@ -284,7 +284,7 @@ public:
 
 		_planeActor = world->CreateChild<AActor>();
 		_planeComponent = _planeActor->CreateComponent<AMeshComponent>();
-		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
 		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
 
