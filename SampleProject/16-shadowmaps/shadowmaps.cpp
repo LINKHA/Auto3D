@@ -252,7 +252,7 @@ public:
 	ExampleShadowmaps(const char* _name, const char* _description, const char* _url)
 		: Auto3D::IAppInstance(_name, _description, _url)
 	{
-		IAppInstance::_useCustomRender = true;
+		//IAppInstance::_useCustomRender = true;
 	}
 
 	void init() override
@@ -485,289 +485,232 @@ public:
 
 #pragma endregion gui
 
-		FShadowRenderer::s_camera = _camera;
-		FShadowRenderer::Get().update();
 
-		ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+		//ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 
-		// Setup instance matrices.
-		TMatrix4x4F& planeMatrix = _planeActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
-		TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+		//// Setup instance matrices.
+		//TMatrix4x4F& planeMatrix = _planeActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
+		//TMatrix4x4F& meshMatrix = _meshActor->GetTransform()->GetWorldTransform().ToMatrix4().Transpose();
 
-		TVector<AGeometryComponent*> planeComponents = _planeActor->GetGeometryComponents();
-		FGeometry* planeGeometry = planeComponents[0]->GetPass()._geometry;
-		TVector<AGeometryComponent*> meshComponents = _meshActor->GetGeometryComponents();
-		FGeometry* meshGeometry = meshComponents[0]->GetPass()._geometry;
-		// Render.
-		// Craft shadow map.
-		{
-			//// Craft stencil mask for point light shadow map packing.
-			//if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
-			//{
-			//	if (6 == bgfx::getAvailTransientVertexBuffer(6, FShadowRenderer::s_posLayout) )
-			//	{
-			//		struct Pos
-			//		{
-			//			float m_x, m_y, m_z;
-			//		};
+		//TVector<AGeometryComponent*> planeComponents = _planeActor->GetGeometryComponents();
+		//FGeometry* planeGeometry = planeComponents[0]->GetPass()._geometry;
+		//TVector<AGeometryComponent*> meshComponents = _meshActor->GetGeometryComponents();
+		//FGeometry* meshGeometry = meshComponents[0]->GetPass()._geometry;
+		//// Render.
+		//// Craft shadow map.
+		//{
 
-			//		bgfx::TransientVertexBuffer vb;
-			//		bgfx::allocTransientVertexBuffer(&vb, 6, FShadowRenderer::s_posLayout);
-			//		Pos* vertex = (Pos*)vb.data;
+		//	// Draw scene into shadowmap.
+		//	uint8_t drawNum;
+		//	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		drawNum = 1;
+		//	}
+		//	else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		drawNum = 4;
+		//	}
+		//	else //LightType::DirectionalLight == settings.m_lightType)
+		//	{
+		//		drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
+		//	}
 
-			//		const float min = 0.0f;
-			//		const float max = 1.0f;
-			//		const float center = 0.5f;
-			//		const float zz = 0.0f;
+		//	for (uint8_t ii = 0; ii < drawNum; ++ii)
+		//	{
+		//		const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
 
-			//		vertex[0].m_x = min;
-			//		vertex[0].m_y = min;
-			//		vertex[0].m_z = zz;
+		//		uint8_t renderStateIndex = RenderState::ShadowMap_PackDepth;
+		//		if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+		//		{
+		//			renderStateIndex = uint8_t( (ii < 2) ? RenderState::ShadowMap_PackDepthHoriz : RenderState::ShadowMap_PackDepthVert);
+		//		}
 
-			//		vertex[1].m_x = max;
-			//		vertex[1].m_y = min;
-			//		vertex[1].m_z = zz;
+		//		// Floor.
+		//		Submit(planeGeometry, viewId
+		//			, planeMatrix.Data()
+		//			, *currentShadowMapSettings->m_progPack
+		//			, s_renderStates[renderStateIndex]
+		//		);
 
-			//		vertex[2].m_x = center;
-			//		vertex[2].m_y = center;
-			//		vertex[2].m_z = zz;
+		//		// Cube.
+		//		Submit(meshGeometry, viewId
+		//			, meshMatrix.Data()
+		//			, *currentShadowMapSettings->m_progPack
+		//			, s_renderStates[renderStateIndex]
+		//		);
+		//	}
+		//}
 
-			//		vertex[3].m_x = center;
-			//		vertex[3].m_y = center;
-			//		vertex[3].m_z = zz;
+		//// Draw scene.
+		//{
+		//	// Setup shadow mtx.
+		//	float mtxShadow[16];
 
-			//		vertex[4].m_x = max;
-			//		vertex[4].m_y = max;
-			//		vertex[4].m_z = zz;
+		//	const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
+		//	float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
 
-			//		vertex[5].m_x = min;
-			//		vertex[5].m_y = max;
-			//		vertex[5].m_z = zz;
+		//	const float mtxBias[16] =
+		//	{
+		//		0.5f, 0.0f, 0.0f, 0.0f,
+		//		0.0f, ymul, 0.0f, 0.0f,
+		//		0.0f, 0.0f, 0.5f, 0.0f,
+		//		0.5f, 0.5f, zadd, 1.0f,
+		//	};
 
-			//		bgfx::setState(0);
-			//		bgfx::setStencil(BGFX_STENCIL_TEST_ALWAYS
-			//							| BGFX_STENCIL_FUNC_REF(1)
-			//							| BGFX_STENCIL_FUNC_RMASK(0xff)
-			//							| BGFX_STENCIL_OP_FAIL_S_REPLACE
-			//							| BGFX_STENCIL_OP_FAIL_Z_REPLACE
-			//							| BGFX_STENCIL_OP_PASS_Z_REPLACE
-			//							);
-			//		bgfx::setVertexBuffer(0, &vb);
-			//		bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_programs.m_black);
-			//	}
-			//}
+		//	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		float mtxTmp[16];
+		//		bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal], mtxBias);
+		//		bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0], mtxTmp); //FShadowRenderer::s_lightViewProjBias
+		//	}
+		//	else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
+		//		zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
 
-			// Draw scene into shadowmap.
-			uint8_t drawNum;
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				drawNum = 1;
-			}
-			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				drawNum = 4;
-			}
-			else //LightType::DirectionalLight == settings.m_lightType)
-			{
-				drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
-			}
+		//		const float mtxCropBias[2][TetrahedronFaces::Count][16] =
+		//		{
+		//			{ // settings.m_stencilPack == false
 
-			for (uint8_t ii = 0; ii < drawNum; ++ii)
-			{
-				const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
+		//				{ // D3D: Green, OGL: Blue
+		//					0.25f,    0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.25f, 0.0f, 0.0f,
+		//					0.0f,    0.0f, 0.5f, 0.0f,
+		//					0.25f,   0.25f, zadd, 1.0f,
+		//				},
+		//				{ // D3D: Yellow, OGL: Red
+		//					0.25f,    0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.25f, 0.0f, 0.0f,
+		//					0.0f,    0.0f, 0.5f, 0.0f,
+		//					0.75f,   0.25f, zadd, 1.0f,
+		//				},
+		//				{ // D3D: Blue, OGL: Green
+		//					0.25f,    0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.25f, 0.0f, 0.0f,
+		//					0.0f,    0.0f, 0.5f, 0.0f,
+		//					0.25f,   0.75f, zadd, 1.0f,
+		//				},
+		//				{ // D3D: Red, OGL: Yellow
+		//					0.25f,    0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.25f, 0.0f, 0.0f,
+		//					0.0f,    0.0f, 0.5f, 0.0f,
+		//					0.75f,   0.75f, zadd, 1.0f,
+		//				},
+		//			},
+		//			{ // settings.m_stencilPack == true
 
-				uint8_t renderStateIndex = RenderState::ShadowMap_PackDepth;
-				if(LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
-				{
-					renderStateIndex = uint8_t( (ii < 2) ? RenderState::ShadowMap_PackDepthHoriz : RenderState::ShadowMap_PackDepthVert);
-				}
+		//				{ // D3D: Red, OGL: Blue
+		//					0.25f,   0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.5f, 0.0f, 0.0f,
+		//					0.0f,   0.0f, 0.5f, 0.0f,
+		//					0.25f,   0.5f, zadd, 1.0f,
+		//				},
+		//				{ // D3D: Blue, OGL: Red
+		//					0.25f,   0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.5f, 0.0f, 0.0f,
+		//					0.0f,   0.0f, 0.5f, 0.0f,
+		//					0.75f,   0.5f, zadd, 1.0f,
+		//				},
+		//				{ // D3D: Green, OGL: Green
+		//					0.5f,    0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.25f, 0.0f, 0.0f,
+		//					0.0f,    0.0f, 0.5f, 0.0f,
+		//					0.5f,   0.75f, zadd, 1.0f,
+		//				},
+		//				{ // D3D: Yellow, OGL: Yellow
+		//					0.5f,    0.0f, 0.0f, 0.0f,
+		//					0.0f, s*0.25f, 0.0f, 0.0f,
+		//					0.0f,    0.0f, 0.5f, 0.0f,
+		//					0.5f,   0.25f, zadd, 1.0f,
+		//				},
+		//			}
+		//		};
 
-				// Floor.
-				Submit(planeGeometry, viewId
-					, planeMatrix.Data()
-					, *currentShadowMapSettings->m_progPack
-					, s_renderStates[renderStateIndex]
-				);
+		//		//Use as: [stencilPack][flipV][tetrahedronFace]
+		//		static const uint8_t cropBiasIndices[2][2][4] =
+		//		{
+		//			{ // settings.m_stencilPack == false
+		//				{ 0, 1, 2, 3 }, //flipV == false
+		//				{ 2, 3, 0, 1 }, //flipV == true
+		//			},
+		//			{ // settings.m_stencilPack == true
+		//				{ 3, 2, 0, 1 }, //flipV == false
+		//				{ 2, 3, 0, 1 }, //flipV == true
+		//			},
+		//		};
 
-				// Cube.
-				Submit(meshGeometry, viewId
-					, meshMatrix.Data()
-					, *currentShadowMapSettings->m_progPack
-					, s_renderStates[renderStateIndex]
-				);
-			}
-		}
+		//		for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
+		//		{
+		//			ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii>1) : ProjType::Horizontal;
+		//			uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
 
-		// Draw scene.
-		{
-			// Setup shadow mtx.
-			float mtxShadow[16];
+		//			float mtxTmp[16];
+		//			bx::mtxMul(mtxTmp, FShadowRenderer::s_mtxYpr[ii], FShadowRenderer::s_lightProj[projType]);
+		//			bx::mtxMul(FShadowRenderer::s_shadowMapMtx[ii], mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
+		//		}
 
-			const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
-			float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+		//		bx::mtxTranslate(mtxShadow //lightInvTranslate
+		//							, -FShadowRenderer::s_pointLight->m_position.m_v[0]
+		//							, -FShadowRenderer::s_pointLight->m_position.m_v[1]
+		//							, -FShadowRenderer::s_pointLight->m_position.m_v[2]
+		//							);
+		//	}
+		//	else //LightType::DirectionalLight == settings.m_lightType
+		//	{
+		//		for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+		//		{
+		//			float mtxTmp[16];
 
-			const float mtxBias[16] =
-			{
-				0.5f, 0.0f, 0.0f, 0.0f,
-				0.0f, ymul, 0.0f, 0.0f,
-				0.0f, 0.0f, 0.5f, 0.0f,
-				0.5f, 0.5f, zadd, 1.0f,
-			};
+		//			bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ii], mtxBias);
+		//			bx::mtxMul(FShadowRenderer::s_shadowMapMtx[ii], FShadowRenderer::s_lightView[0], mtxTmp); //lViewProjCropBias
+		//		}
+		//	}
 
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				float mtxTmp[16];
-				bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal], mtxBias);
-				bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0], mtxTmp); //FShadowRenderer::s_lightViewProjBias
-			}
-			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
-				zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+		//	// Floor.
+		//	if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		bx::mtxMul(FShadowRenderer::s_lightMtx, planeMatrix.Data(), mtxShadow); //not needed for directional light
+		//	}
 
-				const float mtxCropBias[2][TetrahedronFaces::Count][16] =
-				{
-					{ // settings.m_stencilPack == false
-
-						{ // D3D: Green, OGL: Blue
-							0.25f,    0.0f, 0.0f, 0.0f,
-							0.0f, s*0.25f, 0.0f, 0.0f,
-							0.0f,    0.0f, 0.5f, 0.0f,
-							0.25f,   0.25f, zadd, 1.0f,
-						},
-						{ // D3D: Yellow, OGL: Red
-							0.25f,    0.0f, 0.0f, 0.0f,
-							0.0f, s*0.25f, 0.0f, 0.0f,
-							0.0f,    0.0f, 0.5f, 0.0f,
-							0.75f,   0.25f, zadd, 1.0f,
-						},
-						{ // D3D: Blue, OGL: Green
-							0.25f,    0.0f, 0.0f, 0.0f,
-							0.0f, s*0.25f, 0.0f, 0.0f,
-							0.0f,    0.0f, 0.5f, 0.0f,
-							0.25f,   0.75f, zadd, 1.0f,
-						},
-						{ // D3D: Red, OGL: Yellow
-							0.25f,    0.0f, 0.0f, 0.0f,
-							0.0f, s*0.25f, 0.0f, 0.0f,
-							0.0f,    0.0f, 0.5f, 0.0f,
-							0.75f,   0.75f, zadd, 1.0f,
-						},
-					},
-					{ // settings.m_stencilPack == true
-
-						{ // D3D: Red, OGL: Blue
-							0.25f,   0.0f, 0.0f, 0.0f,
-							0.0f, s*0.5f, 0.0f, 0.0f,
-							0.0f,   0.0f, 0.5f, 0.0f,
-							0.25f,   0.5f, zadd, 1.0f,
-						},
-						{ // D3D: Blue, OGL: Red
-							0.25f,   0.0f, 0.0f, 0.0f,
-							0.0f, s*0.5f, 0.0f, 0.0f,
-							0.0f,   0.0f, 0.5f, 0.0f,
-							0.75f,   0.5f, zadd, 1.0f,
-						},
-						{ // D3D: Green, OGL: Green
-							0.5f,    0.0f, 0.0f, 0.0f,
-							0.0f, s*0.25f, 0.0f, 0.0f,
-							0.0f,    0.0f, 0.5f, 0.0f,
-							0.5f,   0.75f, zadd, 1.0f,
-						},
-						{ // D3D: Yellow, OGL: Yellow
-							0.5f,    0.0f, 0.0f, 0.0f,
-							0.0f, s*0.25f, 0.0f, 0.0f,
-							0.0f,    0.0f, 0.5f, 0.0f,
-							0.5f,   0.25f, zadd, 1.0f,
-						},
-					}
-				};
-
-				//Use as: [stencilPack][flipV][tetrahedronFace]
-				static const uint8_t cropBiasIndices[2][2][4] =
-				{
-					{ // settings.m_stencilPack == false
-						{ 0, 1, 2, 3 }, //flipV == false
-						{ 2, 3, 0, 1 }, //flipV == true
-					},
-					{ // settings.m_stencilPack == true
-						{ 3, 2, 0, 1 }, //flipV == false
-						{ 2, 3, 0, 1 }, //flipV == true
-					},
-				};
-
-				for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
-				{
-					ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii>1) : ProjType::Horizontal;
-					uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
-
-					float mtxTmp[16];
-					bx::mtxMul(mtxTmp, FShadowRenderer::s_mtxYpr[ii], FShadowRenderer::s_lightProj[projType]);
-					bx::mtxMul(FShadowRenderer::s_shadowMapMtx[ii], mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
-				}
-
-				bx::mtxTranslate(mtxShadow //lightInvTranslate
-									, -FShadowRenderer::s_pointLight->m_position.m_v[0]
-									, -FShadowRenderer::s_pointLight->m_position.m_v[1]
-									, -FShadowRenderer::s_pointLight->m_position.m_v[2]
-									);
-			}
-			else //LightType::DirectionalLight == settings.m_lightType
-			{
-				for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
-				{
-					float mtxTmp[16];
-
-					bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ii], mtxBias);
-					bx::mtxMul(FShadowRenderer::s_shadowMapMtx[ii], FShadowRenderer::s_lightView[0], mtxTmp); //lViewProjCropBias
-				}
-			}
-
-			// Floor.
-			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-			{
-				bx::mtxMul(FShadowRenderer::s_lightMtx, planeMatrix.Data(), mtxShadow); //not needed for directional light
-			}
-
-			Submit(meshGeometry,RENDERVIEW_DRAWSCENE_0_ID
-				, planeMatrix.Data()
-				, *currentShadowMapSettings->m_progDraw
-				, s_renderStates[RenderState::Default]
-				, true
-			); 
+		//	Submit(meshGeometry,RENDERVIEW_DRAWSCENE_0_ID
+		//		, planeMatrix.Data()
+		//		, *currentShadowMapSettings->m_progDraw
+		//		, s_renderStates[RenderState::Default]
+		//		, true
+		//	); 
 
 
-			// Cube.
-			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-			{
-				bx::mtxMul(FShadowRenderer::s_lightMtx, meshMatrix.Data(), mtxShadow);
-			}
+		//	// Cube.
+		//	if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		bx::mtxMul(FShadowRenderer::s_lightMtx, meshMatrix.Data(), mtxShadow);
+		//	}
 
-			Submit(meshGeometry, RENDERVIEW_DRAWSCENE_0_ID
-				, meshMatrix.Data()
-				, *currentShadowMapSettings->m_progDraw
-				, s_renderStates[RenderState::Default]
-				, true
-			);
+		//	Submit(meshGeometry, RENDERVIEW_DRAWSCENE_0_ID
+		//		, meshMatrix.Data()
+		//		, *currentShadowMapSettings->m_progDraw
+		//		, s_renderStates[RenderState::Default]
+		//		, true
+		//	);
 
-			// Lights.
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType || LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				/*const float lightScale[3] = { 1.5f, 1.5f, 1.5f };
-				float mtx[16];
-				mtxBillboard(mtx, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_pointLight.m_position.m_v, lightScale);
-				m_vplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
-									, mtx
-									, FShadowRenderer::s_programs.m_colorTexture
-									, s_renderStates[RenderState::Custom_BlendLightTexture]
-									, m_texFlare
-									);*/
-			}
-		}
+		//	// Lights.
+		//	if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType || LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+		//	{
+		//		/*const float lightScale[3] = { 1.5f, 1.5f, 1.5f };
+		//		float mtx[16];
+		//		mtxBillboard(mtx, FShadowRenderer::s_viewState.m_view, FShadowRenderer::s_pointLight.m_position.m_v, lightScale);
+		//		m_vplaneMesh.submit(RENDERVIEW_DRAWSCENE_0_ID
+		//							, mtx
+		//							, FShadowRenderer::s_programs.m_colorTexture
+		//							, s_renderStates[RenderState::Custom_BlendLightTexture]
+		//							, m_texFlare
+		//							);*/
+		//	}
+		//}
 
-		// Advance to next frame. Rendering thread will be kicked to
-		// process submitted rendering primitives.
-		bgfx::frame();
+		//// Advance to next frame. Rendering thread will be kicked to
+		//// process submitted rendering primitives.
+		//bgfx::frame();
 
 		return true;
 	}
