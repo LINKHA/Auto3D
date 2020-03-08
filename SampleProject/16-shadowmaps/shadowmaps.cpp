@@ -37,170 +37,6 @@ namespace
 {
 
 
-void mtxBillboard(float* __restrict _result
-				  , const float* __restrict _view
-				  , const float* __restrict _pos
-				  , const float* __restrict _scale)
-{
-	_result[ 0] = _view[0]  * _scale[0];
-	_result[ 1] = _view[4]  * _scale[0];
-	_result[ 2] = _view[8]  * _scale[0];
-	_result[ 3] = 0.0f;
-	_result[ 4] = _view[1]  * _scale[1];
-	_result[ 5] = _view[5]  * _scale[1];
-	_result[ 6] = _view[9]  * _scale[1];
-	_result[ 7] = 0.0f;
-	_result[ 8] = _view[2]  * _scale[2];
-	_result[ 9] = _view[6]  * _scale[2];
-	_result[10] = _view[10] * _scale[2];
-	_result[11] = 0.0f;
-	_result[12] = _pos[0];
-	_result[13] = _pos[1];
-	_result[14] = _pos[2];
-	_result[15] = 1.0f;
-}
-
-
-
-static RenderState s_renderStates[RenderState::Count] =
-{
-	{ // Default
-		0
-		| BGFX_STATE_WRITE_RGB
-		| BGFX_STATE_WRITE_A
-		| BGFX_STATE_DEPTH_TEST_LEQUAL
-		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_CULL_CCW
-		| BGFX_STATE_MSAA
-		, UINT32_MAX
-		, BGFX_STENCIL_NONE
-		, BGFX_STENCIL_NONE
-	},
-	{ // ShadowMap_PackDepth
-		0
-		| BGFX_STATE_WRITE_RGB
-		| BGFX_STATE_WRITE_A
-		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LEQUAL
-		| BGFX_STATE_CULL_CCW
-		| BGFX_STATE_MSAA
-		, UINT32_MAX
-		, BGFX_STENCIL_NONE
-		, BGFX_STENCIL_NONE
-	},
-	{ // ShadowMap_PackDepthHoriz
-		0
-		| BGFX_STATE_WRITE_RGB
-		| BGFX_STATE_WRITE_A
-		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LEQUAL
-		| BGFX_STATE_CULL_CCW
-		| BGFX_STATE_MSAA
-		, UINT32_MAX
-		, BGFX_STENCIL_TEST_EQUAL
-		| BGFX_STENCIL_FUNC_REF(1)
-		| BGFX_STENCIL_FUNC_RMASK(0xff)
-		| BGFX_STENCIL_OP_FAIL_S_KEEP
-		| BGFX_STENCIL_OP_FAIL_Z_KEEP
-		| BGFX_STENCIL_OP_PASS_Z_KEEP
-		, BGFX_STENCIL_NONE
-	},
-	{ // ShadowMap_PackDepthVert
-		0
-		| BGFX_STATE_WRITE_RGB
-		| BGFX_STATE_WRITE_A
-		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LEQUAL
-		| BGFX_STATE_CULL_CCW
-		| BGFX_STATE_MSAA
-		, UINT32_MAX
-		, BGFX_STENCIL_TEST_EQUAL
-		| BGFX_STENCIL_FUNC_REF(0)
-		| BGFX_STENCIL_FUNC_RMASK(0xff)
-		| BGFX_STENCIL_OP_FAIL_S_KEEP
-		| BGFX_STENCIL_OP_FAIL_Z_KEEP
-		| BGFX_STENCIL_OP_PASS_Z_KEEP
-		, BGFX_STENCIL_NONE
-	},
-	{ // Custom_BlendLightTexture
-		BGFX_STATE_WRITE_RGB
-		| BGFX_STATE_WRITE_A
-		| BGFX_STATE_WRITE_Z
-		| BGFX_STATE_DEPTH_TEST_LEQUAL
-		| BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_COLOR, BGFX_STATE_BLEND_INV_SRC_COLOR)
-		| BGFX_STATE_CULL_CCW
-		| BGFX_STATE_MSAA
-		, UINT32_MAX
-		, BGFX_STENCIL_NONE
-		, BGFX_STENCIL_NONE
-	},
-	{ // Custom_DrawPlaneBottom
-		BGFX_STATE_WRITE_RGB
-		| BGFX_STATE_CULL_CW
-		| BGFX_STATE_MSAA
-		, UINT32_MAX
-		, BGFX_STENCIL_NONE
-		, BGFX_STENCIL_NONE
-	},
-};
-
-
-
-void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f)
-{
-	if (3 == bgfx::getAvailTransientVertexBuffer(3, PosColorTexCoord0Vertex::ms_layout))
-	{
-		bgfx::TransientVertexBuffer vb;
-		bgfx::allocTransientVertexBuffer(&vb, 3, PosColorTexCoord0Vertex::ms_layout);
-		PosColorTexCoord0Vertex* vertex = (PosColorTexCoord0Vertex*)vb.data;
-
-		const float zz = 0.0f;
-
-		const float minx = -_width;
-		const float maxx = _width;
-		const float miny = 0.0f;
-		const float maxy = _height * 2.0f;
-
-		const float texelHalfW = FShadowRenderer::s_texelHalf / _textureWidth;
-		const float texelHalfH = FShadowRenderer::s_texelHalf / _textureHeight;
-		const float minu = -1.0f + texelHalfW;
-		const float maxu = 1.0f + texelHalfW;
-
-		float minv = texelHalfH;
-		float maxv = 2.0f + texelHalfH;
-
-		if (_originBottomLeft)
-		{
-			std::swap(minv, maxv);
-			minv -= 1.0f;
-			maxv -= 1.0f;
-		}
-
-		vertex[0].m_x = minx;
-		vertex[0].m_y = miny;
-		vertex[0].m_z = zz;
-		vertex[0].m_rgba = 0xffffffff;
-		vertex[0].m_u = minu;
-		vertex[0].m_v = minv;
-
-		vertex[1].m_x = maxx;
-		vertex[1].m_y = miny;
-		vertex[1].m_z = zz;
-		vertex[1].m_rgba = 0xffffffff;
-		vertex[1].m_u = maxu;
-		vertex[1].m_v = minv;
-
-		vertex[2].m_x = maxx;
-		vertex[2].m_y = maxy;
-		vertex[2].m_z = zz;
-		vertex[2].m_rgba = 0xffffffff;
-		vertex[2].m_u = maxu;
-		vertex[2].m_v = maxv;
-
-		bgfx::setVertexBuffer(0, &vb);
-	}
-}
-
 void Submit(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const RenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
 {
 
@@ -282,11 +118,19 @@ public:
 		_meshActor->GetTransform()->SetPosition({ -15.0f, 5.0f, 0.0f });
 		_meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
 
+		AActor* _planeActor2 = world->CreateChild<AActor>();
+		AMeshComponent* _planeComponent2 = _planeActor2->CreateComponent<AMeshComponent>();
+		_planeComponent2->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
+		_planeActor2->GetTransform()->SetPosition({ -15.0f, 5.0f, 10.0f });
+		_planeActor2->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+
 		_planeActor = world->CreateChild<AActor>();
 		_planeComponent = _planeActor->CreateComponent<AMeshComponent>();
 		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
 		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
+
+		
 
 		AActor* lightActor = world->CreateChild<AActor>();
 		lightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
@@ -296,7 +140,7 @@ public:
 		FShadowRenderer::s_pointLight = _pointLightComponent;
 		FShadowRenderer::s_directionalLight = _lightComponent;
 
-		FShadowRenderer::Get().init();
+		FShadowRenderer::Get().Init();
 
 	}
 

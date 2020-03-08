@@ -46,6 +46,113 @@ bgfx::VertexLayout FShadowRenderer::s_posLayout;
 
 bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
+RenderState FShadowRenderer::s_renderStates[RenderState::Count] =
+{
+	{ // Default
+		0
+		| BGFX_STATE_WRITE_RGB
+		| BGFX_STATE_WRITE_A
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
+		| BGFX_STATE_WRITE_Z
+		| BGFX_STATE_CULL_CCW
+		| BGFX_STATE_MSAA
+		, UINT32_MAX
+		, BGFX_STENCIL_NONE
+		, BGFX_STENCIL_NONE
+	},
+	{ // ShadowMap_PackDepth
+		0
+		| BGFX_STATE_WRITE_RGB
+		| BGFX_STATE_WRITE_A
+		| BGFX_STATE_WRITE_Z
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
+		| BGFX_STATE_CULL_CCW
+		| BGFX_STATE_MSAA
+		, UINT32_MAX
+		, BGFX_STENCIL_NONE
+		, BGFX_STENCIL_NONE
+	},
+	{ // ShadowMap_PackDepthHoriz
+		0
+		| BGFX_STATE_WRITE_RGB
+		| BGFX_STATE_WRITE_A
+		| BGFX_STATE_WRITE_Z
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
+		| BGFX_STATE_CULL_CCW
+		| BGFX_STATE_MSAA
+		, UINT32_MAX
+		, BGFX_STENCIL_TEST_EQUAL
+		| BGFX_STENCIL_FUNC_REF(1)
+		| BGFX_STENCIL_FUNC_RMASK(0xff)
+		| BGFX_STENCIL_OP_FAIL_S_KEEP
+		| BGFX_STENCIL_OP_FAIL_Z_KEEP
+		| BGFX_STENCIL_OP_PASS_Z_KEEP
+		, BGFX_STENCIL_NONE
+	},
+	{ // ShadowMap_PackDepthVert
+		0
+		| BGFX_STATE_WRITE_RGB
+		| BGFX_STATE_WRITE_A
+		| BGFX_STATE_WRITE_Z
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
+		| BGFX_STATE_CULL_CCW
+		| BGFX_STATE_MSAA
+		, UINT32_MAX
+		, BGFX_STENCIL_TEST_EQUAL
+		| BGFX_STENCIL_FUNC_REF(0)
+		| BGFX_STENCIL_FUNC_RMASK(0xff)
+		| BGFX_STENCIL_OP_FAIL_S_KEEP
+		| BGFX_STENCIL_OP_FAIL_Z_KEEP
+		| BGFX_STENCIL_OP_PASS_Z_KEEP
+		, BGFX_STENCIL_NONE
+	},
+	{ // Custom_BlendLightTexture
+		BGFX_STATE_WRITE_RGB
+		| BGFX_STATE_WRITE_A
+		| BGFX_STATE_WRITE_Z
+		| BGFX_STATE_DEPTH_TEST_LEQUAL
+		| BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_COLOR, BGFX_STATE_BLEND_INV_SRC_COLOR)
+		| BGFX_STATE_CULL_CCW
+		| BGFX_STATE_MSAA
+		, UINT32_MAX
+		, BGFX_STENCIL_NONE
+		, BGFX_STENCIL_NONE
+	},
+	{ // Custom_DrawPlaneBottom
+		BGFX_STATE_WRITE_RGB
+		| BGFX_STATE_CULL_CW
+		| BGFX_STATE_MSAA
+		, UINT32_MAX
+		, BGFX_STENCIL_NONE
+		, BGFX_STENCIL_NONE
+	},
+};
+
+
+
+
+void mtxBillboard(float* __restrict _result
+	, const float* __restrict _view
+	, const float* __restrict _pos
+	, const float* __restrict _scale)
+{
+	_result[0] = _view[0] * _scale[0];
+	_result[1] = _view[4] * _scale[0];
+	_result[2] = _view[8] * _scale[0];
+	_result[3] = 0.0f;
+	_result[4] = _view[1] * _scale[1];
+	_result[5] = _view[5] * _scale[1];
+	_result[6] = _view[9] * _scale[1];
+	_result[7] = 0.0f;
+	_result[8] = _view[2] * _scale[2];
+	_result[9] = _view[6] * _scale[2];
+	_result[10] = _view[10] * _scale[2];
+	_result[11] = 0.0f;
+	_result[12] = _pos[0];
+	_result[13] = _pos[1];
+	_result[14] = _pos[2];
+	_result[15] = 1.0f;
+}
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft, float _width, float _height)
 {
@@ -101,6 +208,7 @@ void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBott
 		bgfx::setVertexBuffer(0, &vb);
 	}
 }
+
 
 void mtxYawPitchRoll(float* __restrict _result
 	, float _yaw
@@ -200,7 +308,7 @@ FShadowRenderer::FShadowRenderer()
 {}
 FShadowRenderer::~FShadowRenderer() 
 {}
-void FShadowRenderer::init()
+void FShadowRenderer::Init()
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
 

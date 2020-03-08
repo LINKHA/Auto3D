@@ -678,6 +678,11 @@ namespace Auto3D
 
 	void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
 
+	void mtxBillboard(float* __restrict _result
+		, const float* __restrict _view
+		, const float* __restrict _pos
+		, const float* __restrict _scale);
+
 class AUTO_API FShadowRenderer
 {
 	REGISTER_SINGLETON(FShadowRenderer)
@@ -685,7 +690,9 @@ public:
 
 	FShadowRenderer();
 	~FShadowRenderer();
-	void init();
+
+	void Init();
+
 	void update();
 	static uint16_t s_currentShadowMapSize;
 
@@ -731,6 +738,8 @@ public:
 
 
 	static bgfx::VertexLayout s_posLayout;
+
+	static RenderState s_renderStates[RenderState::Count];
 };
 
 }
