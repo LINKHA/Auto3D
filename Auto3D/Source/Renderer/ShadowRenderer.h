@@ -3,6 +3,7 @@
 #include "Container/Singleton.h"
 #include "RHI/bgfx_utils.h"
 #include "Component/LightComponent.h"
+#include "Math/Color.h"
 
 #include <bx/math.h>
 #include <bgfx/bgfx.h>
@@ -693,7 +694,8 @@ public:
 
 	void Init();
 
-	void update();
+	void Update();
+
 	static uint16_t s_currentShadowMapSize;
 
 	static SceneSettings s_settings;
@@ -718,7 +720,6 @@ public:
 	static ALightComponent* s_pointLight;
 	static ALightComponent* s_directionalLight;
 
-	static float s_color[4];
 
 	static float s_lightMtx[16];
 	static float s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
@@ -729,17 +730,25 @@ public:
 
 	// Compute transform matrices.
 	static uint8_t s_shadowMapPasses;
-	static float s_lightView[4][16];
-	static float s_lightProj[4][16];
+	
 	static float s_mtxYpr[4][16];
 
-	static float s_screenProj[16];
-	static float s_screenView[16];
-
-
-	static bgfx::VertexLayout s_posLayout;
-
 	static RenderState s_renderStates[RenderState::Count];
+
+	//{ light 
+		FColor _lightColor;
+
+		static float s_lightView[4][16];
+		static float s_lightProj[4][16];
+	//}
+	
+private:
+
+	TMatrix4x4F _screenProj;
+	TMatrix4x4F _screenView;
+
+	bgfx::VertexLayout _shadowPosLayout;
+
 };
 
 }

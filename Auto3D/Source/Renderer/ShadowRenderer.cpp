@@ -25,7 +25,7 @@ bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
 Material FShadowRenderer::s_defaultMaterial;
 ALightComponent* FShadowRenderer::s_pointLight;
 ALightComponent* FShadowRenderer::s_directionalLight;
-float FShadowRenderer::s_color[4];
+
 float FShadowRenderer::s_lightMtx[16];
 float FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Count][16];
 
@@ -37,12 +37,6 @@ uint8_t FShadowRenderer::s_shadowMapPasses;
 float FShadowRenderer::s_lightView[4][16];
 float FShadowRenderer::s_lightProj[4][16];
 float FShadowRenderer::s_mtxYpr[4][16];
-
-float FShadowRenderer::s_screenProj[16];
-float FShadowRenderer::s_screenView[16];
-bgfx::VertexLayout FShadowRenderer::s_posLayout;
-
-
 
 bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
@@ -867,10 +861,10 @@ void FShadowRenderer::Init()
 	s_directionalLight->m_attenuationSpotOuter = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 	// Setup uniforms.
-	FShadowRenderer::s_color[0] = FShadowRenderer::s_color[1] = FShadowRenderer::s_color[2] = FShadowRenderer::s_color[3] = 1.0f;
+	_lightColor = FColor::WHITE;
 	FShadowRenderer::s_uniforms.setPtrs(&FShadowRenderer::s_defaultMaterial
 		, FShadowRenderer::s_pointLight
-		, FShadowRenderer::s_color
+		, _lightColor.Data()
 		, FShadowRenderer::s_lightMtx
 		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::First][0]
 		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Second][0]
@@ -878,13 +872,13 @@ void FShadowRenderer::Init()
 		, &FShadowRenderer::s_shadowMapMtx[ShadowMapRenderTargets::Fourth][0]
 	);
 
-	FShadowRenderer::s_posLayout.begin();
-	FShadowRenderer::s_posLayout.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
-	FShadowRenderer::s_posLayout.end();
+	_shadowPosLayout.begin();
+	_shadowPosLayout.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
+	_shadowPosLayout.end();
 
 	PosColorTexCoord0Vertex::init();
 }
-void FShadowRenderer::update()
+void FShadowRenderer::Update()
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
 
@@ -959,9 +953,10 @@ void FShadowRenderer::update()
 	FShadowRenderer::s_directionalLight->m_position.m_y = -directionalLightPosition._y;
 	FShadowRenderer::s_directionalLight->m_position.m_z = -directionalLightPosition._z;
 
-	bx::mtxIdentity(FShadowRenderer::s_screenView);
+	_screenView = TMatrix4x4F::IDENTITY;
+
 	bx::mtxOrtho(
-		FShadowRenderer::s_screenProj
+		_screenProj.Data()
 		, 0.0f
 		, 1.0f
 		, 1.0f
@@ -1256,13 +1251,13 @@ void FShadowRenderer::update()
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[0], FShadowRenderer::s_lightProj[ProjType::Horizontal]);
-		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
-		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, _screenView.Data(), _screenProj.Data());
 
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
@@ -1308,7 +1303,7 @@ void FShadowRenderer::update()
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Green], FShadowRenderer::s_lightProj[ProjType::Horizontal]);
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Yellow], FShadowRenderer::s_lightProj[ProjType::Horizontal]);
 		if (FShadowRenderer::s_settings.m_stencilPack)
@@ -1321,11 +1316,11 @@ void FShadowRenderer::update()
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Blue], FShadowRenderer::s_lightProj[ProjType::Horizontal]);
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Red], FShadowRenderer::s_lightProj[ProjType::Horizontal]);
 		}
-		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
-		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, _screenView.Data(), _screenProj.Data());
 
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
@@ -1386,20 +1381,20 @@ void FShadowRenderer::update()
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_lightView[0], FShadowRenderer::s_lightProj[1]);
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_lightView[0], FShadowRenderer::s_lightProj[2]);
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_lightView[0], FShadowRenderer::s_lightProj[3]);
-		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_VBLUR_1_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_HBLUR_1_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_VBLUR_2_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_HBLUR_2_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_VBLUR_3_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_HBLUR_3_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_VBLUR_1_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_HBLUR_1_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_VBLUR_2_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_HBLUR_2_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_VBLUR_3_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_HBLUR_3_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
-		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_1_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
-		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_3_ID, FShadowRenderer::s_screenView, FShadowRenderer::s_screenProj);
+		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_1_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, _screenView.Data(), _screenProj.Data());
+		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_3_ID, _screenView.Data(), _screenProj.Data());
 
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
 		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[1]);
@@ -1518,7 +1513,7 @@ void FShadowRenderer::update()
 		// Craft stencil mask for point light shadow map packing.
 		if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
 		{
-			if (6 == bgfx::getAvailTransientVertexBuffer(6, FShadowRenderer::s_posLayout))
+			if (6 == bgfx::getAvailTransientVertexBuffer(6, _shadowPosLayout))
 			{
 				struct Pos
 				{
@@ -1526,7 +1521,7 @@ void FShadowRenderer::update()
 				};
 
 				bgfx::TransientVertexBuffer vb;
-				bgfx::allocTransientVertexBuffer(&vb, 6, FShadowRenderer::s_posLayout);
+				bgfx::allocTransientVertexBuffer(&vb, 6, _shadowPosLayout);
 				Pos* vertex = (Pos*)vb.data;
 
 				const float min = 0.0f;

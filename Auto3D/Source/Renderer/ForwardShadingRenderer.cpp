@@ -31,48 +31,48 @@ namespace Auto3D
 #define RENDER_SCENE_PASS_ID  21
 #define RENDER_OCCLUSION_PASS_ID 22
 
-	void Submit2(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const RenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
+void Submit2(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const RenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
+{
+
+	for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
 	{
 
-		for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+		// Set uniforms.
+		FShadowRenderer::s_uniforms.submitPerDrawUniforms();
+
+		// Set model matrix for rendering.
+		bgfx::setTransform(_mtx);
+		bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+		bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+
+		// Set textures.
+		if (bgfx::kInvalidHandle != _texture.idx)
 		{
-
-			// Set uniforms.
-			FShadowRenderer::s_uniforms.submitPerDrawUniforms();
-
-			// Set model matrix for rendering.
-			bgfx::setTransform(_mtx);
-			bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-
-			// Set textures.
-			if (bgfx::kInvalidHandle != _texture.idx)
-			{
-				bgfx::setTexture(0, FShadowRenderer::s_texColor, _texture);
-			}
-
-			if (_submitShadowMaps)
-			{
-				for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-				{
-					bgfx::setTexture(4 + ii, FShadowRenderer::s_shadowMap[ii], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
-				}
-			}
-
-			// Apply render state.
-			bgfx::setStencil(_renderState.m_fstencil, _renderState.m_bstencil);
-			bgfx::setState(_renderState.m_state, _renderState.m_blendFactorRgba);
-
-			// Submit.
-			bgfx::submit(_viewId, _program);
+			bgfx::setTexture(0, FShadowRenderer::s_texColor, _texture);
 		}
-	}
 
-	void Submit2(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const RenderState& _renderState, bool _submitShadowMaps = false)
-	{
-		bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
-		Submit2(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
+		if (_submitShadowMaps)
+		{
+			for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+			{
+				bgfx::setTexture(4 + ii, FShadowRenderer::s_shadowMap[ii], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
+			}
+		}
+
+		// Apply render state.
+		bgfx::setStencil(_renderState.m_fstencil, _renderState.m_bstencil);
+		bgfx::setState(_renderState.m_state, _renderState.m_blendFactorRgba);
+
+		// Submit.
+		bgfx::submit(_viewId, _program);
 	}
+}
+
+void Submit2(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const RenderState& _renderState, bool _submitShadowMaps = false)
+{
+	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
+	Submit2(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
+}
 
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
@@ -173,7 +173,7 @@ void FForwardShadingRenderer::Render()
 			bgfx::setViewRect(RENDER_OCCLUSION_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 
 			FShadowRenderer::s_camera = camera;
-			FShadowRenderer::Get().update();
+			FShadowRenderer::Get().Update();
 
 		}
 
