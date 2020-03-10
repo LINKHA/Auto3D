@@ -39,8 +39,9 @@ public:
 	TMatrix4x4F& GetMtxShadow() { return _shadowMatrix; }
 
 	ELightType::Data GetLightType() { return _lightType; }
-	
-	const FColor& GetLightColor() { return _lightColor; }
+
+	void SetLightColor(const FColor& color) { _lightColor = color; }
+	FColor& GetLightColor() { return _lightColor; }
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);

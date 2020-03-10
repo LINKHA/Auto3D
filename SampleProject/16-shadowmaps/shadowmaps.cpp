@@ -19,6 +19,9 @@
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
 #include "Component/LightComponent.h"
+#include "Component/SpotLightComponent.h"
+#include "Component/DirectionalLightComponent.h"
+#include "Component/PointLightComponent.h"
 
 #include "IO/FileSystem.h"
 #include "IO/Stream.h"
@@ -65,37 +68,40 @@ public:
 		actor->GetTransform()->SetPosition({ 0.0f, 60.0f, -105.0f });
 		actor->GetTransform()->SetRotation({ -45.0f, 0.0f, 0.0f });
 
-		_meshActor = world->CreateChild<AActor>();
-		_meshComponent = _meshActor->CreateComponent<AMeshComponent>();
-		_meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		_meshActor->GetTransform()->SetPosition({ -15.0f, 5.0f, 0.0f });
-		_meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+		AActor* meshActor = world->CreateChild<AActor>();
+		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshActor->GetTransform()->SetPosition({ -15.0f, 5.0f, 0.0f });
+		meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
 
-		AActor* _planeActor2 = world->CreateChild<AActor>();
-		AMeshComponent* _planeComponent2 = _planeActor2->CreateComponent<AMeshComponent>();
-		_planeComponent2->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		_planeActor2->GetTransform()->SetPosition({ -15.0f, 5.0f, 10.0f });
-		_planeActor2->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+		AActor* hollowcubePlaneActor = world->CreateChild<AActor>();
+		AMeshComponent* hollowcubePlaneComponent = hollowcubePlaneActor->CreateComponent<AMeshComponent>();
+		hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
+		hollowcubePlaneActor->GetTransform()->SetPosition({ -15.0f, 5.0f, 10.0f });
+		hollowcubePlaneActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
 
-		_planeActor = world->CreateChild<AActor>();
-		_planeComponent = _planeActor->CreateComponent<AMeshComponent>();
-		_planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
-		_planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
-		_planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
+		AActor* planeActor = world->CreateChild<AActor>();
+		AMeshComponent* planeComponent = planeActor->CreateComponent<AMeshComponent>();
+		planeComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
+		planeActor->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
+		planeActor->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
 
-		
 
-		AActor* lightActor = world->CreateChild<AActor>();
-		lightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
-		_lightComponent = lightActor->CreateComponent<ALightComponent>();
 
-		AActor* lightActor2 = world->CreateChild<AActor>();
-		lightActor2->SetEnabled(false);
-		lightActor2->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
-		_pointLightComponent = lightActor2->CreateComponent<ALightComponent>();
-		
-		FShadowRenderer::s_pointLight = _pointLightComponent;
-		FShadowRenderer::s_directionalLight = _lightComponent;
+		_directionalLightActor = world->CreateChild<AActor>();
+		_directionalLightActor->SetEnabled(false);
+		_directionalLightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
+		_directionalLightActor->CreateComponent<ADirectionalLightComponent>();
+
+		_spotLightActor = world->CreateChild<AActor>();
+		_spotLightActor->SetEnabled(true);
+		_spotLightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
+		_spotLightActor->CreateComponent<ASpotLightComponent>();
+
+		_pointLightActor = world->CreateChild<AActor>();
+		_pointLightActor->SetEnabled(false);
+		_pointLightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
+		_pointLightActor->CreateComponent<APointLightComponent>();
 
 		FShadowRenderer::Get().Init();
 
@@ -234,15 +240,21 @@ public:
 			bool bLtChanged = false;
 			if ( ImGui::RadioButton("Spot light", FShadowRenderer::s_settings.m_lightType == ELightType::SpotLight ))
 			{
-				FShadowRenderer::s_settings.m_lightType = ELightType::SpotLight; bLtChanged = true;
+				_directionalLightActor->SetEnabled(false);
+				_spotLightActor->SetEnabled(true);
+				_pointLightActor->SetEnabled(false);
 			}
 			if ( ImGui::RadioButton("Point light", FShadowRenderer::s_settings.m_lightType == ELightType::PointLight ))
 			{
-				FShadowRenderer::s_settings.m_lightType = ELightType::PointLight; bLtChanged = true;
+				_directionalLightActor->SetEnabled(false);
+				_spotLightActor->SetEnabled(false);
+				_pointLightActor->SetEnabled(true);
 			}
 			if ( ImGui::RadioButton("Directional light", FShadowRenderer::s_settings.m_lightType == ELightType::DirectionalLight ))
 			{
-				FShadowRenderer::s_settings.m_lightType = ELightType::DirectionalLight; bLtChanged = true;
+				_directionalLightActor->SetEnabled(true);
+				_spotLightActor->SetEnabled(false);
+				_pointLightActor->SetEnabled(false);
 			}
 
 			ImGui::Separator();
@@ -291,14 +303,9 @@ public:
 
 	ACameraComponent* _camera;
 
-	AActor* _meshActor;
-	AMeshComponent* _meshComponent;
-
-	AActor* _planeActor;
-	AMeshComponent* _planeComponent;
-
-	ALightComponent* _lightComponent;
-	ALightComponent* _pointLightComponent;
+	AActor* _spotLightActor;
+	AActor* _directionalLightActor;
+	AActor* _pointLightActor;
 };
 
 } // namespace

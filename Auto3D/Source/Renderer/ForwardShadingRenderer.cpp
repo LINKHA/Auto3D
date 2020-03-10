@@ -409,9 +409,9 @@ void FForwardShadingRenderer::RenderBatches()
 						}
 
 						bx::mtxTranslate(mtxShadow //lightInvTranslate
-							, -FShadowRenderer::s_pointLight->m_position.m_v[0]
-							, -FShadowRenderer::s_pointLight->m_position.m_v[1]
-							, -FShadowRenderer::s_pointLight->m_position.m_v[2]
+							, -lightComponent->m_position.m_v[0]
+							, -lightComponent->m_position.m_v[1]
+							, -lightComponent->m_position.m_v[2]
 						);
 					}
 					else //LightType::DirectionalLight == settings.m_lightType

@@ -347,13 +347,9 @@ public:
 	static TMatrix4x4F s_mtxYpr[4];
 
 	//{ light 
-		FColor _lightColor;
-
-		static TMatrix4x4F s_lightView[4];
-		static TMatrix4x4F s_lightProj[4];
+	static TMatrix4x4F s_lightView[4];
+	static TMatrix4x4F s_lightProj[4];
 	//}
-		static ALightComponent* s_pointLight;
-		static ALightComponent* s_directionalLight;
 
 private:
 
