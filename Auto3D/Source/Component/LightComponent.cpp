@@ -13,7 +13,8 @@ namespace Auto3D
 {
 
 ALightComponent::ALightComponent() :
-	_lightType(ELightType::DirectionalLight)
+	_lightType(ELightType::DirectionalLight),
+	_lightColor(FColor::WHITE)
 {
 
 }

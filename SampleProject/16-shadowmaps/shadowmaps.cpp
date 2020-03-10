@@ -88,7 +88,11 @@ public:
 		AActor* lightActor = world->CreateChild<AActor>();
 		lightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
 		_lightComponent = lightActor->CreateComponent<ALightComponent>();
-		_pointLightComponent = lightActor->CreateComponent<ALightComponent>();
+
+		AActor* lightActor2 = world->CreateChild<AActor>();
+		lightActor2->SetEnabled(false);
+		lightActor2->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
+		_pointLightComponent = lightActor2->CreateComponent<ALightComponent>();
 		
 		FShadowRenderer::s_pointLight = _pointLightComponent;
 		FShadowRenderer::s_directionalLight = _lightComponent;

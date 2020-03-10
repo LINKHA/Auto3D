@@ -15,6 +15,7 @@ public:
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime);
 
+	void Reset();
 };
 
 }

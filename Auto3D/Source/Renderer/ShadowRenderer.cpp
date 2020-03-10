@@ -822,6 +822,19 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	_uniforms.m_showSmCoverage = float(FShadowRenderer::s_settings.m_showSmCoverage);
 	_uniforms.m_lightPtr = (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType) ? FShadowRenderer::s_directionalLight : FShadowRenderer::s_pointLight;
 
+	switch (light->GetLightType())
+	{
+		case ELightType::DirectionalLight:
+			break;
+		case ELightType::PointLight:
+			break;
+		case ELightType::SpotLight:
+			break;
+
+	default:
+		break;
+	}
+
 	if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 	{
 		FShadowRenderer::s_pointLight->m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;

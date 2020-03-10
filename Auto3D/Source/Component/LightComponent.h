@@ -2,6 +2,8 @@
 #include "Component/ActorComponent.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Matrix3x4.h"
+#include "Math/Color.h"
+
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 namespace Auto3D
@@ -37,7 +39,8 @@ public:
 	TMatrix4x4F& GetMtxShadow() { return _shadowMatrix; }
 
 	ELightType::Data GetLightType() { return _lightType; }
-
+	
+	const FColor& GetLightColor() { return _lightColor; }
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
@@ -49,6 +52,7 @@ protected:
 
 	ELightType::Data _lightType;
 
+	FColor _lightColor;
 public:
 
 

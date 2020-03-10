@@ -549,7 +549,7 @@ private:
 			m_lightMtxPtr = _lightMtxPtr;
 			m_colorPtr = _colorPtr;
 			m_materialPtr = _materialPtr;
-			m_lightPtr = _lightPtr;
+			//m_lightPtr = _lightPtr;
 
 			m_shadowMapMtx0 = _shadowMapMtx0;
 			m_shadowMapMtx1 = _shadowMapMtx1;

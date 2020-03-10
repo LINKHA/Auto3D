@@ -189,431 +189,435 @@ void FForwardShadingRenderer::Render()
 
 void FForwardShadingRenderer::RenderBatches()
 {
-
+	
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{
 		AActor* lightActor = *lIt;
-		ALightComponent* lightComponent = lightActor->FindComponent<ALightComponent>();
-
-		TMatrix4x4F& lightProj = lightComponent->GetLightProj();
-		TMatrix4x4F& lightView = lightComponent->GetLightView();
-		TMatrix4x4F& mtxShadow = lightComponent->GetMtxShadow();
-		TVector3F lightPosition = lightComponent->GetOwner()->GetTransform()->GetWorldPosition();
-
-		FShadowRenderer::Get().Update(_currentCamera, lightComponent);
-
-
-		TVector<FBatch>& batches = _batchQueues._batches;
-		for (auto it = batches.Begin(); it != batches.End();)
+		TVector<ALightComponent*>& lightComponents = lightActor->GetLightComponents();
+		for (auto lcIt = lightComponents.Begin(); lcIt != lightComponents.End(); ++lcIt)
 		{
-			
-			//FRenderState shadowState;
-			//shadowState._state = 0;
-			//shadowState._program = m_progShadow;
-			//shadowState._viewId = RENDER_SHADOW_PASS_ID;
-			//shadowState._numTextures = 0;
-			//shadowState._state = 0
-			//	| BGFX_STATE_WRITE_RGB
-			//	| BGFX_STATE_WRITE_Z
-			//	| BGFX_STATE_DEPTH_TEST_LEQUAL
-			//	| BGFX_STATE_CULL_CCW
-			//	| BGFX_STATE_MSAA
-			//	;
+			ALightComponent* lightComponent = *lcIt;
 
-			//FRenderState sceneState;
-			//sceneState._state = 0
-			//	| BGFX_STATE_WRITE_RGB
-			//	| BGFX_STATE_WRITE_A
-			//	| BGFX_STATE_WRITE_Z
-			//	| BGFX_STATE_DEPTH_TEST_LEQUAL
-			//	| BGFX_STATE_CULL_CCW
-			//	| BGFX_STATE_MSAA
-			//	;
-			//sceneState._program = BGFX_INVALID_HANDLE;
-			//sceneState._viewId = RENDER_SCENE_PASS_ID;
-			//sceneState._numTextures = 1;
-			//sceneState._textures[0]._flags = UINT32_MAX;
-			//sceneState._textures[0]._stage = 0;
-			//sceneState._textures[0]._sampler = s_shadowMap;
-			//sceneState._textures[0]._texture = shadowMap._fbtexture;;
+			TMatrix4x4F& lightProj = lightComponent->GetLightProj();
+			TMatrix4x4F& lightView = lightComponent->GetLightView();
+			TMatrix4x4F& mtxShadow = lightComponent->GetMtxShadow();
+			TVector3F lightPosition = lightComponent->GetOwner()->GetTransform()->GetWorldPosition();
 
-			//bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, shadowMap._size, shadowMap._size);
-			//bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, shadowMap._shadowMapFrameBuffer);
-			//bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView.Data(), lightProj.Data());
-
-			//// Clear backbuffer and shadowmap framebuffer at beginning.
-			//bgfx::setViewClear(RENDER_SHADOW_PASS_ID
-			//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-			//	, 0x303030ff, 1.0f, 0
-			//);
-
-			//bgfx::setViewClear(RENDER_SCENE_PASS_ID
-			//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-			//	, 0x303030ff, 1.0f, 0
-			//);
+			FShadowRenderer::Get().Update(_currentCamera, lightComponent);
 
 
-			FBatch& batch = *it;
-			bool instance = batch._type == EGeometryType::INSTANCED;
-			int batchesAddCount = 0;
-
-
-			batchesAddCount = 1;
-			FGeometry* geometry = batch._pass._geometry;
-			OMaterial* material = batch._pass._material;
-			TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
-			ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
-
-			uint8_t drawNum;
-			if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+			TVector<FBatch>& batches = _batchQueues._batches;
+			for (auto bIt = batches.Begin(); bIt != batches.End();)
 			{
-				drawNum = 1;
-			}
-			else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
-			{
-				drawNum = 4;
-			}
-			else //LightType::DirectionalLight == settings.m_lightType)
-			{
-				drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
-			}
 
-			for (uint8_t ii = 0; ii < drawNum; ++ii)
-			{
-				const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
+				//FRenderState shadowState;
+				//shadowState._state = 0;
+				//shadowState._program = m_progShadow;
+				//shadowState._viewId = RENDER_SHADOW_PASS_ID;
+				//shadowState._numTextures = 0;
+				//shadowState._state = 0
+				//	| BGFX_STATE_WRITE_RGB
+				//	| BGFX_STATE_WRITE_Z
+				//	| BGFX_STATE_DEPTH_TEST_LEQUAL
+				//	| BGFX_STATE_CULL_CCW
+				//	| BGFX_STATE_MSAA
+				//	;
 
-				uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
-				if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
-				{
-					renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
-				}
+				//FRenderState sceneState;
+				//sceneState._state = 0
+				//	| BGFX_STATE_WRITE_RGB
+				//	| BGFX_STATE_WRITE_A
+				//	| BGFX_STATE_WRITE_Z
+				//	| BGFX_STATE_DEPTH_TEST_LEQUAL
+				//	| BGFX_STATE_CULL_CCW
+				//	| BGFX_STATE_MSAA
+				//	;
+				//sceneState._program = BGFX_INVALID_HANDLE;
+				//sceneState._viewId = RENDER_SCENE_PASS_ID;
+				//sceneState._numTextures = 1;
+				//sceneState._textures[0]._flags = UINT32_MAX;
+				//sceneState._textures[0]._stage = 0;
+				//sceneState._textures[0]._sampler = s_shadowMap;
+				//sceneState._textures[0]._texture = shadowMap._fbtexture;;
 
-				// Floor.
-				Submit(geometry, viewId
-					, modelMatrix.Data()
-					, *currentShadowMapSettings->m_progPack
-					, FRenderState::_renderState[renderStateIndex]
-				);
+				//bgfx::setViewRect(RENDER_SHADOW_PASS_ID, 0, 0, shadowMap._size, shadowMap._size);
+				//bgfx::setViewFrameBuffer(RENDER_SHADOW_PASS_ID, shadowMap._shadowMapFrameBuffer);
+				//bgfx::setViewTransform(RENDER_SHADOW_PASS_ID, lightView.Data(), lightProj.Data());
 
-			}
+				//// Clear backbuffer and shadowmap framebuffer at beginning.
+				//bgfx::setViewClear(RENDER_SHADOW_PASS_ID
+				//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+				//	, 0x303030ff, 1.0f, 0
+				//);
 
-			// Draw scene.
-			{
-				// Setup shadow mtx.
-				float mtxShadow[16];
+				//bgfx::setViewClear(RENDER_SCENE_PASS_ID
+				//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+				//	, 0x303030ff, 1.0f, 0
+				//);
 
-				const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
-				float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
 
-				const float mtxBias[16] =
-				{
-					0.5f, 0.0f, 0.0f, 0.0f,
-					0.0f, ymul, 0.0f, 0.0f,
-					0.0f, 0.0f, 0.5f, 0.0f,
-					0.5f, 0.5f, zadd, 1.0f,
-				};
+				FBatch& batch = *bIt;
+				bool instance = batch._type == EGeometryType::INSTANCED;
+				int batchesAddCount = 0;
 
+
+				batchesAddCount = 1;
+				FGeometry* geometry = batch._pass._geometry;
+				OMaterial* material = batch._pass._material;
+				TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+				ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+
+				uint8_t drawNum;
 				if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 				{
-					float mtxTmp[16];
-					bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal].Data(), mtxBias);
-					bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0].Data(), mtxTmp); //FShadowRenderer::s_lightViewProjBias
+					drawNum = 1;
 				}
 				else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 				{
-					const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
-					zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+					drawNum = 4;
+				}
+				else //LightType::DirectionalLight == settings.m_lightType)
+				{
+					drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
+				}
 
-					const float mtxCropBias[2][TetrahedronFaces::Count][16] =
+				for (uint8_t ii = 0; ii < drawNum; ++ii)
+				{
+					const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
+
+					uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
+					if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
 					{
-						{ // settings.m_stencilPack == false
-
-							{ // D3D: Green, OGL: Blue
-								0.25f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.25f,   0.25f, zadd, 1.0f,
-							},
-							{ // D3D: Yellow, OGL: Red
-								0.25f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.75f,   0.25f, zadd, 1.0f,
-							},
-							{ // D3D: Blue, OGL: Green
-								0.25f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.25f,   0.75f, zadd, 1.0f,
-							},
-							{ // D3D: Red, OGL: Yellow
-								0.25f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.75f,   0.75f, zadd, 1.0f,
-							},
-						},
-						{ // settings.m_stencilPack == true
-
-							{ // D3D: Red, OGL: Blue
-								0.25f,   0.0f, 0.0f, 0.0f,
-								0.0f, s*0.5f, 0.0f, 0.0f,
-								0.0f,   0.0f, 0.5f, 0.0f,
-								0.25f,   0.5f, zadd, 1.0f,
-							},
-							{ // D3D: Blue, OGL: Red
-								0.25f,   0.0f, 0.0f, 0.0f,
-								0.0f, s*0.5f, 0.0f, 0.0f,
-								0.0f,   0.0f, 0.5f, 0.0f,
-								0.75f,   0.5f, zadd, 1.0f,
-							},
-							{ // D3D: Green, OGL: Green
-								0.5f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.5f,   0.75f, zadd, 1.0f,
-							},
-							{ // D3D: Yellow, OGL: Yellow
-								0.5f,    0.0f, 0.0f, 0.0f,
-								0.0f, s*0.25f, 0.0f, 0.0f,
-								0.0f,    0.0f, 0.5f, 0.0f,
-								0.5f,   0.25f, zadd, 1.0f,
-							},
-						}
-					};
-
-					//Use as: [stencilPack][flipV][tetrahedronFace]
-					static const uint8_t cropBiasIndices[2][2][4] =
-					{
-						{ // settings.m_stencilPack == false
-							{ 0, 1, 2, 3 }, //flipV == false
-							{ 2, 3, 0, 1 }, //flipV == true
-						},
-						{ // settings.m_stencilPack == true
-							{ 3, 2, 0, 1 }, //flipV == false
-							{ 2, 3, 0, 1 }, //flipV == true
-						},
-					};
-
-					for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
-					{
-						ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii > 1) : ProjType::Horizontal;
-						uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
-
-						float mtxTmp[16];
-						bx::mtxMul(mtxTmp, FShadowRenderer::s_mtxYpr[ii].Data(), FShadowRenderer::s_lightProj[projType].Data());
-						bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
+						renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 					}
 
-					bx::mtxTranslate(mtxShadow //lightInvTranslate
-						, -FShadowRenderer::s_pointLight->m_position.m_v[0]
-						, -FShadowRenderer::s_pointLight->m_position.m_v[1]
-						, -FShadowRenderer::s_pointLight->m_position.m_v[2]
+					// Floor.
+					Submit(geometry, viewId
+						, modelMatrix.Data()
+						, *currentShadowMapSettings->m_progPack
+						, FRenderState::_renderState[renderStateIndex]
 					);
+
 				}
-				else //LightType::DirectionalLight == settings.m_lightType
+
+				// Draw scene.
 				{
-					for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+					// Setup shadow mtx.
+					float mtxShadow[16];
+
+					const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
+					float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+
+					const float mtxBias[16] =
+					{
+						0.5f, 0.0f, 0.0f, 0.0f,
+						0.0f, ymul, 0.0f, 0.0f,
+						0.0f, 0.0f, 0.5f, 0.0f,
+						0.5f, 0.5f, zadd, 1.0f,
+					};
+
+					if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 					{
 						float mtxTmp[16];
-
-						bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ii].Data(), mtxBias);
-						bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), FShadowRenderer::s_lightView[0].Data(), mtxTmp); //lViewProjCropBias
+						bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal].Data(), mtxBias);
+						bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0].Data(), mtxTmp); //FShadowRenderer::s_lightViewProjBias
 					}
+					else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+					{
+						const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
+						zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+
+						const float mtxCropBias[2][TetrahedronFaces::Count][16] =
+						{
+							{ // settings.m_stencilPack == false
+
+								{ // D3D: Green, OGL: Blue
+									0.25f,    0.0f, 0.0f, 0.0f,
+									0.0f, s*0.25f, 0.0f, 0.0f,
+									0.0f,    0.0f, 0.5f, 0.0f,
+									0.25f,   0.25f, zadd, 1.0f,
+								},
+								{ // D3D: Yellow, OGL: Red
+									0.25f,    0.0f, 0.0f, 0.0f,
+									0.0f, s*0.25f, 0.0f, 0.0f,
+									0.0f,    0.0f, 0.5f, 0.0f,
+									0.75f,   0.25f, zadd, 1.0f,
+								},
+								{ // D3D: Blue, OGL: Green
+									0.25f,    0.0f, 0.0f, 0.0f,
+									0.0f, s*0.25f, 0.0f, 0.0f,
+									0.0f,    0.0f, 0.5f, 0.0f,
+									0.25f,   0.75f, zadd, 1.0f,
+								},
+								{ // D3D: Red, OGL: Yellow
+									0.25f,    0.0f, 0.0f, 0.0f,
+									0.0f, s*0.25f, 0.0f, 0.0f,
+									0.0f,    0.0f, 0.5f, 0.0f,
+									0.75f,   0.75f, zadd, 1.0f,
+								},
+							},
+							{ // settings.m_stencilPack == true
+
+								{ // D3D: Red, OGL: Blue
+									0.25f,   0.0f, 0.0f, 0.0f,
+									0.0f, s*0.5f, 0.0f, 0.0f,
+									0.0f,   0.0f, 0.5f, 0.0f,
+									0.25f,   0.5f, zadd, 1.0f,
+								},
+								{ // D3D: Blue, OGL: Red
+									0.25f,   0.0f, 0.0f, 0.0f,
+									0.0f, s*0.5f, 0.0f, 0.0f,
+									0.0f,   0.0f, 0.5f, 0.0f,
+									0.75f,   0.5f, zadd, 1.0f,
+								},
+								{ // D3D: Green, OGL: Green
+									0.5f,    0.0f, 0.0f, 0.0f,
+									0.0f, s*0.25f, 0.0f, 0.0f,
+									0.0f,    0.0f, 0.5f, 0.0f,
+									0.5f,   0.75f, zadd, 1.0f,
+								},
+								{ // D3D: Yellow, OGL: Yellow
+									0.5f,    0.0f, 0.0f, 0.0f,
+									0.0f, s*0.25f, 0.0f, 0.0f,
+									0.0f,    0.0f, 0.5f, 0.0f,
+									0.5f,   0.25f, zadd, 1.0f,
+								},
+							}
+						};
+
+						//Use as: [stencilPack][flipV][tetrahedronFace]
+						static const uint8_t cropBiasIndices[2][2][4] =
+						{
+							{ // settings.m_stencilPack == false
+								{ 0, 1, 2, 3 }, //flipV == false
+								{ 2, 3, 0, 1 }, //flipV == true
+							},
+							{ // settings.m_stencilPack == true
+								{ 3, 2, 0, 1 }, //flipV == false
+								{ 2, 3, 0, 1 }, //flipV == true
+							},
+						};
+
+						for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
+						{
+							ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii > 1) : ProjType::Horizontal;
+							uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
+
+							float mtxTmp[16];
+							bx::mtxMul(mtxTmp, FShadowRenderer::s_mtxYpr[ii].Data(), FShadowRenderer::s_lightProj[projType].Data());
+							bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
+						}
+
+						bx::mtxTranslate(mtxShadow //lightInvTranslate
+							, -FShadowRenderer::s_pointLight->m_position.m_v[0]
+							, -FShadowRenderer::s_pointLight->m_position.m_v[1]
+							, -FShadowRenderer::s_pointLight->m_position.m_v[2]
+						);
+					}
+					else //LightType::DirectionalLight == settings.m_lightType
+					{
+						for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+						{
+							float mtxTmp[16];
+
+							bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ii].Data(), mtxBias);
+							bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), FShadowRenderer::s_lightView[0].Data(), mtxTmp); //lViewProjCropBias
+						}
+					}
+
+					// Cube.
+					if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+					{
+						bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
+					}
+
+					Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
+						, modelMatrix.Data()
+						, *currentShadowMapSettings->m_progDraw
+						, FRenderState::_renderState[FRenderState::Default]
+						, true
+					);
+
 				}
 
-				// Cube.
-				if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
-				{
-					bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
-				}
 
-				Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
-					, modelMatrix.Data()
-					, *currentShadowMapSettings->m_progDraw
-					, FRenderState::_renderState[FRenderState::Default]
-					, true
-				);
 
+
+
+
+
+
+
+				//{
+				//	if (instance)
+				//	{
+				//		int instanceStart = batch._instanceStart;
+				//		int instanceCount = batch._instanceCount;
+
+				//		// stride = 64 bytes for 4x4 matrix
+				//		const uint16_t instanceStride = sizeof(TMatrix4x4F);
+				//		const uint32_t numInstances = instanceCount;
+
+				//		bgfx::InstanceDataBuffer idb;
+				//		bgfx::allocInstanceDataBuffer(&idb, numInstances, instanceStride);
+				//		uint8_t* data = idb.data;
+
+				//		TMatrix4x4F lightMtx;
+				//		// Get model matrix.
+				//		for (auto i = instanceStart; i < instanceStart + instanceCount; ++i)
+				//		{
+				//			TMatrix4x4F& modelMatrix = batches[i]._pass._worldMatrix->ToMatrix4().Transpose();
+
+				//			memcpy(data, modelMatrix.Data(), instanceStride);
+				//			data += instanceStride;
+				//		}
+
+
+				//		FGeometry* geometry = batch._pass._geometry;
+				//		OMaterial* material = batch._pass._material;
+
+				//		for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+				//		{
+
+				//			//// Shadow pipeline
+				//			{
+				//				shadowState._program = m_progShadow_i;
+				//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				//				bgfx::setInstanceDataBuffer(&idb);
+				//				bgfx::setCondition(geometry->_occlusionQuery, true);
+				//				bgfx::setState(shadowState._state);
+				//				bgfx::submit(shadowState._viewId, shadowState._program, 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				//			}
+
+				//			// Ordinary pipeline
+				//			{
+				//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
+				//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+				//				bgfx::setTexture(sceneState._textures[0]._stage
+				//					, sceneState._textures[0]._sampler
+				//					, sceneState._textures[0]._texture
+				//					, sceneState._textures[0]._flags
+				//				);
+				//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				//				bgfx::setCondition(geometry->_occlusionQuery, true);
+				//				bgfx::setInstanceDataBuffer(&idb);
+				//				bgfx::setState(sceneState._state);
+				//				bgfx::submit(sceneState._viewId, material->GetShaderInstanceProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				//			}
+
+				//			// occlusion query pipeline
+				//			{
+				//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
+				//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+				//				bgfx::setTexture(sceneState._textures[0]._stage
+				//					, sceneState._textures[0]._sampler
+				//					, sceneState._textures[0]._texture
+				//					, sceneState._textures[0]._flags
+				//				);
+				//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				//				bgfx::setInstanceDataBuffer(&idb);
+				//				bgfx::setState(0
+				//					| BGFX_STATE_DEPTH_TEST_LEQUAL
+				//					| BGFX_STATE_CULL_CCW
+				//				);
+				//				bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderInstanceProgram().GetProgram(), geometry->_occlusionQuery);
+				//			}
+
+
+				//			switch (bgfx::getResult(geometry->_occlusionQuery))
+				//			{
+				//			case bgfx::OcclusionQueryResult::Invisible:
+				//				_invisibleBatch++; break;
+				//			case bgfx::OcclusionQueryResult::Visible:
+				//				_visibleBatch++; break;
+				//			default:
+				//				break;
+				//			}
+				//		}
+				//		batchesAddCount = instanceCount;
+				//	}
+				//	else
+				//	{
+				//		FGeometry* geometry = batch._pass._geometry;
+				//		OMaterial* material = batch._pass._material;
+
+				//		TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+				//		TMatrix4x4F lightMtx;
+				//		lightMtx = modelMatrix * mtxShadow;
+
+				//		for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+				//		{
+				//			THashMap<FString, bgfx::UniformHandle>& uniformHandles = material->GetUniforms();
+
+				//			//// Shadow pipeline
+				//			{
+				//				bgfx::setTransform(modelMatrix.Data());
+
+				//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				//				bgfx::setCondition(geometry->_occlusionQuery, true);
+				//				bgfx::setState(shadowState._state);
+				//				bgfx::submit(shadowState._viewId, shadowState._program, 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				//			}
+
+				//			// Ordinary pipeline
+				//			{
+				//				bgfx::setTransform(modelMatrix.Data());
+				//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
+				//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+
+				//				bgfx::setTexture(sceneState._textures[0]._stage
+				//					, sceneState._textures[0]._sampler
+				//					, sceneState._textures[0]._texture
+				//					, sceneState._textures[0]._flags
+				//				);
+
+				//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				//				bgfx::setCondition(geometry->_occlusionQuery, true);
+				//				bgfx::setState(sceneState._state);
+				//				bgfx::submit(sceneState._viewId, material->GetShaderProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+				//			}
+
+				//			// occlusion query pipeline
+				//			{
+				//				bgfx::setTransform(modelMatrix.Data());
+				//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
+				//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+
+				//				bgfx::setTexture(sceneState._textures[0]._stage
+				//					, sceneState._textures[0]._sampler
+				//					, sceneState._textures[0]._texture
+				//					, sceneState._textures[0]._flags
+				//				);
+
+				//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+				//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+				//				bgfx::setState(0
+				//					| BGFX_STATE_DEPTH_TEST_LEQUAL
+				//					| BGFX_STATE_CULL_CCW
+				//				);
+				//				bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderProgram().GetProgram(), geometry->_occlusionQuery);
+				//			}
+
+				//			switch (bgfx::getResult(geometry->_occlusionQuery))
+				//			{
+				//			case bgfx::OcclusionQueryResult::Invisible:
+				//				_invisibleBatch++; break;
+				//			case bgfx::OcclusionQueryResult::Visible:
+				//				_visibleBatch++; break;
+				//			default:
+				//				break;
+				//			}
+				//		}
+				//		batchesAddCount = 1;
+				//	}
+				//}
+				bIt += batchesAddCount;
 			}
-
-
-
-
-
-
-
-
-
-			//{
-			//	if (instance)
-			//	{
-			//		int instanceStart = batch._instanceStart;
-			//		int instanceCount = batch._instanceCount;
-
-			//		// stride = 64 bytes for 4x4 matrix
-			//		const uint16_t instanceStride = sizeof(TMatrix4x4F);
-			//		const uint32_t numInstances = instanceCount;
-
-			//		bgfx::InstanceDataBuffer idb;
-			//		bgfx::allocInstanceDataBuffer(&idb, numInstances, instanceStride);
-			//		uint8_t* data = idb.data;
-
-			//		TMatrix4x4F lightMtx;
-			//		// Get model matrix.
-			//		for (auto i = instanceStart; i < instanceStart + instanceCount; ++i)
-			//		{
-			//			TMatrix4x4F& modelMatrix = batches[i]._pass._worldMatrix->ToMatrix4().Transpose();
-
-			//			memcpy(data, modelMatrix.Data(), instanceStride);
-			//			data += instanceStride;
-			//		}
-
-
-			//		FGeometry* geometry = batch._pass._geometry;
-			//		OMaterial* material = batch._pass._material;
-
-			//		for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
-			//		{
-
-			//			//// Shadow pipeline
-			//			{
-			//				shadowState._program = m_progShadow_i;
-			//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-			//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			//				bgfx::setInstanceDataBuffer(&idb);
-			//				bgfx::setCondition(geometry->_occlusionQuery, true);
-			//				bgfx::setState(shadowState._state);
-			//				bgfx::submit(shadowState._viewId, shadowState._program, 0, i != geometry->_vertexBufferHandles.Size() - 1);
-			//			}
-
-			//			// Ordinary pipeline
-			//			{
-			//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
-			//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
-			//				bgfx::setTexture(sceneState._textures[0]._stage
-			//					, sceneState._textures[0]._sampler
-			//					, sceneState._textures[0]._texture
-			//					, sceneState._textures[0]._flags
-			//				);
-			//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-			//				bgfx::setCondition(geometry->_occlusionQuery, true);
-			//				bgfx::setInstanceDataBuffer(&idb);
-			//				bgfx::setState(sceneState._state);
-			//				bgfx::submit(sceneState._viewId, material->GetShaderInstanceProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
-			//			}
-
-			//			// occlusion query pipeline
-			//			{
-			//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
-			//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
-			//				bgfx::setTexture(sceneState._textures[0]._stage
-			//					, sceneState._textures[0]._sampler
-			//					, sceneState._textures[0]._texture
-			//					, sceneState._textures[0]._flags
-			//				);
-			//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-			//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			//				bgfx::setInstanceDataBuffer(&idb);
-			//				bgfx::setState(0
-			//					| BGFX_STATE_DEPTH_TEST_LEQUAL
-			//					| BGFX_STATE_CULL_CCW
-			//				);
-			//				bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderInstanceProgram().GetProgram(), geometry->_occlusionQuery);
-			//			}
-
-
-			//			switch (bgfx::getResult(geometry->_occlusionQuery))
-			//			{
-			//			case bgfx::OcclusionQueryResult::Invisible:
-			//				_invisibleBatch++; break;
-			//			case bgfx::OcclusionQueryResult::Visible:
-			//				_visibleBatch++; break;
-			//			default:
-			//				break;
-			//			}
-			//		}
-			//		batchesAddCount = instanceCount;
-			//	}
-			//	else
-			//	{
-			//		FGeometry* geometry = batch._pass._geometry;
-			//		OMaterial* material = batch._pass._material;
-
-			//		TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
-			//		TMatrix4x4F lightMtx;
-			//		lightMtx = modelMatrix * mtxShadow;
-
-			//		for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
-			//		{
-			//			THashMap<FString, bgfx::UniformHandle>& uniformHandles = material->GetUniforms();
-
-			//			//// Shadow pipeline
-			//			{
-			//				bgfx::setTransform(modelMatrix.Data());
-
-			//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-			//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			//				bgfx::setCondition(geometry->_occlusionQuery, true);
-			//				bgfx::setState(shadowState._state);
-			//				bgfx::submit(shadowState._viewId, shadowState._program, 0, i != geometry->_vertexBufferHandles.Size() - 1);
-			//			}
-
-			//			// Ordinary pipeline
-			//			{
-			//				bgfx::setTransform(modelMatrix.Data());
-			//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
-			//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
-
-			//				bgfx::setTexture(sceneState._textures[0]._stage
-			//					, sceneState._textures[0]._sampler
-			//					, sceneState._textures[0]._texture
-			//					, sceneState._textures[0]._flags
-			//				);
-
-			//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-			//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			//				bgfx::setCondition(geometry->_occlusionQuery, true);
-			//				bgfx::setState(sceneState._state);
-			//				bgfx::submit(sceneState._viewId, material->GetShaderProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
-			//			}
-
-			//			// occlusion query pipeline
-			//			{
-			//				bgfx::setTransform(modelMatrix.Data());
-			//				bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
-			//				bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
-
-			//				bgfx::setTexture(sceneState._textures[0]._stage
-			//					, sceneState._textures[0]._sampler
-			//					, sceneState._textures[0]._texture
-			//					, sceneState._textures[0]._flags
-			//				);
-
-			//				bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-			//				bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-			//				bgfx::setState(0
-			//					| BGFX_STATE_DEPTH_TEST_LEQUAL
-			//					| BGFX_STATE_CULL_CCW
-			//				);
-			//				bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderProgram().GetProgram(), geometry->_occlusionQuery);
-			//			}
-
-			//			switch (bgfx::getResult(geometry->_occlusionQuery))
-			//			{
-			//			case bgfx::OcclusionQueryResult::Invisible:
-			//				_invisibleBatch++; break;
-			//			case bgfx::OcclusionQueryResult::Visible:
-			//				_visibleBatch++; break;
-			//			default:
-			//				break;
-			//			}
-			//		}
-			//		batchesAddCount = 1;
-			//	}
-			//}
-			it += batchesAddCount;
 		}
 	}
 }
@@ -644,7 +648,7 @@ void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* cam
 		}
 
 		//Collect light
-		if (actor->FindComponent<ALightComponent>())
+		if(flags & ACTOR_FLAG_LIGHT)
 			_lightActor.Push(actor);
 	}
 
