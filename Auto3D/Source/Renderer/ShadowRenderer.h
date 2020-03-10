@@ -33,19 +33,6 @@
 
 namespace Auto3D
 {
-	
-	namespace LightType
-	{
-		enum Data
-		{
-			SpotLight,
-			PointLight,
-			DirectionalLight,
-
-			Count
-		};
-
-	};
 
 	struct DepthImpl
 	{
@@ -251,7 +238,7 @@ namespace Auto3D
 
 	struct SceneSettings
 	{
-		LightType::Data m_lightType;
+		ELightType::Data m_lightType;
 		DepthImpl::Enum m_depthImpl;
 		SmImpl::Enum m_smImpl;
 		float m_spotOuterAngle;
@@ -335,7 +322,7 @@ public:
 
 	static SceneSettings s_settings;
 
-	static ShadowMapSettings s_smSettings[LightType::Count][DepthImpl::Count][SmImpl::Count];
+	static ShadowMapSettings s_smSettings[ELightType::Count][DepthImpl::Count][SmImpl::Count];
 
 
 

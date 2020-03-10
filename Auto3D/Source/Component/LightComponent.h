@@ -7,17 +7,18 @@
 namespace Auto3D
 {
 
-struct FShadowMap
+namespace ELightType
 {
-	FShadowMap();
-	void SetSize(int size);
-	void CreateTexture();
+	enum Data
+	{
+		SpotLight,
+		PointLight,
+		DirectionalLight,
 
-	bgfx::TextureHandle _fbtexture;
-	bgfx::FrameBufferHandle _shadowMapFrameBuffer;
-	uint16_t _size;
+		Count
+	};
+
 };
-
 class AUTO_API ALightComponent : public AActorComponent
 {
 	DECLARE_A_CLASS(ALightComponent, AActorComponent)
@@ -31,18 +32,22 @@ public:
 
 	TMatrix3x4F EffectiveWorldTransform() const;
 
-	void SetupShadowMap(int size = 512);
-
 	TMatrix4x4F& GetLightView() { return _lightView; }
 	TMatrix4x4F& GetLightProj() { return _lightProj; }
 	TMatrix4x4F& GetMtxShadow() { return _shadowMatrix; }
-	const FShadowMap& GetShadowMap() { return _shadowMap; }
-private:
+
+	ELightType::Data GetLightType() { return _lightType; }
+
+public:
+	/// Handle being assigned to a new parent node.
+	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
+protected:
 	TMatrix4x4F _lightView;
 	TMatrix4x4F _lightProj;
 	TMatrix4x4F _shadowMatrix;
-	FShadowMap _shadowMap;
 	float _area = 30.0f;
+
+	ELightType::Data _lightType;
 
 public:
 

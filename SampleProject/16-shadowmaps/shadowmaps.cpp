@@ -163,7 +163,7 @@ public:
 			IMGUI_FLOAT_SLIDER("Bias", currentSmSettings->m_bias);
 			IMGUI_FLOAT_SLIDER("Normal offset", currentSmSettings->m_normalOffset);
 			ImGui::Separator();
-			if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
 			{
 				IMGUI_FLOAT_SLIDER("Near plane", currentSmSettings->m_near);
 			}
@@ -228,17 +228,17 @@ public:
 			ImGui::PushItemWidth(185.0f);
 
 			bool bLtChanged = false;
-			if ( ImGui::RadioButton("Spot light", FShadowRenderer::s_settings.m_lightType == LightType::SpotLight ))
+			if ( ImGui::RadioButton("Spot light", FShadowRenderer::s_settings.m_lightType == ELightType::SpotLight ))
 			{
-				FShadowRenderer::s_settings.m_lightType = LightType::SpotLight; bLtChanged = true;
+				FShadowRenderer::s_settings.m_lightType = ELightType::SpotLight; bLtChanged = true;
 			}
-			if ( ImGui::RadioButton("Point light", FShadowRenderer::s_settings.m_lightType == LightType::PointLight ))
+			if ( ImGui::RadioButton("Point light", FShadowRenderer::s_settings.m_lightType == ELightType::PointLight ))
 			{
-				FShadowRenderer::s_settings.m_lightType = LightType::PointLight; bLtChanged = true;
+				FShadowRenderer::s_settings.m_lightType = ELightType::PointLight; bLtChanged = true;
 			}
-			if ( ImGui::RadioButton("Directional light", FShadowRenderer::s_settings.m_lightType == LightType::DirectionalLight ))
+			if ( ImGui::RadioButton("Directional light", FShadowRenderer::s_settings.m_lightType == ELightType::DirectionalLight ))
 			{
-				FShadowRenderer::s_settings.m_lightType = LightType::DirectionalLight; bLtChanged = true;
+				FShadowRenderer::s_settings.m_lightType = ELightType::DirectionalLight; bLtChanged = true;
 			}
 
 			ImGui::Separator();
@@ -251,7 +251,7 @@ public:
 							   currentSmSettings->m_sizePwrTwoMax, "%.0f");
 
 			ImGui::Separator();
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+			if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 			{
 				ImGui::Text("Spot light");
 				ImGui::SliderFloat("Shadow map area", &FShadowRenderer::s_settings.m_coverageSpotL, 45.0f, 120.0f);
@@ -260,7 +260,7 @@ public:
 				ImGui::SliderFloat("Spot outer cone", &FShadowRenderer::s_settings.m_spotOuterAngle, 0.0f, 91.0f);
 				ImGui::SliderFloat("Spot inner cone", &FShadowRenderer::s_settings.m_spotInnerAngle, 0.0f, 90.0f);
 			}
-			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+			else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 			{
 				ImGui::Text("Point light");
 				ImGui::Checkbox("Stencil pack", &FShadowRenderer::s_settings.m_stencilPack);
@@ -268,7 +268,7 @@ public:
 				ImGui::SliderFloat("Fov X adjust", &FShadowRenderer::s_settings.m_fovXAdjust, -20.0f, 20.0f);
 				ImGui::SliderFloat("Fov Y adjust", &FShadowRenderer::s_settings.m_fovYAdjust, -20.0f, 20.0f);
 			}
-			else if (LightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+			else if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
 			{
 				ImGui::Text("Directional light");
 				ImGui::Checkbox("Stabilize cascades", &FShadowRenderer::s_settings.m_stabilize);

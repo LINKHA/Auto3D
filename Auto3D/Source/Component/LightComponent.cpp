@@ -1,6 +1,7 @@
 #include "Component/LightComponent.h"
-#include "Gameplay/Actor.h"
 #include "Component/TransformComponent.h"
+
+#include "Gameplay/Actor.h"
 
 #include "Resource/Material.h"
 #include "Resource/ResourceCache.h"
@@ -11,32 +12,8 @@
 namespace Auto3D
 {
 
-FShadowMap::FShadowMap():
-	_shadowMapFrameBuffer(BGFX_INVALID_HANDLE),
-	_fbtexture(BGFX_INVALID_HANDLE),
-	_size(512)
-{}
-
-void FShadowMap::SetSize(int size)
-{
-	_size = size;
-}
-
-void FShadowMap::CreateTexture()
-{
-	_fbtexture = bgfx::createTexture2D(
-		_size
-		, _size
-		, false
-		, 1
-		, bgfx::TextureFormat::D16
-		, BGFX_TEXTURE_RT | BGFX_SAMPLER_COMPARE_LEQUAL
-	);
-
-	_shadowMapFrameBuffer = bgfx::createFrameBuffer(1, &_fbtexture, true);
-}
-
-ALightComponent::ALightComponent()
+ALightComponent::ALightComponent() :
+	_lightType(ELightType::DirectionalLight)
 {
 
 }
@@ -87,12 +64,29 @@ TMatrix3x4F ALightComponent::EffectiveWorldTransform() const
 	return worldTransform;
 }
 
-void ALightComponent::SetupShadowMap(int size)
+void ALightComponent::OnActorSet(AActor* newParent, AActor* oldParent)
 {
-	size = NextPowerOfTwo(size);
+	Super::OnActorSet(newParent, oldParent);
 
-	_shadowMap.SetSize(size);
-	_shadowMap.CreateTexture();
+	if (oldParent)
+	{
+		TVector<ALightComponent*>& lightComponents = oldParent->GetLightComponents();
+		auto it = lightComponents.Find(this);
+		if (it != lightComponents.End())
+		{
+			lightComponents.Erase(it);
+		}
+		if (!lightComponents.Size())
+		{
+			oldParent->SetFlag(ACTOR_FLAG_LIGHT, false);
+		}
+	}
+
+	if (newParent)
+	{
+		newParent->GetLightComponents().Push(this);
+		newParent->SetFlag(ACTOR_FLAG_LIGHT, true);
+	}
 }
 
 }

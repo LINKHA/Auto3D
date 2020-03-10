@@ -17,17 +17,16 @@ class FObjectResolver;
 class ATransformComponent;
 class AActorComponent;
 class AGeometryComponent;
+class ALightComponent;
 
-static const unsigned short NF_ENABLED = 0x1;
-static const unsigned short NF_TEMPORARY = 0x2;
-static const unsigned short NF_SPATIAL = 0x4;
-static const unsigned short NF_SPATIAL_PARENT = 0x8;
-static const unsigned short NF_WORLD_TRANSFORM_DIRTY = 0x10;
-static const unsigned short NF_BOUNDING_BOX_DIRTY = 0x20;
-static const unsigned short NF_OCTREE_UPDATE_QUEUED = 0x40;
-static const unsigned short NF_GEOMETRY = 0x80;
-static const unsigned short NF_LIGHT = 0x100;
-static const unsigned short NF_CASTSHADOWS = 0x200;
+static const unsigned short ACTOR_FLAG_ENABLED = 0x1;
+static const unsigned short ACTOR_FLAG_TEMPORARY = 0x2;
+static const unsigned short ACTOR_FLAG_SPATIAL = 0x4;
+static const unsigned short ACTOR_FLAG_SPATIAL_PARENT = 0x8;
+static const unsigned short ACTOR_FLAG_WORLD_TRANSFORM_DIRTY = 0x10;
+static const unsigned short ACTOR_FLAG_GEOMETRY = 0x20;
+static const unsigned short ACTOR_FLAG_LIGHT = 0x40;
+static const unsigned short ACTOR_FLAG_CASTSHADOWS = 0x80;
 
 static const unsigned char LAYER_DEFAULT = 0x0;
 static const unsigned char TAG_NONE = 0x0;
@@ -110,9 +109,9 @@ public:
 
   
     /// Return enabled status.
-    bool IsEnabled() const { return TestFlag(NF_ENABLED); }
+    bool IsEnabled() const { return TestFlag(ACTOR_FLAG_ENABLED); }
     /// Return whether is temporary.
-    bool IsTemporary() const { return TestFlag(NF_TEMPORARY); }
+    bool IsTemporary() const { return TestFlag(ACTOR_FLAG_TEMPORARY); }
     /// Return parent node.
 	AActor* GetParentNode() const { return _parent; }
     /// Return the scene that the node belongs to.
@@ -204,6 +203,8 @@ public:
 	ATransformComponent* GetTransform();
 
 	TVector<AGeometryComponent*>& GetGeometryComponents();
+
+	TVector<ALightComponent*>& GetLightComponents();
 protected:
     /// Handle being assigned to a new parent node.
 	virtual void OnParentSet(AActor* newParent, AActor* oldParent) {}
@@ -226,9 +227,9 @@ protected:
 	THashMap<FString,AActorComponent*> _ownedComponents;
     /// GetId within the scene.
     unsigned _id;
-    /// %AActor name.
+    /// AActor name.
     FString _pathName;
-    /// %AActor flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
+    /// AActor flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
     mutable unsigned short _flags;
     /// Layer number.
     unsigned char _layer;
@@ -237,6 +238,9 @@ protected:
 
 	/// If this actor is geometry source batch useful.
 	TVector<AGeometryComponent*> _geometryComponents;
+
+	/// If this actor is light useful.
+	TVector<ALightComponent*> _lightComponents;
 };
 
 }

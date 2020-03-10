@@ -298,14 +298,14 @@ void ATransformComponent::ApplyScale(const TVector3F& delta)
 ATransformComponent* ATransformComponent::GetParentTransform() const
 { 
 	auto owner = GetOwner();
-	return owner->TestFlag(NF_SPATIAL_PARENT) ? owner->GetParentNode()->GetTransform() : nullptr;
+	return owner->TestFlag(ACTOR_FLAG_SPATIAL_PARENT) ? owner->GetParentNode()->GetTransform() : nullptr;
 }
 
 const TMatrix3x4F& ATransformComponent::GetWorldTransform() const
 {
 	auto owner = GetOwner();
 
-	if (owner->TestFlag(NF_WORLD_TRANSFORM_DIRTY)) 
+	if (owner->TestFlag(ACTOR_FLAG_WORLD_TRANSFORM_DIRTY)) 
 		UpdateWorldTransform();
 
 	return _worldTransform; 
@@ -314,7 +314,7 @@ const TMatrix3x4F& ATransformComponent::GetWorldTransform() const
 void ATransformComponent::OnTransformChanged()
 {
 	AActor* owner = GetOwner();
-	owner->SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
+	owner->SetFlag(ACTOR_FLAG_WORLD_TRANSFORM_DIRTY, true);
 
 	UpdateWorldTransform();
 
@@ -324,7 +324,7 @@ void ATransformComponent::OnTransformChanged()
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
 		AActor* child = *it;
-		if (child->TestFlag(NF_SPATIAL))
+		if (child->TestFlag(ACTOR_FLAG_SPATIAL))
 			child->GetTransform()->OnTransformChanged();
 	}
 	_dirtyCount = GTimeModule::Get().GetFrameCount();
@@ -334,11 +334,11 @@ void ATransformComponent::UpdateWorldTransform() const
 {
 	auto owner = GetOwner();
 
-    if (owner->TestFlag(NF_SPATIAL_PARENT))
+    if (owner->TestFlag(ACTOR_FLAG_SPATIAL_PARENT))
         _worldTransform = GetParentTransform()->GetWorldTransform() * TMatrix3x4F(_position, _rotation, _scale);
     else
         _worldTransform = TMatrix3x4F(_position, _rotation, _scale);
-	owner->SetFlag(NF_WORLD_TRANSFORM_DIRTY, false);
+	owner->SetFlag(ACTOR_FLAG_WORLD_TRANSFORM_DIRTY, false);
 }
 
 bool ATransformComponent::IsDirty()

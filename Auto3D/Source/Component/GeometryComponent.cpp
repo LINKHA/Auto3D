@@ -67,14 +67,14 @@ void AGeometryComponent::OnActorSet(AActor* newParent, AActor* oldParent)
 		}
 		if (!geometryComponents.Size())
 		{
-			oldParent->SetFlag(NF_GEOMETRY, false);
+			oldParent->SetFlag(ACTOR_FLAG_GEOMETRY, false);
 		}
 	}
 
 	if (newParent)
 	{
 		newParent->GetGeometryComponents().Push(this);
-		newParent->SetFlag(NF_GEOMETRY, true);
+		newParent->SetFlag(ACTOR_FLAG_GEOMETRY, true);
 	}
 }
 

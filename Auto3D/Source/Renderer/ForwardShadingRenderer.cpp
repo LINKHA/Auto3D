@@ -194,7 +194,6 @@ void FForwardShadingRenderer::RenderBatches()
 	{
 		AActor* lightActor = *lIt;
 		ALightComponent* lightComponent = lightActor->FindComponent<ALightComponent>();
-		const FShadowMap& shadowMap = lightComponent->GetShadowMap();
 
 		TMatrix4x4F& lightProj = lightComponent->GetLightProj();
 		TMatrix4x4F& lightView = lightComponent->GetLightView();
@@ -266,11 +265,11 @@ void FForwardShadingRenderer::RenderBatches()
 			ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 
 			uint8_t drawNum;
-			if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+			if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 			{
 				drawNum = 1;
 			}
-			else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+			else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 			{
 				drawNum = 4;
 			}
@@ -284,7 +283,7 @@ void FForwardShadingRenderer::RenderBatches()
 				const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
 
 				uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
-				if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+				if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
 				{
 					renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 				}
@@ -314,13 +313,13 @@ void FForwardShadingRenderer::RenderBatches()
 					0.5f, 0.5f, zadd, 1.0f,
 				};
 
-				if (LightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+				if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
 				{
 					float mtxTmp[16];
 					bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal].Data(), mtxBias);
 					bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0].Data(), mtxTmp); //FShadowRenderer::s_lightViewProjBias
 				}
-				else if (LightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+				else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 				{
 					const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
 					zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
@@ -424,7 +423,7 @@ void FForwardShadingRenderer::RenderBatches()
 				}
 
 				// Cube.
-				if (LightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+				if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
 				{
 					bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
 				}
@@ -635,11 +634,11 @@ void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* cam
 		AActor* actor = it->_second;
 		unsigned short flags = actor->Flags();
 
-		if (!(flags & NF_ENABLED))
+		if (!(flags & ACTOR_FLAG_ENABLED))
 			continue;
 
 		//Collect geometries
-		if ((flags & NF_GEOMETRY) && (actor->GetLayerMask() & camera->GetViewMask()))
+		if ((flags & ACTOR_FLAG_GEOMETRY) && (actor->GetLayerMask() & camera->GetViewMask()))
 		{
 			_geometriesActor.Push(actor);
 		}
@@ -684,7 +683,7 @@ void FForwardShadingRenderer::CollectBatch()
 		TVector<AGeometryComponent*> geometryComponents = actor->GetGeometryComponents();
 		if (!geometryComponents.Size())
 		{
-			actor->SetFlag(NF_GEOMETRY, false);
+			actor->SetFlag(ACTOR_FLAG_GEOMETRY, false);
 			continue;
 		}
 
@@ -712,6 +711,7 @@ void FForwardShadingRenderer::CollectBatch()
 void FForwardShadingRenderer::PrepareView()
 {
 	_batchQueues.Clear();
+	_lightActor.Clear();
 	_geometriesActor.Clear();
 	_invisibleBatch = 0;
 	_visibleBatch = 0;

@@ -5,7 +5,7 @@ namespace Auto3D
 
 APointLightComponent::APointLightComponent()
 {
-
+	_lightType = ELightType::PointLight;
 }
 APointLightComponent:: ~APointLightComponent()
 {

@@ -4,6 +4,7 @@
 #include "Component/ActorComponent.h"
 #include "Component/TransformComponent.h"
 #include "Component/CameraComponent.h"
+#include "Component/LightComponent.h"
 
 #include "IO/Stream.h"
 #include "IO/JSONFile.h"
@@ -17,14 +18,14 @@ namespace Auto3D
 
 AActor::AActor() :
 	_hasBegunPlay(false),
-    _flags(NF_ENABLED),
+    _flags(ACTOR_FLAG_ENABLED),
     _layer(LAYER_DEFAULT),
     _tag(TAG_NONE),
     _parent(nullptr),
     _id(0),
 	_world(nullptr)
 {
-	SetFlag(NF_SPATIAL, true);
+	SetFlag(ACTOR_FLAG_SPATIAL, true);
 	// Each Actor has a Transform by default
 	_transform = CreateComponent<ATransformComponent>();
 }
@@ -140,8 +141,8 @@ void AActor::SetTagName(const FString& newTagName)
 
 void AActor::SetEnabled(bool enable)
 {
-    SetFlag(NF_ENABLED, enable);
-    OnSetEnabled(TestFlag(NF_ENABLED));
+    SetFlag(ACTOR_FLAG_ENABLED, enable);
+    OnSetEnabled(TestFlag(ACTOR_FLAG_ENABLED));
 }
 
 void AActor::SetEnabledRecursive(bool enable)
@@ -156,7 +157,7 @@ void AActor::SetEnabledRecursive(bool enable)
 
 void AActor::SetTemporary(bool enable)
 {
-    SetFlag(NF_TEMPORARY, enable);
+    SetFlag(ACTOR_FLAG_TEMPORARY, enable);
 }
 
 void AActor::SetParentNode(AActor* newParent)
@@ -720,6 +721,11 @@ ATransformComponent* AActor::GetTransform()
 TVector<AGeometryComponent*>& AActor::GetGeometryComponents()
 {
 	return _geometryComponents;
+}
+
+TVector<ALightComponent*>& AActor::GetLightComponents()
+{
+	return _lightComponents;
 }
 
 }

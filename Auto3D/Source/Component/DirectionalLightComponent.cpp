@@ -5,7 +5,7 @@ namespace Auto3D
 
 ADirectionalLightComponent::ADirectionalLightComponent()
 {
-
+	_lightType = ELightType::DirectionalLight;
 }
 
 ADirectionalLightComponent::~ADirectionalLightComponent()

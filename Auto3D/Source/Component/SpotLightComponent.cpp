@@ -5,7 +5,7 @@ namespace Auto3D
 
 ASpotLightComponent::ASpotLightComponent()
 {
-
+	_lightType = ELightType::SpotLight;
 }
 ASpotLightComponent:: ~ASpotLightComponent()
 {
