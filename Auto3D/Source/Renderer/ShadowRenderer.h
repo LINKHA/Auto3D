@@ -34,9 +34,9 @@
 namespace Auto3D
 {
 	
-	struct LightType
+	namespace LightType
 	{
-		enum Enum
+		enum Data
 		{
 			SpotLight,
 			PointLight,
@@ -251,7 +251,7 @@ namespace Auto3D
 
 	struct SceneSettings
 	{
-		LightType::Enum m_lightType;
+		LightType::Data m_lightType;
 		DepthImpl::Enum m_depthImpl;
 		SmImpl::Enum m_smImpl;
 		float m_spotOuterAngle;
@@ -324,7 +324,7 @@ public:
 
 	void Init();
 
-	void Update(ACameraComponent* camera);
+	void Update(ACameraComponent* camera, ALightComponent* light);
 
 	void SubmitPerDrawUniforms()
 	{
@@ -349,8 +349,7 @@ public:
 	static bgfx::FrameBufferHandle s_rtBlur;
 
 	static Material s_defaultMaterial;
-	static ALightComponent* s_pointLight;
-	static ALightComponent* s_directionalLight;
+
 
 
 	static TMatrix4x4F _lightMtx;
@@ -366,7 +365,8 @@ public:
 		static TMatrix4x4F s_lightView[4];
 		static TMatrix4x4F s_lightProj[4];
 	//}
-		
+		static ALightComponent* s_pointLight;
+		static ALightComponent* s_directionalLight;
 
 private:
 

@@ -84,7 +84,8 @@ FForwardShadingRenderer::FForwardShadingRenderer() :
 	_depth(1.0f),
 	_stencil(0),
 	_invisibleBatch(0),
-	_visibleBatch(0)
+	_visibleBatch(0),
+	_currentCamera(nullptr)
 {
 
 }
@@ -155,6 +156,7 @@ void FForwardShadingRenderer::Render()
 		CollectBatch();
 
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
+		_currentCamera = camera;
 
 		// Set the view transform each camera is set once in the view
 		{	
@@ -173,7 +175,6 @@ void FForwardShadingRenderer::Render()
 			bgfx::setViewTransform(RENDER_OCCLUSION_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 			bgfx::setViewRect(RENDER_OCCLUSION_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 
-			FShadowRenderer::Get().Update(camera);
 
 		}
 
@@ -199,6 +200,8 @@ void FForwardShadingRenderer::RenderBatches()
 		TMatrix4x4F& lightView = lightComponent->GetLightView();
 		TMatrix4x4F& mtxShadow = lightComponent->GetMtxShadow();
 		TVector3F lightPosition = lightComponent->GetOwner()->GetTransform()->GetWorldPosition();
+
+		FShadowRenderer::Get().Update(_currentCamera, lightComponent);
 
 
 		TVector<FBatch>& batches = _batchQueues._batches;

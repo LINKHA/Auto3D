@@ -787,7 +787,7 @@ void FShadowRenderer::Init()
 
 	PosColorTexCoord0Vertex::init();
 }
-void FShadowRenderer::Update(ACameraComponent* camera)
+void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
 

@@ -69,6 +69,8 @@ private:
 	/// FBatch queues per pass.
 	FRenderQueue _batchQueues;
 
+	ACameraComponent* _currentCamera;
+
 	/// Geometries in frustum.
 	TVector<AActor*> _geometriesActor;
 	/// Light actor.
