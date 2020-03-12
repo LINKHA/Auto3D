@@ -20,8 +20,6 @@ bgfx::FrameBufferHandle FShadowRenderer::s_rtShadowMap[ShadowMapRenderTargets::C
 bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
 
 Material FShadowRenderer::s_defaultMaterial;
-//ALightComponent* FShadowRenderer::s_pointLight;
-//ALightComponent* FShadowRenderer::s_directionalLight;
 
 TMatrix4x4F FShadowRenderer::_lightMtx;
 TMatrix4x4F FShadowRenderer::_shadowMapMtx[ShadowMapRenderTargets::Count];
