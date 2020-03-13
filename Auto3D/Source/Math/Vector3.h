@@ -239,7 +239,7 @@ public:
 	}
 
 	/// Return _Ty data.
-	const _Ty* Data() const { return &_x; }
+	_Ty* Data() { return &_x; }
 	/// Return as string.
 	FString ToString() const
 	{

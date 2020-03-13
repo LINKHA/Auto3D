@@ -200,7 +200,7 @@ public:
 	bool IsNaN() const { return Auto3D::IsNaN(_x) || Auto3D::IsNaN(_y) || Auto3D::IsNaN(_z) || Auto3D::IsNaN(_w); }
 
 	/// Return float data.
-	const float* Data() const { return &_x; }
+	float* Data() { return &_x; }
 	/// Return as string.
 	FString ToString() const
 	{

@@ -55,33 +55,28 @@ protected:
 
 	FColor _lightColor;
 public:
-
-
-	union Position
+	void computeViewSpaceComponents(float* _viewMtx)
 	{
-		struct
+		TVector4F viewSpaceVec4;
+		if (_lightType == ELightType::DirectionalLight)
+			viewSpaceVec4 = TVector4F(m_position, 0.0f);
+		else
+			viewSpaceVec4 = TVector4F(m_position, 1.0f);
+
+		bx::vec4MulMtx(m_position_viewSpace.Data(), viewSpaceVec4.Data(), _viewMtx);
+
+		float tmp[] =
 		{
-			float m_x;
-			float m_y;
-			float m_z;
-			float m_w;
+			  m_spotDirectionInner.m_x
+			, m_spotDirectionInner.m_y
+			, m_spotDirectionInner.m_z
+			, 0.0f
 		};
-
-		float m_v[4];
-	};
-
-	union LightRgbPower
-	{
-		struct
-		{
-			float m_r;
-			float m_g;
-			float m_b;
-			float m_power;
-		};
-
-		float m_v[4];
-	};
+		bx::vec4MulMtx(m_spotDirectionInner_viewSpace.Data(), tmp, _viewMtx);
+		m_spotDirectionInner_viewSpace._w = m_spotDirectionInner.m_v[3];
+	}
+	// RGB for color a for power
+	using RgbPower = FColor;
 
 	union SpotDirectionInner
 	{
@@ -109,34 +104,13 @@ public:
 		float m_v[4];
 	};
 
-	void computeViewSpaceComponents(float* _viewMtx)
-	{
-		TVector4F viewSpaceVec4;
-		if (_lightType == ELightType::DirectionalLight)
-			viewSpaceVec4 = TVector4F(m_position, 0.0f);
-		else
-			viewSpaceVec4 = TVector4F(m_position, 1.0f);
-
-		bx::vec4MulMtx(m_position_viewSpace, viewSpaceVec4.Data(), _viewMtx);
-
-		float tmp[] =
-		{
-			  m_spotDirectionInner.m_x
-			, m_spotDirectionInner.m_y
-			, m_spotDirectionInner.m_z
-			, 0.0f
-		};
-		bx::vec4MulMtx(m_spotDirectionInner_viewSpace, tmp, _viewMtx);
-		m_spotDirectionInner_viewSpace[3] = m_spotDirectionInner.m_v[3];
-	}
-
 	TVector3F m_position;
-	float				  m_position_viewSpace[4];
-	LightRgbPower         m_ambientPower;
-	LightRgbPower         m_diffusePower;
-	LightRgbPower         m_specularPower;
+	TVector4F m_position_viewSpace;
+	RgbPower m_ambientPower;
+	RgbPower m_diffusePower;
+	RgbPower m_specularPower;
 	SpotDirectionInner    m_spotDirectionInner;
-	float				  m_spotDirectionInner_viewSpace[4];
+	TVector4F m_spotDirectionInner_viewSpace;
 	AttenuationSpotOuter  m_attenuationSpotOuter;
 };
 
