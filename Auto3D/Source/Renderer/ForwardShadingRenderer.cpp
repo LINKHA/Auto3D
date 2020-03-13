@@ -124,6 +124,8 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 		, _depth
 		, _stencil
 	);
+
+	FShadowRenderer::Get().Init();
 }
 
 void FForwardShadingRenderer::Render()
@@ -396,9 +398,9 @@ void FForwardShadingRenderer::RenderBatches()
 						}
 
 						bx::mtxTranslate(mtxShadow //lightInvTranslate
-							, -lightComponent->m_position.m_v[0]
-							, -lightComponent->m_position.m_v[1]
-							, -lightComponent->m_position.m_v[2]
+							, -lightComponent->m_position._x
+							, -lightComponent->m_position._y
+							, -lightComponent->m_position._z
 						);
 					}
 					else //LightType::DirectionalLight == settings.m_lightType

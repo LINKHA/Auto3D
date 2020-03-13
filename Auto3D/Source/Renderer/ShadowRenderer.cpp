@@ -206,7 +206,9 @@ void splitFrustum(float* _splits, uint8_t _numSplits, float _near, float _far, f
 
 
 FShadowRenderer::FShadowRenderer() 
-{}
+{
+	
+}
 FShadowRenderer::~FShadowRenderer() 
 {}
 void FShadowRenderer::Init()
@@ -829,25 +831,24 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	light->computeViewSpaceComponents(transposeViewMatrix.Data());
 
 	// Setup lights.
-	TVector3F pointLightPosition = light->GetOwner()->GetTransform()->GetPosition();
-	TVector3F pointLightDirection = light->GetOwner()->GetTransform()->GetDirection();
-	TVector3F directionalLightPosition = light->GetOwner()->GetTransform()->GetPosition();
+	TVector3F lightPosition = light->GetOwner()->GetTransform()->GetPosition();
+	TVector3F lightDirection = light->GetOwner()->GetTransform()->GetDirection();
 
 	if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
 	{
 		
-		light->m_position.m_x = -directionalLightPosition._x;
-		light->m_position.m_y = -directionalLightPosition._y;
-		light->m_position.m_z = -directionalLightPosition._z;
+		light->m_position._x = -lightPosition._x;
+		light->m_position._y = -lightPosition._y;
+		light->m_position._z = -lightPosition._z;
 	}
 	else
 	{
-		light->m_position.m_x = pointLightPosition._x;
-		light->m_position.m_y = pointLightPosition._y;
-		light->m_position.m_z = pointLightPosition._z;
-		light->m_spotDirectionInner.m_x = -(pointLightPosition._x + pointLightDirection._x);
-		light->m_spotDirectionInner.m_y = -(pointLightPosition._y + pointLightDirection._y);
-		light->m_spotDirectionInner.m_z = -(pointLightPosition._z + pointLightDirection._z);
+		light->m_position._x = lightPosition._x;
+		light->m_position._y = lightPosition._y;
+		light->m_position._z = lightPosition._z;
+		light->m_spotDirectionInner.m_x = -(lightPosition._x + lightDirection._x);
+		light->m_spotDirectionInner.m_y = -(lightPosition._y + lightDirection._y);
+		light->m_spotDirectionInner.m_z = -(lightPosition._z + lightDirection._z);
 	}
 
 	_screenView = TMatrix4x4F::IDENTITY;
@@ -923,8 +924,8 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
 		}
 
-		const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(light->m_position.m_v), bx::load<bx::Vec3>(light->m_spotDirectionInner.m_v));
-		bx::mtxLookAt(FShadowRenderer::s_lightView[TetrahedronFaces::Green].Data(), bx::load<bx::Vec3>(light->m_position.m_v), at);
+		const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(light->m_spotDirectionInner.m_v));
+		bx::mtxLookAt(FShadowRenderer::s_lightView[TetrahedronFaces::Green].Data(), bx::load<bx::Vec3>(light->m_position.Data()), at);
 	}
 	else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 	{
@@ -993,9 +994,9 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 			float tmp[3] =
 			{
-				-bx::dot(bx::load<bx::Vec3>(light->m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[0])),
-				-bx::dot(bx::load<bx::Vec3>(light->m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[4])),
-				-bx::dot(bx::load<bx::Vec3>(light->m_position.m_v), bx::load<bx::Vec3>(&mtxTmp[8])),
+				-bx::dot(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(&mtxTmp[0])),
+				-bx::dot(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(&mtxTmp[4])),
+				-bx::dot(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(&mtxTmp[8])),
 			};
 
 			bx::mtxTranspose(FShadowRenderer::s_mtxYpr[ii].Data(), mtxTmp);
@@ -1013,9 +1014,9 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		const bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
 		const bx::Vec3 eye =
 		{
-			-light->m_position.m_x,
-			-light->m_position.m_y,
-			-light->m_position.m_z,
+			-light->m_position._x,
+			-light->m_position._y,
+			-light->m_position._z,
 		};
 		bx::mtxLookAt(FShadowRenderer::s_lightView[0].Data(), eye, at);
 

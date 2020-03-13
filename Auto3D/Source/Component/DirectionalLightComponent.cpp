@@ -28,7 +28,7 @@ void ADirectionalLightComponent::TickComponent(float deltaTime)
 
 void ADirectionalLightComponent::Reset()
 {
-	m_position = { 0.5f,-1.0f, 0.1f, 0.0f };
+	m_position = { 0.5f,-1.0f, 0.1f};
 	m_position_viewSpace[0] = 0.0f;
 	m_position_viewSpace[1] = 0.0f;
 	m_position_viewSpace[2] = 0.0f;

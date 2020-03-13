@@ -111,7 +111,13 @@ public:
 
 	void computeViewSpaceComponents(float* _viewMtx)
 	{
-		bx::vec4MulMtx(m_position_viewSpace, m_position.m_v, _viewMtx);
+		TVector4F viewSpaceVec4;
+		if (_lightType == ELightType::DirectionalLight)
+			viewSpaceVec4 = TVector4F(m_position, 0.0f);
+		else
+			viewSpaceVec4 = TVector4F(m_position, 1.0f);
+
+		bx::vec4MulMtx(m_position_viewSpace, viewSpaceVec4.Data(), _viewMtx);
 
 		float tmp[] =
 		{
@@ -124,7 +130,7 @@ public:
 		m_spotDirectionInner_viewSpace[3] = m_spotDirectionInner.m_v[3];
 	}
 
-	Position              m_position;
+	TVector3F m_position;
 	float				  m_position_viewSpace[4];
 	LightRgbPower         m_ambientPower;
 	LightRgbPower         m_diffusePower;

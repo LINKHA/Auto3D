@@ -25,7 +25,7 @@ void APointLightComponent::TickComponent(float deltaTime)
 
 void APointLightComponent::Reset()
 {
-	m_position = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_position = { 0.0f, 0.0f, 0.0f };
 	m_position_viewSpace[0] = 0.0f;
 	m_position_viewSpace[1] = 0.0f;
 	m_position_viewSpace[2] = 0.0f;

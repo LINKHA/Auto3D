@@ -103,7 +103,7 @@ public:
 		_pointLightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
 		_pointLightActor->CreateComponent<APointLightComponent>();
 
-		FShadowRenderer::Get().Init();
+
 
 	}
 
