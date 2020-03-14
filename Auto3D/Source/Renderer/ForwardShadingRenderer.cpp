@@ -133,7 +133,7 @@ void FForwardShadingRenderer::Render()
 	PrepareView();
 	// This dummy draw call is here to make sure that view 0 is cleared
 	// if no other draw calls are submitted to view 0.
-	bgfx::touch(RENDER_SHADOW_PASS_ID);
+	//bgfx::touch(RENDER_SHADOW_PASS_ID);
 
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();

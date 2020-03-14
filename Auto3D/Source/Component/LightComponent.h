@@ -40,8 +40,17 @@ public:
 
 	ELightType::Data GetLightType() { return _lightType; }
 
-	void SetLightColor(const FColor& color) { _lightColor = color; }
-	FColor& GetLightColor() { return _lightColor; }
+	void SetLightColor(const FColor& color) 
+	{
+		m_ambientPower = m_diffusePower = m_specularPower = color;
+		m_ambientPower._a = 0.02f;
+		m_diffusePower._a = 0.4f;
+		m_specularPower._a = 0.0f;
+	}
+	FColor& GetLightColor() 
+	{
+		return m_ambientPower;
+	}
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
@@ -52,10 +61,8 @@ protected:
 	float _area = 30.0f;
 
 	ELightType::Data _lightType;
-
-	FColor _lightColor;
 public:
-	void computeViewSpaceComponents(float* _viewMtx)
+	void ComputeViewSpaceComponents(float* _viewMtx)
 	{
 		TVector4F viewSpaceVec4;
 		if (_lightType == ELightType::DirectionalLight)
@@ -75,8 +82,6 @@ public:
 		bx::vec4MulMtx(m_spotDirectionInner_viewSpace.Data(), tmp, _viewMtx);
 		m_spotDirectionInner_viewSpace._w = m_spotDirectionInner.m_v[3];
 	}
-	// RGB for color a for power
-	using RgbPower = FColor;
 
 	union SpotDirectionInner
 	{
@@ -105,12 +110,19 @@ public:
 	};
 
 	TVector3F m_position;
+
 	TVector4F m_position_viewSpace;
-	RgbPower m_ambientPower;
-	RgbPower m_diffusePower;
-	RgbPower m_specularPower;
+	// RGB for color a for power.
+	FColor m_ambientPower;
+	// RGB for color a for power.
+	FColor m_diffusePower;
+	// RGB for color a for power.
+	FColor m_specularPower;
+
 	SpotDirectionInner    m_spotDirectionInner;
+
 	TVector4F m_spotDirectionInner_viewSpace;
+
 	AttenuationSpotOuter  m_attenuationSpotOuter;
 };
 

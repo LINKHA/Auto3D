@@ -828,7 +828,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	const float deltaTime = float(frameTime / freq);
 
 	// Update lights.
-	light->computeViewSpaceComponents(transposeViewMatrix.Data());
+	light->ComputeViewSpaceComponents(transposeViewMatrix.Data());
 
 	// Setup lights.
 	TVector3F lightPosition = light->GetOwner()->GetTransform()->GetPosition();
