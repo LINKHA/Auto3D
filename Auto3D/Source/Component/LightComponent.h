@@ -19,8 +19,19 @@ namespace ELightType
 
 		Count
 	};
-
 };
+
+namespace EShadowMapType
+{
+	enum Data
+	{
+		HARD,
+		PCF,
+		ESM,
+		VSM
+	};
+}
+
 class AUTO_API ALightComponent : public AActorComponent
 {
 	DECLARE_A_CLASS(ALightComponent, AActorComponent)
@@ -51,6 +62,9 @@ public:
 	{
 		return m_ambientPower;
 	}
+
+	void SetShadowType(EShadowMapType::Data type) { _shadowMapType = type; }
+	EShadowMapType::Data GetShadowMapType() { return _shadowMapType; }
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
@@ -124,6 +138,8 @@ public:
 	TVector4F m_spotDirectionInner_viewSpace;
 
 	AttenuationSpotOuter  m_attenuationSpotOuter;
+
+	EShadowMapType::Data _shadowMapType;
 };
 
 }

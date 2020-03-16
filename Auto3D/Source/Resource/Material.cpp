@@ -8,7 +8,8 @@ namespace Auto3D
 {
 OMaterial* OMaterial::_defaultMaterial;
 
-OMaterial::OMaterial()
+OMaterial::OMaterial():
+	_shaderType(EMaterialShaderType::DEFAULT)
 {
 	
 }

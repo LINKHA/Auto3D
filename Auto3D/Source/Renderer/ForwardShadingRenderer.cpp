@@ -641,29 +641,59 @@ void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* cam
 			_lightActor.Push(actor);
 	}
 
-	if (_lightActor.Size())
+	
+	for (auto it = _lightActor.Begin(); it != _lightActor.End();++it)
 	{
-		for (auto it = _geometriesActor.Begin(); it != _geometriesActor.End(); ++it)
+		TVector<ALightComponent*>& lightComponents = (*it)->GetLightComponents();
+		for (auto lIt = lightComponents.Begin(); lIt != lightComponents.End(); ++lIt)
 		{
-			AActor* actor = *it;
-			TVector<AGeometryComponent*>& geometrys = actor->GetGeometryComponents();
-			for (auto git = geometrys.Begin(); git != geometrys.End(); ++git)
+			ALightComponent* lightComponent = *lIt;
+
+			for (auto gIt = _geometriesActor.Begin(); gIt != _geometriesActor.End(); ++gIt)
 			{
-				AGeometryComponent* comp = *git;
-				if(!comp->GetPass().isValid())
-					continue;
-				// Default material automatically matches shader according to the scene
-				if (comp->GetPass()._material == OMaterial::DefaultMaterial())
+				AActor* actor = *gIt;
+				TVector<AGeometryComponent*>& geometrys = actor->GetGeometryComponents();
+				for (auto git = geometrys.Begin(); git != geometrys.End(); ++git)
 				{
-					//Temp: hard shadaw map
-					OMaterial* material = new OMaterial;
-					comp->GetPass()._material = material;
-					material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
-					material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
+					AGeometryComponent* comp = *git;
+					if (!comp->GetPass().isValid())
+						continue;
+					// Default material automatically matches shader according to the scene
+					if (comp->GetPass()._material == OMaterial::DefaultMaterial())
+					{
+						OMaterial* material = new OMaterial;
+						comp->GetPass()._material = material;
+						if (lightComponent->GetShadowMapType() == EShadowMapType::HARD)
+						{
+							material->SetShaderType(EMaterialShaderType::SHADOW_HARD);
+							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
+							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
+						}
+						else if(lightComponent->GetShadowMapType() == EShadowMapType::PCF)
+						{
+							material->SetShaderType(EMaterialShaderType::SHADOW_PCF);
+							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
+							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
+						}
+						else if (lightComponent->GetShadowMapType() == EShadowMapType::ESM)
+						{
+							material->SetShaderType(EMaterialShaderType::SHADOW_ESM);
+							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
+							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
+						}
+						else if (lightComponent->GetShadowMapType() == EShadowMapType::VSM)
+						{
+							material->SetShaderType(EMaterialShaderType::SHADOW_VSM);
+							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
+							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
+						}
+					}
 				}
 			}
+
 		}
 	}
+
 	
 }
 
