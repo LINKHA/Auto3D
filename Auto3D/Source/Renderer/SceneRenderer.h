@@ -5,11 +5,11 @@
 namespace Auto3D
 {
 
-class AUTO_API ISceneRenderer
+class AUTO_API IRenderer
 {
 public:
-	ISceneRenderer() {}
-	virtual ~ISceneRenderer() {}
+	IRenderer() {}
+	virtual ~IRenderer() {}
 	
 	virtual void Init(uint32_t width, uint32_t height) = 0;
 

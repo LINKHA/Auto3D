@@ -149,8 +149,8 @@ public:
 
 			ImGui::Separator();
 			ImGui::Text("Shadow map depth:");
-			IMGUI_RADIO_BUTTON("InvZ", FShadowRenderer::s_settings.m_depthImpl, DepthImpl::InvZ);
-			IMGUI_RADIO_BUTTON("Linear", FShadowRenderer::s_settings.m_depthImpl, DepthImpl::Linear);
+			IMGUI_RADIO_BUTTON("InvZ", FShadowRenderer::s_settings.m_depthImpl, EDepthImpl::InvZ);
+			IMGUI_RADIO_BUTTON("Linear", FShadowRenderer::s_settings.m_depthImpl, EDepthImpl::Linear);
 
 			ShadowMapSettings* currentSmSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 
@@ -163,10 +163,10 @@ public:
 
 			ImGui::Separator();
 			ImGui::Text("Shadow Map implementation");
-			IMGUI_RADIO_BUTTON("Hard", FShadowRenderer::s_settings.m_smImpl, SmImpl::Hard);
-			IMGUI_RADIO_BUTTON("PCF", FShadowRenderer::s_settings.m_smImpl, SmImpl::PCF);
-			IMGUI_RADIO_BUTTON("VSM", FShadowRenderer::s_settings.m_smImpl, SmImpl::VSM);
-			IMGUI_RADIO_BUTTON("ESM", FShadowRenderer::s_settings.m_smImpl, SmImpl::ESM);
+			IMGUI_RADIO_BUTTON("Hard", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::Hard);
+			IMGUI_RADIO_BUTTON("PCF", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::PCF);
+			IMGUI_RADIO_BUTTON("VSM", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::VSM);
+			IMGUI_RADIO_BUTTON("ESM", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::ESM);
 			currentSmSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
 
 			ImGui::Separator();
@@ -182,17 +182,17 @@ public:
 			ImGui::Separator();
 			switch(FShadowRenderer::s_settings.m_smImpl)
 			{
-				case SmImpl::Hard:
+				case EShadowMapImpl::Hard:
 					//ImGui::Text("Hard");
 					break;
 
-				case SmImpl::PCF:
+				case EShadowMapImpl::PCF:
 					ImGui::Text("PCF");
 					IMGUI_FLOAT_SLIDER("X Offset", currentSmSettings->m_xOffset);
 					IMGUI_FLOAT_SLIDER("Y Offset", currentSmSettings->m_yOffset);
 					break;
 
-				case SmImpl::VSM:
+				case EShadowMapImpl::VSM:
 					ImGui::Text("VSM");
 					IMGUI_FLOAT_SLIDER("Min variance", currentSmSettings->m_customParam0);
 					IMGUI_FLOAT_SLIDER("Depth multiplier", currentSmSettings->m_customParam1);
@@ -204,7 +204,7 @@ public:
 					}
 					break;
 
-				case SmImpl::ESM:
+				case EShadowMapImpl::ESM:
 					ImGui::Text("ESM");
 					IMGUI_FLOAT_SLIDER("ESM Hardness", currentSmSettings->m_customParam0);
 					IMGUI_FLOAT_SLIDER("Depth multiplier", currentSmSettings->m_customParam1);

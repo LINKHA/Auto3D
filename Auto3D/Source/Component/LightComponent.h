@@ -3,6 +3,7 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Matrix3x4.h"
 #include "Math/Color.h"
+#include "Renderer/RendererDef.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -21,16 +22,16 @@ namespace ELightType
 	};
 };
 
-namespace EShadowMapType
-{
-	enum Data
-	{
-		HARD,
-		PCF,
-		ESM,
-		VSM
-	};
-}
+//namespace EShadowMapType
+//{
+//	enum Data
+//	{
+//		HARD,
+//		PCF,
+//		ESM,
+//		VSM
+//	};
+//}
 
 class AUTO_API ALightComponent : public AActorComponent
 {
@@ -63,8 +64,8 @@ public:
 		return m_ambientPower;
 	}
 
-	void SetShadowType(EShadowMapType::Data type) { _shadowMapType = type; }
-	EShadowMapType::Data GetShadowMapType() { return _shadowMapType; }
+	void SetShadowType(EShadowMapImpl::Data type) { _shadowMapImpl = type; }
+	EShadowMapImpl::Data GetShadowMapType() { return _shadowMapImpl; }
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
@@ -139,7 +140,7 @@ public:
 
 	AttenuationSpotOuter  m_attenuationSpotOuter;
 
-	EShadowMapType::Data _shadowMapType;
+	EShadowMapImpl::Data _shadowMapImpl;
 };
 
 }

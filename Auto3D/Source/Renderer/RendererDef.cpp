@@ -1,4 +1,4 @@
-#include "Renderer/RenderState.h"
+#include "Renderer//RendererDef.h"
 #include <bgfx/bgfx.h>
 
 namespace Auto3D
@@ -85,5 +85,4 @@ FRenderState FRenderState::_renderState[FRenderState::Count] =
 	, BGFX_STENCIL_NONE
 },
 };
-
 }

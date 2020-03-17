@@ -23,7 +23,6 @@
 
 #include "Resource/Material.h"
 #include "ShadowRenderer.h"
-#include "Renderer/RenderState.h"
 
 
 namespace Auto3D
@@ -295,7 +294,7 @@ void FForwardShadingRenderer::RenderBatches()
 					float mtxShadow[16];
 
 					const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
-					float zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+					float zadd = (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
 
 					const float mtxBias[16] =
 					{
@@ -314,7 +313,7 @@ void FForwardShadingRenderer::RenderBatches()
 					else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
 					{
 						const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
-						zadd = (DepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+						zadd = (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
 
 						const float mtxCropBias[2][TetrahedronFaces::Count][16] =
 						{
@@ -663,25 +662,25 @@ void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* cam
 					{
 						OMaterial* material = new OMaterial;
 						comp->GetPass()._material = material;
-						if (lightComponent->GetShadowMapType() == EShadowMapType::HARD)
+						if (lightComponent->GetShadowMapType() == EShadowMapImpl::Hard)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_HARD);
 							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
 							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
-						else if(lightComponent->GetShadowMapType() == EShadowMapType::PCF)
+						else if(lightComponent->GetShadowMapType() == EShadowMapImpl::PCF)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_PCF);
 							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
 							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
-						else if (lightComponent->GetShadowMapType() == EShadowMapType::ESM)
+						else if (lightComponent->GetShadowMapType() == EShadowMapImpl::ESM)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_ESM);
 							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
 							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
-						else if (lightComponent->GetShadowMapType() == EShadowMapType::VSM)
+						else if (lightComponent->GetShadowMapType() == EShadowMapImpl::VSM)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_VSM);
 							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");

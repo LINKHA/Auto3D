@@ -7,6 +7,7 @@
 #include "Component/MeshComponent.h"
 #include "Platform/PlatformDef.h"
 #include "Adapter/Ptr.h"
+#include "Renderer/RendererDef.h"
 
 #include <bgfx/bgfx.h>
 #include <stdint.h>
@@ -35,7 +36,7 @@ class ACameraComponent;
 //};
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
-class AUTO_API FForwardShadingRenderer : public ISceneRenderer
+class AUTO_API FForwardShadingRenderer : public IRenderer
 {
 public:
 	/// Construct and register subsystem.
