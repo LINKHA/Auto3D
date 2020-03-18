@@ -64,8 +64,8 @@ public:
 		return m_ambientPower;
 	}
 
-	void SetShadowType(EShadowMapImpl::Data type) { _shadowMapImpl = type; }
-	EShadowMapImpl::Data GetShadowMapType() { return _shadowMapImpl; }
+	void SetShadowImpl(EShadowMapImpl::Data type) { _shadowMapImpl = type; }
+	EShadowMapImpl::Data GetShadowMapImpl() { return _shadowMapImpl; }
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);

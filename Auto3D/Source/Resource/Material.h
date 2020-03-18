@@ -48,6 +48,8 @@ public:
 
 	EMaterialShaderType::Data GetShaderType() { return _shaderType; }
 
+	bool IsDefault();
+
 	static OMaterial* DefaultMaterial();
 private:
 	/// Default material.

@@ -2,6 +2,7 @@
 #include "AutoConfig.h"
 #include "Adapter/Ptr.h"
 #include "Container/String.h"
+#include "Container//HashMap.h"
 
 #include <bgfx/bgfx.h>
 namespace Auto3D
@@ -37,7 +38,11 @@ public:
 	bool CreateVertexShader(const FString& path);
 	bool CreatePixelShader(const FString& path);
 
+	void AttachShader(const FString& vsPath, const FString& psPath);
+
 	bool IsValid();
+
+	static THashMap<FString, bgfx::ProgramHandle> _programHandleMap;
 private:
 	/// Shader program identifier.
 	bgfx::ProgramHandle _program;

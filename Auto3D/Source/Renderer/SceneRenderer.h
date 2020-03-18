@@ -11,7 +11,7 @@ public:
 	IRenderer() {}
 	virtual ~IRenderer() {}
 	
-	virtual void Init(uint32_t width, uint32_t height) = 0;
+	virtual void Init() = 0;
 
 	// FSceneRenderer interface
 	virtual void Render() = 0;

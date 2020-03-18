@@ -4,6 +4,7 @@
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
 
+#include "Component/LightComponent.h"
 #include "Component/MeshComponent.h"
 #include "Platform/PlatformDef.h"
 #include "Adapter/Ptr.h"
@@ -44,7 +45,7 @@ public:
 	/// Destruct.
 	~FForwardShadingRenderer();
 
-	void Init(uint32_t width, uint32_t height)override;
+	void Init()override;
 	/// Render scene
 	void Render()override;
 
@@ -54,6 +55,8 @@ public:
 	void CollectActors(AWorld* world, ACameraComponent* camera);
 
 	void CollectBatch();
+
+	void AttachShader(FPass& pass,ALightComponent* lightComponent);
 
 	void PrepareView();
 
@@ -66,7 +69,9 @@ public:
 	int GetInvisibleBatch() { return _invisibleBatch; }
 	int GetVisibleBatch() { return _visibleBatch; }
 private:
+	EDepthImpl::Data _depthImpl;
 
+	FDefaultRendererPrograms _programs;
 	/// FBatch queues per pass.
 	FRenderQueue _batchQueues;
 

@@ -4,6 +4,7 @@
 
 namespace Auto3D
 {
+THashMap<FString, bgfx::ProgramHandle> FShaderProgram::_programHandleMap;
 
 FShaderProgram::FShaderProgram():
 	_program(BGFX_INVALID_HANDLE)
@@ -19,27 +20,36 @@ FShaderProgram::FShaderProgram(OShader* vs, OShader* ps) :
 
 FShaderProgram::~FShaderProgram()
 {
-	if (isValid(_program))
-	{
-		bgfx::destroy(_program);
-	}
 }
 
 bool FShaderProgram::Link()
 {
+	FString shaderKey = _vs->GetPathName() + _ps->GetPathName();
+	auto it = _programHandleMap.Find(shaderKey);
+	if (it != _programHandleMap.End())
+	{
+		_program = it->_second;
+		return true;
+	}
+
 	bgfx::ShaderHandle vsh = _vs->GetShaderHandle();
 	bgfx::ShaderHandle psh = BGFX_INVALID_HANDLE;
+	
 	if (_ps)
 	{
 		psh = _ps->GetShaderHandle();
 	}
 	_program = bgfx::createProgram(vsh, psh, true /* destroy shaders when program is destroyed */);
+	_programHandleMap[shaderKey] = _program;
 
 	return true;
 }
 
 bool FShaderProgram::Release()
 {
+	FString shaderKey = _vs->GetPathName() + _ps->GetPathName();
+	_programHandleMap.Erase(shaderKey);
+
 	bgfx::destroy(_program);
 
 	return true;
@@ -89,6 +99,17 @@ bool FShaderProgram::CreatePixelShader(const FString& path)
 		return false;
 
 	return true;
+}
+
+void FShaderProgram::AttachShader(const FString& vsPath, const FString& psPath)
+{
+	if(vsPath!=FString::EMPTY)
+		CreateVertexShader(vsPath);
+
+	if (psPath != FString::EMPTY)
+		CreatePixelShader(psPath);
+
+	Link();
 }
 
 bool FShaderProgram::IsValid()

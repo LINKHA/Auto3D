@@ -84,7 +84,8 @@ FForwardShadingRenderer::FForwardShadingRenderer() :
 	_stencil(0),
 	_invisibleBatch(0),
 	_visibleBatch(0),
-	_currentCamera(nullptr)
+	_currentCamera(nullptr),
+	_depthImpl(EDepthImpl::InvZ)
 {
 
 }
@@ -94,12 +95,10 @@ FForwardShadingRenderer::~FForwardShadingRenderer()
 
 }
 
-void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
+void FForwardShadingRenderer::Init()
 {
 	FArgs& args = FArgs::Get();
-
-	_backbufferSize = TVector2F(width,height);
-
+	_backbufferSize = TVector2F(AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
 	_debug = BGFX_DEBUG_NONE;
 	_reset = 0
 		| BGFX_RESET_VSYNC
@@ -123,6 +122,8 @@ void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 		, _depth
 		, _stencil
 	);
+
+	_programs.Init();
 
 	FShadowRenderer::Get().Init();
 }
@@ -254,6 +255,7 @@ void FForwardShadingRenderer::RenderBatches()
 				OMaterial* material = batch._pass._material;
 				TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 				ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+				AttachShader(batch._pass, lightComponent);
 
 				uint8_t drawNum;
 				if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
@@ -658,33 +660,25 @@ void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* cam
 					if (!comp->GetPass().isValid())
 						continue;
 					// Default material automatically matches shader according to the scene
-					if (comp->GetPass()._material == OMaterial::DefaultMaterial())
+					if (comp->GetPass()._material->IsDefault())
 					{
 						OMaterial* material = new OMaterial;
 						comp->GetPass()._material = material;
-						if (lightComponent->GetShadowMapType() == EShadowMapImpl::Hard)
+						if (lightComponent->GetShadowMapImpl() == EShadowMapImpl::Hard)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_HARD);
-							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
-							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
-						else if(lightComponent->GetShadowMapType() == EShadowMapImpl::PCF)
+						else if(lightComponent->GetShadowMapImpl() == EShadowMapImpl::PCF)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_PCF);
-							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
-							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
-						else if (lightComponent->GetShadowMapType() == EShadowMapImpl::ESM)
+						else if (lightComponent->GetShadowMapImpl() == EShadowMapImpl::ESM)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_ESM);
-							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
-							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
-						else if (lightComponent->GetShadowMapType() == EShadowMapImpl::VSM)
+						else if (lightComponent->GetShadowMapImpl() == EShadowMapImpl::VSM)
 						{
 							material->SetShaderType(EMaterialShaderType::SHADOW_VSM);
-							material->GetShaderProgram().CreateVertexShader("vs_shadowmaps_color_lighting");
-							material->GetShaderProgram().CreatePixelShader("fs_shadowmaps_color_lighting_hard");
 						}
 					}
 				}
@@ -729,6 +723,30 @@ void FForwardShadingRenderer::CollectBatch()
 	_batchQueues.Sort();
 }
 
+void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightComponent)
+{
+	FShaderProgram shaderProgram;
+
+	if (lightComponent)
+	{
+		EShadowMapType::Data shadowMapType;
+		EShadowMapImpl::Data shadowMapImpl = lightComponent->GetShadowMapImpl();
+		switch (lightComponent->GetLightType())
+		{
+		case ELightType::DirectionalLight:
+			shadowMapType = EShadowMapType::Cascade;
+			break;
+		case ELightType::SpotLight:
+			shadowMapType = EShadowMapType::Single;
+			break;		
+		case ELightType::PointLight:
+			shadowMapType = EShadowMapType::Omni;
+			break;
+		}
+		shaderProgram = _programs._colorLighting[shadowMapType][_depthImpl][shadowMapImpl];
+	}
+	pass._material->GetShaderProgram() = shaderProgram;
+}
 
 void FForwardShadingRenderer::PrepareView()
 {

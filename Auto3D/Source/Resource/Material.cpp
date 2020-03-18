@@ -121,6 +121,11 @@ THashMap<FString, bgfx::UniformHandle>& OMaterial::GetUniforms()
 	return _uniforms;
 }
 
+bool OMaterial::IsDefault()
+{
+	return this == _defaultMaterial;
+}
+
 OMaterial* OMaterial::DefaultMaterial()
 {
 	// Create on demand

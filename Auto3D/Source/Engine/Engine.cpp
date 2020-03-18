@@ -34,7 +34,7 @@ bool FEngine::Init()
 		((unsigned)(realTime._minute & 0xff) << 8) |
 		((unsigned)(realTime._second & 0xff)));
 
-	renderer->Init(AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
+	renderer->Init();
 	imguiCreate();
 
 	return true;

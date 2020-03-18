@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-
+#include "Renderer/ShaderProgram.h"
 #define RENDERVIEW_SHADOWMAP_0_ID 1
 #define RENDERVIEW_SHADOWMAP_1_ID 2
 #define RENDERVIEW_SHADOWMAP_2_ID 3
@@ -94,6 +94,13 @@ namespace EShadowMapType
 
 		Count
 	};
+};
+
+struct FDefaultRendererPrograms
+{
+	void Init();
+
+	FShaderProgram _colorLighting[EShadowMapType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
 };
 
 }
