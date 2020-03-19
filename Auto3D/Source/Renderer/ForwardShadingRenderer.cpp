@@ -423,7 +423,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 					Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
 						, modelMatrix.Data()
-						, *currentShadowMapSettings->m_progDraw
+						, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
 						, FRenderState::_renderState[FRenderState::Default]
 						, true
 					);
