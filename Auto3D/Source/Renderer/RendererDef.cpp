@@ -84,6 +84,13 @@ FRenderState FRenderState::_renderState[FRenderState::Count] =
 	, BGFX_STENCIL_NONE
 	, BGFX_STENCIL_NONE
 },
+{// Occlusion
+	BGFX_STATE_DEPTH_TEST_LEQUAL
+	| BGFX_STATE_CULL_CCW
+	, UINT32_MAX
+	, BGFX_STENCIL_NONE
+	, BGFX_STENCIL_NONE
+},
 };
 
 void FDefaultRendererPrograms::Init()

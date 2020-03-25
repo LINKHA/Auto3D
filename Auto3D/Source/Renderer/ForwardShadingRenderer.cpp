@@ -31,7 +31,46 @@ namespace Auto3D
 #define RENDER_SCENE_PASS_ID  21
 #define RENDER_OCCLUSION_PASS_ID 22
 
-void Submit(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
+void SubmitShadow(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
+{
+
+	for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+	{
+
+		// Set uniforms.
+		FShadowRenderer::Get().SubmitPerDrawUniforms();
+
+		// Set model matrix for rendering.
+		bgfx::setTransform(_mtx);
+		bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+		bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+
+		// Set textures.
+		if (bgfx::kInvalidHandle != _texture.idx)
+		{
+			bgfx::setTexture(0, FShadowRenderer::s_texColor, _texture);
+		}
+
+		if (_submitShadowMaps)
+		{
+			for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+			{
+				bgfx::setTexture(4 + ii, FShadowRenderer::s_shadowMap[ii], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
+			}
+		}
+
+		bgfx::setCondition(geometry->_occlusionQuery, true);
+
+		// Apply render state.
+		bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
+		bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
+
+		// Submit.
+		bgfx::submit(_viewId, _program);
+	}
+}
+
+void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
 {
 
 	for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
@@ -64,14 +103,20 @@ void Submit(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHand
 		bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
 
 		// Submit.
-		bgfx::submit(_viewId, _program);
+		bgfx::submit(_viewId, _program, geometry->_occlusionQuery);
 	}
 }
 
-void Submit(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
+void SubmitShadow(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
 {
 	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
-	Submit(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
+	SubmitShadow(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
+}
+
+void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
+{
+	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
+	SubmitOcclusion(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
 }
 
 
@@ -282,7 +327,7 @@ void FForwardShadingRenderer::RenderBatches()
 					}
 
 					// Floor.
-					Submit(geometry, viewId
+					SubmitShadow(geometry, viewId
 						, modelMatrix.Data()
 						, *currentShadowMapSettings->m_progPack
 						, FRenderState::_renderState[renderStateIndex]
@@ -421,7 +466,7 @@ void FForwardShadingRenderer::RenderBatches()
 						bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
 					}
 
-					Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
+					SubmitShadow(geometry, RENDERVIEW_DRAWSCENE_0_ID
 						, modelMatrix.Data()
 						, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
 						, FRenderState::_renderState[FRenderState::Default]
@@ -430,9 +475,61 @@ void FForwardShadingRenderer::RenderBatches()
 
 				}
 
+				//  Occlusion query pipeline
+				{
 
+					SubmitOcclusion(geometry, RENDER_OCCLUSION_PASS_ID
+						, modelMatrix.Data()
+						, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
+						, FRenderState::_renderState[FRenderState::Occlusion]
+						, true
+					);
+				}
+				switch (bgfx::getResult(geometry->_occlusionQuery))
+				{
+				case bgfx::OcclusionQueryResult::Invisible:
+					_invisibleBatch++; break;
+				case bgfx::OcclusionQueryResult::Visible:
+					_visibleBatch++; break;
+				default:
+					break;
+				}
 
+				 //Ordinary pipeline
+					//		{
+					//			bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
+					//			bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+					//			bgfx::setTexture(sceneState._textures[0]._stage
+					//				, sceneState._textures[0]._sampler
+					//				, sceneState._textures[0]._texture
+					//				, sceneState._textures[0]._flags
+					//			);
+					//			bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+					//			bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+					//			bgfx::setCondition(geometry->_occlusionQuery, true);
+					//			bgfx::setInstanceDataBuffer(&idb);
+					//			bgfx::setState(sceneState._state);
+					//			bgfx::submit(sceneState._viewId, material->GetShaderInstanceProgram().GetProgram(), 0, i != geometry->_vertexBufferHandles.Size() - 1);
+					//		}
 
+					//		// occlusion query pipeline
+					//		{
+					//			bgfx::setUniform(u_shadowMtx, mtxShadow.Data());
+					//			bgfx::setUniform(u_lightPos, TVector4F(-lightPosition, 0.0f).Data());
+					//			bgfx::setTexture(sceneState._textures[0]._stage
+					//				, sceneState._textures[0]._sampler
+					//				, sceneState._textures[0]._texture
+					//				, sceneState._textures[0]._flags
+					//			);
+					//			bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+					//			bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+					//			bgfx::setInstanceDataBuffer(&idb);
+					//			bgfx::setState(0
+					//				| BGFX_STATE_DEPTH_TEST_LEQUAL
+					//				| BGFX_STATE_CULL_CCW
+					//			);
+					//			bgfx::submit(RENDER_OCCLUSION_PASS_ID, material->GetShaderInstanceProgram().GetProgram(), geometry->_occlusionQuery);
+					//		}
 
 
 

@@ -328,7 +328,7 @@ void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 		);
 	ImGui::PopStyleColor();
 
-	ImGui::Text("Submit CPU %0.3f, GPU %0.3f (L: %d)"
+	ImGui::Text("SubmitShadow CPU %0.3f, GPU %0.3f (L: %d)"
 		, double(stats->cpuTimeEnd - stats->cpuTimeBegin)*toMsCpu
 		, double(stats->gpuTimeEnd - stats->gpuTimeBegin)*toMsGpu
 		, stats->maxGpuLatency

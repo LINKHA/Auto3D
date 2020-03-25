@@ -37,6 +37,7 @@ struct FRenderState
 		Custom_BlendLightTexture,
 		Custom_DrawPlaneBottom,
 
+		Occlusion,
 		Count
 	};
 
