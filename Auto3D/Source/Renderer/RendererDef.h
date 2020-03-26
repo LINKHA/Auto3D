@@ -97,11 +97,21 @@ namespace EShadowMapType
 	};
 };
 
+namespace ERenderInstanceType
+{
+	enum Data
+	{
+		STAIC,
+		INSTANCE,
+
+		Count
+	};
+}
 struct FDefaultRendererPrograms
 {
 	void Init();
 
-	FShaderProgram _colorLighting[EShadowMapType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
+	FShaderProgram _colorLighting[EShadowMapType::Count][EDepthImpl::Count][EShadowMapImpl::Count][ERenderInstanceType::Count];
 };
 
 }

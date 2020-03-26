@@ -584,7 +584,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 							SubmitShadowInstance(geometry, RENDERVIEW_DRAWSCENE_0_ID
 								, &idb
-								, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
+								, /**currentShadowMapSettings->m_progDraw*/material->GetShaderInstanceProgram().GetProgram()
 								, FRenderState::_renderState[FRenderState::Default]
 								, true
 							);
@@ -595,7 +595,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 							SubmitOcclusionInstace(geometry, RENDER_OCCLUSION_PASS_ID
 								, &idb
-								, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
+								, /**currentShadowMapSettings->m_progDraw*/material->GetShaderInstanceProgram().GetProgram()
 								, FRenderState::_renderState[FRenderState::Occlusion]
 								, true
 							);
@@ -1148,7 +1148,7 @@ void FForwardShadingRenderer::CollectBatch()
 void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightComponent)
 {
 	FShaderProgram shaderProgram;
-
+	FShaderProgram shaderProgramInstance;
 	if (lightComponent)
 	{
 		EShadowMapType::Data shadowMapType;
@@ -1165,9 +1165,11 @@ void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightCo
 			shadowMapType = EShadowMapType::Omni;
 			break;
 		}
-		shaderProgram = _programs._colorLighting[shadowMapType][_depthImpl][shadowMapImpl];
+		shaderProgram = _programs._colorLighting[shadowMapType][_depthImpl][shadowMapImpl][ERenderInstanceType::STAIC];
+		shaderProgramInstance = _programs._colorLighting[shadowMapType][_depthImpl][shadowMapImpl][ERenderInstanceType::INSTANCE];
 	}
 	pass._material->GetShaderProgram() = shaderProgram;
+	pass._material->GetShaderInstanceProgram() = shaderProgramInstance;
 }
 
 void FForwardShadingRenderer::PrepareView()

@@ -268,7 +268,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
 				},
 				{ //EShadowMapImpl::PCF
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -285,7 +285,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
 				},
 				{ //EShadowMapImpl::VSM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -302,7 +302,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
 				},
 				{ //EShadowMapImpl::ESM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -319,7 +319,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
 				}
 
 			},
@@ -340,7 +340,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
 				},
 				{ //EShadowMapImpl::PCF
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -357,7 +357,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
 				},
 				{ //EShadowMapImpl::VSM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -374,7 +374,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
 				},
 				{ //EShadowMapImpl::ESM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -391,7 +391,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
 				}
 
 			}
@@ -416,7 +416,7 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
 				},
 				{ //EShadowMapImpl::PCF
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -433,7 +433,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
 				},
 				{ //EShadowMapImpl::VSM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -450,7 +450,7 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
 				},
 				{ //EShadowMapImpl::ESM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -467,7 +467,7 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
 				}
 
 			},
@@ -488,7 +488,7 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
 				},
 				{ //EShadowMapImpl::PCF
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -505,7 +505,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
 				},
 				{ //EShadowMapImpl::VSM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -522,7 +522,7 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
 				},
 				{ //EShadowMapImpl::ESM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -539,7 +539,7 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
 				}
 
 			}
@@ -564,7 +564,7 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
 				},
 				{ //EShadowMapImpl::PCF
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -581,7 +581,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
 				},
 				{ //EShadowMapImpl::VSM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -598,7 +598,7 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
 				},
 				{ //EShadowMapImpl::ESM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -615,7 +615,7 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
 				}
 
 			},
@@ -636,7 +636,7 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
 				},
 				{ //EShadowMapImpl::PCF
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -653,7 +653,7 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
 				},
 				{ //EShadowMapImpl::VSM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -670,7 +670,7 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
+					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
 				},
 				{ //EShadowMapImpl::ESM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -687,7 +687,7 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
 					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
+				//	, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
 				}
 
 			}
