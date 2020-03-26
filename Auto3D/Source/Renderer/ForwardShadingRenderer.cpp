@@ -219,8 +219,7 @@ FForwardShadingRenderer::FForwardShadingRenderer() :
 	_stencil(0),
 	_invisibleBatch(0),
 	_visibleBatch(0),
-	_currentCamera(nullptr),
-	_depthImpl(EDepthImpl::InvZ)
+	_currentCamera(nullptr)
 {
 
 }
@@ -1165,8 +1164,8 @@ void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightCo
 			shadowMapType = EShadowMapType::Omni;
 			break;
 		}
-		shaderProgram = _programs._colorLighting[shadowMapType][_depthImpl][shadowMapImpl][ERenderInstanceType::STAIC];
-		shaderProgramInstance = _programs._colorLighting[shadowMapType][_depthImpl][shadowMapImpl][ERenderInstanceType::INSTANCE];
+		shaderProgram = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][shadowMapImpl][ERenderInstanceType::STAIC];
+		shaderProgramInstance = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][shadowMapImpl][ERenderInstanceType::INSTANCE];
 	}
 	pass._material->GetShaderProgram() = shaderProgram;
 	pass._material->GetShaderInstanceProgram() = shaderProgramInstance;

@@ -205,7 +205,8 @@ void splitFrustum(float* _splits, uint8_t _numSplits, float _near, float _far, f
 }
 
 
-FShadowRenderer::FShadowRenderer() 
+FShadowRenderer::FShadowRenderer() :
+	_shadowMapImpl(EShadowMapImpl::VSM)
 {
 	
 }
@@ -267,8 +268,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstace
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstace
 				},
 				{ //EShadowMapImpl::PCF
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -284,8 +287,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -301,8 +306,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -318,8 +325,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			},
@@ -339,8 +348,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -356,8 +367,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -373,8 +386,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -390,8 +405,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			}
@@ -415,8 +432,10 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -432,8 +451,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -449,8 +470,10 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -466,8 +489,10 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			},
@@ -487,8 +512,10 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -504,8 +531,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -521,8 +550,10 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -538,8 +569,10 @@ void FShadowRenderer::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			}
@@ -563,8 +596,10 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -580,8 +615,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -597,8 +634,10 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -614,8 +653,10 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			},
@@ -635,8 +676,10 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -652,8 +695,10 @@ void FShadowRenderer::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -669,8 +714,10 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM] //m_progPack
-					//, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -686,8 +733,10 @@ void FShadowRenderer::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA] //m_progPack
-				//	, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM] //m_progDraw
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			}
