@@ -444,7 +444,7 @@ void FForwardShadingRenderer::RenderBatches()
 							// Floor.
 							SubmitShadowInstance(geometry, viewId
 								, &idb
-								, *currentShadowMapSettings->m_progPack
+								, *currentShadowMapSettings->m_progPackInstance
 								, FRenderState::_renderState[renderStateIndex]
 							);
 
@@ -644,7 +644,7 @@ void FForwardShadingRenderer::RenderBatches()
 							renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 						}
 
-						// Floor.
+						// Shadow pack.
 						SubmitShadow(geometry, viewId
 							, modelMatrix.Data()
 							, *currentShadowMapSettings->m_progPack
