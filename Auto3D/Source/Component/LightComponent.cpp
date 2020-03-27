@@ -13,8 +13,7 @@ namespace Auto3D
 {
 
 ALightComponent::ALightComponent() :
-	_lightType(ELightType::DirectionalLight),
-	_shadowMapImpl(EShadowMapImpl::Hard)
+	_lightType(ELightType::DirectionalLight)
 {
 
 }

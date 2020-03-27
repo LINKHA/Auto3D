@@ -1085,22 +1085,9 @@ void FForwardShadingRenderer::CollectActors(AWorld* world, ACameraComponent* cam
 					{
 						OMaterial* material = new OMaterial;
 						comp->GetPass()._material = material;
-						if (lightComponent->GetShadowMapImpl() == EShadowMapImpl::Hard)
-						{
-							material->SetShaderType(EMaterialShaderType::SHADOW_HARD);
-						}
-						else if(lightComponent->GetShadowMapImpl() == EShadowMapImpl::PCF)
-						{
-							material->SetShaderType(EMaterialShaderType::SHADOW_PCF);
-						}
-						else if (lightComponent->GetShadowMapImpl() == EShadowMapImpl::ESM)
-						{
-							material->SetShaderType(EMaterialShaderType::SHADOW_ESM);
-						}
-						else if (lightComponent->GetShadowMapImpl() == EShadowMapImpl::VSM)
-						{
-							material->SetShaderType(EMaterialShaderType::SHADOW_VSM);
-						}
+					
+						material->SetShaderType(EMaterialShaderType::SHADOW);
+						
 					}
 				}
 			}
@@ -1151,7 +1138,6 @@ void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightCo
 	if (lightComponent)
 	{
 		EShadowMapType::Data shadowMapType;
-		EShadowMapImpl::Data shadowMapImpl = lightComponent->GetShadowMapImpl();
 		switch (lightComponent->GetLightType())
 		{
 		case ELightType::DirectionalLight:
@@ -1164,8 +1150,8 @@ void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightCo
 			shadowMapType = EShadowMapType::Omni;
 			break;
 		}
-		shaderProgram = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][shadowMapImpl][ERenderInstanceType::STAIC];
-		shaderProgramInstance = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][shadowMapImpl][ERenderInstanceType::INSTANCE];
+		shaderProgram = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl][ERenderInstanceType::STAIC];
+		shaderProgramInstance = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl][ERenderInstanceType::INSTANCE];
 	}
 	pass._material->GetShaderProgram() = shaderProgram;
 	pass._material->GetShaderInstanceProgram() = shaderProgramInstance;

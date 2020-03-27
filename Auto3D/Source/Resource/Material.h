@@ -15,10 +15,7 @@ namespace EMaterialShaderType
 	enum Data
 	{
 		DEFAULT,
-		SHADOW_HARD,
-		SHADOW_PCF,
-		SHADOW_ESM,
-		SHADOW_VSM,
+		SHADOW,
 	};
 }
 

@@ -63,9 +63,6 @@ public:
 	{
 		return m_ambientPower;
 	}
-
-	void SetShadowImpl(EShadowMapImpl::Data type) { _shadowMapImpl = type; }
-	EShadowMapImpl::Data GetShadowMapImpl() { return _shadowMapImpl; }
 public:
 	/// Handle being assigned to a new parent node.
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
@@ -139,8 +136,6 @@ public:
 	TVector4F m_spotDirectionInner_viewSpace;
 
 	AttenuationSpotOuter  m_attenuationSpotOuter;
-
-	EShadowMapImpl::Data _shadowMapImpl;
 };
 
 }
