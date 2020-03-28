@@ -13,8 +13,8 @@ bool FShadowRenderer::s_flipV = false;
 float FShadowRenderer::s_texelHalf = 0.0f;
 bgfx::UniformHandle FShadowRenderer::s_texColor;
 bgfx::UniformHandle FShadowRenderer::s_shadowMap[ShadowMapRenderTargets::Count];
-ShadowMapSettings FShadowRenderer::s_smSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
-SceneSettings FShadowRenderer::s_settings;
+FShadowMapSettings FShadowRenderer::_shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
+FShadowSceneSettings FShadowRenderer::_shadowSceneSettings;
 uint16_t FShadowRenderer::s_currentShadowMapSize;
 bgfx::FrameBufferHandle FShadowRenderer::s_rtShadowMap[ShadowMapRenderTargets::Count];
 bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
@@ -248,7 +248,7 @@ void FShadowRenderer::Init()
 	// Programs.
 	_programs.init();
 
-	ShadowMapSettings smSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count]=
+	FShadowMapSettings smSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count]=
 	{
 		{ //LightType::Spot
 
@@ -742,24 +742,24 @@ void FShadowRenderer::Init()
 			}
 		}
 	};
-	bx::memCopy(s_smSettings, smSettings, sizeof(smSettings));
+	bx::memCopy(_shadowMapSettings, smSettings, sizeof(smSettings));
 
-	FShadowRenderer::s_settings.m_lightType = ELightType::SpotLight;
-	FShadowRenderer::s_settings.m_depthImpl = EDepthImpl::InvZ;
-	FShadowRenderer::s_settings.m_smImpl = EShadowMapImpl::Hard;
-	FShadowRenderer::s_settings.m_spotOuterAngle = 45.0f;
-	FShadowRenderer::s_settings.m_spotInnerAngle = 30.0f;
-	FShadowRenderer::s_settings.m_fovXAdjust = 0.0f;
-	FShadowRenderer::s_settings.m_fovYAdjust = 0.0f;
-	FShadowRenderer::s_settings.m_coverageSpotL = 90.0f;
-	FShadowRenderer::s_settings.m_splitDistribution = 0.6f;
-	FShadowRenderer::s_settings.m_numSplits = 4;
-	FShadowRenderer::s_settings.m_drawDepthBuffer = false;
-	FShadowRenderer::s_settings.m_showSmCoverage = false;
-	FShadowRenderer::s_settings.m_stencilPack = true;
-	FShadowRenderer::s_settings.m_stabilize = true;
+	FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::SpotLight;
+	FShadowRenderer::_shadowSceneSettings.m_depthImpl = EDepthImpl::InvZ;
+	FShadowRenderer::_shadowSceneSettings.m_smImpl = EShadowMapImpl::Hard;
+	FShadowRenderer::_shadowSceneSettings.m_spotOuterAngle = 45.0f;
+	FShadowRenderer::_shadowSceneSettings.m_spotInnerAngle = 30.0f;
+	FShadowRenderer::_shadowSceneSettings.m_fovXAdjust = 0.0f;
+	FShadowRenderer::_shadowSceneSettings.m_fovYAdjust = 0.0f;
+	FShadowRenderer::_shadowSceneSettings.m_coverageSpotL = 90.0f;
+	FShadowRenderer::_shadowSceneSettings.m_splitDistribution = 0.6f;
+	FShadowRenderer::_shadowSceneSettings.m_numSplits = 4;
+	FShadowRenderer::_shadowSceneSettings.m_drawDepthBuffer = false;
+	FShadowRenderer::_shadowSceneSettings.m_showSmCoverage = false;
+	FShadowRenderer::_shadowSceneSettings.m_stencilPack = true;
+	FShadowRenderer::_shadowSceneSettings.m_stabilize = true;
 
-	ShadowMapSettings* currentSmSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+	FShadowMapSettings* currentSmSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
 
 	// Render targets.
 	uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
@@ -826,7 +826,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 	_uniforms.submitConstUniforms();
 
-	ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+	FShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
 	// Update uniforms.
 	_uniforms.m_shadowMapBias = currentShadowMapSettings->m_bias;
 	_uniforms.m_shadowMapOffset = currentShadowMapSettings->m_normalOffset;
@@ -837,30 +837,30 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	_uniforms.m_YNum = currentShadowMapSettings->m_yNum;
 	_uniforms.m_XOffset = currentShadowMapSettings->m_xOffset;
 	_uniforms.m_YOffset = currentShadowMapSettings->m_yOffset;
-	_uniforms.m_showSmCoverage = float(FShadowRenderer::s_settings.m_showSmCoverage);
+	_uniforms.m_showSmCoverage = float(FShadowRenderer::_shadowSceneSettings.m_showSmCoverage);
 	_uniforms.m_lightPtr = light;
 	_uniforms.m_colorPtr = light->GetLightColor().Data();
 
 	switch (light->GetLightType())
 	{
 		case ELightType::DirectionalLight:
-			FShadowRenderer::s_settings.m_lightType = ELightType::DirectionalLight;
+			FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::DirectionalLight;
 			break;
 		case ELightType::PointLight:
-			FShadowRenderer::s_settings.m_lightType = ELightType::PointLight;
+			FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::PointLight;
 			break;
 		case ELightType::SpotLight:
-			FShadowRenderer::s_settings.m_lightType = ELightType::SpotLight;
+			FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::SpotLight;
 			break;
 
 	default:
 		break;
 	}
 
-	if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+	if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 	{
-		light->m_attenuationSpotOuter.m_outer = FShadowRenderer::s_settings.m_spotOuterAngle;
-		light->m_spotDirectionInner.m_inner = FShadowRenderer::s_settings.m_spotInnerAngle;
+		light->m_attenuationSpotOuter.m_outer = FShadowRenderer::_shadowSceneSettings.m_spotOuterAngle;
+		light->m_spotDirectionInner.m_inner = FShadowRenderer::_shadowSceneSettings.m_spotInnerAngle;
 	}
 	else
 	{
@@ -883,7 +883,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	TVector3F lightPosition = light->GetOwner()->GetTransform()->GetPosition();
 	TVector3F lightDirection = light->GetOwner()->GetTransform()->GetDirection();
 
-	if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+	if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 	{
 		
 		light->m_position._x = -lightPosition._x;
@@ -932,7 +932,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			FShadowRenderer::s_rtShadowMap[0] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 		}
 
-		if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		{
 			for (uint8_t ii = 1; ii < ShadowMapRenderTargets::Count; ++ii)
 			{
@@ -953,9 +953,9 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		FShadowRenderer::s_rtBlur = bgfx::createFrameBuffer(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
 	}
 
-	if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+	if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 	{
-		const float fovy = FShadowRenderer::s_settings.m_coverageSpotL;
+		const float fovy = FShadowRenderer::_shadowSceneSettings.m_coverageSpotL;
 		const float aspect = 1.0f;
 		bx::mtxProj(
 			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()
@@ -967,7 +967,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		);
 
 		//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
-		if (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
+		if (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl)
 		{
 			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[10] /= currentShadowMapSettings->m_far;
 			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
@@ -976,7 +976,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(light->m_spotDirectionInner.m_v));
 		bx::mtxLookAt(FShadowRenderer::s_lightView[TetrahedronFaces::Green].Data(), bx::load<bx::Vec3>(light->m_position.Data()), at);
 	}
-	else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+	else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 	{
 		float ypr[TetrahedronFaces::Count][3] =
 		{
@@ -987,10 +987,10 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		};
 
 
-		if (FShadowRenderer::s_settings.m_stencilPack)
+		if (FShadowRenderer::_shadowSceneSettings.m_stencilPack)
 		{
-			const float fovx = 143.98570868f + 3.51f + FShadowRenderer::s_settings.m_fovXAdjust;
-			const float fovy = 125.26438968f + 9.85f + FShadowRenderer::s_settings.m_fovYAdjust;
+			const float fovx = 143.98570868f + 3.51f + FShadowRenderer::_shadowSceneSettings.m_fovXAdjust;
+			const float fovy = 125.26438968f + 9.85f + FShadowRenderer::_shadowSceneSettings.m_fovYAdjust;
 			const float aspect = bx::tan(bx::toRad(fovx*0.5f)) / bx::tan(bx::toRad(fovy*0.5f));
 
 			bx::mtxProj(
@@ -1003,7 +1003,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			);
 
 			//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
-			if (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
+			if (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl)
 			{
 				FShadowRenderer::s_lightProj[ProjType::Vertical].Data()[10] /= currentShadowMapSettings->m_far;
 				FShadowRenderer::s_lightProj[ProjType::Vertical].Data()[14] /= currentShadowMapSettings->m_far;
@@ -1015,8 +1015,8 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			ypr[TetrahedronFaces::Red][2] = bx::toRad(-90.0f);
 		}
 
-		const float fovx = 143.98570868f + 7.8f + FShadowRenderer::s_settings.m_fovXAdjust;
-		const float fovy = 125.26438968f + 3.0f + FShadowRenderer::s_settings.m_fovYAdjust;
+		const float fovx = 143.98570868f + 7.8f + FShadowRenderer::_shadowSceneSettings.m_fovXAdjust;
+		const float fovy = 125.26438968f + 3.0f + FShadowRenderer::_shadowSceneSettings.m_fovYAdjust;
 		const float aspect = bx::tan(bx::toRad(fovx*0.5f)) / bx::tan(bx::toRad(fovy*0.5f));
 
 		bx::mtxProj(
@@ -1029,7 +1029,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		);
 
 		//For linear depth, prevent depth division by variable w component in shaders and divide here by far plane
-		if (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl)
+		if (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl)
 		{
 			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[10] /= currentShadowMapSettings->m_far;
 			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
@@ -1079,14 +1079,14 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 		float splitSlices[maxNumSplits * 2];
 		splitFrustum(splitSlices
-			, uint8_t(FShadowRenderer::s_settings.m_numSplits)
+			, uint8_t(FShadowRenderer::_shadowSceneSettings.m_numSplits)
 			, currentShadowMapSettings->m_near
 			, currentShadowMapSettings->m_far
-			, FShadowRenderer::s_settings.m_splitDistribution
+			, FShadowRenderer::_shadowSceneSettings.m_splitDistribution
 		);
 
 		// Update uniforms.
-		for (uint8_t ii = 0, ff = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, ff += 2)
+		for (uint8_t ii = 0, ff = 1; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii, ff += 2)
 		{
 			// This lags for 1 frame, but it's not a problem.
 			_uniforms.m_csmFarDistances[ii] = splitSlices[ff];
@@ -1107,7 +1107,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 		const uint8_t numCorners = 8;
 		float frustumCorners[maxNumSplits][numCorners][3];
-		for (uint8_t ii = 0, nn = 0, ff = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, nn += 2, ff += 2)
+		for (uint8_t ii = 0, nn = 0, ff = 1; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii, nn += 2, ff += 2)
 		{
 			// Compute frustum corners for one split in world space.
 			worldSpaceFrustumCorners((float*)frustumCorners[ii], splitSlices[nn], splitSlices[ff], projWidth, projHeight, mtxViewInv);
@@ -1131,7 +1131,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			float scalex = 2.0f / (maxproj.x - minproj.x);
 			float scaley = 2.0f / (maxproj.y - minproj.y);
 
-			if (FShadowRenderer::s_settings.m_stabilize)
+			if (FShadowRenderer::_shadowSceneSettings.m_stabilize)
 			{
 				const float quantizer = 64.0f;
 				scalex = quantizer / bx::ceil(quantizer / scalex);
@@ -1141,7 +1141,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			float offsetx = 0.5f * (maxproj.x + minproj.x) * scalex;
 			float offsety = 0.5f * (maxproj.y + minproj.y) * scaley;
 
-			if (FShadowRenderer::s_settings.m_stabilize)
+			if (FShadowRenderer::_shadowSceneSettings.m_stabilize)
 			{
 				const float halfSize = currentShadowMapSizef * 0.5f;
 				offsetx = bx::ceil(offsetx * halfSize) / halfSize;
@@ -1178,7 +1178,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	bgfx::setViewRect(0, 0, 0, processWindow._width, processWindow._height);
 	bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 
-	if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+	if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 	{
 		/**
 			* RENDERVIEW_SHADOWMAP_0_ID - Clear shadow map. (used as convenience, otherwise render_pass_1 could be cleared)
@@ -1211,7 +1211,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
 		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
 	}
-	else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+	else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 	{
 		/**
 			* RENDERVIEW_SHADOWMAP_0_ID - Clear entire shadow map.
@@ -1227,7 +1227,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			*/
 
 		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		if (FShadowRenderer::s_settings.m_stencilPack)
+		if (FShadowRenderer::_shadowSceneSettings.m_stencilPack)
 		{
 			const uint16_t f = FShadowRenderer::s_currentShadowMapSize;   //full size
 			const uint16_t h = FShadowRenderer::s_currentShadowMapSize / 2; //half size
@@ -1253,7 +1253,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Green].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Yellow].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
-		if (FShadowRenderer::s_settings.m_stencilPack)
+		if (FShadowRenderer::_shadowSceneSettings.m_stencilPack)
 		{
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Blue].Data(), FShadowRenderer::s_lightProj[ProjType::Vertical].Data());
 			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Red].Data(), FShadowRenderer::s_lightProj[ProjType::Vertical].Data());
@@ -1369,7 +1369,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	bgfx::touch(0);
 
 	// Clear shadowmap rendertarget at beginning.
-	const uint8_t flags0 = (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+	const uint8_t flags0 = (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		? 0
 		: BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL
 		;
@@ -1382,7 +1382,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	);
 	bgfx::touch(RENDERVIEW_SHADOWMAP_0_ID);
 
-	const uint8_t flags1 = (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+	const uint8_t flags1 = (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		? BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
 		: 0
 		;
@@ -1399,8 +1399,8 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	}
 
 
-	EPackDepth::Data depthType = (EShadowMapImpl::VSM == FShadowRenderer::s_settings.m_smImpl) ? EPackDepth::VSM : EPackDepth::RGBA;
-	bool bVsmOrEsm = (EShadowMapImpl::VSM == FShadowRenderer::s_settings.m_smImpl) || (EShadowMapImpl::ESM == FShadowRenderer::s_settings.m_smImpl);
+	EPackDepth::Data depthType = (EShadowMapImpl::VSM == FShadowRenderer::_shadowSceneSettings.m_smImpl) ? EPackDepth::VSM : EPackDepth::RGBA;
+	bool bVsmOrEsm = (EShadowMapImpl::VSM == FShadowRenderer::_shadowSceneSettings.m_smImpl) || (EShadowMapImpl::ESM == FShadowRenderer::_shadowSceneSettings.m_smImpl);
 
 	// Blur shadow map.
 	if (bVsmOrEsm
@@ -1416,9 +1416,9 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
 		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs.m_hBlur[depthType]);
 
-		if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		{
-			for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::s_settings.m_numSplits; ++ii, jj += 2)
+			for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii, jj += 2)
 			{
 				const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
 
@@ -1436,16 +1436,16 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	}
 
 	// Draw depth rect.
-	if (FShadowRenderer::s_settings.m_drawDepthBuffer)
+	if (FShadowRenderer::_shadowSceneSettings.m_drawDepthBuffer)
 	{
 		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
 		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs.m_drawDepth[depthType]);
 
-		if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		{
-			for (uint8_t ii = 1; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+			for (uint8_t ii = 1; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii)
 			{
 				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
@@ -1458,7 +1458,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	// Craft shadow map.
 	{
 		// Craft stencil mask for point light shadow map packing.
-		if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+		if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType && FShadowRenderer::_shadowSceneSettings.m_stencilPack)
 		{
 			if (6 == bgfx::getAvailTransientVertexBuffer(6, _shadowPosLayout))
 			{

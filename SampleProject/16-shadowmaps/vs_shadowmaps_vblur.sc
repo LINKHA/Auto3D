@@ -6,7 +6,7 @@ $output v_texcoord0, v_texcoord1, v_texcoord2, v_texcoord3, v_texcoord4
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "../common/common.sh"
+#include "../common.sh"
 
 uniform vec4 u_smSamplingParams;
 #define u_yOffset u_smSamplingParams.w

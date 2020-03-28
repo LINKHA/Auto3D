@@ -15,228 +15,205 @@ namespace Auto3D
 {
 
 
-	struct TetrahedronFaces
+struct TetrahedronFaces
+{
+	enum Enum
 	{
-		enum Enum
-		{
-			Green,
-			Yellow,
-			Blue,
-			Red,
+		Green,
+		Yellow,
+		Blue,
+		Red,
 
-			Count
-		}; 
+		Count
+	}; 
+};
+
+struct ProjType
+{
+	enum Enum
+	{
+		Horizontal,
+		Vertical,
+
+		Count
 	};
+};
 
-	struct ProjType
+struct ShadowMapRenderTargets
+{
+	enum Enum
 	{
-		enum Enum
-		{
-			Horizontal,
-			Vertical,
+		First,
+		Second,
+		Third,
+		Fourth,
 
-			Count
-		};
+		Count
 	};
+};
 
-	struct ShadowMapRenderTargets
+struct PosNormalTexcoordVertex
+{
+	float    m_x;
+	float    m_y;
+	float    m_z;
+	uint32_t m_normal;
+	float    m_u;
+	float    m_v;
+};
+
+struct Material
+{
+	union Ambient
 	{
-		enum Enum
+		struct
 		{
-			First,
-			Second,
-			Third,
-			Fourth,
-
-			Count
-		};
-	};
-
-	struct PosNormalTexcoordVertex
-	{
-		float    m_x;
-		float    m_y;
-		float    m_z;
-		uint32_t m_normal;
-		float    m_u;
-		float    m_v;
-	};
-
-	struct Material
-	{
-		union Ambient
-		{
-			struct
-			{
-				float m_r;
-				float m_g;
-				float m_b;
-				float m_unused;
-			};
-
-			float m_v[4];
+			float m_r;
+			float m_g;
+			float m_b;
+			float m_unused;
 		};
 
-		union Diffuse
-		{
-			struct
-			{
-				float m_r;
-				float m_g;
-				float m_b;
-				float m_unused;
-			};
-
-			float m_v[4];
-		};
-
-		union Specular
-		{
-			struct
-			{
-				float m_r;
-				float m_g;
-				float m_b;
-				float m_ns;
-			};
-
-			float m_v[4];
-		};
-
-		Ambient m_ka;
-		Diffuse m_kd;
-		Specular m_ks;
+		float m_v[4];
 	};
 
-
-	//struct RenderState
-	//{
-	//	enum Data
-	//	{
-	//		Default = 0,
-
-	//		ShadowMap_PackDepth,
-	//		ShadowMap_PackDepthHoriz,
-	//		ShadowMap_PackDepthVert,
-
-	//		Custom_BlendLightTexture,
-	//		Custom_DrawPlaneBottom,
-
-	//		Count
-	//	};
-
-	//	uint64_t m_state;
-	//	uint32_t m_blendFactorRgba;
-	//	uint32_t m_fstencil;
-	//	uint32_t m_bstencil;
-	//};
-
-
-	struct ClearValues
+	union Diffuse
 	{
-		ClearValues(uint32_t _clearRgba = 0x30303000
-			, float    _clearDepth = 1.0f
-			, uint8_t  _clearStencil = 0
-		)
-			: m_clearRgba(_clearRgba)
-			, m_clearDepth(_clearDepth)
-			, m_clearStencil(_clearStencil)
+		struct
 		{
-		}
+			float m_r;
+			float m_g;
+			float m_b;
+			float m_unused;
+		};
 
-		uint32_t m_clearRgba;
-		float    m_clearDepth;
-		uint8_t  m_clearStencil;
+		float m_v[4];
 	};
 
-	struct ShadowMapSettings
+	union Specular
 	{
+		struct
+		{
+			float m_r;
+			float m_g;
+			float m_b;
+			float m_ns;
+		};
+
+		float m_v[4];
+	};
+
+	Ambient m_ka;
+	Diffuse m_kd;
+	Specular m_ks;
+};
+
+
+struct ClearValues
+{
+	ClearValues(uint32_t _clearRgba = 0x30303000
+		, float    _clearDepth = 1.0f
+		, uint8_t  _clearStencil = 0
+	)
+		: m_clearRgba(_clearRgba)
+		, m_clearDepth(_clearDepth)
+		, m_clearStencil(_clearStencil)
+	{
+	}
+
+	uint32_t m_clearRgba;
+	float    m_clearDepth;
+	uint8_t  m_clearStencil;
+};
+
+struct FShadowMapSettings
+{
 #define IMGUI_FLOAT_PARAM(_name) float _name, _name##Min, _name##Max, _name##Step
-		IMGUI_FLOAT_PARAM(m_sizePwrTwo);
-		IMGUI_FLOAT_PARAM(m_depthValuePow);
-		IMGUI_FLOAT_PARAM(m_near);
-		IMGUI_FLOAT_PARAM(m_far);
-		IMGUI_FLOAT_PARAM(m_bias);
-		IMGUI_FLOAT_PARAM(m_normalOffset);
-		IMGUI_FLOAT_PARAM(m_customParam0);
-		IMGUI_FLOAT_PARAM(m_customParam1);
-		IMGUI_FLOAT_PARAM(m_xNum);
-		IMGUI_FLOAT_PARAM(m_yNum);
-		IMGUI_FLOAT_PARAM(m_xOffset);
-		IMGUI_FLOAT_PARAM(m_yOffset);
-		bool m_doBlur;
-		bgfx::ProgramHandle* m_progPack;
-		bgfx::ProgramHandle* m_progPackInstance;
+	IMGUI_FLOAT_PARAM(m_sizePwrTwo);
+	IMGUI_FLOAT_PARAM(m_depthValuePow);
+	IMGUI_FLOAT_PARAM(m_near);
+	IMGUI_FLOAT_PARAM(m_far);
+	IMGUI_FLOAT_PARAM(m_bias);
+	IMGUI_FLOAT_PARAM(m_normalOffset);
+	IMGUI_FLOAT_PARAM(m_customParam0);
+	IMGUI_FLOAT_PARAM(m_customParam1);
+	IMGUI_FLOAT_PARAM(m_xNum);
+	IMGUI_FLOAT_PARAM(m_yNum);
+	IMGUI_FLOAT_PARAM(m_xOffset);
+	IMGUI_FLOAT_PARAM(m_yOffset);
+	bool m_doBlur;
+	bgfx::ProgramHandle* m_progPack;
+	bgfx::ProgramHandle* m_progPackInstance;
 
-		bgfx::ProgramHandle* m_progDraw;
-		bgfx::ProgramHandle* m_progDrawInstace;
+	bgfx::ProgramHandle* m_progDraw;
+	bgfx::ProgramHandle* m_progDrawInstace;
 #undef IMGUI_FLOAT_PARAM
-	};
+};
 
-	struct SceneSettings
+struct FShadowSceneSettings
+{
+	ELightType::Data m_lightType;
+	EDepthImpl::Data m_depthImpl;
+	EShadowMapImpl::Data m_smImpl;
+	float m_spotOuterAngle;
+	float m_spotInnerAngle;
+	float m_fovXAdjust;
+	float m_fovYAdjust;
+	float m_coverageSpotL;
+	float m_splitDistribution;
+	int   m_numSplits;
+	bool m_drawDepthBuffer;
+	bool m_showSmCoverage;
+	bool m_stencilPack;
+	bool m_stabilize;
+};
+
+
+
+struct PosColorTexCoord0Vertex
+{
+	float m_x;
+	float m_y;
+	float m_z;
+	uint32_t m_rgba;
+	float m_u;
+	float m_v;
+
+	static void init()
 	{
-		ELightType::Data m_lightType;
-		EDepthImpl::Data m_depthImpl;
-		EShadowMapImpl::Data m_smImpl;
-		float m_spotOuterAngle;
-		float m_spotInnerAngle;
-		float m_fovXAdjust;
-		float m_fovYAdjust;
-		float m_coverageSpotL;
-		float m_splitDistribution;
-		int   m_numSplits;
-		bool m_drawDepthBuffer;
-		bool m_showSmCoverage;
-		bool m_stencilPack;
-		bool m_stabilize;
-	};
+		ms_layout
+			.begin()
+			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+			.end();
+	}
 
+	static bgfx::VertexLayout ms_layout;
+};
 
+void mtxYawPitchRoll(float* __restrict _result
+	, float _yaw
+	, float _pitch
+	, float _roll
+);
 
-	struct PosColorTexCoord0Vertex
-	{
-		float m_x;
-		float m_y;
-		float m_z;
-		uint32_t m_rgba;
-		float m_u;
-		float m_v;
+void splitFrustum(float* _splits, uint8_t _numSplits, float _near, float _far, float _splitWeight = 0.75f);
 
-		static void init()
-		{
-			ms_layout
-				.begin()
-				.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-				.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-				.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-				.end();
-		}
+void worldSpaceFrustumCorners(float* _corners24f
+	, float _near
+	, float _far
+	, float _projWidth
+	, float _projHeight
+	, const float* __restrict _invViewMtx
+);
 
-		static bgfx::VertexLayout ms_layout;
-	};
+void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
 
-	void mtxYawPitchRoll(float* __restrict _result
-		, float _yaw
-		, float _pitch
-		, float _roll
-	);
-
-	void splitFrustum(float* _splits, uint8_t _numSplits, float _near, float _far, float _splitWeight = 0.75f);
-
-	void worldSpaceFrustumCorners(float* _corners24f
-		, float _near
-		, float _far
-		, float _projWidth
-		, float _projHeight
-		, const float* __restrict _invViewMtx
-	);
-
-	void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
-
-	void mtxBillboard(float* __restrict _result
-		, const float* __restrict _view
-		, const float* __restrict _pos
-		, const float* __restrict _scale);
+void mtxBillboard(float* __restrict _result
+	, const float* __restrict _view
+	, const float* __restrict _pos
+	, const float* __restrict _scale);
 
 class AUTO_API FShadowRenderer
 {
@@ -256,11 +233,6 @@ public:
 	}
 
 	static uint16_t s_currentShadowMapSize;
-
-	static SceneSettings s_settings;
-
-	static ShadowMapSettings s_smSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
-
 
 
 	static bool s_flipV;
@@ -287,6 +259,11 @@ public:
 	static TMatrix4x4F s_lightView[4];
 	static TMatrix4x4F s_lightProj[4];
 	//}
+
+
+	static FShadowSceneSettings _shadowSceneSettings;
+
+	static FShadowMapSettings _shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
 
 	EShadowMapImpl::Data _shadowMapImpl;
 private:

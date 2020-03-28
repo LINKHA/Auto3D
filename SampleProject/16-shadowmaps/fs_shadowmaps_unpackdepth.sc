@@ -5,7 +5,7 @@ $input v_texcoord0
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "../common/common.sh"
+#include "../common.sh"
 SAMPLER2D(s_shadowMap0, 4);
 
 uniform vec4 u_params2;

@@ -149,38 +149,38 @@ public:
 
 			ImGui::Separator();
 			ImGui::Text("Shadow map depth:");
-			IMGUI_RADIO_BUTTON("InvZ", FShadowRenderer::s_settings.m_depthImpl, EDepthImpl::InvZ);
-			IMGUI_RADIO_BUTTON("Linear", FShadowRenderer::s_settings.m_depthImpl, EDepthImpl::Linear);
+			IMGUI_RADIO_BUTTON("InvZ", FShadowRenderer::_shadowSceneSettings.m_depthImpl, EDepthImpl::InvZ);
+			IMGUI_RADIO_BUTTON("Linear", FShadowRenderer::_shadowSceneSettings.m_depthImpl, EDepthImpl::Linear);
 
-			ShadowMapSettings* currentSmSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+			FShadowMapSettings* currentSmSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
 
 			ImGui::Separator();
-			ImGui::Checkbox("Draw depth buffer", &FShadowRenderer::s_settings.m_drawDepthBuffer);
-			if (FShadowRenderer::s_settings.m_drawDepthBuffer)
+			ImGui::Checkbox("Draw depth buffer", &FShadowRenderer::_shadowSceneSettings.m_drawDepthBuffer);
+			if (FShadowRenderer::_shadowSceneSettings.m_drawDepthBuffer)
 			{
 				IMGUI_FLOAT_SLIDER("Depth value pow", currentSmSettings->m_depthValuePow);
 			}
 
 			ImGui::Separator();
 			ImGui::Text("Shadow Map implementation");
-			IMGUI_RADIO_BUTTON("Hard", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::Hard);
-			IMGUI_RADIO_BUTTON("PCF", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::PCF);
-			IMGUI_RADIO_BUTTON("VSM", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::VSM);
-			IMGUI_RADIO_BUTTON("ESM", FShadowRenderer::s_settings.m_smImpl, EShadowMapImpl::ESM);
-			currentSmSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+			IMGUI_RADIO_BUTTON("Hard", FShadowRenderer::_shadowSceneSettings.m_smImpl, EShadowMapImpl::Hard);
+			IMGUI_RADIO_BUTTON("PCF", FShadowRenderer::_shadowSceneSettings.m_smImpl, EShadowMapImpl::PCF);
+			IMGUI_RADIO_BUTTON("VSM", FShadowRenderer::_shadowSceneSettings.m_smImpl, EShadowMapImpl::VSM);
+			IMGUI_RADIO_BUTTON("ESM", FShadowRenderer::_shadowSceneSettings.m_smImpl, EShadowMapImpl::ESM);
+			currentSmSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
 
 			ImGui::Separator();
 			IMGUI_FLOAT_SLIDER("Bias", currentSmSettings->m_bias);
 			IMGUI_FLOAT_SLIDER("Normal offset", currentSmSettings->m_normalOffset);
 			ImGui::Separator();
-			if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+			if (ELightType::DirectionalLight != FShadowRenderer::_shadowSceneSettings.m_lightType)
 			{
 				IMGUI_FLOAT_SLIDER("Near plane", currentSmSettings->m_near);
 			}
 			IMGUI_FLOAT_SLIDER("Far plane", currentSmSettings->m_far);
 
 			ImGui::Separator();
-			switch(FShadowRenderer::s_settings.m_smImpl)
+			switch(FShadowRenderer::_shadowSceneSettings.m_smImpl)
 			{
 				case EShadowMapImpl::Hard:
 					//ImGui::Text("Hard");
@@ -238,19 +238,19 @@ public:
 			ImGui::PushItemWidth(185.0f);
 
 			bool bLtChanged = false;
-			if ( ImGui::RadioButton("Spot light", FShadowRenderer::s_settings.m_lightType == ELightType::SpotLight ))
+			if ( ImGui::RadioButton("Spot light", FShadowRenderer::_shadowSceneSettings.m_lightType == ELightType::SpotLight ))
 			{
 				_directionalLightActor->SetEnabled(false);
 				_spotLightActor->SetEnabled(true);
 				_pointLightActor->SetEnabled(false);
 			}
-			if ( ImGui::RadioButton("Point light", FShadowRenderer::s_settings.m_lightType == ELightType::PointLight ))
+			if ( ImGui::RadioButton("Point light", FShadowRenderer::_shadowSceneSettings.m_lightType == ELightType::PointLight ))
 			{
 				_directionalLightActor->SetEnabled(false);
 				_spotLightActor->SetEnabled(false);
 				_pointLightActor->SetEnabled(true);
 			}
-			if ( ImGui::RadioButton("Directional light", FShadowRenderer::s_settings.m_lightType == ELightType::DirectionalLight ))
+			if ( ImGui::RadioButton("Directional light", FShadowRenderer::_shadowSceneSettings.m_lightType == ELightType::DirectionalLight ))
 			{
 				_directionalLightActor->SetEnabled(true);
 				_spotLightActor->SetEnabled(false);
@@ -258,7 +258,7 @@ public:
 			}
 
 			ImGui::Separator();
-			ImGui::Checkbox("Show shadow map coverage.", &FShadowRenderer::s_settings.m_showSmCoverage);
+			ImGui::Checkbox("Show shadow map coverage.", &FShadowRenderer::_shadowSceneSettings.m_showSmCoverage);
 
 			ImGui::Separator();
 			ImGui::Text("Shadow map resolution: %ux%u", FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
@@ -267,29 +267,29 @@ public:
 							   currentSmSettings->m_sizePwrTwoMax, "%.0f");
 
 			ImGui::Separator();
-			if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+			if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 			{
 				ImGui::Text("Spot light");
-				ImGui::SliderFloat("Shadow map area", &FShadowRenderer::s_settings.m_coverageSpotL, 45.0f, 120.0f);
+				ImGui::SliderFloat("Shadow map area", &FShadowRenderer::_shadowSceneSettings.m_coverageSpotL, 45.0f, 120.0f);
 
 				ImGui::Separator();
-				ImGui::SliderFloat("Spot outer cone", &FShadowRenderer::s_settings.m_spotOuterAngle, 0.0f, 91.0f);
-				ImGui::SliderFloat("Spot inner cone", &FShadowRenderer::s_settings.m_spotInnerAngle, 0.0f, 90.0f);
+				ImGui::SliderFloat("Spot outer cone", &FShadowRenderer::_shadowSceneSettings.m_spotOuterAngle, 0.0f, 91.0f);
+				ImGui::SliderFloat("Spot inner cone", &FShadowRenderer::_shadowSceneSettings.m_spotInnerAngle, 0.0f, 90.0f);
 			}
-			else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+			else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 			{
 				ImGui::Text("Point light");
-				ImGui::Checkbox("Stencil pack", &FShadowRenderer::s_settings.m_stencilPack);
+				ImGui::Checkbox("Stencil pack", &FShadowRenderer::_shadowSceneSettings.m_stencilPack);
 
-				ImGui::SliderFloat("Fov X adjust", &FShadowRenderer::s_settings.m_fovXAdjust, -20.0f, 20.0f);
-				ImGui::SliderFloat("Fov Y adjust", &FShadowRenderer::s_settings.m_fovYAdjust, -20.0f, 20.0f);
+				ImGui::SliderFloat("Fov X adjust", &FShadowRenderer::_shadowSceneSettings.m_fovXAdjust, -20.0f, 20.0f);
+				ImGui::SliderFloat("Fov Y adjust", &FShadowRenderer::_shadowSceneSettings.m_fovYAdjust, -20.0f, 20.0f);
 			}
-			else if (ELightType::DirectionalLight == FShadowRenderer::s_settings.m_lightType)
+			else if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 			{
 				ImGui::Text("Directional light");
-				ImGui::Checkbox("Stabilize cascades", &FShadowRenderer::s_settings.m_stabilize);
-				ImGui::SliderInt("Cascade splits", &FShadowRenderer::s_settings.m_numSplits, 1, 4);
-				ImGui::SliderFloat("Cascade distribution", &FShadowRenderer::s_settings.m_splitDistribution, 0.0f, 1.0f);
+				ImGui::Checkbox("Stabilize cascades", &FShadowRenderer::_shadowSceneSettings.m_stabilize);
+				ImGui::SliderInt("Cascade splits", &FShadowRenderer::_shadowSceneSettings.m_numSplits, 1, 4);
+				ImGui::SliderFloat("Cascade distribution", &FShadowRenderer::_shadowSceneSettings.m_splitDistribution, 0.0f, 1.0f);
 			}
 
 #undef IMGUI_FLOAT_SLIDER

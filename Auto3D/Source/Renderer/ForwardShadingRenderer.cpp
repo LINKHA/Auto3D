@@ -410,7 +410,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 					FGeometry* geometry = batch._pass._geometry;
 					OMaterial* material = batch._pass._material;
-					ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+					FShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
 					AttachShader(batch._pass, lightComponent);
 
 
@@ -418,17 +418,17 @@ void FForwardShadingRenderer::RenderBatches()
 					{
 
 						uint8_t drawNum;
-						if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+						if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 						{
 							drawNum = 1;
 						}
-						else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+						else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 						{
 							drawNum = 4;
 						}
 						else //LightType::DirectionalLight == settings.m_lightType)
 						{
-							drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
+							drawNum = uint8_t(FShadowRenderer::_shadowSceneSettings.m_numSplits);
 						}
 
 						for (uint8_t ii = 0; ii < drawNum; ++ii)
@@ -436,7 +436,7 @@ void FForwardShadingRenderer::RenderBatches()
 							const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
 
 							uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
-							if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+							if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType && FShadowRenderer::_shadowSceneSettings.m_stencilPack)
 							{
 								renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 							}
@@ -456,7 +456,7 @@ void FForwardShadingRenderer::RenderBatches()
 							float mtxShadow[16];
 
 							const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
-							float zadd = (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+							float zadd = (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl) ? 0.0f : 0.5f;
 
 							const float mtxBias[16] =
 							{
@@ -466,16 +466,16 @@ void FForwardShadingRenderer::RenderBatches()
 								0.5f, 0.5f, zadd, 1.0f,
 							};
 
-							if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+							if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 							{
 								float mtxTmp[16];
 								bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal].Data(), mtxBias);
 								bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0].Data(), mtxTmp); //FShadowRenderer::s_lightViewProjBias
 							}
-							else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+							else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 							{
 								const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
-								zadd = (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+								zadd = (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl) ? 0.0f : 0.5f;
 
 								const float mtxCropBias[2][TetrahedronFaces::Count][16] =
 								{
@@ -550,12 +550,12 @@ void FForwardShadingRenderer::RenderBatches()
 
 								for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
 								{
-									ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii > 1) : ProjType::Horizontal;
-									uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
+									ProjType::Enum projType = (FShadowRenderer::_shadowSceneSettings.m_stencilPack) ? ProjType::Enum(ii > 1) : ProjType::Horizontal;
+									uint8_t biasIndex = cropBiasIndices[FShadowRenderer::_shadowSceneSettings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
 
 									float mtxTmp[16];
 									bx::mtxMul(mtxTmp, FShadowRenderer::s_mtxYpr[ii].Data(), FShadowRenderer::s_lightProj[projType].Data());
-									bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
+									bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), mtxTmp, mtxCropBias[FShadowRenderer::_shadowSceneSettings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
 								}
 
 								bx::mtxTranslate(mtxShadow //lightInvTranslate
@@ -566,7 +566,7 @@ void FForwardShadingRenderer::RenderBatches()
 							}
 							else //LightType::DirectionalLight == settings.m_lightType
 							{
-								for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+								for (uint8_t ii = 0; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii)
 								{
 									float mtxTmp[16];
 
@@ -576,7 +576,7 @@ void FForwardShadingRenderer::RenderBatches()
 							}
 
 							// Cube.
-							if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+							if (ELightType::DirectionalLight != FShadowRenderer::_shadowSceneSettings.m_lightType)
 							{
 								//bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
 							}
@@ -617,21 +617,21 @@ void FForwardShadingRenderer::RenderBatches()
 					FGeometry* geometry = batch._pass._geometry;
 					OMaterial* material = batch._pass._material;
 					TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
-					ShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::s_smSettings[FShadowRenderer::s_settings.m_lightType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl];
+					FShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
 					AttachShader(batch._pass, lightComponent);
 
 					uint8_t drawNum;
-					if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+					if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 					{
 						drawNum = 1;
 					}
-					else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+					else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 					{
 						drawNum = 4;
 					}
 					else //LightType::DirectionalLight == settings.m_lightType)
 					{
-						drawNum = uint8_t(FShadowRenderer::s_settings.m_numSplits);
+						drawNum = uint8_t(FShadowRenderer::_shadowSceneSettings.m_numSplits);
 					}
 
 					for (uint8_t ii = 0; ii < drawNum; ++ii)
@@ -639,7 +639,7 @@ void FForwardShadingRenderer::RenderBatches()
 						const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
 
 						uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
-						if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType && FShadowRenderer::s_settings.m_stencilPack)
+						if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType && FShadowRenderer::_shadowSceneSettings.m_stencilPack)
 						{
 							renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 						}
@@ -659,7 +659,7 @@ void FForwardShadingRenderer::RenderBatches()
 						float mtxShadow[16];
 
 						const float ymul = (FShadowRenderer::s_flipV) ? 0.5f : -0.5f;
-						float zadd = (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+						float zadd = (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl) ? 0.0f : 0.5f;
 
 						const float mtxBias[16] =
 						{
@@ -669,16 +669,16 @@ void FForwardShadingRenderer::RenderBatches()
 							0.5f, 0.5f, zadd, 1.0f,
 						};
 
-						if (ELightType::SpotLight == FShadowRenderer::s_settings.m_lightType)
+						if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 						{
 							float mtxTmp[16];
 							bx::mtxMul(mtxTmp, FShadowRenderer::s_lightProj[ProjType::Horizontal].Data(), mtxBias);
 							bx::mtxMul(mtxShadow, FShadowRenderer::s_lightView[0].Data(), mtxTmp); //FShadowRenderer::s_lightViewProjBias
 						}
-						else if (ELightType::PointLight == FShadowRenderer::s_settings.m_lightType)
+						else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 						{
 							const float s = (FShadowRenderer::s_flipV) ? 1.0f : -1.0f; //sign
-							zadd = (EDepthImpl::Linear == FShadowRenderer::s_settings.m_depthImpl) ? 0.0f : 0.5f;
+							zadd = (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl) ? 0.0f : 0.5f;
 
 							const float mtxCropBias[2][TetrahedronFaces::Count][16] =
 							{
@@ -753,12 +753,12 @@ void FForwardShadingRenderer::RenderBatches()
 
 							for (uint8_t ii = 0; ii < TetrahedronFaces::Count; ++ii)
 							{
-								ProjType::Enum projType = (FShadowRenderer::s_settings.m_stencilPack) ? ProjType::Enum(ii > 1) : ProjType::Horizontal;
-								uint8_t biasIndex = cropBiasIndices[FShadowRenderer::s_settings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
+								ProjType::Enum projType = (FShadowRenderer::_shadowSceneSettings.m_stencilPack) ? ProjType::Enum(ii > 1) : ProjType::Horizontal;
+								uint8_t biasIndex = cropBiasIndices[FShadowRenderer::_shadowSceneSettings.m_stencilPack][uint8_t(FShadowRenderer::s_flipV)][ii];
 
 								float mtxTmp[16];
 								bx::mtxMul(mtxTmp, FShadowRenderer::s_mtxYpr[ii].Data(), FShadowRenderer::s_lightProj[projType].Data());
-								bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), mtxTmp, mtxCropBias[FShadowRenderer::s_settings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
+								bx::mtxMul(FShadowRenderer::_shadowMapMtx[ii].Data(), mtxTmp, mtxCropBias[FShadowRenderer::_shadowSceneSettings.m_stencilPack][biasIndex]); //FShadowRenderer::s_mtxYprProjBias
 							}
 
 							bx::mtxTranslate(mtxShadow //lightInvTranslate
@@ -769,7 +769,7 @@ void FForwardShadingRenderer::RenderBatches()
 						}
 						else //LightType::DirectionalLight == settings.m_lightType
 						{
-							for (uint8_t ii = 0; ii < FShadowRenderer::s_settings.m_numSplits; ++ii)
+							for (uint8_t ii = 0; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii)
 							{
 								float mtxTmp[16];
 
@@ -779,7 +779,7 @@ void FForwardShadingRenderer::RenderBatches()
 						}
 
 						// Cube.
-						if (ELightType::DirectionalLight != FShadowRenderer::s_settings.m_lightType)
+						if (ELightType::DirectionalLight != FShadowRenderer::_shadowSceneSettings.m_lightType)
 						{
 							bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
 						}
@@ -1150,8 +1150,8 @@ void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightCo
 			shadowMapType = EShadowMapType::Omni;
 			break;
 		}
-		shaderProgram = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl][ERenderInstanceType::STAIC];
-		shaderProgramInstance = _programs._colorLighting[shadowMapType][FShadowRenderer::s_settings.m_depthImpl][FShadowRenderer::s_settings.m_smImpl][ERenderInstanceType::INSTANCE];
+		shaderProgram = _programs._colorLighting[shadowMapType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl][ERenderInstanceType::STAIC];
+		shaderProgramInstance = _programs._colorLighting[shadowMapType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl][ERenderInstanceType::INSTANCE];
 	}
 	pass._material->GetShaderProgram() = shaderProgram;
 	pass._material->GetShaderInstanceProgram() = shaderProgramInstance;
