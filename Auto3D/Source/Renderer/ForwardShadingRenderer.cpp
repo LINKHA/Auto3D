@@ -781,7 +781,8 @@ void FForwardShadingRenderer::RenderBatches()
 						// Cube.
 						if (ELightType::DirectionalLight != FShadowRenderer::_shadowSceneSettings.m_lightType)
 						{
-							bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
+							//bx::mtxMul(FShadowRenderer::_lightMtx.Data(), modelMatrix.Data(), mtxShadow);
+							FShadowRenderer::_lightMtx = TMatrix4x4F(mtxShadow);
 						}
 
 						SubmitShadow(geometry, RENDERVIEW_DRAWSCENE_0_ID

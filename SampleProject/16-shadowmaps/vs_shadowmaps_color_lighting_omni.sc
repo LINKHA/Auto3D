@@ -19,6 +19,7 @@ uniform mat4 u_shadowMapMtx3;
 
 void main()
 {
+	mat4 lightMtx = mul(u_lightMtx, u_model[0]);
 	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0) );
 
 	vec4 normal = a_normal * 2.0 - 1.0;
@@ -26,7 +27,7 @@ void main()
 	v_view = mul(u_modelView, vec4(a_position, 1.0)).xyz;
 
 	vec4 posOffset = vec4(a_position + normal.xyz * u_shadowMapOffset, 1.0);
-	v_position = mul(u_lightMtx, posOffset);
+	v_position = mul(lightMtx, posOffset);
 
 	v_texcoord1 = mul(u_shadowMapMtx0, v_position);
 	v_texcoord2 = mul(u_shadowMapMtx1, v_position);
