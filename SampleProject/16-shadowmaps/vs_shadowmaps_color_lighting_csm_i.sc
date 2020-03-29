@@ -1,4 +1,4 @@
-$input a_position, a_normal
+$input a_position, a_normal, i_data0, i_data1, i_data2, i_data3
 $output v_position, v_normal, v_view, v_texcoord1, v_texcoord2, v_texcoord3, v_texcoord4
 
 #include "../common.sh"
@@ -14,7 +14,15 @@ uniform mat4 u_shadowMapMtx3;
 
 void main()
 {
-	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0) );
+	mat4 model;
+	model[0] = i_data0;
+	model[1] = i_data1;
+	model[2] = i_data2;
+	model[3] = i_data3;
+
+	vec4 worldPos = instMul(model, vec4(a_position, 1.0) );
+
+	gl_Position = mul(u_viewProj, worldPos);
 
 	vec4 normal = a_normal * 2.0 - 1.0;
 	v_normal = normalize(mul(u_modelView, vec4(normal.xyz, 0.0) ).xyz);
