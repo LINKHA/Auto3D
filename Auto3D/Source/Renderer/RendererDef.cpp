@@ -76,14 +76,6 @@ FRenderState FRenderState::_renderState[FRenderState::Count] =
 	, BGFX_STENCIL_NONE
 	, BGFX_STENCIL_NONE
 },
-{ // Custom_DrawPlaneBottom
-	BGFX_STATE_WRITE_RGB
-	| BGFX_STATE_CULL_CW
-	| BGFX_STATE_MSAA
-	, UINT32_MAX
-	, BGFX_STENCIL_NONE
-	, BGFX_STENCIL_NONE
-},
 {// Occlusion
 	BGFX_STATE_DEPTH_TEST_LEQUAL
 	| BGFX_STATE_CULL_CCW

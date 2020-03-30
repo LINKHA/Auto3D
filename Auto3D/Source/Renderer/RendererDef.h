@@ -35,7 +35,6 @@ struct FRenderState
 		ShadowMap_PackDepthVert,
 
 		Custom_BlendLightTexture,
-		Custom_DrawPlaneBottom,
 
 		Occlusion,
 		Count

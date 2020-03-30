@@ -291,8 +291,8 @@ void FForwardShadingRenderer::Render()
 			camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 
-			bgfx::setViewTransform(RENDER_SCENE_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
-			bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
+		/*	bgfx::setViewTransform(RENDER_SCENE_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
+			bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));*/
 
 			// Ordinary pipeline view rect
 			bgfx::setViewTransform(RENDER_OCCLUSION_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
@@ -614,7 +614,6 @@ void FForwardShadingRenderer::RenderBatches()
 				}
 				else
 				{
-					batchesAddCount = 1;
 					FGeometry* geometry = batch._pass._geometry;
 					OMaterial* material = batch._pass._material;
 					TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
@@ -814,7 +813,7 @@ void FForwardShadingRenderer::RenderBatches()
 					default:
 						break;
 					}
-
+					batchesAddCount = 1;
 				}
 
 
