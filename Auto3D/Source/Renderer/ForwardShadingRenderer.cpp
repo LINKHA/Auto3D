@@ -411,7 +411,7 @@ void FForwardShadingRenderer::RenderBatches()
 					FGeometry* geometry = batch._pass._geometry;
 					OMaterial* material = batch._pass._material;
 					FShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
-					AttachShader(batch._pass, lightComponent);
+					AttachShader(batch._pass);
 
 
 					for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
@@ -444,7 +444,7 @@ void FForwardShadingRenderer::RenderBatches()
 							// Floor.
 							SubmitShadowInstance(geometry, viewId
 								, &idb
-								, *currentShadowMapSettings->m_progPackInstance
+								, currentShadowMapSettings->m_progPackInstance->GetProgram()
 								, FRenderState::_renderState[renderStateIndex]
 							);
 
@@ -618,7 +618,7 @@ void FForwardShadingRenderer::RenderBatches()
 					OMaterial* material = batch._pass._material;
 					TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 					FShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
-					AttachShader(batch._pass, lightComponent);
+					AttachShader(batch._pass);
 
 					uint8_t drawNum;
 					if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
@@ -647,7 +647,7 @@ void FForwardShadingRenderer::RenderBatches()
 						// Shadow pack.
 						SubmitShadow(geometry, viewId
 							, modelMatrix.Data()
-							, *currentShadowMapSettings->m_progPack
+							, currentShadowMapSettings->m_progPack->GetProgram()
 							, FRenderState::_renderState[renderStateIndex]
 						);
 
@@ -1132,30 +1132,12 @@ void FForwardShadingRenderer::CollectBatch()
 	_batchQueues.Sort();
 }
 
-void FForwardShadingRenderer::AttachShader(FPass& pass, ALightComponent* lightComponent)
+void FForwardShadingRenderer::AttachShader(FPass& pass)
 {
-	FShaderProgram shaderProgram;
-	FShaderProgram shaderProgramInstance;
-	if (lightComponent)
-	{
-		EShadowMapType::Data shadowMapType;
-		switch (lightComponent->GetLightType())
-		{
-		case ELightType::DirectionalLight:
-			shadowMapType = EShadowMapType::Cascade;
-			break;
-		case ELightType::SpotLight:
-			shadowMapType = EShadowMapType::Single;
-			break;		
-		case ELightType::PointLight:
-			shadowMapType = EShadowMapType::Omni;
-			break;
-		}
-		shaderProgram = _programs._colorLighting[shadowMapType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl][ERenderInstanceType::STAIC];
-		shaderProgramInstance = _programs._colorLighting[shadowMapType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl][ERenderInstanceType::INSTANCE];
-	}
-	pass._material->GetShaderProgram() = shaderProgram;
-	pass._material->GetShaderInstanceProgram() = shaderProgramInstance;
+	FShadowMapSettings* currentSmSettings = FShadowRenderer::GetCurrentShadowMapSettings();
+
+	pass._material->GetShaderProgram() = *currentSmSettings->m_progDraw;
+	pass._material->GetShaderInstanceProgram() = *currentSmSettings->m_progDrawInstace;
 }
 
 void FForwardShadingRenderer::PrepareView()

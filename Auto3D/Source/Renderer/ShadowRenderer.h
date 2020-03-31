@@ -142,11 +142,11 @@ struct FShadowMapSettings
 	IMGUI_FLOAT_PARAM(m_xOffset);
 	IMGUI_FLOAT_PARAM(m_yOffset);
 	bool m_doBlur;
-	bgfx::ProgramHandle* m_progPack;
-	bgfx::ProgramHandle* m_progPackInstance;
+	FShaderProgram* m_progPack;
+	FShaderProgram* m_progPackInstance;
 
-	bgfx::ProgramHandle* m_progDraw;
-	bgfx::ProgramHandle* m_progDrawInstace;
+	FShaderProgram* m_progDraw;
+	FShaderProgram* m_progDrawInstace;
 #undef IMGUI_FLOAT_PARAM
 };
 
@@ -232,6 +232,11 @@ public:
 		_uniforms.submitPerDrawUniforms();
 	}
 
+	static FShadowMapSettings* GetCurrentShadowMapSettings()
+	{
+		return &_shadowMapSettings[_shadowSceneSettings.m_lightType][_shadowSceneSettings.m_depthImpl][_shadowSceneSettings.m_smImpl];
+	}
+	
 	static uint16_t s_currentShadowMapSize;
 
 
@@ -273,95 +278,95 @@ private:
 		void init()
 		{
 			// Misc.
-			m_black = loadProgram("vs_shadowmaps_color", "fs_shadowmaps_color_black");
-			m_texture = loadProgram("vs_shadowmaps_texture", "fs_shadowmaps_texture");
-			m_colorTexture = loadProgram("vs_shadowmaps_color_texture", "fs_shadowmaps_color_texture");
+			m_black.AttachShader("vs_shadowmaps_color", "fs_shadowmaps_color_black");
+			m_texture.AttachShader("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+			m_colorTexture.AttachShader("vs_shadowmaps_color_texture", "fs_shadowmaps_color_texture");
 
 			// Blur.
-			m_vBlur[EPackDepth::RGBA] = loadProgram("vs_shadowmaps_vblur", "fs_shadowmaps_vblur");
-			m_hBlur[EPackDepth::RGBA] = loadProgram("vs_shadowmaps_hblur", "fs_shadowmaps_hblur");
-			m_vBlur[EPackDepth::VSM] = loadProgram("vs_shadowmaps_vblur", "fs_shadowmaps_vblur_vsm");
-			m_hBlur[EPackDepth::VSM] = loadProgram("vs_shadowmaps_hblur", "fs_shadowmaps_hblur_vsm");
+			m_vBlur[EPackDepth::RGBA].AttachShader("vs_shadowmaps_vblur", "fs_shadowmaps_vblur");
+			m_hBlur[EPackDepth::RGBA].AttachShader("vs_shadowmaps_hblur", "fs_shadowmaps_hblur");
+			m_vBlur[EPackDepth::VSM].AttachShader("vs_shadowmaps_vblur", "fs_shadowmaps_vblur_vsm");
+			m_hBlur[EPackDepth::VSM].AttachShader("vs_shadowmaps_hblur", "fs_shadowmaps_hblur_vsm");
 
 			// Draw depth.
-			m_drawDepth[EPackDepth::RGBA] = loadProgram("vs_shadowmaps_unpackdepth", "fs_shadowmaps_unpackdepth");
-			m_drawDepth[EPackDepth::VSM] = loadProgram("vs_shadowmaps_unpackdepth", "fs_shadowmaps_unpackdepth_vsm");
+			m_drawDepth[EPackDepth::RGBA].AttachShader("vs_shadowmaps_unpackdepth", "fs_shadowmaps_unpackdepth");
+			m_drawDepth[EPackDepth::VSM].AttachShader("vs_shadowmaps_unpackdepth", "fs_shadowmaps_unpackdepth_vsm");
 
 			// Pack depth.
-			m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_packdepth", "fs_shadowmaps_packdepth");
-			m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_packdepth", "fs_shadowmaps_packdepth_vsm");
+			m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_packdepth", "fs_shadowmaps_packdepth");
+			m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_packdepth", "fs_shadowmaps_packdepth_vsm");
 
-			m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_packdepth_linear", "fs_shadowmaps_packdepth_linear");
-			m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_packdepth_linear", "fs_shadowmaps_packdepth_vsm_linear");
+			m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_packdepth_linear", "fs_shadowmaps_packdepth_linear");
+			m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_packdepth_linear", "fs_shadowmaps_packdepth_vsm_linear");
 
 
-			m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_packdepth_i", "fs_shadowmaps_packdepth");
-			m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_packdepth_i", "fs_shadowmaps_packdepth_vsm");
+			m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_packdepth_i", "fs_shadowmaps_packdepth");
+			m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_packdepth_i", "fs_shadowmaps_packdepth_vsm");
 
-			m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_packdepth_linear_i", "fs_shadowmaps_packdepth_linear");
-			m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_packdepth_linear_i", "fs_shadowmaps_packdepth_vsm_linear");
+			m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_packdepth_linear_i", "fs_shadowmaps_packdepth_linear");
+			m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_packdepth_linear_i", "fs_shadowmaps_packdepth_vsm_linear");
 
 			// Color lighting.
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_hard");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_pcf");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_vsm");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_esm");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_hard");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_pcf");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_vsm");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting", "fs_shadowmaps_color_lighting_esm");
 
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_hard_linear");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_pcf_linear");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_vsm_linear");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_esm_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_hard_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_pcf_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_vsm_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear", "fs_shadowmaps_color_lighting_esm_linear");
 
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_hard_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_pcf_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_vsm_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_esm_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_hard_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_pcf_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_vsm_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_omni", "fs_shadowmaps_color_lighting_esm_omni");
 
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_hard_linear_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_pcf_linear_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_vsm_linear_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_esm_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_hard_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_pcf_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_vsm_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_omni", "fs_shadowmaps_color_lighting_esm_linear_omni");
 
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_hard_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_pcf_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_vsm_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_esm_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_hard_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_pcf_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_vsm_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_csm", "fs_shadowmaps_color_lighting_esm_csm");
 
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_hard_linear_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_pcf_linear_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_vsm_linear_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] = loadProgram("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_esm_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_hard_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_pcf_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_vsm_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC].AttachShader("vs_shadowmaps_color_lighting_linear_csm", "fs_shadowmaps_color_lighting_esm_linear_csm");
 		
 
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_hard");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_pcf");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_vsm");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_esm");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_hard");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_pcf");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_vsm");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_i", "fs_shadowmaps_color_lighting_esm");
 
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_hard_linear");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_pcf_linear");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_vsm_linear");
-			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_esm_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_hard_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_pcf_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_vsm_linear");
+			m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_i", "fs_shadowmaps_color_lighting_esm_linear");
 
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_hard_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_pcf_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_vsm_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_esm_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_hard_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_pcf_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_vsm_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_omni_i", "fs_shadowmaps_color_lighting_esm_omni");
 
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_hard_linear_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_pcf_linear_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_vsm_linear_omni");
-			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_esm_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_hard_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_pcf_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_vsm_linear_omni");
+			m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_omni_i", "fs_shadowmaps_color_lighting_esm_linear_omni");
 
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_hard_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_pcf_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_vsm_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_esm_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_hard_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_pcf_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_vsm_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_csm_i", "fs_shadowmaps_color_lighting_esm_csm");
 
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_hard_linear_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_pcf_linear_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_vsm_linear_csm");
-			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] = loadProgram("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_esm_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_hard_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_pcf_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_vsm_linear_csm");
+			m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE].AttachShader("vs_shadowmaps_color_lighting_linear_csm_i", "fs_shadowmaps_color_lighting_esm_linear_csm");
 
 		}
 
@@ -376,7 +381,8 @@ private:
 					{
 						for (uint8_t pp = 0; pp < ERenderInstanceType::Count; ++pp)
 						{
-							bgfx::destroy(m_colorLighting[ii][jj][kk][pp]);
+							//bgfx::destroy(m_colorLighting[ii][jj][kk][pp]);
+							m_colorLighting[ii][jj][kk][pp].Release();
 						}
 					}
 				}
@@ -389,7 +395,8 @@ private:
 				{
 					for (uint8_t kk = 0; kk < ERenderInstanceType::Count; ++kk)
 					{
-						bgfx::destroy(m_packDepth[ii][jj][kk]);
+						m_packDepth[ii][jj][kk].Release();
+						//bgfx::destroy(m_packDepth[ii][jj][kk]);
 					}
 				}
 			}
@@ -397,35 +404,41 @@ private:
 			// Draw depth.
 			for (uint8_t ii = 0; ii < EPackDepth::Count; ++ii)
 			{
-				bgfx::destroy(m_drawDepth[ii]);
+				m_drawDepth[ii].Release();
+				//bgfx::destroy(m_drawDepth[ii]);
 			}
 
 			// Hblur.
 			for (uint8_t ii = 0; ii < EPackDepth::Count; ++ii)
 			{
-				bgfx::destroy(m_hBlur[ii]);
+				m_hBlur[ii].Release();
+				//bgfx::destroy(m_hBlur[ii]);
 			}
 
 			// Vblur.
 			for (uint8_t ii = 0; ii < EPackDepth::Count; ++ii)
 			{
-				bgfx::destroy(m_vBlur[ii]);
+				m_vBlur[ii].Release();
+				//bgfx::destroy(m_vBlur[ii]);
 			}
 
 			// Misc.
-			bgfx::destroy(m_colorTexture);
+			m_colorTexture.Release();
+			m_texture.Release();
+			m_black.Release();
+			/*bgfx::destroy(m_colorTexture);
 			bgfx::destroy(m_texture);
-			bgfx::destroy(m_black);
+			bgfx::destroy(m_black);*/
 		}
 
-		bgfx::ProgramHandle m_black;
-		bgfx::ProgramHandle m_texture;
-		bgfx::ProgramHandle m_colorTexture;
-		bgfx::ProgramHandle m_vBlur[EPackDepth::Count];
-		bgfx::ProgramHandle m_hBlur[EPackDepth::Count];
-		bgfx::ProgramHandle m_drawDepth[EPackDepth::Count];
-		bgfx::ProgramHandle m_packDepth[EDepthImpl::Count][EPackDepth::Count][ERenderInstanceType::Count];
-		bgfx::ProgramHandle m_colorLighting[EShadowMapType::Count][EDepthImpl::Count][EShadowMapImpl::Count][ERenderInstanceType::Count];
+		FShaderProgram m_black;
+		FShaderProgram m_texture;
+		FShaderProgram m_colorTexture;
+		FShaderProgram m_vBlur[EPackDepth::Count];
+		FShaderProgram m_hBlur[EPackDepth::Count];
+		FShaderProgram m_drawDepth[EPackDepth::Count];
+		FShaderProgram m_packDepth[EDepthImpl::Count][EPackDepth::Count][ERenderInstanceType::Count];
+		FShaderProgram m_colorLighting[EShadowMapType::Count][EDepthImpl::Count][EShadowMapImpl::Count][ERenderInstanceType::Count];
 	};
 
 	struct Uniforms

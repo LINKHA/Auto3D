@@ -759,7 +759,7 @@ void FShadowRenderer::Init()
 	FShadowRenderer::_shadowSceneSettings.m_stencilPack = true;
 	FShadowRenderer::_shadowSceneSettings.m_stabilize = true;
 
-	FShadowMapSettings* currentSmSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
+	FShadowMapSettings* currentSmSettings = FShadowRenderer::GetCurrentShadowMapSettings();
 
 	// Render targets.
 	uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
@@ -1409,12 +1409,12 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-		bgfx::submit(RENDERVIEW_VBLUR_0_ID, _programs.m_vBlur[depthType]);
+		bgfx::submit(RENDERVIEW_VBLUR_0_ID, _programs.m_vBlur[depthType].GetProgram());
 
 		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs.m_hBlur[depthType]);
+		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs.m_hBlur[depthType].GetProgram());
 
 		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		{
@@ -1425,12 +1425,12 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-				bgfx::submit(viewId, _programs.m_vBlur[depthType]);
+				bgfx::submit(viewId, _programs.m_vBlur[depthType].GetProgram());
 
 				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-				bgfx::submit(viewId + 1, _programs.m_hBlur[depthType]);
+				bgfx::submit(viewId + 1, _programs.m_hBlur[depthType].GetProgram());
 			}
 		}
 	}
@@ -1441,7 +1441,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs.m_drawDepth[depthType]);
+		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs.m_drawDepth[depthType].GetProgram());
 
 		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
 		{
@@ -1450,7 +1450,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
-				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, _programs.m_drawDepth[depthType]);
+				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, _programs.m_drawDepth[depthType].GetProgram());
 			}
 		}
 	}
@@ -1509,7 +1509,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 					| BGFX_STENCIL_OP_PASS_Z_REPLACE
 				);
 				bgfx::setVertexBuffer(0, &vb);
-				bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, _programs.m_black);
+				bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, _programs.m_black.GetProgram());
 			}
 		}
 	}

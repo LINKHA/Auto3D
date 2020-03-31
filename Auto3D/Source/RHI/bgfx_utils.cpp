@@ -1,4 +1,5 @@
 #include "RHI.h"
+#include "IO/FileSystem.h"
 
 #include <tinystl/allocator.h>
 #include <tinystl/vector.h>
@@ -97,7 +98,7 @@ static bgfx::ShaderHandle loadShader(bx::FileReaderI* _reader, const char* _path
 	char filePath[512];
 
 	const char* shaderPath = "???";
-
+	Auto3D::FString exeDir = Auto3D::ExecutableDir() + "Data/";
 	switch (bgfx::getRendererType() )
 	{
 	case bgfx::RendererType::Noop:
@@ -115,12 +116,14 @@ static bgfx::ShaderHandle loadShader(bx::FileReaderI* _reader, const char* _path
 		BX_CHECK(false, "You should not be here!");
 		break;
 	}
-
+	
 	bx::strCopy(filePath, BX_COUNTOF(filePath), shaderPath);
 	bx::strCat(filePath, BX_COUNTOF(filePath), _pathName);
 	bx::strCat(filePath, BX_COUNTOF(filePath), ".bin");
 
-	bgfx::ShaderHandle handle = bgfx::createShader(loadMem(_reader, filePath) );
+	Auto3D::FString fileDir = exeDir + Auto3D::FString(filePath);
+
+	bgfx::ShaderHandle handle = bgfx::createShader(loadMem(_reader, fileDir.CString()) );
 	bgfx::setName(handle, _pathName);
 
 	return handle;

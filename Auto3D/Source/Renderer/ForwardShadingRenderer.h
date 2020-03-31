@@ -18,23 +18,6 @@ namespace Auto3D
 class OMesh;
 class AWorld;
 class ACameraComponent;
-//
-//struct FRenderState
-//{
-//	struct Texture
-//	{
-//		uint32_t            _flags;
-//		bgfx::UniformHandle _sampler;
-//		bgfx::TextureHandle _texture;
-//		uint8_t             _stage;
-//	};
-//
-//	Texture             _textures[4];
-//	uint64_t            _state;
-//	bgfx::ProgramHandle _program;
-//	uint8_t             _numTextures;
-//	bgfx::ViewId        _viewId;
-//};
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public IRenderer
@@ -56,7 +39,7 @@ public:
 
 	void CollectBatch();
 
-	void AttachShader(FPass& pass,ALightComponent* lightComponent);
+	void AttachShader(FPass& pass);
 
 	void PrepareView();
 
