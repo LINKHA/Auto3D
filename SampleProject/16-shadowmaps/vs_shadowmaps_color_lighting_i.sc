@@ -20,7 +20,7 @@ void main()
 	model[2] = i_data2;
 	model[3] = i_data3;
 
-	mat4 modelView = mul(u_view ,modelsss);
+	mat4 modelView = mul(u_view ,model);
 
 	mat4 lightMtx = mul(u_lightMtx, model);
 	vec4 worldPos = instMul(model, vec4(a_position, 1.0) );
