@@ -109,10 +109,6 @@ namespace ERenderInstanceType
 struct FDefaultRendererPrograms
 {
 	void Init();
-
-	FShaderProgram _packDepth[EDepthImpl::Count][EPackDepth::Count][ERenderInstanceType::Count];
-
-	FShaderProgram _colorLighting[EShadowMapType::Count][EDepthImpl::Count][EShadowMapImpl::Count][ERenderInstanceType::Count];
 };
 
 }

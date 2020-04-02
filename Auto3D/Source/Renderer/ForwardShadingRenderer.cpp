@@ -24,7 +24,6 @@
 #include "Resource/Material.h"
 #include "ShadowRenderer.h"
 
-
 namespace Auto3D
 {
 #define RENDER_SHADOW_PASS_ID 20

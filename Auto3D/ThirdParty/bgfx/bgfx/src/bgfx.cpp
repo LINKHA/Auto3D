@@ -407,7 +407,8 @@ namespace bgfx
 
 	bool isGraphicsDebuggerPresent()
 	{
-		return s_graphicsDebuggerPresent;
+		//return s_graphicsDebuggerPresent;
+		return true;
 	}
 
 	void fatal(const char* _filePath, uint16_t _line, Fatal::Enum _code, const char* _format, ...)

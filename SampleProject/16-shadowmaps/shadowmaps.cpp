@@ -70,7 +70,7 @@ public:
 
 		AActor* meshActor = world->CreateChild<AActor>();
 		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
-		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		meshActor->GetTransform()->SetPosition({ -15.0f, 5.0f, 0.0f });
 		meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
 

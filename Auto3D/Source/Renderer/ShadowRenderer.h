@@ -381,7 +381,6 @@ private:
 					{
 						for (uint8_t pp = 0; pp < ERenderInstanceType::Count; ++pp)
 						{
-							//bgfx::destroy(m_colorLighting[ii][jj][kk][pp]);
 							m_colorLighting[ii][jj][kk][pp].Release();
 						}
 					}
@@ -396,7 +395,6 @@ private:
 					for (uint8_t kk = 0; kk < ERenderInstanceType::Count; ++kk)
 					{
 						m_packDepth[ii][jj][kk].Release();
-						//bgfx::destroy(m_packDepth[ii][jj][kk]);
 					}
 				}
 			}
@@ -405,30 +403,24 @@ private:
 			for (uint8_t ii = 0; ii < EPackDepth::Count; ++ii)
 			{
 				m_drawDepth[ii].Release();
-				//bgfx::destroy(m_drawDepth[ii]);
 			}
 
 			// Hblur.
 			for (uint8_t ii = 0; ii < EPackDepth::Count; ++ii)
 			{
 				m_hBlur[ii].Release();
-				//bgfx::destroy(m_hBlur[ii]);
 			}
 
 			// Vblur.
 			for (uint8_t ii = 0; ii < EPackDepth::Count; ++ii)
 			{
 				m_vBlur[ii].Release();
-				//bgfx::destroy(m_vBlur[ii]);
 			}
 
 			// Misc.
 			m_colorTexture.Release();
 			m_texture.Release();
 			m_black.Release();
-			/*bgfx::destroy(m_colorTexture);
-			bgfx::destroy(m_texture);
-			bgfx::destroy(m_black);*/
 		}
 
 		FShaderProgram m_black;
