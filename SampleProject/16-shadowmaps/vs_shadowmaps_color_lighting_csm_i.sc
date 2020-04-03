@@ -22,7 +22,8 @@ void main()
 
 	vec4 worldPos = instMul(model, vec4(a_position, 1.0) );
 
-	mat4 modelView = mul(u_view , model);
+	mat4 modelView = mul(model,u_view);
+
 
 	gl_Position = mul(u_viewProj, worldPos);
 
@@ -33,7 +34,7 @@ void main()
 	vec4 posOffset = vec4(a_position + normal.xyz * u_shadowMapOffset, 1.0);
 	v_position = mul(modelView, posOffset);
 
-	vec4 wpos = vec4(mul(model, posOffset).xyz, 1.0);
+	vec4 wpos = vec4(mul(posOffset,model).xyz, 1.0);
 	v_texcoord1 = mul(u_shadowMapMtx0, wpos);
 	v_texcoord2 = mul(u_shadowMapMtx1, wpos);
 	v_texcoord3 = mul(u_shadowMapMtx2, wpos);

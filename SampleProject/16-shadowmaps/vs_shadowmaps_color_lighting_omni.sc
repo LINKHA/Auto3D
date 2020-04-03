@@ -24,6 +24,7 @@ void main()
 
 	vec4 normal = a_normal * 2.0 - 1.0;
 	v_normal = normalize(mul(u_modelView, vec4(normal.xyz, 0.0) ).xyz);
+	
 	v_view = mul(u_modelView, vec4(a_position, 1.0)).xyz;
 
 	vec4 posOffset = vec4(a_position + normal.xyz * u_shadowMapOffset, 1.0);

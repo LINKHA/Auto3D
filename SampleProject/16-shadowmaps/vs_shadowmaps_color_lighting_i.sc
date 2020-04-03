@@ -20,15 +20,16 @@ void main()
 	model[2] = i_data2;
 	model[3] = i_data3;
 
-	mat4 modelView = mul(u_view ,model);
+	mat4 modelView = mul(model,u_view);
 
-	mat4 lightMtx = mul(u_lightMtx, model);
+	mat4 lightMtx = mul(model,u_lightMtx);
 	vec4 worldPos = instMul(model, vec4(a_position, 1.0) );
 
 	gl_Position = mul(u_viewProj, worldPos);
 
 	vec4 normal = a_normal * 2.0 - 1.0;
 	v_normal = normalize(mul(modelView, vec4(normal.xyz, 0.0) ).xyz);
+
 	v_view = mul(modelView, vec4(a_position, 1.0)).xyz;
 
 	vec3 posOffset = a_position + normal.xyz * u_shadowMapOffset;
