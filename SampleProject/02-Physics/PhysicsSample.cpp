@@ -13,7 +13,7 @@
 #include "Component/LightComponent.h"
 #include "Component/AudioListenerComponent.h"
 #include "Component/AudioSourceComponent.h"
-
+#include "Component/DirectionalLightComponent.h"
 
 #include "IO/FileSystem.h"
 #include "IO/Stream.h"
@@ -75,7 +75,7 @@ public:
 		plane->GetTransform()->SetPosition({ 0.0f, -20.0f, 0.0f });
 		plane->GetTransform()->SetScale({ 100.0f, 1.0f, 100.0f });
 		AMeshComponent* planeMeshComponent = plane->CreateComponent<AMeshComponent>();
-		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
+		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
 		planeMeshComponent->SetMaterial(_material2);
 		ARigidBodyComponent* fenceRigidBody = plane->CreateComponent<ARigidBodyComponent>();
 		fenceRigidBody->SetMass(0.0f);
@@ -83,11 +83,10 @@ public:
 		fenceColliderBox->SetSize({ 50.0f, 1.0f, 50.0f });
 
 
-		AActor* light = world->CreateChild<AActor>();
-		light->GetTransform()->SetPosition({ 10.0f, 10.0f, 10.0f });
-		light->GetTransform()->SetRotation(FQuaternion(45.0f, -45.0f, 45.0f));
-		auto lightMeshComponent = light->CreateComponent<ALightComponent>();
-		lightMeshComponent->SetupShadowMap();
+		AActor* directionalLightActor = world->CreateChild<AActor>();
+		//directionalLightActor->SetEnabled(false);
+		directionalLightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
+		directionalLightActor->CreateComponent<ADirectionalLightComponent>();
 	
 
 	}

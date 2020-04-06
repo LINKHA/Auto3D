@@ -44,8 +44,8 @@ private:
 	TVector2F _mouseNow;
 	TVector2F _mouseLast;
 
-	float _horizontalAngle;
-	float _verticalAngle;
+	float _deltaHorizontalAngle;
+	float _deltaVerticalAngle;
 };
 
 }

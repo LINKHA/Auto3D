@@ -120,19 +120,9 @@ public:
 
 } // namespace
 
-int Auto3D_main(int _argc, char** _argv)
-{
-	ExampleAudio app(
-		 "01-mesh"
-		, "Loading meshes."
-		, "https://bkaradzic.github.io/bgfx/examples.html#mesh"
+AUTO_IMPLEMENT_MAIN(
+	ExampleAudio
+	,"01-Audio"
+	, "audio test."
+	, "https://github.com/LINKHA/Auto3D"
 	);
-	return GApplication::Get().RunAppInstance(&app, _argc, _argv);
-}
-
-//ENTRY_IMPLEMENT_MAIN(
-//	  ExampleAudio
-//	, "04-mesh"
-//	, "Loading meshes."
-//	, "https://bkaradzic.github.io/bgfx/examples.html#mesh"
-//	);

@@ -53,7 +53,7 @@ public:
     void SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale);
     /// Set transform in parent space.
     void SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale);
-    /// Set _position in world space.
+    /// Set position in world space.
     void SetWorldPosition(const TVector3F& newPosition);
     /// Set rotation in world space
     void SetWorldRotation(const FQuaternion& newRotation);

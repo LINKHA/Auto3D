@@ -15,7 +15,7 @@ extern "C" int Auto3D_main(int argc, char** argv);
 int Auto3D_main(int argc, char** argv)\
 {\
 	_App app(__VA_ARGS__);\
-	return Auto3D::runApp(&app, argc, argv);\
+	return GApplication::Get().RunAppInstance(&app, argc, argv);\
 }
 
 namespace Auto3D

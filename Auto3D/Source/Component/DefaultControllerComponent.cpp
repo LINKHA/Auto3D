@@ -87,8 +87,8 @@ static const InputBinding defaultControllerBindings[] =
 ADefaultControllerComponent::ADefaultControllerComponent():
 	_mouseNow({0,0}),
 	_mouseLast({0,0}),
-	_horizontalAngle(0.01f),
-	_verticalAngle(0.0f),
+	_deltaHorizontalAngle(0.01f),
+	_deltaVerticalAngle(0.0f),
 	_mouseSpeed(0.0020f),
 	_gamepadSpeed(0.04f),
 	_moveSpeed(4.5f),
@@ -114,6 +114,11 @@ void ADefaultControllerComponent::TickComponent(float deltaTime)
 	Super::TickComponent(deltaTime);
 	AActor* owner = GetOwner();
 
+	_deltaVerticalAngle = 0;
+	_deltaHorizontalAngle = 0;
+
+	ATransformComponent* ownerTransform = GetOwner()->GetTransform();
+
 	const Auto3D::MouseState& mouseState = GProcessWindow::_mouseState;
 	if (!_mouseDown)
 	{
@@ -134,16 +139,17 @@ void ADefaultControllerComponent::TickComponent(float deltaTime)
 		int32_t deltaX = _mouseNow._x - _mouseLast._x;
 		int32_t deltaY = _mouseNow._y - _mouseLast._y;
 
-		_horizontalAngle += _mouseSpeed * float(deltaX);
-		_verticalAngle -= _mouseSpeed * float(deltaY);
+		_deltaHorizontalAngle += _mouseSpeed * float(deltaX);
+		_deltaVerticalAngle -= _mouseSpeed * float(deltaY);
 
 		_mouseLast._x = _mouseNow._x;
 		_mouseLast._y = _mouseNow._y;
+
 	}
 
 	Auto3D::GamepadHandle handle = { 0 };
-	_horizontalAngle += _gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX) / 32768.0f;
-	_verticalAngle -= _gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY) / 32768.0f;
+	_deltaHorizontalAngle += _gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX) / 32768.0f;
+	_deltaVerticalAngle -= _gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY) / 32768.0f;
 	const int32_t gpx = InputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftX);
 	const int32_t gpy = InputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftY);
 	_keys |= gpx < -16834 ? DEFAULT_CONTROLLER_KEY_LEFT : 0;
@@ -151,10 +157,20 @@ void ADefaultControllerComponent::TickComponent(float deltaTime)
 	_keys |= gpy < -16834 ? DEFAULT_CONTROLLER_KEY_FORWARD : 0;
 	_keys |= gpy > 16834 ? DEFAULT_CONTROLLER_KEY_BACKWARD : 0;
 
-	
-	ATransformComponent* ownerTransform = GetOwner()->GetTransform();
-	ownerTransform->SetRotation(FQuaternion(-_verticalAngle * 90, _horizontalAngle * 90, 0.0f));
+	if (_mouseDown)
+	{
+		TVector3F eulerAngles = ownerTransform->GetRotation().EulerAngles();
 
+		float pitch = eulerAngles._x;
+		float yaw = eulerAngles._y;
+
+		pitch += -_deltaVerticalAngle * 90;
+		yaw  += _deltaHorizontalAngle * 90;
+		pitch = Clamp(pitch, -90.0f, 90.0f);
+
+		ownerTransform->SetRotation(FQuaternion(pitch, yaw, 0.0f));
+	}
+	
 	if (_keys & DEFAULT_CONTROLLER_KEY_FORWARD)
 	{
 		ownerTransform->Translate(TVector3F::FORWARD * deltaTime * _moveSpeed);
@@ -203,8 +219,8 @@ void ADefaultControllerComponent::Reset()
 	_mouseNow._y = 0;
 	_mouseLast._x = 0;
 	_mouseLast._y = 0;
-	_horizontalAngle = 0.01f;
-	_verticalAngle = 0.0f;
+	_deltaHorizontalAngle = 0.01f;
+	_deltaVerticalAngle = 0.0f;
 	_mouseSpeed = 0.0020f;
 	_gamepadSpeed = 0.04f;
 	_moveSpeed = 4.5f;

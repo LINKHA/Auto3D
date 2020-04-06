@@ -172,7 +172,7 @@ void ATransformComponent::Translate(const TVector3F& delta, ETransformSpace::Typ
 void ATransformComponent::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
 {
     ATransformComponent* parentNode = GetParentTransform();
-    
+
     switch (space)
     {
     case ETransformSpace::LOCAL:
