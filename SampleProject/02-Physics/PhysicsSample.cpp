@@ -55,8 +55,12 @@ public:
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
+		camera->SetFov(60.0f);
+		camera->SetNearClip(0.1f);
+		camera->SetFarClip(2000.0f);
 		actor->CreateComponent<ADefaultControllerComponent>();
 		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
+		actor->GetTransform()->SetRotation({ 45.0f,0.0f,0.0f });
 
 		AActor* cube = world->CreateChild<AActor>();
 		cube->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });

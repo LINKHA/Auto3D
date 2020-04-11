@@ -3,7 +3,9 @@
 #include "Container/Ptr.h"
 #include "Container/AutoPtr.h"
 #include "Container/Singleton.h"
-
+#include "Container/String.h"
+#include "Container/Vector.h"
+#include "Container/HashMap.h"
 
 namespace Auto3D
 {
