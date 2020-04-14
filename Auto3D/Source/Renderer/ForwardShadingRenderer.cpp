@@ -248,13 +248,22 @@ void FForwardShadingRenderer::Init()
 	// Enable debug text.
 	bgfx::setDebug(_debug);
 
+	//// Set views  clear state.
+	//bgfx::setViewClear(RENDER_SCENE_PASS_ID
+	//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+	//	, _backbufferColor.ToUInt()
+	//	, _depth
+	//	, _stencil
+	//);
+
 	// Set views  clear state.
-	bgfx::setViewClear(RENDER_SCENE_PASS_ID
+	bgfx::setViewClear(0
 		, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-		, _backbufferColor.ToUInt()
-		, _depth
-		, _stencil
+		, 0x303030ff
+		, 1.0f
+		, 0
 	);
+
 
 	_programs.Init();
 
