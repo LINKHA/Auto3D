@@ -4,6 +4,7 @@
 #include "Component/CameraComponent.h"
 #include "Component/MeshComponent.h"
 #include "Component/DefaultControllerComponent.h"
+#include "Component/ShowControllerComponent.h"
 #include "Component/TransformComponent.h"
 #include "Component/LightComponent.h"
 #include "Component/AudioListenerComponent.h"
@@ -190,6 +191,9 @@ static void REGISTER_REFLECTION_FUNCATION()
 		.constructor<>()
 		;
 
+	REGISTER_A_CALSS_IMP(AShowControllerComponent)
+		.constructor<>()
+		;
 }
 
 

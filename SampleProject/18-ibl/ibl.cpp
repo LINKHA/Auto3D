@@ -15,6 +15,11 @@
 #include "UI/UI.h"
 #include "Resource/Mesh.h"
 #include "Platform/ProcessWindow.h"
+#include "Renderer/ShaderProgram.h"
+#include "Component/CameraComponent.h"
+#include "Component/DefaultControllerComponent.h"
+#include "Gameplay/Actor.h"
+#include "Component/TransformComponent.h"
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>
@@ -412,23 +417,24 @@ public:
 
 	void init() override
 	{
-	//	Args args(_argc, _argv);
-
-		m_width  = 1280;
-		m_height = 720;
-		m_debug = BGFX_DEBUG_NONE;
-		m_reset  = 0
-			| BGFX_RESET_VSYNC
-			| BGFX_RESET_MSAA_X16
-			;
-
-
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
 		world->DefineLayer(0, "Default");
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
+
+		AActor* actor = world->CreateChild<AActor>();
+		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
+		camera->SetFov(60.0f);
+		camera->SetNearClip(0.1f);
+		camera->SetFarClip(2000.0f);
+		actor->CreateComponent<ADefaultControllerComponent>();
+		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
+		actor->GetTransform()->SetRotation({ 45.0f,0.0f,0.0f });
+
+
+
 
 		// Uniforms.
 		m_uniforms.init();
@@ -447,8 +453,8 @@ public:
 		s_texCube    = bgfx::createUniform("s_texCube",    bgfx::UniformType::Sampler);
 		s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
 
-		m_programMesh  = loadProgram("vs_ibl_mesh",   "fs_ibl_mesh");
-		m_programSky   = loadProgram("vs_ibl_skybox", "fs_ibl_skybox");
+		m_programMesh.AttachShader("vs_ibl_mesh",   "fs_ibl_mesh");
+		m_programSky.AttachShader("vs_ibl_skybox", "fs_ibl_skybox");
 
 		GResourceModule& resourceModule = GResourceModule::Get();
 
@@ -458,32 +464,32 @@ public:
 
 	virtual int shutdown() override
 	{
-		//meshUnload(m_meshBunny);
-		//meshUnload(m_meshOrb);
+		////meshUnload(m_meshBunny);
+		////meshUnload(m_meshOrb);
 
-		// Cleanup.
-		bgfx::destroy(m_programMesh);
-		bgfx::destroy(m_programSky);
+		//// Cleanup.
+		//bgfx::destroy(m_programMesh);
+		//bgfx::destroy(m_programSky);
 
-		bgfx::destroy(u_camPos);
-		bgfx::destroy(u_flags);
-		bgfx::destroy(u_params);
-		bgfx::destroy(u_mtx);
+		//bgfx::destroy(u_camPos);
+		//bgfx::destroy(u_flags);
+		//bgfx::destroy(u_params);
+		//bgfx::destroy(u_mtx);
 
-		bgfx::destroy(s_texCube);
-		bgfx::destroy(s_texCubeIrr);
+		//bgfx::destroy(s_texCube);
+		//bgfx::destroy(s_texCubeIrr);
 
-		for (uint8_t ii = 0; ii < LightProbe::Count; ++ii)
-		{
-			m_lightProbes[ii].destroy();
-		}
+		//for (uint8_t ii = 0; ii < LightProbe::Count; ++ii)
+		//{
+		//	m_lightProbes[ii].destroy();
+		//}
 
-		m_uniforms.destroy();
+		//m_uniforms.destroy();
 
-		imguiDestroy();
+		//imguiDestroy();
 
-		// Shutdown bgfx.
-		bgfx::shutdown();
+		//// Shutdown bgfx.
+		//bgfx::shutdown();
 
 		return 0;
 	}
@@ -493,15 +499,15 @@ public:
 #pragma region regionName
 
 		GProcessWindow& processWindow = GProcessWindow::Get();
-
+		
 		showExampleDialog(this);
 
 		ImGui::SetNextWindowPos(
-				ImVec2(m_width - m_width / 5.0f - 10.0f, 10.0f)
+				ImVec2(processWindow._width - processWindow._width / 5.0f - 10.0f, 10.0f)
 			, ImGuiCond_FirstUseEver
 			);
 		ImGui::SetNextWindowSize(
-				ImVec2(m_width / 5.0f, m_height - 20.0f)
+				ImVec2(processWindow._width / 5.0f, processWindow._height - 20.0f)
 			, ImGuiCond_FirstUseEver
 			);
 		ImGui::Begin("Settings"
@@ -596,7 +602,7 @@ public:
 			, ImGuiCond_FirstUseEver
 			);
 		ImGui::SetNextWindowSize(
-				ImVec2(m_width / 5.0f, 450.0f)
+				ImVec2(processWindow._width / 5.0f, 450.0f)
 			, ImGuiCond_FirstUseEver
 			);
 		ImGui::Begin("Mesh"
@@ -669,18 +675,18 @@ public:
 
 		// Camera.
 		const bool mouseOverGui = ImGui::MouseOverArea();
-		m_mouse.update(float(m_mouseState._mx), float(m_mouseState._my), m_mouseState._mz, m_width, m_height);
+		m_mouse.update(float(processWindow._mouseState._mx), float(processWindow._mouseState._my), processWindow._mouseState._mz, processWindow._width, processWindow._height);
 		if (!mouseOverGui)
 		{
-			if (m_mouseState._buttons[MouseButton::Left])
+			if (processWindow._mouseState._buttons[MouseButton::Left])
 			{
 				m_camera.orbit(m_mouse.m_dx, m_mouse.m_dy);
 			}
-			else if (m_mouseState._buttons[MouseButton::Right])
+			else if (processWindow._mouseState._buttons[MouseButton::Right])
 			{
 				m_camera.dolly(m_mouse.m_dx + m_mouse.m_dy);
 			}
-			else if (m_mouseState._buttons[MouseButton::Middle])
+			else if (processWindow._mouseState._buttons[MouseButton::Middle])
 			{
 				m_settings.m_envRotDest += m_mouse.m_dx*2.0f;
 			}
@@ -704,12 +710,12 @@ public:
 
 		// View Transform 1.
 		m_camera.mtxLookAt(view);
-		bx::mtxProj(proj, 45.0f, float(m_width)/float(m_height), 0.1f, 100.0f, caps->homogeneousDepth);
+		bx::mtxProj(proj, 45.0f, float(processWindow._width)/float(processWindow._height), 0.1f, 100.0f, caps->homogeneousDepth);
 		bgfx::setViewTransform(1, view, proj);
 
 		// View rect.
-		bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
-		bgfx::setViewRect(1, 0, 0, uint16_t(m_width), uint16_t(m_height) );
+		bgfx::setViewRect(0, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height) );
+		bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height) );
 
 		// Env rotation.
 		const float amount = bx::min(deltaTimeSec/0.12f, 1.0f);
@@ -726,9 +732,9 @@ public:
 		bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
 		bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
 		bgfx::setState(BGFX_STATE_WRITE_RGB|BGFX_STATE_WRITE_A);
-		screenSpaceQuad( (float)m_width, (float)m_height, true);
+		screenSpaceQuad( (float)processWindow._width, (float)processWindow._height, true);
 		m_uniforms.submit();
-		bgfx::submit(0, m_programSky);
+		bgfx::submit(0, m_programSky.GetProgram());
 
 		// Submit view 1.
 		bx::memCopy(m_uniforms.m_mtx, mtxEnvRot, 16*sizeof(float)); // Used for IBL.
@@ -740,7 +746,7 @@ public:
 			bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
 			bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
 			m_uniforms.submit();
-			m_meshBunny->submit(1, m_programMesh, mtx);
+			m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
 		}
 		else
 		{
@@ -773,7 +779,7 @@ public:
 
 					bgfx::setTexture(0, s_texCube,    m_lightProbes[m_currentLightProbe].m_tex);
 					bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
-					m_meshOrb->submit(1, m_programMesh, mtx);
+					m_meshOrb->submit(1, m_programMesh.GetProgram(), mtx);
 				}
 			}
 		}
@@ -785,12 +791,6 @@ public:
 		return true;
 	
 	}
-
-	uint32_t m_width;
-	uint32_t m_height;
-	uint32_t m_debug;
-	uint32_t m_reset;
-	MouseState m_mouseState;
 
 	Uniforms m_uniforms;
 
@@ -804,8 +804,8 @@ public:
 	bgfx::UniformHandle s_texCube;
 	bgfx::UniformHandle s_texCubeIrr;
 
-	bgfx::ProgramHandle m_programMesh;
-	bgfx::ProgramHandle m_programSky;
+	FShaderProgram m_programMesh;
+	FShaderProgram m_programSky;
 
 	OMesh* m_meshBunny;
 	OMesh* m_meshOrb;
