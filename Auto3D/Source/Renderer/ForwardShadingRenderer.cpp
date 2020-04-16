@@ -22,7 +22,9 @@
 #include "RHI/bgfx_utils.h"
 
 #include "Resource/Material.h"
-#include "ShadowRenderer.h"
+#include "Renderer/ShadowRenderer.h"
+#include "Renderer/IBLRenderer.h"
+
 
 namespace Auto3D
 {
@@ -268,6 +270,7 @@ void FForwardShadingRenderer::Init()
 	_programs.Init();
 
 	FShadowRenderer::Get().Init();
+	FIBLRenderer::Get().Init();
 }
 
 void FForwardShadingRenderer::Render()
@@ -335,7 +338,7 @@ void FForwardShadingRenderer::RenderBatches()
 			TVector3F lightPosition = lightComponent->GetOwner()->GetTransform()->GetWorldPosition();
 
 			FShadowRenderer::Get().Update(_currentCamera, lightComponent);
-
+			FIBLRenderer::Get().Update(_currentCamera, lightComponent);
 
 			TVector<FBatch>& batches = _batchQueues._batches;
 			for (auto bIt = batches.Begin(); bIt != batches.End();)

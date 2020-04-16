@@ -1,3 +1,4 @@
+#pragma once
 #include "AutoConfig.h"
 #include "Platform/PlatformDef.h"
 #include "Platform/Cmd.h"

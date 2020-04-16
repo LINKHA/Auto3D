@@ -2,6 +2,9 @@
 #include "AutoConfig.h"
 #include "Container/Singleton.h"
 #include "Renderer/ShaderProgram.h"
+#include "Component/CameraComponent.h"
+#include "Component/LightComponent.h"
+#include "Platform/ProcessWindow.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/bx.h>
@@ -23,8 +26,10 @@ public:
 
 	}
 
-	void Update()
+	void Update(ACameraComponent* camera, ALightComponent* light)
 	{
+		GProcessWindow& processWindow = GProcessWindow::Get();
+
 		m_uniforms.m_glossiness = m_settings.m_glossiness;
 		m_uniforms.m_reflectivity = m_settings.m_reflectivity;
 		m_uniforms.m_exposure = m_settings.m_exposure;
@@ -38,6 +43,19 @@ public:
 		bx::memCopy(m_uniforms.m_rgbSpec, m_settings.m_rgbSpec, 3 * sizeof(float));
 		bx::memCopy(m_uniforms.m_lightDir, m_settings.m_lightDir, 3 * sizeof(float));
 		bx::memCopy(m_uniforms.m_lightCol, m_settings.m_lightCol, 3 * sizeof(float));
+
+		
+		TMatrix4x4F viewMatrix = camera->GetViewMatrix();
+		TMatrix4x4F projMatrix = camera->GetProjectionMatrix();
+
+		bgfx::setViewTransform(0, viewMatrix.Data(), projMatrix.Data());
+		bgfx::setViewTransform(1, viewMatrix.Data(), projMatrix.Data());
+
+		// View rect.
+		bgfx::setViewRect(0, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
+		bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
+
+
 	}
 
 	struct Uniforms
@@ -150,6 +168,16 @@ public:
 
 	FShaderProgram m_programMesh;
 	FShaderProgram m_programSky;
+
+	//LightProbe m_lightProbes[LightProbe::Count];
+	//LightProbe::Enum m_currentLightProbe;
+
+	//bgfx::UniformHandle u_mtx;
+	//bgfx::UniformHandle u_params;
+	//bgfx::UniformHandle u_flags;
+	//bgfx::UniformHandle u_camPos;
+	//bgfx::UniformHandle s_texCube;
+	//bgfx::UniformHandle s_texCubeIrr;
 
 };
 
