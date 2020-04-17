@@ -5,12 +5,299 @@
 #include "Component/CameraComponent.h"
 #include "Component/LightComponent.h"
 #include "Platform/ProcessWindow.h"
+#include "RHI/bgfx_utils.h"
+#include "Resource/Mesh.h"
+#include "Resource/ResourceCache.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/bx.h>
+#include <bx/readerwriter.h>
+#include <bx/string.h>
+
+#include "UI/UI.h"
+#include <bx/timer.h>
 
 namespace Auto3D
 {
+	static float s_texelHalf = 0.0f;
+
+struct LightProbe
+{
+	enum Enum
+	{
+		Bolonga,
+		Kyoto,
+
+		Count
+	};
+
+	void load(const char* _name)
+	{
+		char filePath[512];
+
+		bx::snprintf(filePath, BX_COUNTOF(filePath), "textures/%s_lod.dds", _name);
+		m_tex = loadTexture(filePath, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_W_CLAMP);
+
+		bx::snprintf(filePath, BX_COUNTOF(filePath), "textures/%s_irr.dds", _name);
+		m_texIrr = loadTexture(filePath, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_W_CLAMP);
+	}
+
+	void destroy()
+	{
+		bgfx::destroy(m_tex);
+		bgfx::destroy(m_texIrr);
+	}
+
+	bgfx::TextureHandle m_tex;
+	bgfx::TextureHandle m_texIrr;
+};
+
+struct IBLPosColorTexCoord0Vertex
+{
+	float m_x;
+	float m_y;
+	float m_z;
+	uint32_t m_rgba;
+	float m_u;
+	float m_v;
+
+	static void init()
+	{
+		ms_layout
+			.begin()
+			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+			.end();
+	}
+
+	static bgfx::VertexLayout ms_layout;
+};
+
+
+
+void iblScreenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = false, float _width = 1.0f, float _height = 1.0f);
+
+struct tCamera
+{
+	tCamera()
+	{
+		reset();
+	}
+
+	void reset()
+	{
+		m_target.curr = { 0.0f, 0.0f, 0.0f };
+		m_target.dest = { 0.0f, 0.0f, 0.0f };
+
+		m_pos.curr = { 0.0f, 0.0f, -3.0f };
+		m_pos.dest = { 0.0f, 0.0f, -3.0f };
+
+		m_orbit[0] = 0.0f;
+		m_orbit[1] = 0.0f;
+	}
+
+	void mtxLookAt(float* _outViewMtx)
+	{
+		bx::mtxLookAt(_outViewMtx, m_pos.curr, m_target.curr);
+	}
+
+	void orbit(float _dx, float _dy)
+	{
+		m_orbit[0] += _dx;
+		m_orbit[1] += _dy;
+	}
+
+	void dolly(float _dz)
+	{
+		const float cnear = 1.0f;
+		const float cfar = 100.0f;
+
+		const bx::Vec3 toTarget = bx::sub(m_target.dest, m_pos.dest);
+		const float toTargetLen = bx::length(toTarget);
+		const float invToTargetLen = 1.0f / (toTargetLen + bx::kFloatMin);
+		const bx::Vec3 toTargetNorm = bx::mul(toTarget, invToTargetLen);
+
+		float delta = toTargetLen * _dz;
+		float newLen = toTargetLen + delta;
+		if ((cnear < newLen || _dz < 0.0f)
+			&& (newLen < cfar || _dz > 0.0f))
+		{
+			m_pos.dest = bx::mad(toTargetNorm, delta, m_pos.dest);
+		}
+	}
+
+	void consumeOrbit(float _amount)
+	{
+		float consume[2];
+		consume[0] = m_orbit[0] * _amount;
+		consume[1] = m_orbit[1] * _amount;
+		m_orbit[0] -= consume[0];
+		m_orbit[1] -= consume[1];
+
+		const bx::Vec3 toPos = bx::sub(m_pos.curr, m_target.curr);
+		const float toPosLen = bx::length(toPos);
+		const float invToPosLen = 1.0f / (toPosLen + bx::kFloatMin);
+		const bx::Vec3 toPosNorm = bx::mul(toPos, invToPosLen);
+
+		float ll[2];
+		bx::toLatLong(&ll[0], &ll[1], toPosNorm);
+		ll[0] += consume[0];
+		ll[1] -= consume[1];
+		ll[1] = bx::clamp(ll[1], 0.02f, 0.98f);
+
+		const bx::Vec3 tmp = bx::fromLatLong(ll[0], ll[1]);
+		const bx::Vec3 diff = bx::mul(bx::sub(tmp, toPosNorm), toPosLen);
+
+		m_pos.curr = bx::add(m_pos.curr, diff);
+		m_pos.dest = bx::add(m_pos.dest, diff);
+	}
+
+	void update(float _dt)
+	{
+		const float amount = bx::min(_dt / 0.12f, 1.0f);
+
+		consumeOrbit(amount);
+
+		m_target.curr = bx::lerp(m_target.curr, m_target.dest, amount);
+		m_pos.curr = bx::lerp(m_pos.curr, m_pos.dest, amount);
+	}
+
+	void envViewMtx(float* _mtx)
+	{
+		const bx::Vec3 toTarget = bx::sub(m_target.curr, m_pos.curr);
+		const float toTargetLen = bx::length(toTarget);
+		const float invToTargetLen = 1.0f / (toTargetLen + bx::kFloatMin);
+		const bx::Vec3 toTargetNorm = bx::mul(toTarget, invToTargetLen);
+
+		const bx::Vec3 right = bx::normalize(bx::cross({ 0.0f, 1.0f, 0.0f }, toTargetNorm));
+		const bx::Vec3 up = bx::normalize(bx::cross(toTargetNorm, right));
+
+		_mtx[0] = right.x;
+		_mtx[1] = right.y;
+		_mtx[2] = right.z;
+		_mtx[3] = 0.0f;
+		_mtx[4] = up.x;
+		_mtx[5] = up.y;
+		_mtx[6] = up.z;
+		_mtx[7] = 0.0f;
+		_mtx[8] = toTargetNorm.x;
+		_mtx[9] = toTargetNorm.y;
+		_mtx[10] = toTargetNorm.z;
+		_mtx[11] = 0.0f;
+		_mtx[12] = 0.0f;
+		_mtx[13] = 0.0f;
+		_mtx[14] = 0.0f;
+		_mtx[15] = 1.0f;
+	}
+
+	struct Interp3f
+	{
+		bx::Vec3 curr;
+		bx::Vec3 dest;
+	};
+
+	Interp3f m_target;
+	Interp3f m_pos;
+	float m_orbit[2];
+};
+
+struct tMouse
+{
+	tMouse()
+		: m_dx(0.0f)
+		, m_dy(0.0f)
+		, m_prevMx(0.0f)
+		, m_prevMy(0.0f)
+		, m_scroll(0)
+		, m_scrollPrev(0)
+	{
+	}
+
+	void update(float _mx, float _my, int32_t _mz, uint32_t _width, uint32_t _height)
+	{
+		const float widthf = float(int32_t(_width));
+		const float heightf = float(int32_t(_height));
+
+		// Delta movement.
+		m_dx = float(_mx - m_prevMx) / widthf;
+		m_dy = float(_my - m_prevMy) / heightf;
+
+		m_prevMx = _mx;
+		m_prevMy = _my;
+
+		// Scroll.
+		m_scroll = _mz - m_scrollPrev;
+		m_scrollPrev = _mz;
+	}
+
+	float m_dx; // Screen space.
+	float m_dy;
+	float m_prevMx;
+	float m_prevMy;
+	int32_t m_scroll;
+	int32_t m_scrollPrev;
+};
+
+
+struct IBLSettings
+{
+	IBLSettings()
+	{
+		m_envRotCurr = 0.0f;
+		m_envRotDest = 0.0f;
+		m_lightDir[0] = -0.8f;
+		m_lightDir[1] = 0.2f;
+		m_lightDir[2] = -0.5f;
+		m_lightCol[0] = 1.0f;
+		m_lightCol[1] = 1.0f;
+		m_lightCol[2] = 1.0f;
+		m_glossiness = 0.7f;
+		m_exposure = 0.0f;
+		m_bgType = 3.0f;
+		m_radianceSlider = 2.0f;
+		m_reflectivity = 0.85f;
+		m_rgbDiff[0] = 1.0f;
+		m_rgbDiff[1] = 1.0f;
+		m_rgbDiff[2] = 1.0f;
+		m_rgbSpec[0] = 1.0f;
+		m_rgbSpec[1] = 1.0f;
+		m_rgbSpec[2] = 1.0f;
+		m_lod = 0.0f;
+		m_doDiffuse = false;
+		m_doSpecular = false;
+		m_doDiffuseIbl = true;
+		m_doSpecularIbl = true;
+		m_showLightColorWheel = true;
+		m_showDiffColorWheel = true;
+		m_showSpecColorWheel = true;
+		m_metalOrSpec = 0;
+		m_meshSelection = 0;
+	}
+
+	float m_envRotCurr;
+	float m_envRotDest;
+	float m_lightDir[3];
+	float m_lightCol[3];
+	float m_glossiness;
+	float m_exposure;
+	float m_radianceSlider;
+	float m_bgType;
+	float m_reflectivity;
+	float m_rgbDiff[3];
+	float m_rgbSpec[3];
+	float m_lod;
+	bool  m_doDiffuse;
+	bool  m_doSpecular;
+	bool  m_doDiffuseIbl;
+	bool  m_doSpecularIbl;
+	bool  m_showLightColorWheel;
+	bool  m_showDiffColorWheel;
+	bool  m_showSpecColorWheel;
+	int32_t m_metalOrSpec;
+	int32_t m_meshSelection;
+};
+
 
 class AUTO_API FIBLRenderer
 {
@@ -24,9 +311,27 @@ public:
 		m_programMesh.AttachShader("vs_ibl_mesh", "fs_ibl_mesh");
 		m_programSky.AttachShader("vs_ibl_skybox", "fs_ibl_skybox");
 
+		// Vertex declarations.
+		IBLPosColorTexCoord0Vertex::init();
+
+		m_lightProbes[LightProbe::Bolonga].load("bolonga");
+		m_lightProbes[LightProbe::Kyoto].load("kyoto");
+		m_currentLightProbe = LightProbe::Bolonga;
+
+		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
+		u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4);
+		u_flags = bgfx::createUniform("u_flags", bgfx::UniformType::Vec4);
+		u_camPos = bgfx::createUniform("u_camPos", bgfx::UniformType::Vec4);
+		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
+		s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
+
+		GResourceModule& resourceModule = GResourceModule::Get();
+
+		m_meshBunny = resourceModule.LoadResource<OMesh>("Meshes/bunny.bin");
+		m_meshOrb = resourceModule.LoadResource<OMesh>("Meshes/orb.bin");
 	}
 
-	void Update(ACameraComponent* camera, ALightComponent* light)
+	void Update(ACameraComponent* camera)
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
 
@@ -44,17 +349,124 @@ public:
 		bx::memCopy(m_uniforms.m_lightDir, m_settings.m_lightDir, 3 * sizeof(float));
 		bx::memCopy(m_uniforms.m_lightCol, m_settings.m_lightCol, 3 * sizeof(float));
 
-		
-		TMatrix4x4F viewMatrix = camera->GetViewMatrix();
-		TMatrix4x4F projMatrix = camera->GetProjectionMatrix();
 
-		bgfx::setViewTransform(0, viewMatrix.Data(), projMatrix.Data());
-		bgfx::setViewTransform(1, viewMatrix.Data(), projMatrix.Data());
+		int64_t now = bx::getHPCounter();
+		static int64_t last = now;
+		const int64_t frameTime = now - last;
+		last = now;
+		const double freq = double(bx::getHPFrequency());
+		const float deltaTimeSec = float(double(frameTime) / freq);
+
+		// Camera.
+		const bool mouseOverGui = ImGui::MouseOverArea();
+		m_mouse.update(float(processWindow._mouseState._mx), float(processWindow._mouseState._my), processWindow._mouseState._mz, processWindow._width, processWindow._height);
+		if (!mouseOverGui)
+		{
+			if (processWindow._mouseState._buttons[MouseButton::Left])
+			{
+				m_camera.orbit(m_mouse.m_dx, m_mouse.m_dy);
+			}
+			else if (processWindow._mouseState._buttons[MouseButton::Right])
+			{
+				m_camera.dolly(m_mouse.m_dx + m_mouse.m_dy);
+			}
+			else if (processWindow._mouseState._buttons[MouseButton::Middle])
+			{
+				m_settings.m_envRotDest += m_mouse.m_dx*2.0f;
+			}
+			else if (0 != m_mouse.m_scroll)
+			{
+				m_camera.dolly(float(m_mouse.m_scroll)*0.05f);
+			}
+		}
+		m_camera.update(deltaTimeSec);
+		bx::memCopy(m_uniforms.m_cameraPos, &m_camera.m_pos.curr.x, 3 * sizeof(float));
+
+		// View Transform 0.
+		float view[16];
+		bx::mtxIdentity(view);
+
+		const bgfx::Caps* caps = bgfx::getCaps();
+
+		float proj[16];
+		bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
+		bgfx::setViewTransform(0, view, proj);
+
+		// View Transform 1.
+		m_camera.mtxLookAt(view);
+		bx::mtxProj(proj, 45.0f, float(processWindow._width) / float(processWindow._height), 0.1f, 100.0f, caps->homogeneousDepth);
+		bgfx::setViewTransform(1, view, proj);
 
 		// View rect.
 		bgfx::setViewRect(0, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 		bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 
+		// Env rotation.
+		const float amount = bx::min(deltaTimeSec / 0.12f, 1.0f);
+		m_settings.m_envRotCurr = bx::lerp(m_settings.m_envRotCurr, m_settings.m_envRotDest, amount);
+
+		// Env mtx.
+		float mtxEnvView[16];
+		m_camera.envViewMtx(mtxEnvView);
+		float mtxEnvRot[16];
+		bx::mtxRotateY(mtxEnvRot, m_settings.m_envRotCurr);
+		bx::mtxMul(m_uniforms.m_mtx, mtxEnvView, mtxEnvRot); // Used for Skybox.
+
+		// Submit view 0.
+		bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
+		bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
+		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+		iblScreenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
+		m_uniforms.submit();
+		bgfx::submit(0, m_programSky.GetProgram());
+
+		// Submit view 1.
+		bx::memCopy(m_uniforms.m_mtx, mtxEnvRot, 16 * sizeof(float)); // Used for IBL.
+		if (0 == m_settings.m_meshSelection)
+		{
+			// Submit bunny.
+			float mtx[16];
+			bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
+			bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
+			bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
+			m_uniforms.submit();
+			m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
+		}
+		else
+		{
+			// Submit orbs.
+			for (float yy = 0, yend = 5.0f; yy < yend; yy += 1.0f)
+			{
+				for (float xx = 0, xend = 5.0f; xx < xend; xx += 1.0f)
+				{
+					const float scale = 1.2f;
+					const float spacing = 2.2f;
+					const float yAdj = -0.8f;
+
+					float mtx[16];
+					bx::mtxSRT(mtx
+						, scale / xend
+						, scale / xend
+						, scale / xend
+						, 0.0f
+						, 0.0f
+						, 0.0f
+						, 0.0f + (xx / xend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / xend)
+						, yAdj / yend + (yy / yend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / yend)
+						, 0.0f
+					);
+
+					m_uniforms.m_glossiness = xx * (1.0f / xend);
+					m_uniforms.m_reflectivity = (yend - yy)*(1.0f / yend);
+					m_uniforms.m_metalOrSpec = 0.0f;
+					m_uniforms.submit();
+
+					bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
+					bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
+					m_meshOrb->submit(1, m_programMesh.GetProgram(), mtx);
+				}
+			}
+		}
 
 	}
 
@@ -105,79 +517,27 @@ public:
 		bgfx::UniformHandle u_params;
 	};
 
-	struct Settings
-	{
-		Settings()
-		{
-			m_envRotCurr = 0.0f;
-			m_envRotDest = 0.0f;
-			m_lightDir[0] = -0.8f;
-			m_lightDir[1] = 0.2f;
-			m_lightDir[2] = -0.5f;
-			m_lightCol[0] = 1.0f;
-			m_lightCol[1] = 1.0f;
-			m_lightCol[2] = 1.0f;
-			m_glossiness = 0.7f;
-			m_exposure = 0.0f;
-			m_bgType = 3.0f;
-			m_radianceSlider = 2.0f;
-			m_reflectivity = 0.85f;
-			m_rgbDiff[0] = 1.0f;
-			m_rgbDiff[1] = 1.0f;
-			m_rgbDiff[2] = 1.0f;
-			m_rgbSpec[0] = 1.0f;
-			m_rgbSpec[1] = 1.0f;
-			m_rgbSpec[2] = 1.0f;
-			m_lod = 0.0f;
-			m_doDiffuse = false;
-			m_doSpecular = false;
-			m_doDiffuseIbl = true;
-			m_doSpecularIbl = true;
-			m_showLightColorWheel = true;
-			m_showDiffColorWheel = true;
-			m_showSpecColorWheel = true;
-			m_metalOrSpec = 0;
-			m_meshSelection = 0;
-		}
-
-		float m_envRotCurr;
-		float m_envRotDest;
-		float m_lightDir[3];
-		float m_lightCol[3];
-		float m_glossiness;
-		float m_exposure;
-		float m_radianceSlider;
-		float m_bgType;
-		float m_reflectivity;
-		float m_rgbDiff[3];
-		float m_rgbSpec[3];
-		float m_lod;
-		bool  m_doDiffuse;
-		bool  m_doSpecular;
-		bool  m_doDiffuseIbl;
-		bool  m_doSpecularIbl;
-		bool  m_showLightColorWheel;
-		bool  m_showDiffColorWheel;
-		bool  m_showSpecColorWheel;
-		int32_t m_metalOrSpec;
-		int32_t m_meshSelection;
-	};
-
 	Uniforms m_uniforms;
-	Settings m_settings;
+	IBLSettings m_settings;
 
 	FShaderProgram m_programMesh;
 	FShaderProgram m_programSky;
 
-	//LightProbe m_lightProbes[LightProbe::Count];
-	//LightProbe::Enum m_currentLightProbe;
+	LightProbe m_lightProbes[LightProbe::Count];
+	LightProbe::Enum m_currentLightProbe;
 
-	//bgfx::UniformHandle u_mtx;
-	//bgfx::UniformHandle u_params;
-	//bgfx::UniformHandle u_flags;
-	//bgfx::UniformHandle u_camPos;
-	//bgfx::UniformHandle s_texCube;
-	//bgfx::UniformHandle s_texCubeIrr;
+	bgfx::UniformHandle u_mtx;
+	bgfx::UniformHandle u_params;
+	bgfx::UniformHandle u_flags;
+	bgfx::UniformHandle u_camPos;
+	bgfx::UniformHandle s_texCube;
+	bgfx::UniformHandle s_texCubeIrr;
+
+	OMesh* m_meshBunny;
+	OMesh* m_meshOrb;
+	tCamera m_camera;
+	tMouse m_mouse;
+
 
 };
 

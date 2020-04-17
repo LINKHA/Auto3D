@@ -323,7 +323,8 @@ void FForwardShadingRenderer::Render()
 
 void FForwardShadingRenderer::RenderBatches()
 {
-	
+	FIBLRenderer::Get().Update(_currentCamera);
+
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{
 		AActor* lightActor = *lIt;
@@ -338,7 +339,6 @@ void FForwardShadingRenderer::RenderBatches()
 			TVector3F lightPosition = lightComponent->GetOwner()->GetTransform()->GetWorldPosition();
 
 			FShadowRenderer::Get().Update(_currentCamera, lightComponent);
-			FIBLRenderer::Get().Update(_currentCamera, lightComponent);
 
 			TVector<FBatch>& batches = _batchQueues._batches;
 			for (auto bIt = batches.Begin(); bIt != batches.End();)
