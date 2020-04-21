@@ -160,7 +160,7 @@ public:
 		m_currentLightProbe = LightProbe::Bolonga;
 
 		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
-		u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4);
+		//u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4);
 		//u_flags = bgfx::createUniform("u_flags", bgfx::UniformType::Vec4);
 		//u_camPos = bgfx::createUniform("u_camPos", bgfx::UniformType::Vec4);
 		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
@@ -241,7 +241,8 @@ public:
 		bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		iblScreenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
-		m_uniforms.submit();
+		TMatrix4x4F mtx = TMatrix4x4F(m_uniforms.m_mtx).Transpose();
+		bgfx::setUniform(u_mtx, mtx.Data());
 		bgfx::submit(0, m_programSky.GetProgram());
 
 		// Submit view 1.
@@ -349,9 +350,9 @@ public:
 
 	LightProbe m_lightProbes[LightProbe::Count];
 	LightProbe::Enum m_currentLightProbe;
-
+	
 	bgfx::UniformHandle u_mtx;
-	bgfx::UniformHandle u_params;
+	//bgfx::UniformHandle u_params;
 	//bgfx::UniformHandle u_flags;
 	//bgfx::UniformHandle u_camPos;
 	bgfx::UniformHandle s_texCube;
