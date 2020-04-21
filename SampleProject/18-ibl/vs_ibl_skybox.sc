@@ -1,12 +1,7 @@
 $input a_position, a_texcoord0
 $output v_dir
 
-/*
- * Copyright 2014-2016 Dario Manesku. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#include "../common/common.sh"
+#include "../common.sh"
 #include "uniforms.sh"
 
 uniform mat4 u_mtx;

@@ -27,6 +27,7 @@ private:
 	FShaderProgram _program;
 
 	OTexture* _texture;
+
 	OTexture* _textureIrrance;
 };
 

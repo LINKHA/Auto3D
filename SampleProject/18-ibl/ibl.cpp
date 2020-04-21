@@ -42,7 +42,9 @@ public:
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
-		world->CreateComponent<ASkyboxComponent>();
+		ASkyboxComponent* skyboxComponent = world->CreateComponent<ASkyboxComponent>();
+		skyboxComponent->SetTexture(GResourceModule::Get().LoadResource<OTexture>("Textures/bolonga_lod.dds"));
+		skyboxComponent->SetIrranceTexture(GResourceModule::Get().LoadResource<OTexture>("Textures/bolonga_irr.dds"));
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();

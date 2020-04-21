@@ -29,6 +29,8 @@
 #include "Resource/Material.h"
 #include "Resource/Sound.h"
 #include "Resource/Mesh.h"
+#include "Resource/Texture.h"
+
 
 using namespace Auto3D;
 
@@ -56,6 +58,10 @@ static void REGISTER_REFLECTION_FUNCATION()
 		;
 	
 	REGISTER_O_CALSS_IMP(OSound)
+		.constructor<>()
+		;
+
+	REGISTER_O_CALSS_IMP(OTexture)
 		.constructor<>()
 		;
 
@@ -197,7 +203,6 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(ASkyboxComponent)
 		.constructor<>()
 		;
-	
 }
 
 

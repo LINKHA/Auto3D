@@ -161,8 +161,8 @@ public:
 
 		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
 		u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4);
-		u_flags = bgfx::createUniform("u_flags", bgfx::UniformType::Vec4);
-		u_camPos = bgfx::createUniform("u_camPos", bgfx::UniformType::Vec4);
+		//u_flags = bgfx::createUniform("u_flags", bgfx::UniformType::Vec4);
+		//u_camPos = bgfx::createUniform("u_camPos", bgfx::UniformType::Vec4);
 		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
 		s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
 
@@ -219,7 +219,6 @@ public:
 		bgfx::setViewTransform(0, view, proj);
 
 		// View Transform 1.
-		//bx::mtxProj(proj, 45.0f, float(processWindow._width) / float(processWindow._height), 0.1f, 100.0f, caps->homogeneousDepth);
 		bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
 
 		// View rect.
@@ -353,8 +352,8 @@ public:
 
 	bgfx::UniformHandle u_mtx;
 	bgfx::UniformHandle u_params;
-	bgfx::UniformHandle u_flags;
-	bgfx::UniformHandle u_camPos;
+	//bgfx::UniformHandle u_flags;
+	//bgfx::UniformHandle u_camPos;
 	bgfx::UniformHandle s_texCube;
 	bgfx::UniformHandle s_texCubeIrr;
 
