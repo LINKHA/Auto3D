@@ -2,9 +2,8 @@ $input a_position, a_texcoord0
 $output v_dir
 
 #include "../common.sh"
-//#include "uniforms.sh"
 
-uniform mat4 u_mtx;
+uniform mat4 u_environmentViewMatrix;
 
 void main()
 {
@@ -15,5 +14,5 @@ void main()
 	float aspect = height*(u_viewRect.z / u_viewRect.w);
 	vec2 tex = (2.0*a_texcoord0-1.0) * vec2(aspect, height);
 
-	v_dir = instMul(u_mtx, vec4(tex, 1.0, 0.0) ).xyz;
+	v_dir = instMul(u_environmentViewMatrix, vec4(tex, 1.0, 0.0) ).xyz;
 }

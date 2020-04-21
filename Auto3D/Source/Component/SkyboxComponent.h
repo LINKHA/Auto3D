@@ -22,7 +22,12 @@ public:
 	virtual void TickComponent(float deltaTime) override;
 
 	void SetTexture(OTexture* texture);
+	OTexture* GetTexture();
+
 	void SetIrranceTexture(OTexture* texture);
+	OTexture* GetIrranceTexture();
+
+	FShaderProgram& GetShaderProgram() { return _program; }
 private:
 	FShaderProgram _program;
 

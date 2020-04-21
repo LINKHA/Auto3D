@@ -113,4 +113,33 @@ struct FDefaultRendererPrograms
 	void Init();
 };
 
+struct PosColorTexCoord0Vertex
+{
+	float m_x;
+	float m_y;
+	float m_z;
+	uint32_t m_rgba;
+	float m_u;
+	float m_v;
+
+	static void init()
+	{
+		ms_layout
+			.begin()
+			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+			.end();
+	}
+
+	static bgfx::VertexLayout ms_layout;
+};
+
+void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
+
+class AUTO_API FRendererDef
+{
+public:
+	static float _texelHalf;
+};
 }

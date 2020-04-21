@@ -31,10 +31,20 @@ void ASkyboxComponent::SetTexture(OTexture* texture)
 		_texture = texture;
 }
 
+OTexture* ASkyboxComponent::GetTexture()
+{
+	return _texture;
+}
+
 void ASkyboxComponent::SetIrranceTexture(OTexture* texture)
 {
 	if (texture)
 		_textureIrrance = texture;
+}
+
+OTexture* ASkyboxComponent::GetIrranceTexture()
+{
+	return _textureIrrance;
 }
 
 }

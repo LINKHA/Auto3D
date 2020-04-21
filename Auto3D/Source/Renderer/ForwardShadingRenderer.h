@@ -3,6 +3,7 @@
 #include "Renderer/SceneRenderer.h"
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
+#include "Renderer/EnvironmentRenderer.h"
 
 #include "Component/LightComponent.h"
 #include "Component/MeshComponent.h"
@@ -53,6 +54,8 @@ public:
 	int GetVisibleBatch() { return _visibleBatch; }
 private:
 	EDepthImpl::Data _depthImpl;
+
+	FEnvironmentRenderer _environmentRenderer;
 
 	FDefaultRendererPrograms _programs;
 	/// FBatch queues per pass.

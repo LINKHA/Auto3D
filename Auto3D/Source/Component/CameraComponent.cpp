@@ -37,7 +37,7 @@ void ACameraComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
 }
-void ACameraComponent::envViewMtx(float* _mtx)
+void ACameraComponent::GetEnvironmentViewMatrix(float* _mtx)
 {
 	TMatrix3x4F mtx = EffectiveWorldTransform();
 	TVector3F direction = GetOwner()->GetTransform()->GetDirection();

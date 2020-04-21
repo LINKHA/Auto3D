@@ -159,7 +159,7 @@ public:
 		m_lightProbes[LightProbe::Kyoto].load("kyoto");
 		m_currentLightProbe = LightProbe::Bolonga;
 
-		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
+		u_mtx = bgfx::createUniform("u_environmentViewMatrix", bgfx::UniformType::Mat4);
 		//u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4);
 		//u_flags = bgfx::createUniform("u_flags", bgfx::UniformType::Vec4);
 		//u_camPos = bgfx::createUniform("u_camPos", bgfx::UniformType::Vec4);
@@ -230,23 +230,23 @@ public:
 		m_settings.m_envRotCurr = bx::lerp(m_settings.m_envRotCurr, m_settings.m_envRotDest, amount);
 
 		// Env mtx.
-		float mtxEnvView[16];
-		camera->envViewMtx(mtxEnvView);
+		float environmentViewMatrix[16];
+		camera->GetEnvironmentViewMatrix(environmentViewMatrix);
 		float mtxEnvRot[16];
 		bx::mtxRotateY(mtxEnvRot, m_settings.m_envRotCurr);
-		bx::mtxMul(m_uniforms.m_mtx, mtxEnvView, mtxEnvRot); // Used for Skybox.
+		bx::mtxMul(m_uniforms.u_environmentViewMatrix, environmentViewMatrix, mtxEnvRot); // Used for Skybox.
 
-		// Submit view 0.
-		bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
-		bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
-		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		iblScreenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
-		TMatrix4x4F mtx = TMatrix4x4F(m_uniforms.m_mtx).Transpose();
-		bgfx::setUniform(u_mtx, mtx.Data());
-		bgfx::submit(0, m_programSky.GetProgram());
+		//// Submit view 0.
+		//bgfx::setTexture(0, s_texCube, m_lightProbes[m_currentLightProbe].m_tex);
+		//bgfx::setTexture(1, s_texCubeIrr, m_lightProbes[m_currentLightProbe].m_texIrr);
+		//bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+		//iblScreenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
+		//TMatrix4x4F mtx = TMatrix4x4F(m_uniforms.u_environmentViewMatrix).Transpose();
+		//bgfx::setUniform(u_mtx, mtx.Data());
+		//bgfx::submit(0, m_programSky.GetProgram());
 
 		// Submit view 1.
-		bx::memCopy(m_uniforms.m_mtx, mtxEnvRot, 16 * sizeof(float)); // Used for IBL.
+		bx::memCopy(m_uniforms.u_environmentViewMatrix, mtxEnvRot, 16 * sizeof(float)); // Used for IBL.
 		if (0 == m_settings.m_meshSelection)
 		{
 			// Submit bunny.
@@ -320,7 +320,7 @@ public:
 			{
 				union
 				{
-					float m_mtx[16];
+					float u_environmentViewMatrix[16];
 					/* 0*/ struct { float m_mtx0[4]; };
 					/* 1*/ struct { float m_mtx1[4]; };
 					/* 2*/ struct { float m_mtx2[4]; };
