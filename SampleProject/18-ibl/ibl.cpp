@@ -18,7 +18,6 @@
 #include "Renderer/ShaderProgram.h"
 #include "Component/CameraComponent.h"
 #include "Component/DefaultControllerComponent.h"
-#include "Component/ShowControllerComponent.h"
 #include "Gameplay/Actor.h"
 #include "Component/TransformComponent.h"
 #include "Renderer/IBLRenderer.h"
@@ -53,9 +52,9 @@ public:
 		camera->SetFov(60.0f);
 		camera->SetNearClip(0.1f);
 		camera->SetFarClip(2000.0f);
-		actor->CreateComponent<AShowControllerComponent>();
-		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
-		actor->GetTransform()->SetRotation({ 45.0f,0.0f,0.0f });
+		actor->CreateComponent<ADefaultControllerComponent>();
+		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
+		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 	}
 
 	virtual int shutdown() override

@@ -8,6 +8,8 @@
 #include "RHI/bgfx_utils.h"
 #include "Resource/Mesh.h"
 #include "Resource/ResourceCache.h"
+#include "Gameplay/Actor.h"
+#include "Component/TransformComponent.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/bx.h>
@@ -335,6 +337,10 @@ public:
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
 
+		TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+		TMatrix4x4F transposeViewMatrix = camera->GetViewMatrix().ToMatrix4().Transpose();
+		TVector3F position = camera->GetOwner()->GetTransform()->GetPosition();
+
 		m_uniforms.m_glossiness = m_settings.m_glossiness;
 		m_uniforms.m_reflectivity = m_settings.m_reflectivity;
 		m_uniforms.m_exposure = m_settings.m_exposure;
@@ -360,7 +366,7 @@ public:
 		// Camera.
 		const bool mouseOverGui = ImGui::MouseOverArea();
 		m_mouse.update(float(processWindow._mouseState._mx), float(processWindow._mouseState._my), processWindow._mouseState._mz, processWindow._width, processWindow._height);
-		if (!mouseOverGui)
+		/*if (!mouseOverGui)
 		{
 			if (processWindow._mouseState._buttons[MouseButton::Left])
 			{
@@ -379,8 +385,11 @@ public:
 				m_camera.dolly(float(m_mouse.m_scroll)*0.05f);
 			}
 		}
-		m_camera.update(deltaTimeSec);
-		bx::memCopy(m_uniforms.m_cameraPos, &m_camera.m_pos.curr.x, 3 * sizeof(float));
+		m_camera.update(deltaTimeSec);*/
+		//bx::memCopy(m_uniforms.m_cameraPos, &m_camera.m_pos.curr.x, 3 * sizeof(float));
+		m_uniforms.m_cameraPos[0] = position._x;
+		m_uniforms.m_cameraPos[1] = position._y;
+		m_uniforms.m_cameraPos[2] = position._z;
 
 		// View Transform 0.
 		float view[16];
@@ -393,9 +402,9 @@ public:
 		bgfx::setViewTransform(0, view, proj);
 
 		// View Transform 1.
-		m_camera.mtxLookAt(view);
+		//m_camera.mtxLookAt(view);
 		bx::mtxProj(proj, 45.0f, float(processWindow._width) / float(processWindow._height), 0.1f, 100.0f, caps->homogeneousDepth);
-		bgfx::setViewTransform(1, view, proj);
+		bgfx::setViewTransform(1, transposeViewMatrix.Data(), proj);
 
 		// View rect.
 		bgfx::setViewRect(0, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
@@ -407,9 +416,12 @@ public:
 
 		// Env mtx.
 		float mtxEnvView[16];
-		m_camera.envViewMtx(mtxEnvView);
+		//m_camera.envViewMtx(mtxEnvView);
+		camera->envViewMtx(mtxEnvView);
 		float mtxEnvRot[16];
 		bx::mtxRotateY(mtxEnvRot, m_settings.m_envRotCurr);
+		bx::mtxIdentity(mtxEnvRot);
+		//bx::mtxIdentity(mtxEnvView);
 		bx::mtxMul(m_uniforms.m_mtx, mtxEnvView, mtxEnvRot); // Used for Skybox.
 
 		// Submit view 0.
@@ -535,7 +547,7 @@ public:
 
 	OMesh* m_meshBunny;
 	OMesh* m_meshOrb;
-	tCamera m_camera;
+	//tCamera m_camera;
 	tMouse m_mouse;
 
 
