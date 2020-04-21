@@ -10,7 +10,6 @@ namespace Auto3D
 IMPLEMENT_SINGLETON(FShadowRenderer)
 
 bool FShadowRenderer::s_flipV = false;
-//float FShadowRenderer::s_texelHalf = 0.0f;
 bgfx::UniformHandle FShadowRenderer::s_texColor;
 bgfx::UniformHandle FShadowRenderer::s_shadowMap[ShadowMapRenderTargets::Count];
 FShadowMapSettings FShadowRenderer::_shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
@@ -30,7 +29,7 @@ TMatrix4x4F FShadowRenderer::s_lightView[4];
 TMatrix4x4F FShadowRenderer::s_lightProj[4];
 TMatrix4x4F FShadowRenderer::s_mtxYpr[4];
 
-bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
+//bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
 void mtxBillboard(float* __restrict _result
 	, const float* __restrict _view
@@ -54,62 +53,6 @@ void mtxBillboard(float* __restrict _result
 	_result[14] = _pos[2];
 	_result[15] = 1.0f;
 }
-//
-//void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft, float _width, float _height)
-//{
-//	if (3 == bgfx::getAvailTransientVertexBuffer(3, PosColorTexCoord0Vertex::ms_layout))
-//	{
-//		bgfx::TransientVertexBuffer vb;
-//		bgfx::allocTransientVertexBuffer(&vb, 3, PosColorTexCoord0Vertex::ms_layout);
-//		PosColorTexCoord0Vertex* vertex = (PosColorTexCoord0Vertex*)vb.data;
-//
-//		const float zz = 0.0f;
-//
-//		const float minx = -_width;
-//		const float maxx = _width;
-//		const float miny = 0.0f;
-//		const float maxy = _height * 2.0f;
-//
-//		const float texelHalfW = FShadowRenderer::s_texelHalf / _textureWidth;
-//		const float texelHalfH = FShadowRenderer::s_texelHalf / _textureHeight;
-//		const float minu = -1.0f + texelHalfW;
-//		const float maxu = 1.0f + texelHalfW;
-//
-//		float minv = texelHalfH;
-//		float maxv = 2.0f + texelHalfH;
-//
-//		if (_originBottomLeft)
-//		{
-//			std::swap(minv, maxv);
-//			minv -= 1.0f;
-//			maxv -= 1.0f;
-//		}
-//
-//		vertex[0].m_x = minx;
-//		vertex[0].m_y = miny;
-//		vertex[0].m_z = zz;
-//		vertex[0].m_rgba = 0xffffffff;
-//		vertex[0].m_u = minu;
-//		vertex[0].m_v = minv;
-//
-//		vertex[1].m_x = maxx;
-//		vertex[1].m_y = miny;
-//		vertex[1].m_z = zz;
-//		vertex[1].m_rgba = 0xffffffff;
-//		vertex[1].m_u = maxu;
-//		vertex[1].m_v = minv;
-//
-//		vertex[2].m_x = maxx;
-//		vertex[2].m_y = maxy;
-//		vertex[2].m_z = zz;
-//		vertex[2].m_rgba = 0xffffffff;
-//		vertex[2].m_u = maxu;
-//		vertex[2].m_v = maxv;
-//
-//		bgfx::setVertexBuffer(0, &vb);
-//	}
-//}
-
 
 void mtxYawPitchRoll(float* __restrict _result
 	, float _yaw
@@ -803,7 +746,7 @@ void FShadowRenderer::Init()
 	_shadowPosLayout.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
 	_shadowPosLayout.end();
 
-	PosColorTexCoord0Vertex::init();
+	//PosColorTexCoord0Vertex::init();
 }
 void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 {

@@ -22,15 +22,12 @@ public:
 	void Update(ACameraComponent* camera,ASkyboxComponent* skybox)
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
-		
-		// Env mtx.
+
 		float environmentViewMatrix[16];
 		camera->GetEnvironmentViewMatrix(environmentViewMatrix);
 
-		// Submit view 0.
-
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		iblScreenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
+		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 
 		_uniforms._environmentViewMatrix = TMatrix4x4F(environmentViewMatrix).Transpose();
 		_uniforms._texture = skybox->GetTexture()->GetTextureHandle();

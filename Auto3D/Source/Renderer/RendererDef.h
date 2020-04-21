@@ -140,6 +140,10 @@ void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBott
 class AUTO_API FRendererDef
 {
 public:
+	void Init()
+	{
+		PosColorTexCoord0Vertex::init();
+	}
 	static float _texelHalf;
 };
 }

@@ -269,6 +269,8 @@ void FForwardShadingRenderer::Init()
 
 	_programs.Init();
 
+	FRendererDef().Init();
+
 	FShadowRenderer::Get().Init();
 	FIBLRenderer::Get().Init();
 	_environmentRenderer.Init();

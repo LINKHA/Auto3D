@@ -85,6 +85,7 @@ FRenderState FRenderState::_renderState[FRenderState::Count] =
 },
 };
 
+bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 float FRendererDef::_texelHalf = 0.0f;
 
 void FDefaultRendererPrograms::Init()

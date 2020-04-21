@@ -10,6 +10,7 @@
 #include "Resource/ResourceCache.h"
 #include "Gameplay/Actor.h"
 #include "Component/TransformComponent.h"
+#include "RendererDef.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/bx.h>
@@ -21,7 +22,6 @@
 
 namespace Auto3D
 {
-	static float s_texelHalf = 0.0f;
 
 struct LightProbe
 {
@@ -53,33 +53,33 @@ struct LightProbe
 	bgfx::TextureHandle m_tex;
 	bgfx::TextureHandle m_texIrr;
 };
-
-struct IBLPosColorTexCoord0Vertex
-{
-	float m_x;
-	float m_y;
-	float m_z;
-	uint32_t m_rgba;
-	float m_u;
-	float m_v;
-
-	static void init()
-	{
-		ms_layout
-			.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-			.end();
-	}
-
-	static bgfx::VertexLayout ms_layout;
-};
-
-
-
-void iblScreenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = false, float _width = 1.0f, float _height = 1.0f);
-
+//
+//struct IBLPosColorTexCoord0Vertex
+//{
+//	float m_x;
+//	float m_y;
+//	float m_z;
+//	uint32_t m_rgba;
+//	float m_u;
+//	float m_v;
+//
+//	static void init()
+//	{
+//		ms_layout
+//			.begin()
+//			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+//			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+//			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+//			.end();
+//	}
+//
+//	static bgfx::VertexLayout ms_layout;
+//};
+//
+//
+//
+//void iblScreenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = false, float _width = 1.0f, float _height = 1.0f);
+//
 
 struct IBLSettings
 {
@@ -153,7 +153,7 @@ public:
 		m_programSky.AttachShader("vs_ibl_skybox", "fs_ibl_skybox");
 
 		// Vertex declarations.
-		IBLPosColorTexCoord0Vertex::init();
+		//PosColorTexCoord0Vertex::init();
 
 		m_lightProbes[LightProbe::Bolonga].load("bolonga");
 		m_lightProbes[LightProbe::Kyoto].load("kyoto");
