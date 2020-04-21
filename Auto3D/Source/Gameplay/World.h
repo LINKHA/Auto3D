@@ -9,7 +9,7 @@ namespace Auto3D
 
 class ACameraComponent;
 class FPhysicsWorld;
-
+class ASkyboxComponent;
 /// %AWorld root node, which also represents the whole world.
 class AUTO_API AWorld : public AActor
 {
@@ -33,6 +33,8 @@ public:
 	void AddCamera(ACameraComponent* camera);
 	/// Remove camera from the world.
 	void RemoveCamera(ACameraComponent* camera);
+	/// Set sktbox to the world. 
+	void SetSkybox(ASkyboxComponent* skybox);
 
 	/// Save world as JSON text data to a binary stream. Return true on success.
 	bool SaveJson(FStream& dest);
@@ -71,8 +73,11 @@ public:
 private:
 	/// Map from id's to nodes.
 	THashMap<unsigned, AActor*> _actors;
-	/// ACamera to nodes
+	/// Camera to nodes.
 	TVector<ACameraComponent*> _cameras;
+	/// Skybox to nodes.
+	ASkyboxComponent* _skybox;
+
 	/// APhysics world custom assign this variable
 	FPhysicsWorld* _physicsWorld;
 	/// Next free node id.

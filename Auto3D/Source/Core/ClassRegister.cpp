@@ -18,7 +18,7 @@
 #include "Component/ColliderCapsuleComponent.h"
 #include "Component/ColliderConeComponent.h"
 #include "Component/ColliderSphereComponent.h"
-
+#include "Component/SkyboxComponent.h"
 
 #include "Gameplay/World.h"
 #include "Core/Object.h"
@@ -194,6 +194,10 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(AShowControllerComponent)
 		.constructor<>()
 		;
+	REGISTER_A_CALSS_IMP(ASkyboxComponent)
+		.constructor<>()
+		;
+	
 }
 
 

@@ -1,8 +1,3 @@
-/*
- * Copyright 2014-2016 Dario Manesku. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include <vector>
 #include <string>
 #include "Resource/ResourceCache.h"
@@ -21,6 +16,7 @@
 #include "Gameplay/Actor.h"
 #include "Component/TransformComponent.h"
 #include "Renderer/IBLRenderer.h"
+#include "Component/SkyboxComponent.h"
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>
@@ -46,6 +42,7 @@ public:
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
+		world->CreateComponent<ASkyboxComponent>();
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
@@ -55,6 +52,14 @@ public:
 		actor->CreateComponent<ADefaultControllerComponent>();
 		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
+
+		//AActor* pbrActor = world->CreateChild<AActor>();
+		//pbrActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
+		//pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		//pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		//AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
+		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		//meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 	}
 
 	virtual int shutdown() override

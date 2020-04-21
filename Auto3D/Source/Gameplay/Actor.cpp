@@ -5,6 +5,7 @@
 #include "Component/TransformComponent.h"
 #include "Component/CameraComponent.h"
 #include "Component/LightComponent.h"
+#include "Component/SkyboxComponent.h"
 
 #include "IO/Stream.h"
 #include "IO/JSONFile.h"
@@ -575,17 +576,15 @@ void AActor::AddComponent(AActorComponent* component)
 	if (component)
 	{
 		_ownedComponents[RtToStr(FType::get(*component).get_name())] = component;
-
-		if (FType::get(*component) == FType::get<ACameraComponent>())
+		if (_world)
 		{
-			if (_world)
+			if (FType::get(*component) == FType::get<ACameraComponent>())
 			{
 				_world->AddCamera(dynamic_cast<ACameraComponent*>(component));
 			}
-			else
+			else if (FType::get(*component) == FType::get<ASkyboxComponent>())
 			{
-				ErrorString("The Actor is attach world")
-					return;
+				_world->SetSkybox(dynamic_cast<ASkyboxComponent*>(component));
 			}
 		}
 	}

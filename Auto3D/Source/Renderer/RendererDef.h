@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "Renderer/ShaderProgram.h"
+#define RENDERVIEW_DEFAULT_ID	  0
 #define RENDERVIEW_SHADOWMAP_0_ID 1
 #define RENDERVIEW_SHADOWMAP_1_ID 2
 #define RENDERVIEW_SHADOWMAP_2_ID 3
@@ -20,6 +21,7 @@
 #define RENDERVIEW_DRAWDEPTH_1_ID 17
 #define RENDERVIEW_DRAWDEPTH_2_ID 18
 #define RENDERVIEW_DRAWDEPTH_3_ID 19
+#define RENDERVIEW_SKYBOX_ID 20
 
 namespace Auto3D
 {

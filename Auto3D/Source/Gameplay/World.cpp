@@ -2,6 +2,7 @@
 #include "Gameplay/WorldContext.h"
 #include "Serialization/Serialization.h"
 #include "Physics/PhysicsWorld.h"
+#include "Component/SkyboxComponent.h"
 
 namespace Auto3D
 {
@@ -93,6 +94,12 @@ void AWorld::RemoveCamera(ACameraComponent* camera)
 {
 	if (camera)
 		_cameras.Remove(camera);
+}
+
+void AWorld::SetSkybox(ASkyboxComponent* skybox)
+{
+	if (skybox)
+		_skybox = skybox;
 }
 
 bool AWorld::SaveJson(FStream& dest)
