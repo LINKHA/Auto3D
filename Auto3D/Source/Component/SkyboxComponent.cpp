@@ -5,7 +5,9 @@
 namespace Auto3D
 {
 
-ASkyboxComponent::ASkyboxComponent()
+ASkyboxComponent::ASkyboxComponent() :
+	_texture(nullptr),
+	_textureIrrance(nullptr)
 {
 	_program.AttachShader("vs_ibl_skybox", "fs_ibl_skybox");
 }

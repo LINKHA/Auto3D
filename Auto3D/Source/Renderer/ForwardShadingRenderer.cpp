@@ -305,9 +305,6 @@ void FForwardShadingRenderer::Render()
 			camera->SetAspectRatio(float(_backbufferSize._x) / float(_backbufferSize._y));
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 
-		/*	bgfx::setViewTransform(RENDER_SCENE_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
-			bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));*/
-
 			// Ordinary pipeline view rect
 			bgfx::setViewTransform(RENDER_OCCLUSION_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 			bgfx::setViewRect(RENDER_OCCLUSION_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
@@ -325,9 +322,9 @@ void FForwardShadingRenderer::Render()
 void FForwardShadingRenderer::RenderBatches()
 {
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
-
-	FIBLRenderer::Get().Update(_currentCamera);
 	ASkyboxComponent* skybox = world->GetSkybox();
+
+	FIBLRenderer::Get().Update(_currentCamera, skybox);
 	_environmentRenderer.Update(_currentCamera, skybox);
 
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)

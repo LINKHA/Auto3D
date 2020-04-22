@@ -46,8 +46,8 @@ public:
 	/// Get physics world.
 	FPhysicsWorld* GetPhysicsWorld();
 
-	THashMap<unsigned, AActor*> GetActors() { return _actors; }
-	TVector<ACameraComponent*> GetCameras() { return _cameras; }
+	THashMap<unsigned, AActor*>& GetActors() { return _actors; }
+	TVector<ACameraComponent*>& GetCameras() { return _cameras; }
 	ASkyboxComponent* GetSkybox() { return _skybox; }
 	/// Define a layer name. There can be 32 different layers (indices 0-31.)
 	void DefineLayer(unsigned char index, const FString& name);

@@ -21,8 +21,23 @@ public:
 	}
 	void Update(ACameraComponent* camera,ASkyboxComponent* skybox)
 	{
+		if (camera == nullptr || skybox == nullptr)
+			return;
+
 		GProcessWindow& processWindow = GProcessWindow::Get();
 
+		// View Transform 0.
+		float view[16];
+		bx::mtxIdentity(view);
+
+		const bgfx::Caps* caps = bgfx::getCaps();
+
+		float proj[16];
+		bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
+		bgfx::setViewTransform(0, view, proj);
+		bgfx::setViewRect(0, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
+		
+		
 		float environmentViewMatrix[16];
 		camera->GetEnvironmentViewMatrix(environmentViewMatrix);
 

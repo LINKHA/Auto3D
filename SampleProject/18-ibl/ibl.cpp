@@ -36,15 +36,21 @@ public:
 
 	void init() override
 	{
+		GResourceModule& resourceModule = GResourceModule::Get();
+		_bolongaLod = resourceModule.LoadResource<OTexture>("Textures/bolonga_lod.dds");
+		_bolongaIrr = resourceModule.LoadResource<OTexture>("Textures/bolonga_irr.dds");
+		_kyotoLod = resourceModule.LoadResource<OTexture>("Textures/kyoto_lod.dds");
+		_kyotoIrr = resourceModule.LoadResource<OTexture>("Textures/kyoto_irr.dds");
+
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
 		world->DefineLayer(0, "Default");
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
-		ASkyboxComponent* skyboxComponent = world->CreateComponent<ASkyboxComponent>();
-		skyboxComponent->SetTexture(GResourceModule::Get().LoadResource<OTexture>("Textures/bolonga_lod.dds"));
-		skyboxComponent->SetIrranceTexture(GResourceModule::Get().LoadResource<OTexture>("Textures/bolonga_irr.dds"));
+		_skyboxComponent = world->CreateComponent<ASkyboxComponent>();
+		_skyboxComponent->SetTexture(_bolongaLod);
+		_skyboxComponent->SetIrranceTexture(_bolongaIrr);
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
@@ -99,13 +105,17 @@ public:
 		{
 			if (ImGui::BeginTabItem("Bolonga") )
 			{
-				FIBLRenderer::Get().m_currentLightProbe = LightProbe::Bolonga;
+				_skyboxComponent->SetTexture(_bolongaLod);
+				_skyboxComponent->SetIrranceTexture(_bolongaIrr);
+
 				ImGui::EndTabItem();
 			}
 
 			if (ImGui::BeginTabItem("Kyoto") )
 			{
-				FIBLRenderer::Get().m_currentLightProbe = LightProbe::Kyoto;
+				_skyboxComponent->SetTexture(_kyotoLod);
+				_skyboxComponent->SetIrranceTexture(_kyotoIrr);
+
 				ImGui::EndTabItem();
 			}
 
@@ -227,6 +237,12 @@ public:
 		return true;
 	
 	}
+
+	ASkyboxComponent* _skyboxComponent;
+	OTexture* _bolongaIrr;
+	OTexture* _bolongaLod;
+	OTexture* _kyotoIrr;
+	OTexture* _kyotoLod;
 };
 
 } // namespace

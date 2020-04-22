@@ -750,6 +750,8 @@ void FShadowRenderer::Init()
 }
 void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 {
+	if (camera == nullptr || light == nullptr)
+		return;
 	GProcessWindow& processWindow = GProcessWindow::Get();
 
 	const bgfx::Caps* caps = bgfx::getCaps();
