@@ -1,8 +1,3 @@
-/*
- * Copyright 2016 Dario Manesku. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 uniform vec4 u_params[12];
 #define u_mtx0          u_params[0]
 #define u_mtx1          u_params[1]
@@ -11,7 +6,6 @@ uniform vec4 u_params[12];
 #define u_glossiness    u_params[4].x
 #define u_reflectivity  u_params[4].y
 #define u_exposure      u_params[4].z
-#define u_bgType        u_params[4].w
 #define u_metalOrSpec   u_params[5].x
 #define u_unused        u_params[5].yzw
 #define u_doDiffuse     u_params[6].x

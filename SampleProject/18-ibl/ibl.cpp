@@ -148,13 +148,13 @@ public:
 			{
 				if (ImGui::BeginTabItem("Irradiance") )
 				{
-					currentSettings.m_bgType = currentSettings.m_radianceSlider;
+					//currentSettings.m_bgType = currentSettings.m_radianceSlider;
 					ImGui::EndTabItem();
 				}
 
 				if (ImGui::BeginTabItem("Radiance") )
 				{
-					currentSettings.m_bgType = 7.0f;
+					//currentSettings.m_bgType = 7.0f;
 
 					ImGui::SliderFloat("Mip level", &currentSettings.m_radianceSlider, 1.0f, 6.0f);
 
@@ -163,7 +163,7 @@ public:
 
 				if (ImGui::BeginTabItem("Skybox") )
 				{
-					currentSettings.m_bgType = 0.0f;
+					//currentSettings.m_bgType = 0.0f;
 					ImGui::EndTabItem();
 				}
 

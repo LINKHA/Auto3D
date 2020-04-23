@@ -29,8 +29,6 @@ struct IBLSettings
 {
 	IBLSettings()
 	{
-		m_envRotCurr = 0.0f;
-		m_envRotDest = 0.0f;
 		m_lightDir[0] = -0.8f;
 		m_lightDir[1] = 0.2f;
 		m_lightDir[2] = -0.5f;
@@ -39,7 +37,6 @@ struct IBLSettings
 		m_lightCol[2] = 1.0f;
 		m_glossiness = 0.7f;
 		m_exposure = 0.0f;
-		m_bgType = 3.0f;
 		m_radianceSlider = 2.0f;
 		m_reflectivity = 0.85f;
 		m_rgbDiff[0] = 1.0f;
@@ -60,14 +57,11 @@ struct IBLSettings
 		m_meshSelection = 0;
 	}
 
-	float m_envRotCurr;
-	float m_envRotDest;
 	float m_lightDir[3];
 	float m_lightCol[3];
 	float m_glossiness;
 	float m_exposure;
 	float m_radianceSlider;
-	float m_bgType;
 	float m_reflectivity;
 	float m_rgbDiff[3];
 	float m_rgbSpec[3];
@@ -95,10 +89,6 @@ public:
 		m_uniforms.init();
 		m_programMesh.AttachShader("vs_ibl_mesh", "fs_ibl_mesh");
 
-		u_mtx = bgfx::createUniform("u_environmentViewMatrix", bgfx::UniformType::Mat4);
-		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
-		s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
-
 		GResourceModule& resourceModule = GResourceModule::Get();
 
 		m_meshBunny = resourceModule.LoadResource<OMesh>("Meshes/bunny.bin");
@@ -119,7 +109,6 @@ public:
 		m_uniforms.m_glossiness = m_settings.m_glossiness;
 		m_uniforms.m_reflectivity = m_settings.m_reflectivity;
 		m_uniforms.m_exposure = m_settings.m_exposure;
-		m_uniforms.m_bgType = m_settings.m_bgType;
 		m_uniforms.m_metalOrSpec = float(m_settings.m_metalOrSpec);
 		m_uniforms.m_doDiffuse = float(m_settings.m_doDiffuse);
 		m_uniforms.m_doSpecular = float(m_settings.m_doSpecular);
@@ -130,44 +119,27 @@ public:
 		bx::memCopy(m_uniforms.m_lightDir, m_settings.m_lightDir, 3 * sizeof(float));
 		bx::memCopy(m_uniforms.m_lightCol, m_settings.m_lightCol, 3 * sizeof(float));
 
-
-		int64_t now = bx::getHPCounter();
-		static int64_t last = now;
-		const int64_t frameTime = now - last;
-		last = now;
-		const double freq = double(bx::getHPFrequency());
-		const float deltaTimeSec = float(double(frameTime) / freq);
-
 		m_uniforms.m_cameraPos[0] = position._x;
 		m_uniforms.m_cameraPos[1] = position._y;
 		m_uniforms.m_cameraPos[2] = position._z;
 
-		// View Transform 1.
 		bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
-
-		// View rect.
 		bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
-
-		// Env rotation.
-		const float amount = bx::min(deltaTimeSec / 0.12f, 1.0f);
-		m_settings.m_envRotCurr = bx::lerp(m_settings.m_envRotCurr, m_settings.m_envRotDest, amount);
 
 		// Env mtx.
 		float environmentViewMatrix[16];
 		camera->GetEnvironmentViewMatrix(environmentViewMatrix);
-		float mtxEnvRot[16];
-		bx::mtxRotateY(mtxEnvRot, m_settings.m_envRotCurr);
-		bx::mtxMul(m_uniforms.u_environmentViewMatrix, environmentViewMatrix, mtxEnvRot); // Used for Skybox.
 
 		// Submit view.
-		bx::memCopy(m_uniforms.u_environmentViewMatrix, mtxEnvRot, 16 * sizeof(float)); // Used for IBL.
+		bx::memCopy(m_uniforms.u_environmentViewMatrix, environmentViewMatrix, 16 * sizeof(float)); // Used for IBL.
 		if (0 == m_settings.m_meshSelection)
 		{
 			// Submit bunny.
 			float mtx[16];
 			bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
-			bgfx::setTexture(0, s_texCube, skybox->GetTexture()->GetTextureHandle());
-			bgfx::setTexture(1, s_texCubeIrr, skybox->GetIrranceTexture()->GetTextureHandle());
+			m_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
+			m_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
+
 			m_uniforms.submit();
 			m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
 		}
@@ -198,10 +170,10 @@ public:
 					m_uniforms.m_glossiness = xx * (1.0f / xend);
 					m_uniforms.m_reflectivity = (yend - yy)*(1.0f / yend);
 					m_uniforms.m_metalOrSpec = 0.0f;
-					m_uniforms.submit();
+					m_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
+					m_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
 
-					bgfx::setTexture(0, s_texCube, skybox->GetTexture()->GetTextureHandle());
-					bgfx::setTexture(1, s_texCubeIrr, skybox->GetIrranceTexture()->GetTextureHandle());
+					m_uniforms.submit();
 					m_meshOrb->submit(1, m_programMesh.GetProgram(), mtx);
 				}
 			}
@@ -216,11 +188,15 @@ public:
 		void init()
 		{
 			u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, NumVec4);
+			s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
+			s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
 		}
 
 		void submit()
 		{
 			bgfx::setUniform(u_params, m_params, NumVec4);
+			bgfx::setTexture(0, s_texCube, _texture);
+			bgfx::setTexture(1, s_texCubeIrr, _textureIrrance);
 		}
 
 		void destroy()
@@ -240,20 +216,25 @@ public:
 					/* 2*/ struct { float m_mtx2[4]; };
 					/* 3*/ struct { float m_mtx3[4]; };
 				};
-				/* 4*/ struct { float m_glossiness, m_reflectivity, m_exposure, m_bgType; };
+				/* 4*/ struct { float m_glossiness, m_reflectivity, m_exposure, m_unused10[1]; };
 				/* 5*/ struct { float m_metalOrSpec, m_unused5[3]; };
 				/* 6*/ struct { float m_doDiffuse, m_doSpecular, m_doDiffuseIbl, m_doSpecularIbl; };
 				/* 7*/ struct { float m_cameraPos[3], m_unused7[1]; };
 				/* 8*/ struct { float m_rgbDiff[4]; };
 				/* 9*/ struct { float m_rgbSpec[4]; };
-				/*10*/ struct { float m_lightDir[3], m_unused10[1]; };
-				/*11*/ struct { float m_lightCol[3], m_unused11[1]; };
+				/*10*/ struct { float m_lightDir[3], m_unused11[1]; };
+				/*11*/ struct { float m_lightCol[3], m_unused12[1]; };
 			};
 
 			float m_params[NumVec4 * 4];
 		};
+		bgfx::TextureHandle _texture;
+		bgfx::TextureHandle _textureIrrance;
 
 		bgfx::UniformHandle u_params;
+
+		bgfx::UniformHandle s_texCube;
+		bgfx::UniformHandle s_texCubeIrr;
 	};
 
 	Uniforms m_uniforms;
@@ -261,9 +242,6 @@ public:
 
 	FShaderProgram m_programMesh;
 
-	bgfx::UniformHandle u_mtx;
-	bgfx::UniformHandle s_texCube;
-	bgfx::UniformHandle s_texCubeIrr;
 
 	OMesh* m_meshBunny;
 	OMesh* m_meshOrb;
