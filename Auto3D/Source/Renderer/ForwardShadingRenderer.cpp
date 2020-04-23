@@ -550,7 +550,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 							SubmitShadowInstance(geometry, RENDERVIEW_DRAWSCENE_0_ID
 								, &idb
-								, /**currentShadowMapSettings->m_progDraw*/material->GetShaderInstanceProgram().GetProgram()
+								, material->GetShaderInstanceProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 								, FRenderState::_renderState[FRenderState::Default]
 								, true
 							);
@@ -561,7 +561,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 							SubmitOcclusionInstace(geometry, RENDER_OCCLUSION_PASS_ID
 								, &idb
-								, /**currentShadowMapSettings->m_progDraw*/material->GetShaderInstanceProgram().GetProgram()
+								, material->GetShaderInstanceProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 								, FRenderState::_renderState[FRenderState::Occlusion]
 								, true
 							);
@@ -753,7 +753,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 						SubmitShadow(geometry, RENDERVIEW_DRAWSCENE_0_ID
 							, modelMatrix.Data()
-							, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
+							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Default]
 							, true
 						);
@@ -765,7 +765,7 @@ void FForwardShadingRenderer::RenderBatches()
 
 						SubmitOcclusion(geometry, RENDER_OCCLUSION_PASS_ID
 							, modelMatrix.Data()
-							, /**currentShadowMapSettings->m_progDraw*/material->GetShaderProgram().GetProgram()
+							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Occlusion]
 							, true
 						);
@@ -888,9 +888,19 @@ void FForwardShadingRenderer::CollectBatch()
 void FForwardShadingRenderer::AttachShader(FPass& pass)
 {
 	FShadowMapSettings* currentSmSettings = FShadowRenderer::GetCurrentShadowMapSettings();
-
-	pass._material->GetShaderProgram() = *currentSmSettings->m_progDraw;
-	pass._material->GetShaderInstanceProgram() = *currentSmSettings->m_progDrawInstace;
+	OMaterial* material = pass._material;
+	
+	switch (material->GetShaderType())
+	{
+	case EMaterialShaderType::DEFAULT:
+		break;
+	case EMaterialShaderType::SHADOW:
+		material->GetShaderProgram() = *currentSmSettings->m_progDraw;
+		material->GetShaderInstanceProgram() = *currentSmSettings->m_progDrawInstace;
+		break;
+	default:
+		break;
+	}
 }
 
 void FForwardShadingRenderer::PrepareView()
