@@ -19,7 +19,7 @@ public:
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime) override;
 
-	void GetEnvironmentViewMatrix(float* _mtx);
+	TMatrix4x4F GetEnvironmentViewMatrix();
 
 	/// Set near clip distance.
 	void SetNearClip(float nearClip);

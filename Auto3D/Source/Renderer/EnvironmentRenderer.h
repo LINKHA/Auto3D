@@ -38,13 +38,12 @@ public:
 		bgfx::setViewRect(0, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 		
 		
-		float environmentViewMatrix[16];
-		camera->GetEnvironmentViewMatrix(environmentViewMatrix);
+		TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();
 
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 
-		_uniforms._environmentViewMatrix = TMatrix4x4F(environmentViewMatrix).Transpose();
+		_uniforms._environmentViewMatrix = environmentViewMatrix.Transpose();
 		_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
 		_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
 

@@ -127,11 +127,10 @@ public:
 		bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 
 		// Env mtx.
-		float environmentViewMatrix[16];
-		camera->GetEnvironmentViewMatrix(environmentViewMatrix);
+		TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();
 
 		// Submit view.
-		bx::memCopy(m_uniforms.u_environmentViewMatrix, environmentViewMatrix, 16 * sizeof(float)); // Used for IBL.
+		bx::memCopy(m_uniforms.u_environmentViewMatrix, environmentViewMatrix.Data(), 16 * sizeof(float)); // Used for IBL.
 		if (0 == m_settings.m_meshSelection)
 		{
 			// Submit bunny.

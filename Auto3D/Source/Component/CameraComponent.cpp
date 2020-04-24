@@ -37,32 +37,22 @@ void ACameraComponent::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
 }
-void ACameraComponent::GetEnvironmentViewMatrix(float* _mtx)
+
+TMatrix4x4F ACameraComponent::GetEnvironmentViewMatrix()
 {
-	TMatrix3x4F mtx = EffectiveWorldTransform();
 	TVector3F direction = GetOwner()->GetTransform()->GetDirection();
 
-	const bx::Vec3 toTargetNorm = bx::Vec3(direction._x, direction._y, direction._z);
+	TVector3F toTargetNorm = TVector3F(direction._x, direction._y, direction._z);
 
-	const bx::Vec3 right = bx::normalize(bx::cross({ 0.0f, 1.0f, 0.0f }, toTargetNorm));
-	const bx::Vec3 up = bx::normalize(bx::cross(toTargetNorm, right));
+	TVector3F right = Cross({ 0.0f, 1.0f, 0.0f }, toTargetNorm).Normalized();
+	TVector3F up = Cross(toTargetNorm, right).Normalized();
 
-	_mtx[0] = right.x;
-	_mtx[1] = right.y;
-	_mtx[2] = right.z;
-	_mtx[3] = 0.0f;
-	_mtx[4] = up.x;
-	_mtx[5] = up.y;
-	_mtx[6] = up.z;
-	_mtx[7] = 0.0f;
-	_mtx[8] = toTargetNorm.x;
-	_mtx[9] = toTargetNorm.y;
-	_mtx[10] = toTargetNorm.z;
-	_mtx[11] = 0.0f;
-	_mtx[12] = 0.0f;
-	_mtx[13] = 0.0f;
-	_mtx[14] = 0.0f;
-	_mtx[15] = 1.0f;
+	return TMatrix4x4F(
+		right._x, right._y, right._z, 0.0f,
+		up._x, up._y, up._z,0.0f,
+		toTargetNorm._x, toTargetNorm._y, toTargetNorm._z,0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
 }
 
 void ACameraComponent::SetNearClip(float nearClip)
