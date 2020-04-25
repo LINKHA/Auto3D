@@ -98,8 +98,8 @@ public:
 
 		ImGui::Text("Environment light:");
 		ImGui::Indent();
-		ImGui::Checkbox("IBL Diffuse",  &currentSettings.m_doDiffuseIbl);
-		ImGui::Checkbox("IBL Specular", &currentSettings.m_doSpecularIbl);
+		ImGui::Checkbox("IBL Diffuse",  &currentSettings._doDiffuseIbl);
+		ImGui::Checkbox("IBL Specular", &currentSettings._doSpecularIbl);
 
 		if (ImGui::BeginTabBar("Cubemap", ImGuiTabBarFlags_None) )
 		{
@@ -128,54 +128,49 @@ public:
 		ImGui::Separator();
 		ImGui::Text("Directional light:");
 		ImGui::Indent();
-		ImGui::Checkbox("Diffuse",  &currentSettings.m_doDiffuse);
-		ImGui::Checkbox("Specular", &currentSettings.m_doSpecular);
-		const bool doDirectLighting = currentSettings.m_doDiffuse || currentSettings.m_doSpecular;
+		ImGui::Checkbox("Diffuse",  &currentSettings._doDiffuse);
+		ImGui::Checkbox("Specular", &currentSettings._doSpecular);
+		const bool doDirectLighting = currentSettings._doDiffuse || currentSettings._doSpecular;
 		if (doDirectLighting)
 		{
-			ImGui::SliderFloat("Light direction X", &currentSettings.m_lightDir[0], -1.0f, 1.0f);
-			ImGui::SliderFloat("Light direction Y", &currentSettings.m_lightDir[1], -1.0f, 1.0f);
-			ImGui::SliderFloat("Light direction Z", &currentSettings.m_lightDir[2], -1.0f, 1.0f);
-			ImGui::ColorWheel("Color:", currentSettings.m_lightCol, 0.6f);
+			ImGui::SliderFloat("Light direction X", &currentSettings._lightDirection[0], -1.0f, 1.0f);
+			ImGui::SliderFloat("Light direction Y", &currentSettings._lightDirection[1], -1.0f, 1.0f);
+			ImGui::SliderFloat("Light direction Z", &currentSettings._lightDirection[2], -1.0f, 1.0f);
+			ImGui::ColorWheel("Color:", currentSettings._lightColor, 0.6f);
 		}
 		ImGui::Unindent();
 
 		ImGui::Separator();
-		ImGui::Text("Background:");
-		ImGui::Indent();
-		{
-			if (ImGui::BeginTabBar("CubemapSelection", ImGuiTabBarFlags_None) )
-			{
-				if (ImGui::BeginTabItem("Irradiance") )
-				{
-					//currentSettings.m_bgType = currentSettings.m_radianceSlider;
-					ImGui::EndTabItem();
-				}
+		//ImGui::Text("Background:");
+		//ImGui::Indent();
+		//{
+		//	if (ImGui::BeginTabBar("CubemapSelection", ImGuiTabBarFlags_None) )
+		//	{
+		//		if (ImGui::BeginTabItem("Irradiance") )
+		//		{
+		//			ImGui::EndTabItem();
+		//		}
 
-				if (ImGui::BeginTabItem("Radiance") )
-				{
-					//currentSettings.m_bgType = 7.0f;
+		//		if (ImGui::BeginTabItem("Radiance") )
+		//		{
+		//			//ImGui::SliderFloat("Mip level", &currentSettings.m_radianceSlider, 1.0f, 6.0f);
 
-					ImGui::SliderFloat("Mip level", &currentSettings.m_radianceSlider, 1.0f, 6.0f);
+		//			ImGui::EndTabItem();
+		//		}
 
-					ImGui::EndTabItem();
-				}
+		//		if (ImGui::BeginTabItem("Skybox") )
+		//		{		//			ImGui::EndTabItem();
+		//		}
 
-				if (ImGui::BeginTabItem("Skybox") )
-				{
-					//currentSettings.m_bgType = 0.0f;
-					ImGui::EndTabItem();
-				}
-
-				ImGui::EndTabBar();
-			}
-		}
-		ImGui::Unindent();
+		//		ImGui::EndTabBar();
+		//	}
+		//}
+		//ImGui::Unindent();
 
 		ImGui::Separator();
 		ImGui::Text("Post processing:");
 		ImGui::Indent();
-		ImGui::SliderFloat("Exposure",& currentSettings.m_exposure, -4.0f, 4.0f);
+		ImGui::SliderFloat("Exposure",& currentSettings._exposure, -4.0f, 4.0f);
 		ImGui::Unindent();
 
 		ImGui::PopItemWidth();
@@ -203,33 +198,33 @@ public:
 		const bool isBunny = (0 == currentSettings.m_meshSelection);
 		if (!isBunny)
 		{
-			currentSettings.m_metalOrSpec = 0;
+			currentSettings._metalOrSpec = 0;
 		}
 		else
 		{
 			ImGui::Separator();
 			ImGui::Text("Workflow:");
 			ImGui::Indent();
-			ImGui::RadioButton("Metalness", &currentSettings.m_metalOrSpec, 0);
-			ImGui::RadioButton("Specular", &currentSettings.m_metalOrSpec, 1);
+			ImGui::RadioButton("Metalness", &currentSettings._metalOrSpec, 0);
+			ImGui::RadioButton("Specular", &currentSettings._metalOrSpec, 1);
 			ImGui::Unindent();
 
 			ImGui::Separator();
 			ImGui::Text("Material:");
 			ImGui::Indent();
 			ImGui::PushItemWidth(130.0f);
-			ImGui::SliderFloat("Glossiness", &currentSettings.m_glossiness, 0.0f, 1.0f);
-			ImGui::SliderFloat(0 == currentSettings.m_metalOrSpec ? "Metalness" : "Diffuse - Specular", &currentSettings.m_reflectivity, 0.0f, 1.0f);
+			ImGui::SliderFloat("Glossiness", &currentSettings._glossiness, 0.0f, 1.0f);
+			ImGui::SliderFloat(0 == currentSettings._metalOrSpec ? "Metalness" : "Diffuse - Specular", &currentSettings._reflectivity, 0.0f, 1.0f);
 			ImGui::PopItemWidth();
 			ImGui::Unindent();
 		}
 
 
-		ImGui::ColorWheel("Diffuse:", &currentSettings.m_rgbDiff[0], 0.7f);
+		ImGui::ColorWheel("Diffuse:", &currentSettings._rgbDiff[0], 0.7f);
 		ImGui::Separator();
-		if ( (1 == currentSettings.m_metalOrSpec) && isBunny )
+		if ( (1 == currentSettings._metalOrSpec) && isBunny )
 		{
-			ImGui::ColorWheel("Specular:", &currentSettings.m_rgbSpec[0], 0.7f);
+			ImGui::ColorWheel("Specular:", &currentSettings._rgbSpec[0], 0.7f);
 		}
 
 		ImGui::End();
