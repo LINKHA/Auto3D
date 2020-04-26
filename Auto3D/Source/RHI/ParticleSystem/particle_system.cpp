@@ -188,7 +188,7 @@ namespace ps
 		void reset()
 		{
 			m_dt = 0.0f;
-			m_uniforms.reset();
+			_uniforms.reset();
 			m_num = 0;
 			bx::memSet(&_aabb, 0, sizeof(Aabb) );
 
@@ -217,7 +217,7 @@ namespace ps
 
 			m_num = num;
 
-			if (0 < m_uniforms.m_particlesPerSecond)
+			if (0 < _uniforms.m_particlesPerSecond)
 			{
 				spawn(_dt);
 			}
@@ -228,11 +228,11 @@ namespace ps
 			float mtx[16];
 			bx::mtxSRT(mtx
 				, 1.0f, 1.0f, 1.0f
-				, m_uniforms.m_angle[0],    m_uniforms.m_angle[1],    m_uniforms.m_angle[2]
-				, m_uniforms.m_position[0], m_uniforms.m_position[1], m_uniforms.m_position[2]
+				, _uniforms.m_angle[0],    _uniforms.m_angle[1],    _uniforms.m_angle[2]
+				, _uniforms.m_position[0], _uniforms.m_position[1], _uniforms.m_position[2]
 				);
 
-			const float timePerParticle = 1.0f/m_uniforms.m_particlesPerSecond;
+			const float timePerParticle = 1.0f/_uniforms.m_particlesPerSecond;
 			m_dt += _dt;
 			const uint32_t numParticles = uint32_t(m_dt / timePerParticle);
 			m_dt -= numParticles * timePerParticle;
@@ -294,29 +294,29 @@ namespace ps
 						break;
 				}
 
-				const float startOffset = bx::lerp(m_uniforms.m_offsetStart[0], m_uniforms.m_offsetStart[1], bx::frnd(&m_rng) );
+				const float startOffset = bx::lerp(_uniforms.m_offsetStart[0], _uniforms.m_offsetStart[1], bx::frnd(&m_rng) );
 				const bx::Vec3 start = bx::mul(pos, startOffset);
 
-				const float endOffset = bx::lerp(m_uniforms.m_offsetEnd[0], m_uniforms.m_offsetEnd[1], bx::frnd(&m_rng) );
+				const float endOffset = bx::lerp(_uniforms.m_offsetEnd[0], _uniforms.m_offsetEnd[1], bx::frnd(&m_rng) );
 				const bx::Vec3 tmp1 = bx::mul(dir, endOffset);
 				const bx::Vec3 end  = bx::add(tmp1, start);
 
 				particle.life = time;
-				particle.lifeSpan = bx::lerp(m_uniforms.m_lifeSpan[0], m_uniforms.m_lifeSpan[1], bx::frnd(&m_rng) );
+				particle.lifeSpan = bx::lerp(_uniforms.m_lifeSpan[0], _uniforms.m_lifeSpan[1], bx::frnd(&m_rng) );
 
-				const bx::Vec3 gravity = { 0.0f, -9.81f * m_uniforms.m_gravityScale * bx::square(particle.lifeSpan), 0.0f };
+				const bx::Vec3 gravity = { 0.0f, -9.81f * _uniforms.m_gravityScale * bx::square(particle.lifeSpan), 0.0f };
 
 				particle.start  = bx::mul(start, mtx);
 				particle.end[0] = bx::mul(end,   mtx);
 				particle.end[1] = bx::add(particle.end[0], gravity);
 
-				bx::memCopy(particle.rgba, m_uniforms.m_rgba, BX_COUNTOF(m_uniforms.m_rgba)*sizeof(uint32_t) );
+				bx::memCopy(particle.rgba, _uniforms.m_rgba, BX_COUNTOF(_uniforms.m_rgba)*sizeof(uint32_t) );
 
-				particle.blendStart = bx::lerp(m_uniforms.m_blendStart[0], m_uniforms.m_blendStart[1], bx::frnd(&m_rng) );
-				particle.blendEnd   = bx::lerp(m_uniforms.m_blendEnd[0],   m_uniforms.m_blendEnd[1],   bx::frnd(&m_rng) );
+				particle.blendStart = bx::lerp(_uniforms.m_blendStart[0], _uniforms.m_blendStart[1], bx::frnd(&m_rng) );
+				particle.blendEnd   = bx::lerp(_uniforms.m_blendEnd[0],   _uniforms.m_blendEnd[1],   bx::frnd(&m_rng) );
 
-				particle.scaleStart = bx::lerp(m_uniforms.m_scaleStart[0], m_uniforms.m_scaleStart[1], bx::frnd(&m_rng) );
-				particle.scaleEnd   = bx::lerp(m_uniforms.m_scaleEnd[0],   m_uniforms.m_scaleEnd[1],   bx::frnd(&m_rng) );
+				particle.scaleStart = bx::lerp(_uniforms.m_scaleStart[0], _uniforms.m_scaleStart[1], bx::frnd(&m_rng) );
+				particle.scaleEnd   = bx::lerp(_uniforms.m_scaleEnd[0],   _uniforms.m_scaleEnd[1],   bx::frnd(&m_rng) );
 
 				time += timePerParticle;
 			}
@@ -324,10 +324,10 @@ namespace ps
 
 		uint32_t render(const float _uv[4], const float* _mtxView, const bx::Vec3& _eye, uint32_t _first, uint32_t _max, ParticleSort* _outSort, PosColorTexCoord0Vertex* _outVertices)
 		{
-			bx::EaseFn easeRgba  = bx::getEaseFunc(m_uniforms.m_easeRgba);
-			bx::EaseFn easePos   = bx::getEaseFunc(m_uniforms.m_easePos);
-			bx::EaseFn easeBlend = bx::getEaseFunc(m_uniforms.m_easeBlend);
-			bx::EaseFn easeScale = bx::getEaseFunc(m_uniforms.m_easeScale);
+			bx::EaseFn easeRgba  = bx::getEaseFunc(_uniforms.m_easeRgba);
+			bx::EaseFn easePos   = bx::getEaseFunc(_uniforms.m_easePos);
+			bx::EaseFn easeBlend = bx::getEaseFunc(_uniforms.m_easeBlend);
+			bx::EaseFn easeScale = bx::getEaseFunc(_uniforms.m_easeScale);
 
 			Aabb aabb =
 			{
@@ -423,7 +423,7 @@ namespace ps
 
 		float           m_dt;
 		bx::RngMwc      m_rng;
-		EmitterUniforms m_uniforms;
+		EmitterUniforms _uniforms;
 
 		Aabb _aabb;
 
@@ -562,7 +562,7 @@ namespace ps
 						const uint16_t idx = m_emitterAlloc->getHandleAt(ii);
 						Emitter& emitter = m_emitter[idx];
 
-						const Pack2D& pack = m_sprite.get(emitter.m_uniforms.m_handle);
+						const Pack2D& pack = m_sprite.get(emitter._uniforms.m_handle);
 						const float invTextureSize = 1.0f/SPRITE_TEXTURE_SIZE;
 						const float uv[4] =
 						{
@@ -639,7 +639,7 @@ namespace ps
 			}
 			else
 			{
-				bx::memCopy(&emitter.m_uniforms, _uniforms, sizeof(EmitterUniforms) );
+				bx::memCopy(&emitter._uniforms, _uniforms, sizeof(EmitterUniforms) );
 			}
 		}
 

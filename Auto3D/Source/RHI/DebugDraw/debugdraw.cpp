@@ -509,7 +509,7 @@ struct Attrib
 	uint32_t m_abgr;
 	bool     m_stipple;
 	bool     m_wireframe;
-	uint8_t  m_lod;
+	uint8_t  _lod;
 };
 
 struct Program
@@ -1076,7 +1076,7 @@ struct DebugDrawEncoderImpl
 		attrib.m_abgr      = UINT32_MAX;
 		attrib.m_stipple   = false;
 		attrib.m_wireframe = false;
-		attrib.m_lod       = 0;
+		attrib._lod       = 0;
 
 		m_mtxStackCurrent = 0;
 		m_mtxStack[m_mtxStackCurrent].reset();
@@ -1264,7 +1264,7 @@ struct DebugDrawEncoderImpl
 	void setLod(uint8_t _lod)
 	{
 		BX_CHECK(State::Count != _state);
-		m_attrib[m_stack].m_lod = _lod;
+		m_attrib[m_stack]._lod = _lod;
 	}
 
 	void setWireframe(bool _wireframe)
@@ -1500,9 +1500,9 @@ struct DebugDrawEncoderImpl
 			, _sphere.center.y
 			, _sphere.center.z
 			);
-		uint8_t lod = attrib.m_lod > DebugMesh::SphereMaxLod
+		uint8_t lod = attrib._lod > DebugMesh::SphereMaxLod
 			? uint8_t(DebugMesh::SphereMaxLod)
-			: attrib.m_lod
+			: attrib._lod
 			;
 		draw(DebugMesh::Enum(DebugMesh::Sphere0 + lod), mtx, 1, attrib.m_wireframe);
 	}
@@ -1712,7 +1712,7 @@ struct DebugDrawEncoderImpl
 	void drawArc(Axis::Enum _axis, float _x, float _y, float _z, float _radius, float _degrees)
 	{
 		const Attrib& attrib = m_attrib[m_stack];
-		const uint32_t num = getCircleLod(attrib.m_lod);
+		const uint32_t num = getCircleLod(attrib._lod);
 		const float step = bx::kPi * 2.0f / num;
 
 		_degrees = bx::wrap(_degrees, 360.0f);
@@ -1757,7 +1757,7 @@ struct DebugDrawEncoderImpl
 	void drawCircle(const bx::Vec3& _normal, const bx::Vec3& _center, float _radius, float _weight)
 	{
 		const Attrib& attrib = m_attrib[m_stack];
-		const uint32_t num = getCircleLod(attrib.m_lod);
+		const uint32_t num = getCircleLod(attrib._lod);
 		const float step = bx::kPi * 2.0f / num;
 		_weight = bx::clamp(_weight, 0.0f, 2.0f);
 
@@ -1795,7 +1795,7 @@ struct DebugDrawEncoderImpl
 	void drawCircle(Axis::Enum _axis, float _x, float _y, float _z, float _radius, float _weight)
 	{
 		const Attrib& attrib = m_attrib[m_stack];
-		const uint32_t num = getCircleLod(attrib.m_lod);
+		const uint32_t num = getCircleLod(attrib._lod);
 		const float step = bx::kPi * 2.0f / num;
 		_weight = bx::clamp(_weight, 0.0f, 2.0f);
 
@@ -1941,9 +1941,9 @@ struct DebugDrawEncoderImpl
 		mtx[1][13] = _to.y;
 		mtx[1][14] = _to.z;
 
-		uint8_t lod = attrib.m_lod > DebugMesh::ConeMaxLod
+		uint8_t lod = attrib._lod > DebugMesh::ConeMaxLod
 			? uint8_t(DebugMesh::ConeMaxLod)
-			: attrib.m_lod
+			: attrib._lod
 			;
 		draw(DebugMesh::Enum(DebugMesh::Cone0 + lod), mtx[0], 2, attrib.m_wireframe);
 	}
@@ -1963,9 +1963,9 @@ struct DebugDrawEncoderImpl
 
 		if (_capsule)
 		{
-			uint8_t lod = attrib.m_lod > DebugMesh::CapsuleMaxLod
+			uint8_t lod = attrib._lod > DebugMesh::CapsuleMaxLod
 				? uint8_t(DebugMesh::CapsuleMaxLod)
-				: attrib.m_lod
+				: attrib._lod
 				;
 			draw(DebugMesh::Enum(DebugMesh::Capsule0 + lod), mtx[0], 2, attrib.m_wireframe);
 
@@ -1979,9 +1979,9 @@ struct DebugDrawEncoderImpl
 		}
 		else
 		{
-			uint8_t lod = attrib.m_lod > DebugMesh::CylinderMaxLod
+			uint8_t lod = attrib._lod > DebugMesh::CylinderMaxLod
 				? uint8_t(DebugMesh::CylinderMaxLod)
-				: attrib.m_lod
+				: attrib._lod
 				;
 			 draw(DebugMesh::Enum(DebugMesh::Cylinder0 + lod), mtx[0], 2, attrib.m_wireframe);
 		}

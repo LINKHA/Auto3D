@@ -78,7 +78,7 @@ public:
 	bool update() override
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
-		IBLSettings& currentSettings = FIBLRenderer::Get().m_settings;
+		IBLSettings& currentSettings = FIBLRenderer::Get()._settings;
 
 		showExampleDialog(this);
 
@@ -122,7 +122,7 @@ public:
 			ImGui::EndTabBar();
 		}
 
-		ImGui::SliderFloat("Texture LOD", &currentSettings.m_lod, 0.0f, 10.1f);
+		ImGui::SliderFloat("Texture LOD", &currentSettings._lod, 0.0f, 10.1f);
 		ImGui::Unindent();
 
 		ImGui::Separator();
@@ -191,11 +191,11 @@ public:
 
 		ImGui::Text("Mesh:");
 		ImGui::Indent();
-		ImGui::RadioButton("Bunny", &currentSettings.m_meshSelection, 0);
-		ImGui::RadioButton("Orbs",  &currentSettings.m_meshSelection, 1);
+		ImGui::RadioButton("Bunny", &currentSettings._meshSelection, 0);
+		ImGui::RadioButton("Orbs",  &currentSettings._meshSelection, 1);
 		ImGui::Unindent();
 
-		const bool isBunny = (0 == currentSettings.m_meshSelection);
+		const bool isBunny = (0 == currentSettings._meshSelection);
 		if (!isBunny)
 		{
 			currentSettings._metalOrSpec = 0;
