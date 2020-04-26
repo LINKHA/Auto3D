@@ -7,29 +7,28 @@
 
 namespace Auto3D
 {
-IMPLEMENT_SINGLETON(FShadowRenderer)
+IMPLEMENT_SINGLETON(FShadowPipline)
 
-bool FShadowRenderer::s_flipV = false;
-bgfx::UniformHandle FShadowRenderer::s_texColor;
-bgfx::UniformHandle FShadowRenderer::s_shadowMap[ShadowMapRenderTargets::Count];
-FShadowMapSettings FShadowRenderer::_shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
-FShadowSceneSettings FShadowRenderer::_shadowSceneSettings;
-uint16_t FShadowRenderer::s_currentShadowMapSize;
-bgfx::FrameBufferHandle FShadowRenderer::s_rtShadowMap[ShadowMapRenderTargets::Count];
-bgfx::FrameBufferHandle FShadowRenderer::s_rtBlur;
+bool FShadowPipline::s_flipV = false;
+bgfx::UniformHandle FShadowPipline::s_texColor;
+bgfx::UniformHandle FShadowPipline::s_shadowMap[ShadowMapRenderTargets::Count];
+FShadowMapSettings FShadowPipline::_shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
+FShadowSceneSettings FShadowPipline::_shadowSceneSettings;
+uint16_t FShadowPipline::s_currentShadowMapSize;
+bgfx::FrameBufferHandle FShadowPipline::s_rtShadowMap[ShadowMapRenderTargets::Count];
+bgfx::FrameBufferHandle FShadowPipline::s_rtBlur;
 
-Material FShadowRenderer::s_defaultMaterial;
+Material FShadowPipline::s_defaultMaterial;
 
-TMatrix4x4F FShadowRenderer::_lightMtx;
-TMatrix4x4F FShadowRenderer::_shadowMapMtx[ShadowMapRenderTargets::Count];
+TMatrix4x4F FShadowPipline::_lightMtx;
+TMatrix4x4F FShadowPipline::_shadowMapMtx[ShadowMapRenderTargets::Count];
 
-ClearValues FShadowRenderer::s_clearValues;
+ClearValues FShadowPipline::s_clearValues;
 
-TMatrix4x4F FShadowRenderer::s_lightView[4];
-TMatrix4x4F FShadowRenderer::s_lightProj[4];
-TMatrix4x4F FShadowRenderer::s_mtxYpr[4];
+TMatrix4x4F FShadowPipline::s_lightView[4];
+TMatrix4x4F FShadowPipline::s_lightProj[4];
+TMatrix4x4F FShadowPipline::s_mtxYpr[4];
 
-//bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
 void mtxBillboard(float* __restrict _result
 	, const float* __restrict _view
@@ -148,18 +147,18 @@ void splitFrustum(float* _splits, uint8_t _numSplits, float _near, float _far, f
 }
 
 
-FShadowRenderer::FShadowRenderer() :
+FShadowPipline::FShadowPipline() :
 	_shadowMapImpl(EShadowMapImpl::VSM)
 {
 	
 }
-FShadowRenderer::~FShadowRenderer() 
+FShadowPipline::~FShadowPipline() 
 {}
-void FShadowRenderer::Init()
+void FShadowPipline::Init()
 {
 	GProcessWindow& processWindow = GProcessWindow::Get();
 
-	FShadowRenderer::s_clearValues = ClearValues(0x00000000, 1.0f, 0);
+	FShadowPipline::s_clearValues = ClearValues(0x00000000, 1.0f, 0);
 
 
 	// Setup root path for binary shaders. Shader binaries are different
@@ -687,22 +686,22 @@ void FShadowRenderer::Init()
 	};
 	bx::memCopy(_shadowMapSettings, smSettings, sizeof(smSettings));
 
-	FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::SpotLight;
-	FShadowRenderer::_shadowSceneSettings.m_depthImpl = EDepthImpl::InvZ;
-	FShadowRenderer::_shadowSceneSettings.m_smImpl = EShadowMapImpl::Hard;
-	FShadowRenderer::_shadowSceneSettings.m_spotOuterAngle = 45.0f;
-	FShadowRenderer::_shadowSceneSettings.m_spotInnerAngle = 30.0f;
-	FShadowRenderer::_shadowSceneSettings.m_fovXAdjust = 0.0f;
-	FShadowRenderer::_shadowSceneSettings.m_fovYAdjust = 0.0f;
-	FShadowRenderer::_shadowSceneSettings.m_coverageSpotL = 90.0f;
-	FShadowRenderer::_shadowSceneSettings.m_splitDistribution = 0.6f;
-	FShadowRenderer::_shadowSceneSettings.m_numSplits = 4;
-	FShadowRenderer::_shadowSceneSettings.m_drawDepthBuffer = false;
-	FShadowRenderer::_shadowSceneSettings.m_showSmCoverage = false;
-	FShadowRenderer::_shadowSceneSettings.m_stencilPack = true;
-	FShadowRenderer::_shadowSceneSettings.m_stabilize = true;
+	FShadowPipline::_shadowSceneSettings.m_lightType = ELightType::SpotLight;
+	FShadowPipline::_shadowSceneSettings.m_depthImpl = EDepthImpl::InvZ;
+	FShadowPipline::_shadowSceneSettings.m_smImpl = EShadowMapImpl::Hard;
+	FShadowPipline::_shadowSceneSettings.m_spotOuterAngle = 45.0f;
+	FShadowPipline::_shadowSceneSettings.m_spotInnerAngle = 30.0f;
+	FShadowPipline::_shadowSceneSettings.m_fovXAdjust = 0.0f;
+	FShadowPipline::_shadowSceneSettings.m_fovYAdjust = 0.0f;
+	FShadowPipline::_shadowSceneSettings.m_coverageSpotL = 90.0f;
+	FShadowPipline::_shadowSceneSettings.m_splitDistribution = 0.6f;
+	FShadowPipline::_shadowSceneSettings.m_numSplits = 4;
+	FShadowPipline::_shadowSceneSettings.m_drawDepthBuffer = false;
+	FShadowPipline::_shadowSceneSettings.m_showSmCoverage = false;
+	FShadowPipline::_shadowSceneSettings.m_stencilPack = true;
+	FShadowPipline::_shadowSceneSettings.m_stabilize = true;
 
-	FShadowMapSettings* currentSmSettings = FShadowRenderer::GetCurrentShadowMapSettings();
+	FShadowMapSettings* currentSmSettings = FShadowPipline::GetCurrentShadowMapSettings();
 
 	// Render targets.
 	uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
@@ -714,12 +713,12 @@ void FShadowRenderer::Init()
 	{
 		bgfx::TextureHandle fbtextures[] =
 		{
-			bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
-			bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
+			bgfx::createTexture2D(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
+			bgfx::createTexture2D(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
 		};
-		FShadowRenderer::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
+		FShadowPipline::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 	}
-	FShadowRenderer::s_rtBlur = bgfx::createFrameBuffer(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
+	FShadowPipline::s_rtBlur = bgfx::createFrameBuffer(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
 
 	_uniforms.submitConstUniforms();
 
@@ -732,14 +731,14 @@ void FShadowRenderer::Init()
 	};
 
 	// Setup uniforms.
-	_uniforms.setPtrs(&FShadowRenderer::s_defaultMaterial
+	_uniforms.setPtrs(&FShadowPipline::s_defaultMaterial
 		, nullptr
 		, FColor(1.0f, 1.0f, 1.0f).Data()
-		, FShadowRenderer::_lightMtx.Data()
-		, &FShadowRenderer::_shadowMapMtx[ShadowMapRenderTargets::First].Data()[0]
-		, &FShadowRenderer::_shadowMapMtx[ShadowMapRenderTargets::Second].Data()[0]
-		, &FShadowRenderer::_shadowMapMtx[ShadowMapRenderTargets::Third].Data()[0]
-		, &FShadowRenderer::_shadowMapMtx[ShadowMapRenderTargets::Fourth].Data()[0]
+		, FShadowPipline::_lightMtx.Data()
+		, &FShadowPipline::_shadowMapMtx[ShadowMapRenderTargets::First].Data()[0]
+		, &FShadowPipline::_shadowMapMtx[ShadowMapRenderTargets::Second].Data()[0]
+		, &FShadowPipline::_shadowMapMtx[ShadowMapRenderTargets::Third].Data()[0]
+		, &FShadowPipline::_shadowMapMtx[ShadowMapRenderTargets::Fourth].Data()[0]
 	);
 
 	_shadowPosLayout.begin();
@@ -748,7 +747,7 @@ void FShadowRenderer::Init()
 
 	//PosColorTexCoord0Vertex::init();
 }
-void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
+void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 {
 	if (camera == nullptr || light == nullptr)
 		return;
@@ -766,12 +765,12 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	TMatrix4x4F transposeViewMatrix = camera->GetViewMatrix().ToMatrix4().Transpose();
 
 
-	float currentShadowMapSizef = float(int16_t(FShadowRenderer::s_currentShadowMapSize));
+	float currentShadowMapSizef = float(int16_t(FShadowPipline::s_currentShadowMapSize));
 	_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
 	_uniforms.submitConstUniforms();
 
-	FShadowMapSettings* currentShadowMapSettings = &FShadowRenderer::_shadowMapSettings[FShadowRenderer::_shadowSceneSettings.m_lightType][FShadowRenderer::_shadowSceneSettings.m_depthImpl][FShadowRenderer::_shadowSceneSettings.m_smImpl];
+	FShadowMapSettings* currentShadowMapSettings = &FShadowPipline::_shadowMapSettings[FShadowPipline::_shadowSceneSettings.m_lightType][FShadowPipline::_shadowSceneSettings.m_depthImpl][FShadowPipline::_shadowSceneSettings.m_smImpl];
 	// Update uniforms.
 	_uniforms.m_shadowMapBias = currentShadowMapSettings->m_bias;
 	_uniforms.m_shadowMapOffset = currentShadowMapSettings->m_normalOffset;
@@ -782,30 +781,30 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	_uniforms.m_YNum = currentShadowMapSettings->m_yNum;
 	_uniforms.m_XOffset = currentShadowMapSettings->m_xOffset;
 	_uniforms.m_YOffset = currentShadowMapSettings->m_yOffset;
-	_uniforms.m_showSmCoverage = float(FShadowRenderer::_shadowSceneSettings.m_showSmCoverage);
+	_uniforms.m_showSmCoverage = float(FShadowPipline::_shadowSceneSettings.m_showSmCoverage);
 	_uniforms.m_lightPtr = light;
 	_uniforms.m_colorPtr = light->GetLightColor().Data();
 
 	switch (light->GetLightType())
 	{
 		case ELightType::DirectionalLight:
-			FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::DirectionalLight;
+			FShadowPipline::_shadowSceneSettings.m_lightType = ELightType::DirectionalLight;
 			break;
 		case ELightType::PointLight:
-			FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::PointLight;
+			FShadowPipline::_shadowSceneSettings.m_lightType = ELightType::PointLight;
 			break;
 		case ELightType::SpotLight:
-			FShadowRenderer::_shadowSceneSettings.m_lightType = ELightType::SpotLight;
+			FShadowPipline::_shadowSceneSettings.m_lightType = ELightType::SpotLight;
 			break;
 
 	default:
 		break;
 	}
 
-	if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	if (ELightType::SpotLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 	{
-		light->m_attenuationSpotOuter.m_outer = FShadowRenderer::_shadowSceneSettings.m_spotOuterAngle;
-		light->m_spotDirectionInner.m_inner = FShadowRenderer::_shadowSceneSettings.m_spotInnerAngle;
+		light->m_attenuationSpotOuter.m_outer = FShadowPipline::_shadowSceneSettings.m_spotOuterAngle;
+		light->m_spotDirectionInner.m_inner = FShadowPipline::_shadowSceneSettings.m_spotInnerAngle;
 	}
 	else
 	{
@@ -828,7 +827,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	TVector3F lightPosition = light->GetOwner()->GetTransform()->GetPosition();
 	TVector3F lightDirection = light->GetOwner()->GetTransform()->GetDirection();
 
-	if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	if (ELightType::DirectionalLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 	{
 		
 		light->m_position._x = -lightPosition._x;
@@ -861,49 +860,49 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 	// Update render target size.
 	uint16_t shadowMapSize = 1 << uint32_t(currentShadowMapSettings->m_sizePwrTwo);
-	if (FShadowRenderer::s_currentShadowMapSize != shadowMapSize)
+	if (FShadowPipline::s_currentShadowMapSize != shadowMapSize)
 	{
-		FShadowRenderer::s_currentShadowMapSize = shadowMapSize;
+		FShadowPipline::s_currentShadowMapSize = shadowMapSize;
 		_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
 		{
-			bgfx::destroy(FShadowRenderer::s_rtShadowMap[0]);
+			bgfx::destroy(FShadowPipline::s_rtShadowMap[0]);
 
 			bgfx::TextureHandle fbtextures[] =
 			{
-				bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
-				bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
+				bgfx::createTexture2D(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
+				bgfx::createTexture2D(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
 			};
-			FShadowRenderer::s_rtShadowMap[0] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
+			FShadowPipline::s_rtShadowMap[0] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 		}
 
-		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+		if (ELightType::DirectionalLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 		{
 			for (uint8_t ii = 1; ii < ShadowMapRenderTargets::Count; ++ii)
 			{
 				{
-					bgfx::destroy(FShadowRenderer::s_rtShadowMap[ii]);
+					bgfx::destroy(FShadowPipline::s_rtShadowMap[ii]);
 
 					bgfx::TextureHandle fbtextures[] =
 					{
-						bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
-						bgfx::createTexture2D(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
+						bgfx::createTexture2D(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::BGRA8, BGFX_TEXTURE_RT),
+						bgfx::createTexture2D(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT),
 					};
-					FShadowRenderer::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
+					FShadowPipline::s_rtShadowMap[ii] = bgfx::createFrameBuffer(BX_COUNTOF(fbtextures), fbtextures, true);
 				}
 			}
 		}
 
-		bgfx::destroy(FShadowRenderer::s_rtBlur);
-		FShadowRenderer::s_rtBlur = bgfx::createFrameBuffer(FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
+		bgfx::destroy(FShadowPipline::s_rtBlur);
+		FShadowPipline::s_rtBlur = bgfx::createFrameBuffer(FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize, bgfx::TextureFormat::BGRA8);
 	}
 
-	if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	if (ELightType::SpotLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 	{
-		const float fovy = FShadowRenderer::_shadowSceneSettings.m_coverageSpotL;
+		const float fovy = FShadowPipline::_shadowSceneSettings.m_coverageSpotL;
 		const float aspect = 1.0f;
 		bx::mtxProj(
-			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()
+			FShadowPipline::s_lightProj[ProjType::Horizontal].Data()
 			, fovy
 			, aspect
 			, currentShadowMapSettings->m_near
@@ -912,16 +911,16 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		);
 
 		//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
-		if (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl)
+		if (EDepthImpl::Linear == FShadowPipline::_shadowSceneSettings.m_depthImpl)
 		{
-			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[10] /= currentShadowMapSettings->m_far;
-			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
+			FShadowPipline::s_lightProj[ProjType::Horizontal].Data()[10] /= currentShadowMapSettings->m_far;
+			FShadowPipline::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
 		}
 
 		const bx::Vec3 at = bx::add(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(light->m_spotDirectionInner.m_v));
-		bx::mtxLookAt(FShadowRenderer::s_lightView[TetrahedronFaces::Green].Data(), bx::load<bx::Vec3>(light->m_position.Data()), at);
+		bx::mtxLookAt(FShadowPipline::s_lightView[TetrahedronFaces::Green].Data(), bx::load<bx::Vec3>(light->m_position.Data()), at);
 	}
-	else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	else if (ELightType::PointLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 	{
 		float ypr[TetrahedronFaces::Count][3] =
 		{
@@ -932,14 +931,14 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		};
 
 
-		if (FShadowRenderer::_shadowSceneSettings.m_stencilPack)
+		if (FShadowPipline::_shadowSceneSettings.m_stencilPack)
 		{
-			const float fovx = 143.98570868f + 3.51f + FShadowRenderer::_shadowSceneSettings.m_fovXAdjust;
-			const float fovy = 125.26438968f + 9.85f + FShadowRenderer::_shadowSceneSettings.m_fovYAdjust;
+			const float fovx = 143.98570868f + 3.51f + FShadowPipline::_shadowSceneSettings.m_fovXAdjust;
+			const float fovy = 125.26438968f + 9.85f + FShadowPipline::_shadowSceneSettings.m_fovYAdjust;
 			const float aspect = bx::tan(bx::toRad(fovx*0.5f)) / bx::tan(bx::toRad(fovy*0.5f));
 
 			bx::mtxProj(
-				FShadowRenderer::s_lightProj[ProjType::Vertical].Data()
+				FShadowPipline::s_lightProj[ProjType::Vertical].Data()
 				, fovx
 				, aspect
 				, currentShadowMapSettings->m_near
@@ -948,10 +947,10 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			);
 
 			//For linear depth, prevent depth division by variable w-component in shaders and divide here by far plane
-			if (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl)
+			if (EDepthImpl::Linear == FShadowPipline::_shadowSceneSettings.m_depthImpl)
 			{
-				FShadowRenderer::s_lightProj[ProjType::Vertical].Data()[10] /= currentShadowMapSettings->m_far;
-				FShadowRenderer::s_lightProj[ProjType::Vertical].Data()[14] /= currentShadowMapSettings->m_far;
+				FShadowPipline::s_lightProj[ProjType::Vertical].Data()[10] /= currentShadowMapSettings->m_far;
+				FShadowPipline::s_lightProj[ProjType::Vertical].Data()[14] /= currentShadowMapSettings->m_far;
 			}
 
 			ypr[TetrahedronFaces::Green][2] = bx::toRad(180.0f);
@@ -960,12 +959,12 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			ypr[TetrahedronFaces::Red][2] = bx::toRad(-90.0f);
 		}
 
-		const float fovx = 143.98570868f + 7.8f + FShadowRenderer::_shadowSceneSettings.m_fovXAdjust;
-		const float fovy = 125.26438968f + 3.0f + FShadowRenderer::_shadowSceneSettings.m_fovYAdjust;
+		const float fovx = 143.98570868f + 7.8f + FShadowPipline::_shadowSceneSettings.m_fovXAdjust;
+		const float fovy = 125.26438968f + 3.0f + FShadowPipline::_shadowSceneSettings.m_fovYAdjust;
 		const float aspect = bx::tan(bx::toRad(fovx*0.5f)) / bx::tan(bx::toRad(fovy*0.5f));
 
 		bx::mtxProj(
-			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()
+			FShadowPipline::s_lightProj[ProjType::Horizontal].Data()
 			, fovy
 			, aspect
 			, currentShadowMapSettings->m_near
@@ -974,10 +973,10 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		);
 
 		//For linear depth, prevent depth division by variable w component in shaders and divide here by far plane
-		if (EDepthImpl::Linear == FShadowRenderer::_shadowSceneSettings.m_depthImpl)
+		if (EDepthImpl::Linear == FShadowPipline::_shadowSceneSettings.m_depthImpl)
 		{
-			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[10] /= currentShadowMapSettings->m_far;
-			FShadowRenderer::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
+			FShadowPipline::s_lightProj[ProjType::Horizontal].Data()[10] /= currentShadowMapSettings->m_far;
+			FShadowPipline::s_lightProj[ProjType::Horizontal].Data()[14] /= currentShadowMapSettings->m_far;
 		}
 
 
@@ -993,13 +992,13 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 				-bx::dot(bx::load<bx::Vec3>(light->m_position.Data()), bx::load<bx::Vec3>(&mtxTmp[8])),
 			};
 
-			bx::mtxTranspose(FShadowRenderer::s_mtxYpr[ii].Data(), mtxTmp);
+			bx::mtxTranspose(FShadowPipline::s_mtxYpr[ii].Data(), mtxTmp);
 
-			bx::memCopy(FShadowRenderer::s_lightView[ii].Data(), FShadowRenderer::s_mtxYpr[ii].Data(), 12 * sizeof(float));
-			FShadowRenderer::s_lightView[ii].Data()[12] = tmp[0];
-			FShadowRenderer::s_lightView[ii].Data()[13] = tmp[1];
-			FShadowRenderer::s_lightView[ii].Data()[14] = tmp[2];
-			FShadowRenderer::s_lightView[ii].Data()[15] = 1.0f;
+			bx::memCopy(FShadowPipline::s_lightView[ii].Data(), FShadowPipline::s_mtxYpr[ii].Data(), 12 * sizeof(float));
+			FShadowPipline::s_lightView[ii].Data()[12] = tmp[0];
+			FShadowPipline::s_lightView[ii].Data()[13] = tmp[1];
+			FShadowPipline::s_lightView[ii].Data()[14] = tmp[2];
+			FShadowPipline::s_lightView[ii].Data()[15] = 1.0f;
 		}
 	}
 	else // LightType::DirectionalLight == settings.m_lightType
@@ -1012,7 +1011,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			-light->m_position._y,
 			-light->m_position._z,
 		};
-		bx::mtxLookAt(FShadowRenderer::s_lightView[0].Data(), eye, at);
+		bx::mtxLookAt(FShadowPipline::s_lightView[0].Data(), eye, at);
 
 		// Compute camera inverse view mtx.
 		float mtxViewInv[16];
@@ -1024,14 +1023,14 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 		float splitSlices[maxNumSplits * 2];
 		splitFrustum(splitSlices
-			, uint8_t(FShadowRenderer::_shadowSceneSettings.m_numSplits)
+			, uint8_t(FShadowPipline::_shadowSceneSettings.m_numSplits)
 			, currentShadowMapSettings->m_near
 			, currentShadowMapSettings->m_far
-			, FShadowRenderer::_shadowSceneSettings.m_splitDistribution
+			, FShadowPipline::_shadowSceneSettings.m_splitDistribution
 		);
 
 		// Update uniforms.
-		for (uint8_t ii = 0, ff = 1; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii, ff += 2)
+		for (uint8_t ii = 0, ff = 1; ii < FShadowPipline::_shadowSceneSettings.m_numSplits; ++ii, ff += 2)
 		{
 			// This lags for 1 frame, but it's not a problem.
 			_uniforms.m_csmFarDistances[ii] = splitSlices[ff];
@@ -1052,7 +1051,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 
 		const uint8_t numCorners = 8;
 		float frustumCorners[maxNumSplits][numCorners][3];
-		for (uint8_t ii = 0, nn = 0, ff = 1; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii, nn += 2, ff += 2)
+		for (uint8_t ii = 0, nn = 0, ff = 1; ii < FShadowPipline::_shadowSceneSettings.m_numSplits; ++ii, nn += 2, ff += 2)
 		{
 			// Compute frustum corners for one split in world space.
 			worldSpaceFrustumCorners((float*)frustumCorners[ii], splitSlices[nn], splitSlices[ff], projWidth, projHeight, mtxViewInv);
@@ -1063,7 +1062,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			for (uint8_t jj = 0; jj < numCorners; ++jj)
 			{
 				// Transform to light space.
-				const bx::Vec3 xyz = bx::mul(bx::load<bx::Vec3>(frustumCorners[ii][jj]), FShadowRenderer::s_lightView[0].Data());
+				const bx::Vec3 xyz = bx::mul(bx::load<bx::Vec3>(frustumCorners[ii][jj]), FShadowPipline::s_lightView[0].Data());
 
 				// Update bounding box.
 				min = bx::min(min, xyz);
@@ -1076,7 +1075,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			float scalex = 2.0f / (maxproj.x - minproj.x);
 			float scaley = 2.0f / (maxproj.y - minproj.y);
 
-			if (FShadowRenderer::_shadowSceneSettings.m_stabilize)
+			if (FShadowPipline::_shadowSceneSettings.m_stabilize)
 			{
 				const float quantizer = 64.0f;
 				scalex = quantizer / bx::ceil(quantizer / scalex);
@@ -1086,7 +1085,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			float offsetx = 0.5f * (maxproj.x + minproj.x) * scalex;
 			float offsety = 0.5f * (maxproj.y + minproj.y) * scaley;
 
-			if (FShadowRenderer::_shadowSceneSettings.m_stabilize)
+			if (FShadowPipline::_shadowSceneSettings.m_stabilize)
 			{
 				const float halfSize = currentShadowMapSizef * 0.5f;
 				offsetx = bx::ceil(offsetx * halfSize) / halfSize;
@@ -1100,7 +1099,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			mtxCrop[12] = offsetx;
 			mtxCrop[13] = offsety;
 
-			bx::mtxMul(FShadowRenderer::s_lightProj[ii].Data(), mtxCrop, mtxProj);
+			bx::mtxMul(FShadowPipline::s_lightProj[ii].Data(), mtxCrop, mtxProj);
 		}
 	}
 
@@ -1123,7 +1122,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	bgfx::setViewRect(0, 0, 0, processWindow._width, processWindow._height);
 	bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
 
-	if (ELightType::SpotLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	if (ELightType::SpotLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 	{
 		/**
 			* RENDERVIEW_SHADOWMAP_0_ID - Clear shadow map. (used as convenience, otherwise render_pass_1 could be cleared)
@@ -1135,28 +1134,28 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			* RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer.
 			*/
 
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, _screenView.Data(), _screenProj.Data());
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[0].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowPipline::s_lightView[0].Data(), FShadowPipline::s_lightProj[ProjType::Horizontal].Data());
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_0_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, _screenView.Data(), _screenProj.Data());
 
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
-		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowPipline::s_rtBlur);
+		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowPipline::s_rtShadowMap[0]);
 	}
-	else if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	else if (ELightType::PointLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 	{
 		/**
 			* RENDERVIEW_SHADOWMAP_0_ID - Clear entire shadow map.
@@ -1171,11 +1170,11 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 			* RENDERVIEW_DRAWDEPTH_0_ID - Draw depth buffer.
 			*/
 
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		if (FShadowRenderer::_shadowSceneSettings.m_stencilPack)
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		if (FShadowPipline::_shadowSceneSettings.m_stencilPack)
 		{
-			const uint16_t f = FShadowRenderer::s_currentShadowMapSize;   //full size
-			const uint16_t h = FShadowRenderer::s_currentShadowMapSize / 2; //half size
+			const uint16_t f = FShadowPipline::s_currentShadowMapSize;   //full size
+			const uint16_t h = FShadowPipline::s_currentShadowMapSize / 2; //half size
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, f, h);
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, h, f, h);
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, h, f);
@@ -1183,30 +1182,30 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		}
 		else
 		{
-			const uint16_t h = FShadowRenderer::s_currentShadowMapSize / 2; //half size
+			const uint16_t h = FShadowPipline::s_currentShadowMapSize / 2; //half size
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, h, h);
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, h, 0, h, h);
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, h, h, h);
 			bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, h, h, h, h);
 		}
-		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX, depthRectY, depthRectWidth, depthRectHeight);
 
 		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_0_ID, _screenView.Data(), _screenProj.Data());
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Green].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Yellow].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
-		if (FShadowRenderer::_shadowSceneSettings.m_stencilPack)
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowPipline::s_lightView[TetrahedronFaces::Green].Data(), FShadowPipline::s_lightProj[ProjType::Horizontal].Data());
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowPipline::s_lightView[TetrahedronFaces::Yellow].Data(), FShadowPipline::s_lightProj[ProjType::Horizontal].Data());
+		if (FShadowPipline::_shadowSceneSettings.m_stencilPack)
 		{
-			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Blue].Data(), FShadowRenderer::s_lightProj[ProjType::Vertical].Data());
-			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Red].Data(), FShadowRenderer::s_lightProj[ProjType::Vertical].Data());
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowPipline::s_lightView[TetrahedronFaces::Blue].Data(), FShadowPipline::s_lightProj[ProjType::Vertical].Data());
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowPipline::s_lightView[TetrahedronFaces::Red].Data(), FShadowPipline::s_lightProj[ProjType::Vertical].Data());
 		}
 		else
 		{
-			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Blue].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
-			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_lightView[TetrahedronFaces::Red].Data(), FShadowRenderer::s_lightProj[ProjType::Horizontal].Data());
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowPipline::s_lightView[TetrahedronFaces::Blue].Data(), FShadowPipline::s_lightProj[ProjType::Horizontal].Data());
+			bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowPipline::s_lightView[TetrahedronFaces::Red].Data(), FShadowPipline::s_lightProj[ProjType::Horizontal].Data());
 		}
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, _screenView.Data(), _screenProj.Data());
@@ -1214,13 +1213,13 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setViewTransform(RENDERVIEW_DRAWSCENE_1_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_0_ID, _screenView.Data(), _screenProj.Data());
 
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);
-		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_0_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowPipline::s_rtBlur);
+		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowPipline::s_rtShadowMap[0]);
 	}
 	else // LightType::DirectionalLight == settings.m_lightType
 	{
@@ -1250,18 +1249,18 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		depthRectX = 0;
 		depthRectY = processWindow._height - depthRectHeight;
 
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_VBLUR_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_HBLUR_1_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_VBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_HBLUR_2_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_VBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
-		bgfx::setViewRect(RENDERVIEW_HBLUR_3_ID, 0, 0, FShadowRenderer::s_currentShadowMapSize, FShadowRenderer::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_1_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_2_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_3_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_SHADOWMAP_4_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_VBLUR_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_HBLUR_0_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_VBLUR_1_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_HBLUR_1_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_VBLUR_2_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_HBLUR_2_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_VBLUR_3_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
+		bgfx::setViewRect(RENDERVIEW_HBLUR_3_ID, 0, 0, FShadowPipline::s_currentShadowMapSize, FShadowPipline::s_currentShadowMapSize);
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_0_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWSCENE_1_ID, 0, 0, processWindow._width, processWindow._height);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_0_ID, depthRectX + (0 * depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
@@ -1269,10 +1268,10 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_2_ID, depthRectX + (2 * depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
 		bgfx::setViewRect(RENDERVIEW_DRAWDEPTH_3_ID, depthRectX + (3 * depthRectWidth), depthRectY, depthRectWidth, depthRectHeight);
 
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_lightView[0].Data(), FShadowRenderer::s_lightProj[0].Data());
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_lightView[0].Data(), FShadowRenderer::s_lightProj[1].Data());
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_lightView[0].Data(), FShadowRenderer::s_lightProj[2].Data());
-		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_lightView[0].Data(), FShadowRenderer::s_lightProj[3].Data());
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_1_ID, FShadowPipline::s_lightView[0].Data(), FShadowPipline::s_lightProj[0].Data());
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_2_ID, FShadowPipline::s_lightView[0].Data(), FShadowPipline::s_lightProj[1].Data());
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_3_ID, FShadowPipline::s_lightView[0].Data(), FShadowPipline::s_lightProj[2].Data());
+		bgfx::setViewTransform(RENDERVIEW_SHADOWMAP_4_ID, FShadowPipline::s_lightView[0].Data(), FShadowPipline::s_lightProj[3].Data());
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_HBLUR_0_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_VBLUR_1_ID, _screenView.Data(), _screenProj.Data());
@@ -1288,18 +1287,18 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_2_ID, _screenView.Data(), _screenProj.Data());
 		bgfx::setViewTransform(RENDERVIEW_DRAWDEPTH_3_ID, _screenView.Data(), _screenProj.Data());
 
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowRenderer::s_rtShadowMap[0]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowRenderer::s_rtShadowMap[1]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowRenderer::s_rtShadowMap[2]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowRenderer::s_rtShadowMap[3]);
-		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowRenderer::s_rtBlur);         //vblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowRenderer::s_rtShadowMap[0]); //hblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_1_ID, FShadowRenderer::s_rtBlur);         //vblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_1_ID, FShadowRenderer::s_rtShadowMap[1]); //hblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_2_ID, FShadowRenderer::s_rtBlur);         //vblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_2_ID, FShadowRenderer::s_rtShadowMap[2]); //hblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_3_ID, FShadowRenderer::s_rtBlur);         //vblur
-		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_3_ID, FShadowRenderer::s_rtShadowMap[3]); //hblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_1_ID, FShadowPipline::s_rtShadowMap[0]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_2_ID, FShadowPipline::s_rtShadowMap[1]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_3_ID, FShadowPipline::s_rtShadowMap[2]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_SHADOWMAP_4_ID, FShadowPipline::s_rtShadowMap[3]);
+		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_0_ID, FShadowPipline::s_rtBlur);         //vblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_0_ID, FShadowPipline::s_rtShadowMap[0]); //hblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_1_ID, FShadowPipline::s_rtBlur);         //vblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_1_ID, FShadowPipline::s_rtShadowMap[1]); //hblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_2_ID, FShadowPipline::s_rtBlur);         //vblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_2_ID, FShadowPipline::s_rtShadowMap[2]); //hblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_VBLUR_3_ID, FShadowPipline::s_rtBlur);         //vblur
+		bgfx::setViewFrameBuffer(RENDERVIEW_HBLUR_3_ID, FShadowPipline::s_rtShadowMap[3]); //hblur
 	}
 
 
@@ -1307,14 +1306,14 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	bgfx::setViewClear(0
 		, BGFX_CLEAR_COLOR
 		| BGFX_CLEAR_DEPTH
-		, FShadowRenderer::s_clearValues.m_clearRgba
-		, FShadowRenderer::s_clearValues.m_clearDepth
-		, FShadowRenderer::s_clearValues.m_clearStencil
+		, FShadowPipline::s_clearValues.m_clearRgba
+		, FShadowPipline::s_clearValues.m_clearDepth
+		, FShadowPipline::s_clearValues.m_clearStencil
 	);
 	bgfx::touch(0);
 
 	// Clear shadowmap rendertarget at beginning.
-	const uint8_t flags0 = (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	const uint8_t flags0 = (ELightType::DirectionalLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 		? 0
 		: BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL
 		;
@@ -1322,12 +1321,12 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	bgfx::setViewClear(RENDERVIEW_SHADOWMAP_0_ID
 		, flags0
 		, 0xfefefefe //blur fails on completely white regions
-		, FShadowRenderer::s_clearValues.m_clearDepth
-		, FShadowRenderer::s_clearValues.m_clearStencil
+		, FShadowPipline::s_clearValues.m_clearDepth
+		, FShadowPipline::s_clearValues.m_clearStencil
 	);
 	bgfx::touch(RENDERVIEW_SHADOWMAP_0_ID);
 
-	const uint8_t flags1 = (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+	const uint8_t flags1 = (ELightType::DirectionalLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 		? BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
 		: 0
 		;
@@ -1337,64 +1336,64 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setViewClear(RENDERVIEW_SHADOWMAP_1_ID + ii
 			, flags1
 			, 0xfefefefe //blur fails on completely white regions
-			, FShadowRenderer::s_clearValues.m_clearDepth
-			, FShadowRenderer::s_clearValues.m_clearStencil
+			, FShadowPipline::s_clearValues.m_clearDepth
+			, FShadowPipline::s_clearValues.m_clearStencil
 		);
 		bgfx::touch(RENDERVIEW_SHADOWMAP_1_ID + ii);
 	}
 
 
-	EPackDepth::Data depthType = (EShadowMapImpl::VSM == FShadowRenderer::_shadowSceneSettings.m_smImpl) ? EPackDepth::VSM : EPackDepth::RGBA;
-	bool bVsmOrEsm = (EShadowMapImpl::VSM == FShadowRenderer::_shadowSceneSettings.m_smImpl) || (EShadowMapImpl::ESM == FShadowRenderer::_shadowSceneSettings.m_smImpl);
+	EPackDepth::Data depthType = (EShadowMapImpl::VSM == FShadowPipline::_shadowSceneSettings.m_smImpl) ? EPackDepth::VSM : EPackDepth::RGBA;
+	bool bVsmOrEsm = (EShadowMapImpl::VSM == FShadowPipline::_shadowSceneSettings.m_smImpl) || (EShadowMapImpl::ESM == FShadowPipline::_shadowSceneSettings.m_smImpl);
 
 	// Blur shadow map.
 	if (bVsmOrEsm
 		&&  currentShadowMapSettings->m_doBlur)
 	{
-		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
+		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowPipline::s_flipV);
 		bgfx::submit(RENDERVIEW_VBLUR_0_ID, _programs.m_vBlur[depthType].GetProgram());
 
-		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur));
+		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowPipline::s_flipV);
 		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs.m_hBlur[depthType].GetProgram());
 
-		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+		if (ELightType::DirectionalLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 		{
-			for (uint8_t ii = 1, jj = 2; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii, jj += 2)
+			for (uint8_t ii = 1, jj = 2; ii < FShadowPipline::_shadowSceneSettings.m_numSplits; ++ii, jj += 2)
 			{
 				const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
 
-				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
+				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowPipline::s_flipV);
 				bgfx::submit(viewId, _programs.m_vBlur[depthType].GetProgram());
 
-				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtBlur));
+				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowPipline::s_flipV);
 				bgfx::submit(viewId + 1, _programs.m_hBlur[depthType].GetProgram());
 			}
 		}
 	}
 
 	// Draw depth rect.
-	if (FShadowRenderer::_shadowSceneSettings.m_drawDepthBuffer)
+	if (FShadowPipline::_shadowSceneSettings.m_drawDepthBuffer)
 	{
-		bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[0]));
+		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowPipline::s_flipV);
 		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs.m_drawDepth[depthType].GetProgram());
 
-		if (ELightType::DirectionalLight == FShadowRenderer::_shadowSceneSettings.m_lightType)
+		if (ELightType::DirectionalLight == FShadowPipline::_shadowSceneSettings.m_lightType)
 		{
-			for (uint8_t ii = 1; ii < FShadowRenderer::_shadowSceneSettings.m_numSplits; ++ii)
+			for (uint8_t ii = 1; ii < FShadowPipline::_shadowSceneSettings.m_numSplits; ++ii)
 			{
-				bgfx::setTexture(4, FShadowRenderer::s_shadowMap[0], bgfx::getTexture(FShadowRenderer::s_rtShadowMap[ii]));
+				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowRenderer::s_flipV);
+				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FShadowPipline::s_flipV);
 				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, _programs.m_drawDepth[depthType].GetProgram());
 			}
 		}
@@ -1403,7 +1402,7 @@ void FShadowRenderer::Update(ACameraComponent* camera, ALightComponent* light)
 	// Craft shadow map.
 	{
 		// Craft stencil mask for point light shadow map packing.
-		if (ELightType::PointLight == FShadowRenderer::_shadowSceneSettings.m_lightType && FShadowRenderer::_shadowSceneSettings.m_stencilPack)
+		if (ELightType::PointLight == FShadowPipline::_shadowSceneSettings.m_lightType && FShadowPipline::_shadowSceneSettings.m_stencilPack)
 		{
 			if (6 == bgfx::getAvailTransientVertexBuffer(6, _shadowPosLayout))
 			{

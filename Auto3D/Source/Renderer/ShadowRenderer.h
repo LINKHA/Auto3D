@@ -190,13 +190,13 @@ void mtxBillboard(float* __restrict _result
 	, const float* __restrict _pos
 	, const float* __restrict _scale);
 
-class AUTO_API FShadowRenderer
+class AUTO_API FShadowPipline
 {
-	REGISTER_SINGLETON(FShadowRenderer)
+	REGISTER_SINGLETON(FShadowPipline)
 public:
 
-	FShadowRenderer();
-	~FShadowRenderer();
+	FShadowPipline();
+	~FShadowPipline();
 
 	void Init();
 
@@ -220,29 +220,16 @@ public:
 
 	static bgfx::UniformHandle s_texColor;
 	static bgfx::UniformHandle s_shadowMap[ShadowMapRenderTargets::Count];
-
 	static bgfx::FrameBufferHandle s_rtShadowMap[ShadowMapRenderTargets::Count];
 	static bgfx::FrameBufferHandle s_rtBlur;
-
 	static Material s_defaultMaterial;
-
-
-
 	static TMatrix4x4F _lightMtx;
 	static TMatrix4x4F _shadowMapMtx[ShadowMapRenderTargets::Count];
-
 	static ClearValues s_clearValues;
-
 	static TMatrix4x4F s_mtxYpr[4];
-
-	//{ light 
 	static TMatrix4x4F s_lightView[4];
 	static TMatrix4x4F s_lightProj[4];
-	//}
-
-
 	static FShadowSceneSettings _shadowSceneSettings;
-
 	static FShadowMapSettings _shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
 
 	EShadowMapImpl::Data _shadowMapImpl;

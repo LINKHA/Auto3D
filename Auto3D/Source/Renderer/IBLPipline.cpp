@@ -1,7 +1,35 @@
 #include "Renderer/IBLPipline.h"
 
+#include <bgfx/bgfx.h>
+
 namespace Auto3D
 {
+
+void SubmitTemp(FGeometry* geometry,bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state = BGFX_STATE_MASK)
+{
+	if (BGFX_STATE_MASK == state)
+	{
+		state = 0
+			| BGFX_STATE_WRITE_RGB
+			| BGFX_STATE_WRITE_A
+			| BGFX_STATE_WRITE_Z
+			| BGFX_STATE_DEPTH_TEST_LESS
+			| BGFX_STATE_CULL_CCW
+			| BGFX_STATE_MSAA
+			;
+	}
+
+	bgfx::setTransform(mtx);
+	bgfx::setState(state);
+
+	for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+	{
+		bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
+		bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
+		// Submit.
+		bgfx::submit(id, program);
+	}
+}
 
 FIBLPipline::FIBLPipline()
 {
@@ -22,7 +50,7 @@ void FIBLPipline::Init()
 	m_meshOrb = resourceModule.LoadResource<OMesh>("Meshes/orb.bin");
 }
 
-void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox)
+void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVector<FBatch>& batches)
 {
 	if (camera == nullptr || skybox == nullptr)
 		return;
@@ -58,52 +86,76 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox)
 
 	// Submit view.
 	bx::memCopy(_uniforms._environmentViewMatrix, environmentViewMatrix.Data(), 16 * sizeof(float)); // Used for IBL.
-	if (0 == _settings._meshSelection)
+	
+	for (auto bIt = batches.Begin(); bIt != batches.End();)
 	{
-		// Submit bunny.
+		FBatch& batch = *bIt;
+		bool instance = batch._type == EGeometryType::INSTANCED;
+		int batchesAddCount = 0;
+
+		FGeometry* geometry = batch._pass._geometry;
+		OMaterial* material = batch._pass._material;
+		TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+
 		float mtx[16];
 		bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
 		_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
 		_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
 
 		_uniforms.submit();
-		m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
+		//m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
+		SubmitTemp(geometry, 1, m_programMesh.GetProgram(), mtx);
+
+		batchesAddCount = 1;
+		bIt += batchesAddCount;
 	}
-	else
-	{
-		// Submit orbs.
-		for (float yy = 0, yend = 5.0f; yy < yend; yy += 1.0f)
-		{
-			for (float xx = 0, xend = 5.0f; xx < xend; xx += 1.0f)
-			{
-				const float scale = 1.2f;
-				const float spacing = 2.2f;
-				const float yAdj = -0.8f;
+	
+	//if (0 == _settings._meshSelection)
+	//{
+	//	// Submit bunny.
+	//	float mtx[16];
+	//	bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
+	//	_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
+	//	_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
 
-				float mtx[16];
-				bx::mtxSRT(mtx
-					, scale / xend
-					, scale / xend
-					, scale / xend
-					, 0.0f
-					, 0.0f
-					, 0.0f
-					, 0.0f + (xx / xend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / xend)
-					, yAdj / yend + (yy / yend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / yend)
-					, 0.0f
-				);
+	//	_uniforms.submit();
+	//	m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
+	//}
+	//else
+	//{
+	//	// Submit orbs.
+	//	for (float yy = 0, yend = 5.0f; yy < yend; yy += 1.0f)
+	//	{
+	//		for (float xx = 0, xend = 5.0f; xx < xend; xx += 1.0f)
+	//		{
+	//			const float scale = 1.2f;
+	//			const float spacing = 2.2f;
+	//			const float yAdj = -0.8f;
 
-				_uniforms._glossiness = xx * (1.0f / xend);
-				_uniforms._reflectivity = (yend - yy)*(1.0f / yend);
-				_uniforms._metalOrSpec = 0.0f;
-				_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
-				_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
+	//			float mtx[16];
+	//			bx::mtxSRT(mtx
+	//				, scale / xend
+	//				, scale / xend
+	//				, scale / xend
+	//				, 0.0f
+	//				, 0.0f
+	//				, 0.0f
+	//				, 0.0f + (xx / xend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / xend)
+	//				, yAdj / yend + (yy / yend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / yend)
+	//				, 0.0f
+	//			);
 
-				_uniforms.submit();
-				m_meshOrb->submit(1, m_programMesh.GetProgram(), mtx);
-			}
-		}
-	}
+	//			_uniforms._glossiness = xx * (1.0f / xend);
+	//			_uniforms._reflectivity = (yend - yy)*(1.0f / yend);
+	//			_uniforms._metalOrSpec = 0.0f;
+	//			_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
+	//			_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
+
+	//			_uniforms.submit();
+	//			m_meshOrb->submit(1, m_programMesh.GetProgram(), mtx);
+	//		}
+	//	}
+	//}
 }
 
 }

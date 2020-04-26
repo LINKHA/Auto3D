@@ -60,6 +60,7 @@ public:
 
 	static FIBLPipline _iblPipline;
 
+	static FShadowPipline _shadowPipline;
 private:
 	EDepthImpl::Data _depthImpl;
 

@@ -4,6 +4,8 @@
 #include "Component/CameraComponent.h"
 #include "Component/LightComponent.h"
 #include "Component/SkyboxComponent.h"
+#include "Renderer/Batch.h"
+#include "Math/Vector3.h"
 
 #include "Platform/ProcessWindow.h"
 #include "RHI/bgfx_utils.h"
@@ -23,6 +25,7 @@
 
 namespace Auto3D
 {
+class FBatch;
 
 struct IBLSettings
 {
@@ -76,7 +79,7 @@ public:
 	~FIBLPipline();
 	void Init();
 
-	void Update(ACameraComponent* camera, ASkyboxComponent* skybox);
+	void Update(ACameraComponent* camera, ASkyboxComponent* skybox,TVector<FBatch>& batches);
 
 	struct Uniforms
 	{

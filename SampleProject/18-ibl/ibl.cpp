@@ -15,7 +15,7 @@
 #include "Component/DefaultControllerComponent.h"
 #include "Gameplay/Actor.h"
 #include "Component/TransformComponent.h"
-#include "Renderer/IBLRenderer.h"
+#include "Renderer/IBLPipline.h"
 #include "Component/SkyboxComponent.h"
 #include "Component/MeshComponent.h"
 
@@ -69,7 +69,7 @@ public:
 		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
-		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 	}
 
