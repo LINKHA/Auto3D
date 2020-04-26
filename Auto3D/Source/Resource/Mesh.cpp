@@ -45,7 +45,7 @@ void OMesh::PrivateLoad(bx::ReaderSeekerI* reader, bool ramcopy)
 	using namespace bx;
 	using namespace bgfx;
 
-	Group group;
+	FMeshGroup group;
 
 	bx::AllocatorI* allocator = Auto3D::FDefaultFileWriterReader::GetAllocator();
 
@@ -213,7 +213,7 @@ void OMesh::unload()
 
 	for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
 	{
-		const Group& group = *it;
+		const FMeshGroup& group = *it;
 		bgfx::destroy(group._vbh);
 
 		if (bgfx::isValid(group._ibh))
@@ -285,7 +285,7 @@ void OMesh::submitInstance(bgfx::ViewId id, bgfx::ProgramHandle program, uint64_
 
 	for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
 	{
-		const Group& group = *it;
+		const FMeshGroup& group = *it;
 
 		bgfx::setIndexBuffer(group._ibh);
 		bgfx::setVertexBuffer(0, group._vbh);
@@ -316,7 +316,7 @@ void OMesh::submit(bgfx::ViewId id, bgfx::ProgramHandle program, const float* mt
 
 	for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
 	{
-		const Group& group = *it;
+		const FMeshGroup& group = *it;
 
 		bgfx::setIndexBuffer(group._ibh);
 		bgfx::setVertexBuffer(0, group._vbh);
@@ -347,7 +347,7 @@ void OMesh::submit(const FMeshState*const* state, uint8_t numPasses, const float
 
 		for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
 		{
-			const Group& group = *it;
+			const FMeshGroup& group = *it;
 
 			bgfx::setIndexBuffer(group._ibh);
 			bgfx::setVertexBuffer(0, group._vbh);
@@ -362,18 +362,19 @@ FMeshState* OMesh::meshStateCreate()
 	return state;
 }
 
-FGeometry* OMesh::GetGeometry()
+FGeometry* OMesh::CreateGeometry()
 {
 	FGeometry* geometry = new FGeometry;
 	geometry->_name = GetPathName();
-
-	for (auto it = _groups.Begin(); it != _groups.End(); ++it)
+	geometry->_mesh = this;
+	/*for (auto it = _groups.Begin(); it != _groups.End(); ++it)
 	{
-		const Group& group = *it;
+		const FMeshGroup& group = *it;
 
 		geometry->_vertexBufferHandles.Push(group._vbh);
 		geometry->_indexBufferHandles.Push(group._ibh);
-	}
+	}*/
+
 	return geometry;
 }
 

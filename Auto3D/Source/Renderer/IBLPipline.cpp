@@ -22,12 +22,15 @@ void SubmitTemp(FGeometry* geometry,bgfx::ViewId id, bgfx::ProgramHandle program
 	bgfx::setTransform(mtx);
 	bgfx::setState(state);
 
-	for (int i = 0; i < geometry->_vertexBufferHandles.Size(); ++i)
+	TVector<FMeshGroup>& meshGroups = geometry->_mesh->_groups;
+
+	for (auto it = meshGroups.Begin(), itEnd = meshGroups.End(); it != itEnd; ++it)
 	{
-		bgfx::setIndexBuffer(geometry->_indexBufferHandles[i]);
-		bgfx::setVertexBuffer(0, geometry->_vertexBufferHandles[i]);
-		// Submit.
-		bgfx::submit(id, program);
+		const FMeshGroup& group = *it;
+
+		bgfx::setIndexBuffer(group._ibh);
+		bgfx::setVertexBuffer(0, group._vbh);
+		bgfx::submit(id, program, 0, it != itEnd - 1);
 	}
 }
 
@@ -104,7 +107,7 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 
 		_uniforms.submit();
 		//m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
-		SubmitTemp(geometry, 1, m_programMesh.GetProgram(), mtx);
+		SubmitTemp(geometry, 1, m_programMesh.GetProgram(), modelMatrix.Data());
 
 		batchesAddCount = 1;
 		bIt += batchesAddCount;

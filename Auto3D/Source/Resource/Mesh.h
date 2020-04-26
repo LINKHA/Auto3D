@@ -41,9 +41,9 @@ struct FPrimitive
 	Obb _obb;
 };
 
-struct Group
+struct FMeshGroup
 {
-	Group() 
+	FMeshGroup() 
 	{
 		Reset();
 	}
@@ -97,10 +97,10 @@ public:
 	///
 	static void meshStateDestroy(FMeshState* _meshState);
 
-	FGeometry* GetGeometry();
+	FGeometry* CreateGeometry();
 
 	bgfx::VertexLayout _layout;
-	TVector<Group> _groups;
+	TVector<FMeshGroup> _groups;
 private:
 	void PrivateLoad(bx::ReaderSeekerI* reader, bool ramcopy = false);
 

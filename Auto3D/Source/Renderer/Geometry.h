@@ -6,20 +6,21 @@
 
 namespace Auto3D
 {
+class OMesh;
 
 class AUTO_API FGeometry
 {
 public:
 	FGeometry() 
 	{
-		_vertexBufferHandles.Resize(0);
-		_indexBufferHandles.Resize(0);
+		/*_vertexBufferHandles.Resize(0);
+		_indexBufferHandles.Resize(0);*/
 		_name = FString::EMPTY;
 		_occlusionQuery = bgfx::createOcclusionQuery();
 	}
 	~FGeometry() 
 	{
-		bgfx::destroy(_occlusionQuery);
+		/*bgfx::destroy(_occlusionQuery);
 		for (auto it = _vertexBufferHandles.Begin(); it != _vertexBufferHandles.End(); ++it)
 		{
 			bgfx::destroy(*it);
@@ -29,12 +30,15 @@ public:
 			bgfx::destroy(*it);
 		}
 		_vertexBufferHandles.Clear();
-		_indexBufferHandles.Clear();
+		_indexBufferHandles.Clear();*/
 	}
 	FString _name;
 	bgfx::OcclusionQueryHandle _occlusionQuery;
-	TVector<bgfx::VertexBufferHandle> _vertexBufferHandles;
-	TVector<bgfx::IndexBufferHandle> _indexBufferHandles;
+	OMesh* _mesh;
+
+	//TVector<bgfx::VertexBufferHandle> _vertexBufferHandles;
+	//TVector<bgfx::IndexBufferHandle> _indexBufferHandles;
+
 };
 
 }

@@ -17,7 +17,7 @@ void AMeshComponent::SetMesh(OMesh* mesh)
 	if (mesh)
 	{
 		_mesh = mesh;
-		SetGeometry(mesh->GetGeometry());
+		SetGeometry(mesh->CreateGeometry());
 	}
 }
 
