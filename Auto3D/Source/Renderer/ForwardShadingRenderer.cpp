@@ -36,37 +36,36 @@ void SubmitShadowInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDa
 {
 	TVector<FMeshGroup>& meshGroups = geometry->_mesh->_groups;
 
+	// Set textures.
+	if (bgfx::kInvalidHandle != _texture.idx)
+	{
+		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
+	}
+
+	if (_submitShadowMaps)
+	{
+		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+		{
+			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+		}
+	}
+
+	bgfx::setCondition(geometry->_occlusionQuery, true);
+
+	// Apply render state.
+	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
+	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
+	bgfx::setInstanceDataBuffer(idb);
+	// Set uniforms.
+	FShadowPipline::Get().SubmitPerDrawUniforms();
+
 	for (auto it = meshGroups.Begin(), itEnd = meshGroups.End(); it != itEnd; ++it)
 	{
 		const FMeshGroup& group = *it;
 
-		// Set uniforms.
-		FShadowPipline::Get().SubmitPerDrawUniforms();
-
 		// Set model matrix for rendering.
-		bgfx::setInstanceDataBuffer(idb);
 		bgfx::setIndexBuffer(group._ibh);
 		bgfx::setVertexBuffer(0, group._vbh);
-
-		// Set textures.
-		if (bgfx::kInvalidHandle != _texture.idx)
-		{
-			bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-		}
-
-		if (_submitShadowMaps)
-		{
-			for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-			{
-				bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-			}
-		}
-
-		bgfx::setCondition(geometry->_occlusionQuery, true);
-
-		// Apply render state.
-		bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-		bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
 
 		// Submit.
 		bgfx::submit(_viewId, _program);
@@ -78,37 +77,39 @@ void SubmitShadow(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::Progr
 {
 	TVector<FMeshGroup>& meshGroups = geometry->_mesh->_groups;
 
+	// Set textures.
+	if (bgfx::kInvalidHandle != _texture.idx)
+	{
+		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
+	}
+
+	if (_submitShadowMaps)
+	{
+		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+		{
+			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+		}
+	}
+
+	bgfx::setCondition(geometry->_occlusionQuery, true);
+
+	// Apply render state.
+	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
+	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
+
+
+	// Set uniforms.
+	FShadowPipline::Get().SubmitPerDrawUniforms();
+
 	for (auto it = meshGroups.Begin(), itEnd = meshGroups.End(); it != itEnd; ++it)
 	{
 
 		const FMeshGroup& group = *it;
-		// Set uniforms.
-		FShadowPipline::Get().SubmitPerDrawUniforms();
-
+	
 		// Set model matrix for rendering.
 		bgfx::setTransform(_mtx);
 		bgfx::setIndexBuffer(group._ibh);
 		bgfx::setVertexBuffer(0, group._vbh);
-
-		// Set textures.
-		if (bgfx::kInvalidHandle != _texture.idx)
-		{
-			bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-		}
-
-		if (_submitShadowMaps)
-		{
-			for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-			{
-				bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-			}
-		}
-
-		bgfx::setCondition(geometry->_occlusionQuery, true);
-
-		// Apply render state.
-		bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-		bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
 
 		// Submit.
 		bgfx::submit(_viewId, _program);
@@ -119,35 +120,36 @@ void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::Pr
 {
 	TVector<FMeshGroup>& meshGroups = geometry->_mesh->_groups;
 
+	// Set textures.
+	if (bgfx::kInvalidHandle != _texture.idx)
+	{
+		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
+	}
+
+	if (_submitShadowMaps)
+	{
+		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+		{
+			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+		}
+	}
+
+	// Apply render state.
+	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
+	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
+
+	// Set uniforms.
+	FShadowPipline::Get().SubmitPerDrawUniforms();
+
 	for (auto it = meshGroups.Begin(), itEnd = meshGroups.End(); it != itEnd; ++it)
 	{
 
 		const FMeshGroup& group = *it;
-		// Set uniforms.
-		FShadowPipline::Get().SubmitPerDrawUniforms();
-
+		
 		// Set model matrix for rendering.
 		bgfx::setTransform(_mtx);
 		bgfx::setIndexBuffer(group._ibh);
 		bgfx::setVertexBuffer(0, group._vbh);
-
-		// Set textures.
-		if (bgfx::kInvalidHandle != _texture.idx)
-		{
-			bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-		}
-
-		if (_submitShadowMaps)
-		{
-			for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-			{
-				bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-			}
-		}
-
-		// Apply render state.
-		bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-		bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
 
 		// Submit.
 		bgfx::submit(_viewId, _program, geometry->_occlusionQuery);
@@ -160,36 +162,36 @@ void SubmitOcclusionInstace(FGeometry* geometry, uint8_t _viewId, bgfx::Instance
 
 	TVector<FMeshGroup>& meshGroups = geometry->_mesh->_groups;
 
+	// Set textures.
+	if (bgfx::kInvalidHandle != _texture.idx)
+	{
+		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
+	}
+
+	if (_submitShadowMaps)
+	{
+		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+		{
+			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+		}
+	}
+
+	// Apply render state.
+	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
+	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
+
+	// Set uniforms.
+	FShadowPipline::Get().SubmitPerDrawUniforms();
+
 	for (auto it = meshGroups.Begin(), itEnd = meshGroups.End(); it != itEnd; ++it)
 	{
 
 		const FMeshGroup& group = *it;
 
-		// Set uniforms.
-		FShadowPipline::Get().SubmitPerDrawUniforms();
-
 		// Set model matrix for rendering.
 		bgfx::setInstanceDataBuffer(idb);
 		bgfx::setIndexBuffer(group._ibh);
 		bgfx::setVertexBuffer(0, group._vbh);
-
-		// Set textures.
-		if (bgfx::kInvalidHandle != _texture.idx)
-		{
-			bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-		}
-
-		if (_submitShadowMaps)
-		{
-			for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-			{
-				bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-			}
-		}
-
-		// Apply render state.
-		bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-		bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
 
 		// Submit.
 		bgfx::submit(_viewId, _program, geometry->_occlusionQuery);

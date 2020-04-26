@@ -166,7 +166,7 @@ void ADefaultControllerComponent::TickComponent(float deltaTime)
 
 		pitch += -_deltaVerticalAngle * 90;
 		yaw  += _deltaHorizontalAngle * 90;
-		pitch = Clamp(pitch, -90.0f, 90.0f);
+		pitch = Clamp(pitch, -89.9f, 89.9f);
 
 		ownerTransform->SetRotation(FQuaternion(pitch, yaw, 0.0f));
 	}
