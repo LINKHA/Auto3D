@@ -22,14 +22,15 @@ void SubmitTemp(FGeometry* geometry,bgfx::ViewId id, bgfx::ProgramHandle program
 	bgfx::setTransform(mtx);
 	bgfx::setState(state);
 
-	TVector<FMeshGroup>& meshGroups = geometry->_mesh->_groups;
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
 
-	for (auto it = meshGroups.Begin(), itEnd = meshGroups.End(); it != itEnd; ++it)
+	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
 	{
-		const FMeshGroup& group = *it;
+		FMeshGroup* group = it->_first;
+		//bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
 
-		bgfx::setIndexBuffer(group._ibh);
-		bgfx::setVertexBuffer(0, group._vbh);
+		bgfx::setIndexBuffer(group->_ibh);
+		bgfx::setVertexBuffer(0, group->_vbh);
 		bgfx::submit(id, program, 0, it != itEnd - 1);
 	}
 }

@@ -43,7 +43,7 @@ struct FPrimitive
 
 struct FMeshGroup
 {
-	FMeshGroup() 
+	FMeshGroup()
 	{
 		Reset();
 	}
@@ -95,7 +95,7 @@ public:
 	static FMeshState* meshStateCreate();
 
 	///
-	static void meshStateDestroy(FMeshState* _meshState);
+	//static void meshStateDestroy(FMeshState* _meshState);
 
 	FGeometry* CreateGeometry();
 

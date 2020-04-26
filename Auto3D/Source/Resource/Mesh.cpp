@@ -366,7 +366,13 @@ FGeometry* OMesh::CreateGeometry()
 {
 	FGeometry* geometry = new FGeometry;
 	geometry->_name = GetPathName();
-	geometry->_mesh = this;
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
+	for (auto it = _groups.Begin(), itEnd = _groups.End(); it != itEnd; ++it)
+	{
+		FMeshGroup& group = *it;
+
+		geometryValue.Push({ &group ,bgfx::createOcclusionQuery() });
+	}
 	/*for (auto it = _groups.Begin(); it != _groups.End(); ++it)
 	{
 		const FMeshGroup& group = *it;

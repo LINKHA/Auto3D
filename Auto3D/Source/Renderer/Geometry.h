@@ -1,12 +1,14 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/String.h"
+#include "Container/HashMap.h"
+#include "Container/Pair.h"
 
 #include <bgfx/bgfx.h>
 
 namespace Auto3D
 {
-class OMesh;
+class FMeshGroup;
 
 class AUTO_API FGeometry
 {
@@ -16,7 +18,7 @@ public:
 		/*_vertexBufferHandles.Resize(0);
 		_indexBufferHandles.Resize(0);*/
 		_name = FString::EMPTY;
-		_occlusionQuery = bgfx::createOcclusionQuery();
+		//_occlusionQuery = bgfx::createOcclusionQuery();
 	}
 	~FGeometry() 
 	{
@@ -32,9 +34,12 @@ public:
 		_vertexBufferHandles.Clear();
 		_indexBufferHandles.Clear();*/
 	}
+	
 	FString _name;
-	bgfx::OcclusionQueryHandle _occlusionQuery;
-	OMesh* _mesh;
+	/// The key value of this hashmap is name, which corresponds to MeshGroup and occlusionQuery.
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>> _geometryValue;
+	//bgfx::OcclusionQueryHandle _occlusionQuery;
+	//OMesh* _mesh;
 
 	//TVector<bgfx::VertexBufferHandle> _vertexBufferHandles;
 	//TVector<bgfx::IndexBufferHandle> _indexBufferHandles;
