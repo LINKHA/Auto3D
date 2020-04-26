@@ -23,13 +23,13 @@
 
 #include "Resource/Material.h"
 #include "Renderer/ShadowRenderer.h"
-#include "Renderer/IBLRenderer.h"
-
+#include "Renderer/IBLPipline.h"
+#include "Renderer/EnvironmentPipline.h"
 
 namespace Auto3D
 {
 #define RENDER_SHADOW_PASS_ID 20
-#define RENDER_SCENE_PASS_ID  21
+//#define RENDER_SCENE_PASS_ID  21
 #define RENDER_OCCLUSION_PASS_ID 22
 
 void SubmitShadowInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
@@ -210,6 +210,9 @@ void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::Pr
 	SubmitOcclusion(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
 }
 
+FEnvironmentPipline FForwardShadingRenderer::_environmentPipline;
+
+FIBLPipline FForwardShadingRenderer::_iblPipline;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
@@ -250,13 +253,13 @@ void FForwardShadingRenderer::Init()
 	// Enable debug text.
 	bgfx::setDebug(_debug);
 
-	// Set views  clear state.
-	bgfx::setViewClear(RENDER_SCENE_PASS_ID
-		, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-		, _backbufferColor.ToUInt()
-		, _depth
-		, _stencil
-	);
+	//// Set views  clear state.
+	//bgfx::setViewClear(RENDER_SCENE_PASS_ID
+	//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+	//	, _backbufferColor.ToUInt()
+	//	, _depth
+	//	, _stencil
+	//);
 
 	// Set views  clear state.
 	bgfx::setViewClear(0
@@ -272,8 +275,8 @@ void FForwardShadingRenderer::Init()
 	FRendererDef().Init();
 
 	FShadowRenderer::Get().Init();
-	FIBLRenderer::Get().Init();
-	_environmentRenderer.Init();
+	_iblPipline.Init();
+	_environmentPipline.Init();
 }
 
 void FForwardShadingRenderer::Render()
@@ -324,8 +327,8 @@ void FForwardShadingRenderer::RenderBatches()
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	ASkyboxComponent* skybox = world->GetSkybox();
 
-	FIBLRenderer::Get().Update(_currentCamera, skybox);
-	_environmentRenderer.Update(_currentCamera, skybox);
+	_iblPipline.Update(_currentCamera, skybox);
+	_environmentPipline.Update(_currentCamera, skybox);
 
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{
@@ -910,7 +913,7 @@ void FForwardShadingRenderer::PrepareView()
 	_geometriesActor.Clear();
 	_invisibleBatch = 0;
 	_visibleBatch = 0;
-	bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
+	//bgfx::setViewRect(RENDER_SCENE_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 }
 
 }

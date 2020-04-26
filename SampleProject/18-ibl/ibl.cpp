@@ -17,6 +17,9 @@
 #include "Component/TransformComponent.h"
 #include "Renderer/IBLRenderer.h"
 #include "Component/SkyboxComponent.h"
+#include "Component/MeshComponent.h"
+
+#include "Renderer/ForwardShadingRenderer.h"
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>
@@ -61,13 +64,13 @@ public:
 		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 
-		//AActor* pbrActor = world->CreateChild<AActor>();
-		//pbrActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
-		//pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
-		//pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
-		//AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
-		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
-		//meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
+		AActor* pbrActor = world->CreateChild<AActor>();
+		pbrActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
+		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 	}
 
 	virtual int shutdown() override
@@ -78,7 +81,7 @@ public:
 	bool update() override
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
-		IBLSettings& currentSettings = FIBLRenderer::Get()._settings;
+		IBLSettings& currentSettings = FForwardShadingRenderer::_iblPipline._settings;
 
 		showExampleDialog(this);
 

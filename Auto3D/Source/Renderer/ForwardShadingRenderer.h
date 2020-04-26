@@ -3,13 +3,14 @@
 #include "Renderer/SceneRenderer.h"
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
-#include "Renderer/EnvironmentRenderer.h"
+
 
 #include "Component/LightComponent.h"
 #include "Component/MeshComponent.h"
 #include "Platform/PlatformDef.h"
 #include "Adapter/Ptr.h"
 #include "Renderer/RendererDef.h"
+
 
 #include <bgfx/bgfx.h>
 #include <stdint.h>
@@ -19,7 +20,9 @@ namespace Auto3D
 class OMesh;
 class AWorld;
 class ACameraComponent;
-
+class FEnvironmentPipline;
+class FIBLPipline;
+class FShadowPipline;
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public IRenderer
 {
@@ -52,10 +55,14 @@ public:
 
 	int GetInvisibleBatch() { return _invisibleBatch; }
 	int GetVisibleBatch() { return _visibleBatch; }
+
+	static FEnvironmentPipline _environmentPipline;
+
+	static FIBLPipline _iblPipline;
+
 private:
 	EDepthImpl::Data _depthImpl;
 
-	FEnvironmentRenderer _environmentRenderer;
 
 	FDefaultRendererPrograms _programs;
 	/// FBatch queues per pass.

@@ -2,7 +2,7 @@
 #include "AutoConfig.h"
 #include "Component/CameraComponent.h"
 #include "Component/SkyboxComponent.h"
-#include "Renderer/IBLRenderer.h"
+#include "Renderer/IBLPipline.h"
 #include "Math/Matrix4x4.h"
 
 #include <bgfx/bgfx.h>
@@ -10,11 +10,11 @@
 namespace Auto3D
 {
 
-class AUTO_API FEnvironmentRenderer
+class AUTO_API FEnvironmentPipline
 {
 public:
-	FEnvironmentRenderer() {}
-	~FEnvironmentRenderer() {}
+	FEnvironmentPipline() {}
+	~FEnvironmentPipline() {}
 	void Init()
 	{
 		_uniforms.Init();

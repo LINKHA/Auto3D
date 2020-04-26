@@ -1,0 +1,7 @@
+{
+  "shaders":{
+	"vs": "vs_mesh",
+	"vsi": "vs_mesh_i",
+    "ps": "fs_mesh"
+  }
+}
