@@ -65,9 +65,9 @@ public:
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 
 		AActor* pbrActor = world->CreateChild<AActor>();
-		pbrActor->GetTransform()->SetPosition({ 0.0f, 0.0f, 0.0f });
+		pbrActor->GetTransform()->SetPosition({ 0.0f, -0.5f, 0.0f });
 		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
-		pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		//pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
 		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
@@ -193,40 +193,27 @@ public:
 			, 0
 			);
 
-		ImGui::Text("Mesh:");
+		ImGui::Separator();
+		ImGui::Text("Workflow:");
 		ImGui::Indent();
-		ImGui::RadioButton("Bunny", &currentSettings._meshSelection, 0);
-		ImGui::RadioButton("Orbs",  &currentSettings._meshSelection, 1);
+		ImGui::RadioButton("Metalness", &currentSettings._metalOrSpec, 0);
+		ImGui::RadioButton("Specular", &currentSettings._metalOrSpec, 1);
 		ImGui::Unindent();
 
-		const bool isBunny = (0 == currentSettings._meshSelection);
-		if (!isBunny)
-		{
-			currentSettings._metalOrSpec = 0;
-		}
-		else
-		{
-			ImGui::Separator();
-			ImGui::Text("Workflow:");
-			ImGui::Indent();
-			ImGui::RadioButton("Metalness", &currentSettings._metalOrSpec, 0);
-			ImGui::RadioButton("Specular", &currentSettings._metalOrSpec, 1);
-			ImGui::Unindent();
-
-			ImGui::Separator();
-			ImGui::Text("Material:");
-			ImGui::Indent();
-			ImGui::PushItemWidth(130.0f);
-			ImGui::SliderFloat("Glossiness", &currentSettings._glossiness, 0.0f, 1.0f);
-			ImGui::SliderFloat(0 == currentSettings._metalOrSpec ? "Metalness" : "Diffuse - Specular", &currentSettings._reflectivity, 0.0f, 1.0f);
-			ImGui::PopItemWidth();
-			ImGui::Unindent();
-		}
+		ImGui::Separator();
+		ImGui::Text("Material:");
+		ImGui::Indent();
+		ImGui::PushItemWidth(130.0f);
+		ImGui::SliderFloat("Glossiness", &currentSettings._glossiness, 0.0f, 1.0f);
+		ImGui::SliderFloat(0 == currentSettings._metalOrSpec ? "Metalness" : "Diffuse - Specular", &currentSettings._reflectivity, 0.0f, 1.0f);
+		ImGui::PopItemWidth();
+		ImGui::Unindent();
+		
 
 
 		ImGui::ColorWheel("Diffuse:", &currentSettings._rgbDiff[0], 0.7f);
 		ImGui::Separator();
-		if ( (1 == currentSettings._metalOrSpec) && isBunny )
+		if ( (1 == currentSettings._metalOrSpec))
 		{
 			ImGui::ColorWheel("Specular:", &currentSettings._rgbSpec[0], 0.7f);
 		}

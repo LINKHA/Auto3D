@@ -113,53 +113,6 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 		batchesAddCount = 1;
 		bIt += batchesAddCount;
 	}
-	
-	//if (0 == _settings._meshSelection)
-	//{
-	//	// Submit bunny.
-	//	float mtx[16];
-	//	bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
-	//	_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
-	//	_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
-
-	//	_uniforms.submit();
-	//	m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
-	//}
-	//else
-	//{
-	//	// Submit orbs.
-	//	for (float yy = 0, yend = 5.0f; yy < yend; yy += 1.0f)
-	//	{
-	//		for (float xx = 0, xend = 5.0f; xx < xend; xx += 1.0f)
-	//		{
-	//			const float scale = 1.2f;
-	//			const float spacing = 2.2f;
-	//			const float yAdj = -0.8f;
-
-	//			float mtx[16];
-	//			bx::mtxSRT(mtx
-	//				, scale / xend
-	//				, scale / xend
-	//				, scale / xend
-	//				, 0.0f
-	//				, 0.0f
-	//				, 0.0f
-	//				, 0.0f + (xx / xend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / xend)
-	//				, yAdj / yend + (yy / yend)*spacing - (1.0f + (scale - 1.0f)*0.5f - 1.0f / yend)
-	//				, 0.0f
-	//			);
-
-	//			_uniforms._glossiness = xx * (1.0f / xend);
-	//			_uniforms._reflectivity = (yend - yy)*(1.0f / yend);
-	//			_uniforms._metalOrSpec = 0.0f;
-	//			_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
-	//			_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
-
-	//			_uniforms.submit();
-	//			m_meshOrb->submit(1, m_programMesh.GetProgram(), mtx);
-	//		}
-	//	}
-	//}
 }
 
 }

@@ -52,7 +52,6 @@ struct IBLSettings
 		_doDiffuseIbl = true;
 		_doSpecularIbl = true;
 		_metalOrSpec = 0;
-		_meshSelection = 0;
 	}
 
 	float _lightDirection[3];
@@ -68,7 +67,6 @@ struct IBLSettings
 	bool  _doDiffuseIbl;
 	bool  _doSpecularIbl;
 	int32_t _metalOrSpec;
-	int32_t _meshSelection;
 };
 
 

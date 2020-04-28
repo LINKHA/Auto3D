@@ -79,7 +79,7 @@ public:
 		//hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
 		hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
 		hollowcubePlaneActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
-		hollowcubePlaneActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+		hollowcubePlaneActor->GetTransform()->SetScale({ 5.5f, 5.5f, 5.5f });
 
 		AActor* meshActor2 = world->CreateChild<AActor>();
 		AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
