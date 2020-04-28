@@ -64,8 +64,6 @@ public:
 private:
 	EDepthImpl::Data _depthImpl;
 
-
-	FDefaultRendererPrograms _programs;
 	/// FBatch queues per pass.
 	FRenderQueue _batchQueues;
 

@@ -209,13 +209,13 @@ public:
 
 	static FShadowMapSettings* GetCurrentShadowMapSettings()
 	{
-		return &_shadowMapSettings[_shadowSceneSettings.m_lightType][_shadowSceneSettings.m_depthImpl][_shadowSceneSettings.m_smImpl];
+		return &s_shadowMapSettings[s_shadowSceneSettings.m_lightType][s_shadowSceneSettings.m_depthImpl][s_shadowSceneSettings.m_smImpl];
 	}
 	
 	static uint16_t s_currentShadowMapSize;
 
 
-	static bool s_flipV;
+	//static bool s_flipV;
 	//static float s_texelHalf;
 
 	static bgfx::UniformHandle s_texColor;
@@ -223,14 +223,14 @@ public:
 	static bgfx::FrameBufferHandle s_rtShadowMap[ShadowMapRenderTargets::Count];
 	static bgfx::FrameBufferHandle s_rtBlur;
 	static Material s_defaultMaterial;
-	static TMatrix4x4F _lightMtx;
-	static TMatrix4x4F _shadowMapMtx[ShadowMapRenderTargets::Count];
+	static TMatrix4x4F s_lightMtx;
+	static TMatrix4x4F s_shadowMapMtx[ShadowMapRenderTargets::Count];
 	static ClearValues s_clearValues;
 	static TMatrix4x4F s_mtxYpr[4];
 	static TMatrix4x4F s_lightView[4];
 	static TMatrix4x4F s_lightProj[4];
-	static FShadowSceneSettings _shadowSceneSettings;
-	static FShadowMapSettings _shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
+	static FShadowSceneSettings s_shadowSceneSettings;
+	static FShadowMapSettings s_shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
 
 	EShadowMapImpl::Data _shadowMapImpl;
 private:

@@ -86,12 +86,8 @@ FRenderState FRenderState::_renderState[FRenderState::Count] =
 };
 
 bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
-float FRendererDef::_texelHalf = 0.0f;
-
-void FDefaultRendererPrograms::Init()
-{
-}
-
+float FRendererDef::s_texelHalf = 0.0f;
+bool FRendererDef::s_flipV = false;
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft, float _width, float _height)
 {
@@ -108,8 +104,8 @@ void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBott
 		const float miny = 0.0f;
 		const float maxy = _height * 2.0f;
 
-		const float texelHalfW = FRendererDef::_texelHalf / _textureWidth;
-		const float texelHalfH = FRendererDef::_texelHalf / _textureHeight;
+		const float texelHalfW = FRendererDef::s_texelHalf / _textureWidth;
+		const float texelHalfH = FRendererDef::s_texelHalf / _textureHeight;
 		const float minu = -1.0f + texelHalfW;
 		const float maxu = 1.0f + texelHalfW;
 

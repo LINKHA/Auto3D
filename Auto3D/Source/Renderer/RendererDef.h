@@ -108,10 +108,6 @@ namespace ERenderInstanceType
 		Count
 	};
 }
-struct FDefaultRendererPrograms
-{
-	void Init();
-};
 
 struct PosColorTexCoord0Vertex
 {
@@ -144,6 +140,7 @@ public:
 	{
 		PosColorTexCoord0Vertex::init();
 	}
-	static float _texelHalf;
+	static float s_texelHalf;
+	static bool s_flipV;
 };
 }
