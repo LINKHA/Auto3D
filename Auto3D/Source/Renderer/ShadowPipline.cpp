@@ -169,7 +169,7 @@ void FShadowPipline::Init()
 	s_shadowMap[3] = bgfx::createUniform("s_shadowMap3", bgfx::UniformType::Sampler);
 
 	// Programs.
-	_programs.init();
+	_programs.Init();
 
 	FShadowMapSettings smSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count]=
 	{
@@ -191,10 +191,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstace
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstace
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstace
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstace
 				},
 				{ //EShadowMapImpl::PCF
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -210,10 +210,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -229,10 +229,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -248,10 +248,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			},
@@ -271,10 +271,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -290,10 +290,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -309,10 +309,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					10.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -328,10 +328,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Single][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			}
@@ -355,10 +355,10 @@ void FShadowPipline::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -374,10 +374,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -393,10 +393,10 @@ void FShadowPipline::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -412,10 +412,10 @@ void FShadowPipline::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			},
@@ -435,10 +435,10 @@ void FShadowPipline::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -454,10 +454,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.001f         // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -473,10 +473,10 @@ void FShadowPipline::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					12.0f, 9.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -492,10 +492,10 @@ void FShadowPipline::Init()
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_xOffset
 					, 0.25f, 0.0f, 2.0f, 0.001f        // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Omni][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			}
@@ -519,10 +519,10 @@ void FShadowPipline::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -538,10 +538,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -557,10 +557,10 @@ void FShadowPipline::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -576,10 +576,10 @@ void FShadowPipline::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::InvZ][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::InvZ][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			},
@@ -599,10 +599,10 @@ void FShadowPipline::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::Hard][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::PCF
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -618,10 +618,10 @@ void FShadowPipline::Init()
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_xOffset
 					, 1.0f, 0.0f, 3.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::PCF][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::VSM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -637,10 +637,10 @@ void FShadowPipline::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::VSM][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::VSM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				},
 				{ //EShadowMapImpl::ESM
 					11.0f, 7.0f, 12.0f, 1.0f         // m_sizePwrTwo
@@ -656,10 +656,10 @@ void FShadowPipline::Init()
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_xOffset
 					, 0.2f, 0.0f, 1.0f, 0.01f          // m_yOffset
 					, true                             // m_doBlur
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
-					, &_programs.m_packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
-					, &_programs.m_colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::STAIC] //m_progPack
+					, &_programs._packDepth[EDepthImpl::Linear][EPackDepth::RGBA][ERenderInstanceType::INSTANCE] //m_progPackInstance
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::STAIC] //m_progDraw
+					, &_programs._colorLighting[EShadowMapType::Cascade][EDepthImpl::Linear][EShadowMapImpl::ESM][ERenderInstanceType::INSTANCE] //m_progDrawInstance
 				}
 
 			}
@@ -688,7 +688,7 @@ void FShadowPipline::Init()
 	uint16_t shadowMapSize = 1 << uint32_t(currentSmSettings->m_sizePwrTwo);
 	s_currentShadowMapSize = shadowMapSize;
 	float currentShadowMapSizef = float(int16_t(s_currentShadowMapSize));
-	_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+	_uniforms._shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
 	for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
 	{
@@ -747,24 +747,24 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 
 
 	float currentShadowMapSizef = float(int16_t(FShadowPipline::s_currentShadowMapSize));
-	_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+	_uniforms._shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
 	_uniforms.submitConstUniforms();
 
 	FShadowMapSettings* currentShadowMapSettings = &FShadowPipline::s_shadowMapSettings[FShadowPipline::s_shadowSceneSettings.m_lightType][FShadowPipline::s_shadowSceneSettings.m_depthImpl][FShadowPipline::s_shadowSceneSettings.m_smImpl];
 	// Update uniforms.
-	_uniforms.m_shadowMapBias = currentShadowMapSettings->m_bias;
-	_uniforms.m_shadowMapOffset = currentShadowMapSettings->m_normalOffset;
-	_uniforms.m_shadowMapParam0 = currentShadowMapSettings->m_customParam0;
-	_uniforms.m_shadowMapParam1 = currentShadowMapSettings->m_customParam1;
-	_uniforms.m_depthValuePow = currentShadowMapSettings->m_depthValuePow;
-	_uniforms.m_XNum = currentShadowMapSettings->m_xNum;
-	_uniforms.m_YNum = currentShadowMapSettings->m_yNum;
-	_uniforms.m_XOffset = currentShadowMapSettings->m_xOffset;
-	_uniforms.m_YOffset = currentShadowMapSettings->m_yOffset;
-	_uniforms.m_showSmCoverage = float(FShadowPipline::s_shadowSceneSettings.m_showSmCoverage);
-	_uniforms.m_lightPtr = light;
-	_uniforms.m_colorPtr = light->GetLightColor().Data();
+	_uniforms._shadowMapBias = currentShadowMapSettings->m_bias;
+	_uniforms._shadowMapOffset = currentShadowMapSettings->m_normalOffset;
+	_uniforms._shadowMapParam0 = currentShadowMapSettings->m_customParam0;
+	_uniforms._shadowMapParam1 = currentShadowMapSettings->m_customParam1;
+	_uniforms._depthValuePow = currentShadowMapSettings->m_depthValuePow;
+	_uniforms._XNum = currentShadowMapSettings->m_xNum;
+	_uniforms._YNum = currentShadowMapSettings->m_yNum;
+	_uniforms._XOffset = currentShadowMapSettings->m_xOffset;
+	_uniforms._YOffset = currentShadowMapSettings->m_yOffset;
+	_uniforms._showSmCoverage = float(FShadowPipline::s_shadowSceneSettings.m_showSmCoverage);
+	_uniforms._lightPtr = light;
+	_uniforms._colorPtr = light->GetLightColor().Data();
 
 	switch (light->GetLightType())
 	{
@@ -844,7 +844,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 	if (FShadowPipline::s_currentShadowMapSize != shadowMapSize)
 	{
 		FShadowPipline::s_currentShadowMapSize = shadowMapSize;
-		_uniforms.m_shadowMapTexelSize = 1.0f / currentShadowMapSizef;
+		_uniforms._shadowMapTexelSize = 1.0f / currentShadowMapSizef;
 
 		{
 			bgfx::destroy(FShadowPipline::s_rtShadowMap[0]);
@@ -1014,7 +1014,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 		for (uint8_t ii = 0, ff = 1; ii < FShadowPipline::s_shadowSceneSettings.m_numSplits; ++ii, ff += 2)
 		{
 			// This lags for 1 frame, but it's not a problem.
-			_uniforms.m_csmFarDistances[ii] = splitSlices[ff];
+			_uniforms._csmFarDistances[ii] = splitSlices[ff];
 		}
 
 		float mtxProj[16];
@@ -1334,12 +1334,12 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
-		bgfx::submit(RENDERVIEW_VBLUR_0_ID, _programs.m_vBlur[depthType].GetProgram());
+		bgfx::submit(RENDERVIEW_VBLUR_0_ID, _programs._vBlur[depthType].GetProgram());
 
 		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
-		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs.m_hBlur[depthType].GetProgram());
+		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs._hBlur[depthType].GetProgram());
 
 		if (ELightType::DirectionalLight == FShadowPipline::s_shadowSceneSettings.m_lightType)
 		{
@@ -1350,12 +1350,12 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
-				bgfx::submit(viewId, _programs.m_vBlur[depthType].GetProgram());
+				bgfx::submit(viewId, _programs._vBlur[depthType].GetProgram());
 
 				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
-				bgfx::submit(viewId + 1, _programs.m_hBlur[depthType].GetProgram());
+				bgfx::submit(viewId + 1, _programs._hBlur[depthType].GetProgram());
 			}
 		}
 	}
@@ -1366,7 +1366,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
-		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs.m_drawDepth[depthType].GetProgram());
+		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs._drawDepth[depthType].GetProgram());
 
 		if (ELightType::DirectionalLight == FShadowPipline::s_shadowSceneSettings.m_lightType)
 		{
@@ -1375,7 +1375,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
-				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, _programs.m_drawDepth[depthType].GetProgram());
+				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, _programs._drawDepth[depthType].GetProgram());
 			}
 		}
 	}
@@ -1434,7 +1434,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 					| BGFX_STENCIL_OP_PASS_Z_REPLACE
 				);
 				bgfx::setVertexBuffer(0, &vb);
-				bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, _programs.m_black.GetProgram());
+				bgfx::submit(RENDERVIEW_SHADOWMAP_0_ID, _programs._black.GetProgram());
 			}
 		}
 	}
