@@ -22,7 +22,7 @@
 #include "RHI/bgfx_utils.h"
 
 #include "Resource/Material.h"
-#include "Renderer/ShadowRenderer.h"
+#include "Renderer/ShadowPipline.h"
 #include "Renderer/IBLPipline.h"
 #include "Renderer/EnvironmentPipline.h"
 

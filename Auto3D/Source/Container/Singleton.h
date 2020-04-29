@@ -5,7 +5,7 @@
 namespace Auto3D {
 #define REGISTER_SINGLETON(_This) \
 public:\
-	friend class TSingleton<_This>;\
+	friend struct TSingleton<_This>;\
 	static _This& Get();\
 
 #define IMPLEMENT_SINGLETON(_This) \

@@ -32,7 +32,7 @@
 #include "Resource/Mesh.h"
 #include "Platform/Dbg.h"
 #include "Platform/ProcessWindow.h"
-#include "Renderer/ShadowRenderer.h"
+#include "Renderer/ShadowPipline.h"
 
 using namespace Auto3D;
 
