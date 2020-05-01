@@ -3,7 +3,7 @@
 #include "Renderer/SceneRenderer.h"
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
-
+#include "Renderer/HDRPipline.h"
 
 #include "Component/LightComponent.h"
 #include "Component/MeshComponent.h"
@@ -61,6 +61,8 @@ public:
 	static FIBLPipline _iblPipline;
 
 	static FShadowPipline _shadowPipline;
+
+	static FHDRPipline _hdrPipline;
 private:
 	EDepthImpl::Data _depthImpl;
 

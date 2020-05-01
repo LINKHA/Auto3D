@@ -227,6 +227,7 @@ void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::Pr
 FEnvironmentPipline FForwardShadingRenderer::_environmentPipline;
 FIBLPipline FForwardShadingRenderer::_iblPipline;
 FShadowPipline FForwardShadingRenderer::_shadowPipline;
+FHDRPipline FForwardShadingRenderer::_hdrPipline;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
@@ -305,6 +306,7 @@ void FForwardShadingRenderer::Init()
 	FShadowPipline::Get().Init();
 	_iblPipline.Init();
 	_environmentPipline.Init();
+	_hdrPipline.Init();
 }
 
 void FForwardShadingRenderer::Render()
@@ -359,7 +361,7 @@ void FForwardShadingRenderer::RenderBatches()
 	_environmentPipline.Update(_currentCamera, skybox);
 
 	_iblPipline.Update(_currentCamera, skybox, batches);
-
+	_hdrPipline.Update();
 
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{
