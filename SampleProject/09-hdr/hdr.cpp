@@ -1,12 +1,13 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
+#include "RHI/bgfx_utils.h"
+#include "Application.h"
+#include "UI/UI.h"
+#include "Platform/ProcessWindow.h"
+#include "Resource/Mesh.h"
+#include "Resource/ResourceCache.h"
 
-#include "common.h"
-#include "bgfx_utils.h"
-#include "imgui/imgui.h"
 #include <bx/rng.h>
+#include <bx/timer.h>
+using namespace Auto3D;
 
 namespace
 {
@@ -137,33 +138,35 @@ void setOffsets4x4Lum(bgfx::UniformHandle _handle, uint32_t _width, uint32_t _he
 	bgfx::setUniform(_handle, offsets, num);
 }
 
-class ExampleHDR : public entry::AppI
+class ExampleHDR : public Auto3D::IAppInstance
 {
 public:
 	ExampleHDR(const char* _name, const char* _description, const char* _url)
-		: entry::AppI(_name, _description, _url)
+		: Auto3D::IAppInstance(_name, _description, _url)
 	{
+		IAppInstance::_useCustomRender = true;
 	}
 
-	void init(int32_t _argc, const char* const* _argv, uint32_t _width, uint32_t _height) override
+	void init() override
 	{
-		Args args(_argc, _argv);
+		GResourceModule& reousceModlue = GResourceModule::Get();
 
-		m_width  = _width;
-		m_height = _height;
+		GProcessWindow& processWindow = GProcessWindow::Get();
+		m_width  = processWindow._width;
+		m_height = processWindow._height;
 		m_debug  = BGFX_DEBUG_NONE;
 		m_reset  = BGFX_RESET_VSYNC;
 
-		bgfx::Init init;
-		init.type     = args.m_type;
-		init.vendorId = args.m_pciId;
-		init.resolution.width  = m_width;
-		init.resolution.height = m_height;
-		init.resolution.reset  = m_reset;
-		bgfx::init(init);
+		//bgfx::Init init;
+		//init.type     = args.m_type;
+		//init.vendorId = args.m_pciId;
+		//init.resolution.width  = m_width;
+		//init.resolution.height = m_height;
+		//init.resolution.reset  = m_reset;
+		//bgfx::init(init);
 
-		// Enable m_debug text.
-		bgfx::setDebug(m_debug);
+		//// Enable m_debug text.
+		//bgfx::setDebug(m_debug);
 
 		// Create vertex stream declaration.
 		PosColorTexCoord0Vertex::init();
@@ -191,7 +194,7 @@ public:
 		u_tonemap   = bgfx::createUniform("u_tonemap",  bgfx::UniformType::Vec4);
 		u_offset    = bgfx::createUniform("u_offset",   bgfx::UniformType::Vec4, 16);
 
-		m_mesh = meshLoad("meshes/bunny.bin");
+		m_mesh = reousceModlue.LoadResource<OMesh>("meshes/bunny.bin");
 
 		m_fbh.idx = bgfx::kInvalidHandle;
 
@@ -215,7 +218,7 @@ public:
 		}
 
 		// Imgui.
-		imguiCreate();
+		//imguiCreate();
 
 		m_caps = bgfx::getCaps();
 		s_texelHalf = bgfx::RendererType::Direct3D9 == m_caps->rendererType ? 0.5f : 0.0f;
@@ -239,7 +242,7 @@ public:
 		// Cleanup.
 		imguiDestroy();
 
-		meshUnload(m_mesh);
+		//meshUnload(m_mesh);
 
 		for (uint32_t ii = 0; ii < BX_COUNTOF(m_lum); ++ii)
 		{
@@ -282,7 +285,13 @@ public:
 
 	bool update() override
 	{
-		if (!entry::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
+		GProcessWindow& processWindow = GProcessWindow::Get();
+		m_width = processWindow._width;
+		m_height = processWindow._height;
+		m_debug = processWindow._debug;
+		m_reset = processWindow._reset;
+		m_mouseState = processWindow._mouseState;
+		//if (!entry::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
 		{
 			if (!bgfx::isValid(m_fbh)
 			||  m_oldWidth  != m_width
@@ -330,15 +339,15 @@ public:
 				m_fbh = bgfx::createFrameBuffer(BX_COUNTOF(m_fbtextures), m_fbtextures, true);
 			}
 
-			imguiBeginFrame(m_mouseState.m_mx
-					,  m_mouseState.m_my
-					, (m_mouseState.m_buttons[entry::MouseButton::Left  ] ? IMGUI_MBUT_LEFT   : 0)
-					| (m_mouseState.m_buttons[entry::MouseButton::Right ] ? IMGUI_MBUT_RIGHT  : 0)
-					| (m_mouseState.m_buttons[entry::MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
-					,  m_mouseState.m_mz
+			/*imguiBeginFrame(m_mouseState._mx
+					,  m_mouseState._my
+					, (m_mouseState._buttons[MouseButton::Left  ] ? IMGUI_MBUT_LEFT   : 0)
+					| (m_mouseState._buttons[MouseButton::Right ] ? IMGUI_MBUT_RIGHT  : 0)
+					| (m_mouseState._buttons[MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
+					,  m_mouseState._mz
 					, uint16_t(m_width)
 					, uint16_t(m_height)
-					);
+					);*/
 
 			showExampleDialog(this);
 
@@ -372,7 +381,7 @@ public:
 
 			ImGui::End();
 
-			imguiEndFrame();
+			//imguiEndFrame();
 
 			// This dummy draw call is here to make sure that view 0 is cleared
 			// if no other draw calls are submitted to view 0.
@@ -499,7 +508,7 @@ public:
 			// Render m_mesh into view hdrMesh.
 			bgfx::setTexture(0, s_texCube, m_uffizi);
 			bgfx::setUniform(u_tonemap, tonemap);
-			meshSubmit(m_mesh, hdrMesh, m_meshProgram, NULL);
+			m_mesh->submit(hdrMesh, m_meshProgram, NULL);
 
 			// Calculate luminance.
 			setOffsets2x2Lum(u_offset, 128, 128);
@@ -576,7 +585,7 @@ public:
 		return false;
 	}
 
-	entry::MouseState m_mouseState;
+	MouseState m_mouseState;
 
 	bgfx::ProgramHandle m_skyProgram;
 	bgfx::ProgramHandle m_lumProgram;
@@ -595,7 +604,7 @@ public:
 	bgfx::UniformHandle u_tonemap;
 	bgfx::UniformHandle u_offset;
 
-	Mesh* m_mesh;
+	OMesh* m_mesh;
 
 	bgfx::TextureHandle m_fbtextures[2];
 	bgfx::TextureHandle m_rb;
@@ -628,10 +637,13 @@ public:
 };
 
 } // namespace
-
-ENTRY_IMPLEMENT_MAIN(
-	  ExampleHDR
-	, "09-hdr"
-	, "Using multiple views with frame buffers, and view order remapping."
-	, "https://bkaradzic.github.io/bgfx/examples.html#hdr"
+int Auto3D_main(int _argc, char** _argv)
+{
+	ExampleHDR app(
+		"09-hdr"
+		, "Using multiple views with frame buffers, and view order remapping."
+		, "https://bkaradzic.github.io/bgfx/examples.html#hdr"
 	);
+	return GApplication::Get().RunAppInstance(&app, _argc, _argv);
+}
+

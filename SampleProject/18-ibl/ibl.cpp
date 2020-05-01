@@ -1,5 +1,3 @@
-#include <vector>
-#include <string>
 #include "Resource/ResourceCache.h"
 #include "Application.h"
 #include "Gameplay/World.h"
@@ -28,7 +26,7 @@ namespace
 {
 using namespace Auto3D;
 
-class ExampleIbl : public  Auto3D::IAppInstance
+class ExampleIbl : public Auto3D::IAppInstance
 {
 public:
 	ExampleIbl(const char* _name, const char* _description, const char* _url)
