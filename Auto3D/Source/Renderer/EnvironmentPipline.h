@@ -44,8 +44,8 @@ public:
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 
 		_uniforms._environmentViewMatrix = environmentViewMatrix.Transpose();
-		_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
-		_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
+		_uniforms._texture = skybox->GetHDRTexture()->GetTextureHandle();
+		_uniforms._textureIrrance = skybox->GetHDRTexture()->GetTextureHandle();
 
 		_uniforms.Submit();
 		bgfx::submit(0, skybox->GetShaderProgram().GetProgram());

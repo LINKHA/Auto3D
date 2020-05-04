@@ -29,12 +29,16 @@ public:
 
 	void init() override
 	{
+		GResourceModule& resourceModule = GResourceModule::Get();
+
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
 		world->DefineLayer(0, "Default");
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
+		ASkyboxComponent* skybox = world->CreateComponent<ASkyboxComponent>();
+		skybox->SetHdrTexture(resourceModule.LoadResource<OTexture>("textures/uffizi.ktx"));
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
@@ -44,7 +48,6 @@ public:
 		actor->CreateComponent<ADefaultControllerComponent>();
 		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
 		actor->GetTransform()->SetRotation({ 45.0f,0.0f,0.0f });
-	
 	}
 
 	virtual int shutdown() override

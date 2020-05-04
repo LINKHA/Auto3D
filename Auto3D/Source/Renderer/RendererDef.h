@@ -133,6 +133,10 @@ struct PosColorTexCoord0Vertex
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
 
+void setOffsets2x2Lum(bgfx::UniformHandle _handle, uint32_t _width, uint32_t _height);
+
+void setOffsets4x4Lum(bgfx::UniformHandle _handle, uint32_t _width, uint32_t _height);
+
 class AUTO_API FRendererDef
 {
 public:

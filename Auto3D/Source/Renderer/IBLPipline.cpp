@@ -103,8 +103,8 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 
 		float mtx[16];
 		bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
-		_uniforms._texture = skybox->GetTexture()->GetTextureHandle();
-		_uniforms._textureIrrance = skybox->GetIrranceTexture()->GetTextureHandle();
+		_uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+		_uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 
 		_uniforms.submit();
 		//m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);

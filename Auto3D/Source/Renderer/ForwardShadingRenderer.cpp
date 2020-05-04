@@ -268,14 +268,6 @@ void FForwardShadingRenderer::Init()
 	// Enable debug text.
 	bgfx::setDebug(_debug);
 
-	//// Set views  clear state.
-	//bgfx::setViewClear(RENDER_SCENE_PASS_ID
-	//	, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-	//	, _backbufferColor.ToUInt()
-	//	, _depth
-	//	, _stencil
-	//);
-
 	// Set views  clear state.
 	bgfx::setViewClear(0
 		, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
@@ -358,10 +350,21 @@ void FForwardShadingRenderer::RenderBatches()
 	ASkyboxComponent* skybox = world->GetSkybox();
 	TVector<FBatch>& batches = _batchQueues._batches;
 
-	_environmentPipline.Update(_currentCamera, skybox);
-
-	_iblPipline.Update(_currentCamera, skybox, batches);
-	_hdrPipline.Update();
+	if (skybox)
+	{
+		switch (skybox->GetSkyboxType())
+		{
+		case ESkyboxType::HDR:
+			_hdrPipline.Update(_currentCamera, skybox);
+			break;
+		case ESkyboxType::IBL:
+			_environmentPipline.Update(_currentCamera, skybox);
+			_iblPipline.Update(_currentCamera, skybox, batches);
+			break;
+		default:
+			break;
+		}
+	}
 
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{

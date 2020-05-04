@@ -7,6 +7,14 @@
 
 namespace Auto3D
 {
+namespace ESkyboxType
+{
+	enum Data
+	{
+		IBL,
+		HDR
+	};
+}
 
 class AUTO_API ASkyboxComponent : public AActorComponent
 {
@@ -21,19 +29,31 @@ public:
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime) override;
 
-	void SetTexture(OTexture* texture);
-	OTexture* GetTexture();
+	void SetSkyboxType(ESkyboxType::Data type);
+	ESkyboxType::Data GetSkyboxType() { return _skyboxType; }
 
-	void SetIrranceTexture(OTexture* texture);
-	OTexture* GetIrranceTexture();
+	void SetIBLTexture(OTexture* texture, OTexture* irranceTexture);
+
+	OTexture* GetIBLTexture();
+	OTexture* GetIBLIrranceTexture();
+
+	void SetHdrTexture(OTexture* texture);
+	OTexture* GetHDRTexture();
 
 	FShaderProgram& GetShaderProgram() { return _program; }
+
+	static FShaderProgram s_hdrProgram;
+	static FShaderProgram s_iblProgram;
 private:
+	ESkyboxType::Data _skyboxType;
+
 	FShaderProgram _program;
 
-	OTexture* _texture;
+	OTexture* _iblTexture;
 
-	OTexture* _textureIrrance;
+	OTexture* _iblTextureIrrance;
+
+	OTexture* _hdrTexture;
 };
 
 }

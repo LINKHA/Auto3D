@@ -50,8 +50,7 @@ public:
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
 		_skyboxComponent = world->CreateComponent<ASkyboxComponent>();
-		_skyboxComponent->SetTexture(_bolongaLod);
-		_skyboxComponent->SetIrranceTexture(_bolongaIrr);
+		_skyboxComponent->SetIBLTexture(_bolongaLod, _bolongaIrr);
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
@@ -107,16 +106,14 @@ public:
 		{
 			if (ImGui::BeginTabItem("Bolonga") )
 			{
-				_skyboxComponent->SetTexture(_bolongaLod);
-				_skyboxComponent->SetIrranceTexture(_bolongaIrr);
+				_skyboxComponent->SetIBLTexture(_bolongaLod, _bolongaIrr);
 
 				ImGui::EndTabItem();
 			}
 
 			if (ImGui::BeginTabItem("Kyoto") )
 			{
-				_skyboxComponent->SetTexture(_kyotoLod);
-				_skyboxComponent->SetIrranceTexture(_kyotoIrr);
+				_skyboxComponent->SetIBLTexture(_kyotoLod, _kyotoIrr);
 
 				ImGui::EndTabItem();
 			}
