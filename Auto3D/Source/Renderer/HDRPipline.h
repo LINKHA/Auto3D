@@ -100,7 +100,10 @@ public:
 			return;
 
 		GProcessWindow& processWindow = GProcessWindow::Get();
-		
+
+		TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+		TMatrix4x4F transposeViewMatrix = camera->GetViewMatrix().ToMatrix4().Transpose();
+
 		if (!bgfx::isValid(m_fbh)
 			|| m_oldWidth != processWindow._width
 			|| m_oldHeight != processWindow._height
@@ -162,17 +165,6 @@ public:
 
 		bgfx::ViewId shuffle[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		bx::shuffle(&m_rng, shuffle, BX_COUNTOF(shuffle));
-
-		//bgfx::ViewId hdrSkybox = shuffle[0];
-		//bgfx::ViewId hdrMesh = shuffle[1];
-		//bgfx::ViewId hdrLuminance = shuffle[2];
-		//bgfx::ViewId hdrLumScale0 = shuffle[3];
-		//bgfx::ViewId hdrLumScale1 = shuffle[4];
-		//bgfx::ViewId hdrLumScale2 = shuffle[5];
-		//bgfx::ViewId hdrLumScale3 = shuffle[6];
-		//bgfx::ViewId hdrBrightness = shuffle[7];
-		//bgfx::ViewId hdrVBlur = shuffle[8];
-		//bgfx::ViewId hdrHBlurTonemap = shuffle[9];
 
 		hdrSkybox = shuffle[0];
 		hdrMesh = shuffle[1];
@@ -258,6 +250,8 @@ public:
 		const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
 
 		float mtx[16];
+		bx::mtxIdentity(mtx);
+
 		bx::mtxRotateXY(mtx
 			, 0.0f
 			, m_time
@@ -265,12 +259,14 @@ public:
 
 		const bx::Vec3 tmp = bx::mul(eye, mtx);
 
+		bx::mtxIdentity(mtx);
+
 		float view[16];
 		bx::mtxLookAt(view, tmp, at);
 		bx::mtxProj(proj, 60.0f, float(processWindow._width) / float(processWindow._height), 0.1f, 100.0f, caps->homogeneousDepth);
 
 		// Set view and projection matrix for view hdrMesh.
-		bgfx::setViewTransform(hdrMesh, view, proj);
+		bgfx::setViewTransform(hdrMesh, transposeViewMatrix.Data(), projectionMatrix.Data());
 
 		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, m_time };
 
@@ -347,10 +343,6 @@ public:
 			bgfx::blit(hdrHBlurTonemap, m_rb, 0, 0, bgfx::getTexture(m_lum[4]));
 			bgfx::readTexture(m_rb, &m_lumBgra8);
 		}
-
-	/*	bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
-		bgfx::setUniform(u_tonemap, tonemap);
-		m_mesh->submit(hdrMesh, _programs.m_meshProgram.GetProgram(), NULL);*/
 	}
 
 	void RenderBatch(ACameraComponent* camera, ASkyboxComponent* skybox, TVector<FBatch>& batches)
