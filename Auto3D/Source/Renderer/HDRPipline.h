@@ -7,6 +7,7 @@
 #include "Resource/Mesh.h"
 #include "Component/CameraComponent.h"
 #include "Component/SkyboxComponent.h"
+#include "Renderer/Batch.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/bx.h>
@@ -15,6 +16,10 @@
 
 namespace Auto3D
 {
+
+
+void sSubmitTemp(FGeometry* geometry, bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state = BGFX_STATE_MASK);
+	
 
 struct HDRSettings
 {
@@ -158,16 +163,27 @@ public:
 		bgfx::ViewId shuffle[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		bx::shuffle(&m_rng, shuffle, BX_COUNTOF(shuffle));
 
-		bgfx::ViewId hdrSkybox = shuffle[0];
-		bgfx::ViewId hdrMesh = shuffle[1];
-		bgfx::ViewId hdrLuminance = shuffle[2];
-		bgfx::ViewId hdrLumScale0 = shuffle[3];
-		bgfx::ViewId hdrLumScale1 = shuffle[4];
-		bgfx::ViewId hdrLumScale2 = shuffle[5];
-		bgfx::ViewId hdrLumScale3 = shuffle[6];
-		bgfx::ViewId hdrBrightness = shuffle[7];
-		bgfx::ViewId hdrVBlur = shuffle[8];
-		bgfx::ViewId hdrHBlurTonemap = shuffle[9];
+		//bgfx::ViewId hdrSkybox = shuffle[0];
+		//bgfx::ViewId hdrMesh = shuffle[1];
+		//bgfx::ViewId hdrLuminance = shuffle[2];
+		//bgfx::ViewId hdrLumScale0 = shuffle[3];
+		//bgfx::ViewId hdrLumScale1 = shuffle[4];
+		//bgfx::ViewId hdrLumScale2 = shuffle[5];
+		//bgfx::ViewId hdrLumScale3 = shuffle[6];
+		//bgfx::ViewId hdrBrightness = shuffle[7];
+		//bgfx::ViewId hdrVBlur = shuffle[8];
+		//bgfx::ViewId hdrHBlurTonemap = shuffle[9];
+
+		hdrSkybox = shuffle[0];
+		hdrMesh = shuffle[1];
+		hdrLuminance = shuffle[2];
+		hdrLumScale0 = shuffle[3];
+		hdrLumScale1 = shuffle[4];
+		hdrLumScale2 = shuffle[5];
+		hdrLumScale3 = shuffle[6];
+		hdrBrightness = shuffle[7];
+		hdrVBlur = shuffle[8];
+		hdrHBlurTonemap = shuffle[9];
 
 		// Set views.
 		bgfx::setViewName(hdrSkybox, "Skybox");
@@ -265,10 +281,7 @@ public:
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 		bgfx::submit(hdrSkybox, _programs.m_skyProgram.GetProgram());
 
-		// Render m_mesh into view hdrMesh.
-		bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
-		bgfx::setUniform(u_tonemap, tonemap);
-		m_mesh->submit(hdrMesh, _programs.m_meshProgram.GetProgram(), NULL);
+
 
 		// Calculate luminance.
 		setOffsets2x2Lum(u_offset, 128, 128);
@@ -334,8 +347,33 @@ public:
 			bgfx::blit(hdrHBlurTonemap, m_rb, 0, 0, bgfx::getTexture(m_lum[4]));
 			bgfx::readTexture(m_rb, &m_lumBgra8);
 		}
-		
+
+	/*	bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
+		bgfx::setUniform(u_tonemap, tonemap);
+		m_mesh->submit(hdrMesh, _programs.m_meshProgram.GetProgram(), NULL);*/
 	}
+
+	void RenderBatch(ACameraComponent* camera, ASkyboxComponent* skybox, TVector<FBatch>& batches)
+	{
+		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, m_time };
+	
+		for (auto bIt = batches.Begin(); bIt != batches.End();)
+		{
+			FBatch& batch = *bIt;
+			bool instance = batch._type == EGeometryType::INSTANCED;
+			int batchesAddCount = 0;
+			FGeometry* geometry = batch._pass._geometry;
+			OMaterial* material = batch._pass._material;
+			TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+			// Render m_mesh into view hdrMesh.
+			bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
+			bgfx::setUniform(u_tonemap, tonemap);
+			sSubmitTemp(geometry, hdrMesh, _programs.m_meshProgram.GetProgram(), NULL/*modelMatrix.Data()*/);
+			batchesAddCount = 1;
+			bIt += batchesAddCount;
+		}
+	}
+
 	struct Programs
 	{
 		void Init()
@@ -415,6 +453,17 @@ public:
 
 	const bgfx::Caps* m_caps;
 	float m_time;
+
+	bgfx::ViewId hdrSkybox;
+	bgfx::ViewId hdrMesh;
+	bgfx::ViewId hdrLuminance;
+	bgfx::ViewId hdrLumScale0;
+	bgfx::ViewId hdrLumScale1;
+	bgfx::ViewId hdrLumScale2;
+	bgfx::ViewId hdrLumScale3;
+	bgfx::ViewId hdrBrightness;
+	bgfx::ViewId hdrVBlur;
+	bgfx::ViewId hdrHBlurTonemap;
 };
 
 }

@@ -356,6 +356,7 @@ void FForwardShadingRenderer::RenderBatches()
 		{
 		case ESkyboxType::HDR:
 			_hdrPipline.Update(_currentCamera, skybox);
+			_hdrPipline.RenderBatch(_currentCamera, skybox, batches);
 			break;
 		case ESkyboxType::IBL:
 			_environmentPipline.Update(_currentCamera, skybox);
