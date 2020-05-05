@@ -41,7 +41,7 @@ public:
 
 		_programs.Init();
 
-		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
+		u_environmentViewMatrix = bgfx::createUniform("u_environmentViewMatrix", bgfx::UniformType::Mat4);
 		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
 		s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 		s_texLum = bgfx::createUniform("s_texLum", bgfx::UniformType::Sampler);
@@ -249,7 +249,7 @@ public:
 		// Render skybox into view hdrSkybox.
 		bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		bgfx::setUniform(u_mtx, environmentViewMatrix.Data());
+		bgfx::setUniform(u_environmentViewMatrix, environmentViewMatrix.Data());
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 		bgfx::submit(hdrSkybox, _programs.m_skyProgram.GetProgram());
 
@@ -389,7 +389,7 @@ public:
 
 	
 
-	bgfx::UniformHandle u_mtx;
+	bgfx::UniformHandle u_environmentViewMatrix;
 	bgfx::UniformHandle s_texCube;
 	bgfx::UniformHandle s_texColor;
 	bgfx::UniformHandle s_texLum;
