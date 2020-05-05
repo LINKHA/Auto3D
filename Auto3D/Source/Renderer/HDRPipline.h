@@ -146,7 +146,18 @@ public:
 		// if no other draw calls are submitted to view 0.
 		bgfx::touch(0);
 
-		bgfx::ViewId shuffle[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		bgfx::ViewId shuffle[10] = { 
+			 RENDERVIEW_hdrSkybox,
+			 RENDERVIEW_hdrMesh	,
+			 RENDERVIEW_hdrLuminance,
+			 RENDERVIEW_hdrLumScale0,
+			 RENDERVIEW_hdrLumScale1,
+			 RENDERVIEW_hdrLumScale2,
+			 RENDERVIEW_hdrLumScale3,
+			 RENDERVIEW_hdrBrightness,
+			 RENDERVIEW_hdrVBlur,
+			 RENDERVIEW_hdrHBlurTonemap,
+		};
 		bx::shuffle(&m_rng, shuffle, BX_COUNTOF(shuffle));
 
 		hdrSkybox = shuffle[0];
@@ -226,7 +237,7 @@ public:
 		// Set view and projection matrix for view 0.
 		for (uint8_t ii = 0; ii < BX_COUNTOF(order); ++ii)
 		{
-			bgfx::setViewTransform(ii, NULL, proj);
+			bgfx::setViewTransform(RENDERVIEW_hdrSkybox + ii, NULL, proj);
 		}
 
 		// Set view and projection matrix for view hdrMesh.
