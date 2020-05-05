@@ -23,7 +23,6 @@ void sSubmitTemp(FGeometry* geometry, bgfx::ViewId id, bgfx::ProgramHandle progr
 
 struct HDRSettings
 {
-	float m_speed;
 	float m_middleGray;
 	float m_white;
 	float m_threshold;
@@ -78,14 +77,11 @@ public:
 		m_oldHeight = 0;
 		m_oldReset = GProcessWindow::Get()._reset;
 
-		_settings.m_speed = 0.37f;
 		_settings.m_middleGray = 0.18f;
 		_settings.m_white = 1.1f;
 		_settings.m_threshold = 1.5f;
 
 		m_scrollArea = 0;
-
-		m_time = 0.0f;
 	}
 
 	void Update(ACameraComponent* camera, ASkyboxComponent* skybox)
@@ -149,14 +145,6 @@ public:
 		// This dummy draw call is here to make sure that view 0 is cleared
 		// if no other draw calls are submitted to view 0.
 		bgfx::touch(0);
-
-		int64_t now = bx::getHPCounter();
-		static int64_t last = now;
-		const int64_t frameTime = now - last;
-		last = now;
-		const double freq = double(bx::getHPFrequency());
-
-		m_time += (float)(frameTime*_settings.m_speed / freq);
 
 		bgfx::ViewId shuffle[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		bx::shuffle(&m_rng, shuffle, BX_COUNTOF(shuffle));
@@ -323,7 +311,7 @@ public:
 
 	void RenderBatch(ACameraComponent* camera, ASkyboxComponent* skybox, TVector<FBatch>& batches)
 	{
-		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, m_time };
+		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, 0.0f };
 	
 		for (auto bIt = batches.Begin(); bIt != batches.End();)
 		{
@@ -419,7 +407,6 @@ public:
 	int32_t m_scrollArea;
 
 	const bgfx::Caps* m_caps;
-	float m_time;
 
 	bgfx::ViewId hdrSkybox;
 	bgfx::ViewId hdrMesh;

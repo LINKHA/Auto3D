@@ -89,8 +89,7 @@ public:
 			, NULL
 			, 0
 			);
-			
-		ImGui::SliderFloat("Speed", &currentSettings.m_speed, 0.0f, 1.0f);
+
 		ImGui::Separator();
 
 		ImGui::SliderFloat("Middle gray", &currentSettings.m_middleGray, 0.1f, 1.0f);
@@ -102,7 +101,7 @@ public:
 			union { uint32_t color; uint8_t bgra[4]; } cast = { FForwardShadingRenderer::_hdrPipline.m_lumBgra8 };
 			float exponent = cast.bgra[3]/255.0f * 255.0f - 128.0f;
 			float lumAvg   = cast.bgra[2]/255.0f * bx::exp2(exponent);
-			ImGui::SliderFloat("Lum Avg", &lumAvg, 0.0f, 1.0f);
+			//ImGui::SliderFloat("Lum Avg", &lumAvg, 0.0f, 1.0f);
 		}
 
 		ImGui::End();

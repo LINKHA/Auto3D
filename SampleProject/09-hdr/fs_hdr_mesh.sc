@@ -37,6 +37,5 @@ void main()
 
 	vec3 color = vec3(0.6,0.6,0.6);
 	color *= textureCube(s_texCube, reflect(view, -normal) ).xyz;
-	
 	gl_FragColor = encodeRGBE8(color.xyz*lc.y + fres*pow(lc.z, 128.0) );
 }

@@ -28,9 +28,6 @@
 
 namespace Auto3D
 {
-#define RENDER_SHADOW_PASS_ID 20
-//#define RENDER_SCENE_PASS_ID  21
-#define RENDER_OCCLUSION_PASS_ID 22
 
 void SubmitShadowInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
 {
@@ -331,8 +328,8 @@ void FForwardShadingRenderer::Render()
 			TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 
 			// Ordinary pipeline view rect
-			bgfx::setViewTransform(RENDER_OCCLUSION_PASS_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
-			bgfx::setViewRect(RENDER_OCCLUSION_PASS_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
+			bgfx::setViewTransform(RENDERVIEW_OCCLUSION_ID, transposeViewMatrix.Data(), projectionMatrix.Data());
+			bgfx::setViewRect(RENDERVIEW_OCCLUSION_ID, 0, 0, uint16_t(_backbufferSize._x), uint16_t(_backbufferSize._y));
 		}
 
 		RenderBatches();
@@ -595,7 +592,7 @@ void FForwardShadingRenderer::RenderBatches()
 					//  Occlusion query pipeline
 					{
 
-						SubmitOcclusionInstace(geometry, RENDER_OCCLUSION_PASS_ID
+						SubmitOcclusionInstace(geometry, RENDERVIEW_OCCLUSION_ID
 							, &idb
 							, material->GetShaderInstanceProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Occlusion]
@@ -799,7 +796,7 @@ void FForwardShadingRenderer::RenderBatches()
 					//  Occlusion query pipeline
 					{
 
-						SubmitOcclusion(geometry, RENDER_OCCLUSION_PASS_ID
+						SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
 							, modelMatrix.Data()
 							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Occlusion]
