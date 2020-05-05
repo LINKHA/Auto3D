@@ -1,12 +1,7 @@
 $input a_position, a_normal
 $output v_pos, v_view, v_normal
 
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#include "../common/common.sh"
+#include "../common.sh"
 
 void main()
 {

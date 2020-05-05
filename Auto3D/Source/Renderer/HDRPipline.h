@@ -38,20 +38,14 @@ public:
 	{
 		GResourceModule& reousceModlue = GResourceModule::Get();
 
-		//m_uffizi = loadTexture("textures/uffizi.ktx"
-			/*, 0
-			| BGFX_SAMPLER_U_CLAMP
-			| BGFX_SAMPLER_V_CLAMP
-			| BGFX_SAMPLER_W_CLAMP*/
-		//);
 
 		_programs.Init();
 
+		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
 		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
 		s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 		s_texLum = bgfx::createUniform("s_texLum", bgfx::UniformType::Sampler);
 		s_texBlur = bgfx::createUniform("s_texBlur", bgfx::UniformType::Sampler);
-		u_mtx = bgfx::createUniform("u_mtx", bgfx::UniformType::Mat4);
 		u_tonemap = bgfx::createUniform("u_tonemap", bgfx::UniformType::Vec4);
 		u_offset = bgfx::createUniform("u_offset", bgfx::UniformType::Vec4, 16);
 
@@ -103,6 +97,7 @@ public:
 
 		TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 		TMatrix4x4F transposeViewMatrix = camera->GetViewMatrix().ToMatrix4().Transpose();
+		TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();
 
 		if (!bgfx::isValid(m_fbh)
 			|| m_oldWidth != processWindow._width
@@ -246,34 +241,15 @@ public:
 			bgfx::setViewTransform(ii, NULL, proj);
 		}
 
-		const bx::Vec3 at = { 0.0f, 1.0f,  0.0f };
-		const bx::Vec3 eye = { 0.0f, 1.0f, -2.5f };
-
-		float mtx[16];
-		bx::mtxIdentity(mtx);
-
-		bx::mtxRotateXY(mtx
-			, 0.0f
-			, m_time
-		);
-
-		const bx::Vec3 tmp = bx::mul(eye, mtx);
-
-		bx::mtxIdentity(mtx);
-
-		float view[16];
-		bx::mtxLookAt(view, tmp, at);
-		bx::mtxProj(proj, 60.0f, float(processWindow._width) / float(processWindow._height), 0.1f, 100.0f, caps->homogeneousDepth);
-
 		// Set view and projection matrix for view hdrMesh.
 		bgfx::setViewTransform(hdrMesh, transposeViewMatrix.Data(), projectionMatrix.Data());
 
-		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, m_time };
+		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, 0.0f };
 
 		// Render skybox into view hdrSkybox.
 		bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		bgfx::setUniform(u_mtx, mtx);
+		bgfx::setUniform(u_mtx, environmentViewMatrix.Data());
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 		bgfx::submit(hdrSkybox, _programs.m_skyProgram.GetProgram());
 
@@ -360,7 +336,7 @@ public:
 			// Render m_mesh into view hdrMesh.
 			bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
 			bgfx::setUniform(u_tonemap, tonemap);
-			sSubmitTemp(geometry, hdrMesh, _programs.m_meshProgram.GetProgram(), NULL/*modelMatrix.Data()*/);
+			sSubmitTemp(geometry, hdrMesh, _programs.m_meshProgram.GetProgram(), modelMatrix.Data());
 			batchesAddCount = 1;
 			bIt += batchesAddCount;
 		}
@@ -413,12 +389,11 @@ public:
 
 	
 
-	//bgfx::TextureHandle m_uffizi;
+	bgfx::UniformHandle u_mtx;
 	bgfx::UniformHandle s_texCube;
 	bgfx::UniformHandle s_texColor;
 	bgfx::UniformHandle s_texLum;
 	bgfx::UniformHandle s_texBlur;
-	bgfx::UniformHandle u_mtx;
 	bgfx::UniformHandle u_tonemap;
 	bgfx::UniformHandle u_offset;
 

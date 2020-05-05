@@ -12,9 +12,7 @@
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
 
-
 #include <bx/rng.h>
-#include <bx/timer.h>
 using namespace Auto3D;
 
 namespace
@@ -46,17 +44,24 @@ public:
 		camera->SetNearClip(0.1f);
 		camera->SetFarClip(2000.0f);
 		actor->CreateComponent<ADefaultControllerComponent>();
-		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -10.0f });
+		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 
 		AActor* pbrActor = world->CreateChild<AActor>();
 		pbrActor->GetTransform()->SetPosition({ 0.0f, -0.5f, 0.0f });
 		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
-		//pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
 		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
+
+
+		AActor* pbrActor2 = world->CreateChild<AActor>();
+		pbrActor2->GetTransform()->SetPosition({ 5.0f, -0.5f, 0.0f });
+		pbrActor2->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		AMeshComponent* meshComponent2 = pbrActor2->CreateComponent<AMeshComponent>();
+		meshComponent2->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
+		meshComponent2->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 	}
 
 	virtual int shutdown() override

@@ -1,9 +1,5 @@
 $input v_pos, v_view, v_normal
 
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
 
 #include "common.sh"
 
@@ -39,17 +35,8 @@ void main()
 	vec4 lc = lit(bln.x, bln.y, 1.0);
 	float fres = fresnel(bln.x, 0.2, 5.0);
 
-	float index = ( (sin(v_pos.x*3.0+u_time)*0.3+0.7)
-				+ (  cos(v_pos.y*3.0+u_time)*0.4+0.6)
-				+ (  cos(v_pos.z*3.0+u_time)*0.2+0.8)
-				)*M_PI;
-
-	vec3 color = vec3(sin(index*8.0)*0.4 + 0.6
-					, sin(index*4.0)*0.4 + 0.6
-					, sin(index*2.0)*0.4 + 0.6
-					);
-
+	vec3 color = vec3(0.6,0.6,0.6);
 	color *= textureCube(s_texCube, reflect(view, -normal) ).xyz;
-
+	
 	gl_FragColor = encodeRGBE8(color.xyz*lc.y + fres*pow(lc.z, 128.0) );
 }
