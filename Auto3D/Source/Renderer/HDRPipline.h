@@ -219,7 +219,7 @@ public:
 		float proj[16];
 		bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0f, caps->homogeneousDepth);
 
-		bgfx::ViewId order[] =
+		/*bgfx::ViewId order[] =
 		{
 			hdrSkybox,
 			hdrMesh,
@@ -232,10 +232,11 @@ public:
 			hdrVBlur,
 			hdrHBlurTonemap
 		};
-		bgfx::setViewOrder(0, BX_COUNTOF(order), order);
+		bgfx::setViewOrder(RENDERVIEW_hdrSkybox, BX_COUNTOF(order), order);*/
+
 
 		// Set view and projection matrix for view 0.
-		for (uint8_t ii = 0; ii < BX_COUNTOF(order); ++ii)
+		for (uint8_t ii = 0; ii < BX_COUNTOF(shuffle); ++ii)
 		{
 			bgfx::setViewTransform(RENDERVIEW_hdrSkybox + ii, NULL, proj);
 		}

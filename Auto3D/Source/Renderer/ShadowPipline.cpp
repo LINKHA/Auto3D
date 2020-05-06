@@ -1087,7 +1087,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 
 	// Reset render targets.
 	const bgfx::FrameBufferHandle invalidRt = BGFX_INVALID_HANDLE;
-	for (uint8_t ii = 0; ii < RENDERVIEW_DRAWDEPTH_3_ID + 1; ++ii)
+	for (uint8_t ii = RENDERVIEW_SHADOW_BEGIN; ii < RENDERVIEW_DRAWDEPTH_3_ID + 1; ++ii)
 	{
 		bgfx::setViewFrameBuffer(ii, invalidRt);
 		bgfx::setViewRect(ii, 0, 0, processWindow._width, processWindow._height);
@@ -1100,8 +1100,8 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 	uint16_t depthRectY = processWindow._height - depthRectHeight;
 
 	// Setup views and render targets.
-	bgfx::setViewRect(0, 0, 0, processWindow._width, processWindow._height);
-	bgfx::setViewTransform(0, transposeViewMatrix.Data(), projectionMatrix.Data());
+	bgfx::setViewRect(RENDERVIEW_SHADOW_BEGIN, 0, 0, processWindow._width, processWindow._height);
+	bgfx::setViewTransform(RENDERVIEW_SHADOW_BEGIN, transposeViewMatrix.Data(), projectionMatrix.Data());
 
 	if (ELightType::SpotLight == FShadowPipline::s_shadowSceneSettings.m_lightType)
 	{
@@ -1284,14 +1284,14 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 
 
 	// Clear backbuffer at beginning.
-	bgfx::setViewClear(0
+	bgfx::setViewClear(RENDERVIEW_SHADOW_BEGIN
 		, BGFX_CLEAR_COLOR
 		| BGFX_CLEAR_DEPTH
 		, FShadowPipline::s_clearValues.m_clearRgba
 		, FShadowPipline::s_clearValues.m_clearDepth
 		, FShadowPipline::s_clearValues.m_clearStencil
 	);
-	bgfx::touch(0);
+	bgfx::touch(RENDERVIEW_SHADOW_BEGIN);
 
 	// Clear shadowmap rendertarget at beginning.
 	const uint8_t flags0 = (ELightType::DirectionalLight == FShadowPipline::s_shadowSceneSettings.m_lightType)

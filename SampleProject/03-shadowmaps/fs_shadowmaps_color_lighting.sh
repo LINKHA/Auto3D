@@ -33,7 +33,52 @@ SAMPLER2D(s_shadowMap0, 4);
 SAMPLER2D(s_shadowMap1, 5);
 SAMPLER2D(s_shadowMap2, 6);
 SAMPLER2D(s_shadowMap3, 7);
+///
 
+uniform vec4 u_offset[16];
+uniform vec4 u_tonemap;
+SAMPLERCUBE(s_texCube, 0);
+float reinhard(float _x)
+{
+	return _x / (_x + 1.0);
+}
+
+vec3 reinhard(vec3 _x)
+{
+	return _x / (_x + 1.0);
+}
+
+float reinhard2(float _x, float _whiteSqr)
+{
+	return (_x * (1.0 + _x/_whiteSqr) ) / (1.0 + _x);
+}
+
+vec3 reinhard2(vec3 _x, float _whiteSqr)
+{
+	return (_x * (1.0 + _x/_whiteSqr) ) / (1.0 + _x);
+}
+
+vec2 blinn(vec3 _lightDir, vec3 _normal, vec3 _viewDir)
+{
+	float ndotl = dot(_normal, _lightDir);
+	vec3 reflected = _lightDir - 2.0*ndotl*_normal; // reflect(_lightDir, _normal);
+	float rdotv = dot(reflected, _viewDir);
+	return vec2(ndotl, rdotv);
+}
+
+float fresnel(float _ndotl, float _bias, float _pow)
+{
+	float facing = (1.0 - _ndotl);
+	return max(_bias + (1.0 - _bias) * pow(facing, _pow), 0.0);
+}
+
+vec4 lit(float _ndotl, float _rdotv, float _m)
+{
+	float diff = max(0.0, _ndotl);
+	float spec = step(0.0, _ndotl) * max(0.0, _rdotv * _m);
+	return vec4(1.0, diff, spec, 1.0);
+}
+///
 struct Shader
 {
 	vec3 ambi;

@@ -172,7 +172,14 @@
 					, u_shadowMapHardness
 					);
 #endif
-
+///
+vec3 lightDir = vec3(0.0, 0.0, -1.0);
+	vec3 normal = normalize(v_normal);
+	vec3 view = normalize(v_view);
+	vec2 bln = blinn(lightDir, normal, view);
+	vec4 lcs = lit(bln.x, bln.y, 1.0);
+	float fres = fresnel(bln.x, 0.2, 5.0);
+///
 	vec3 v = v_view;
 	vec3 vd = -normalize(v_view);
 	vec3 n = v_normal;
@@ -189,11 +196,16 @@
 	float fogFactor = clamp(1.0/exp2(fogDensity*fogDensity*z*z*LOG2), 0.0, 1.0);
 
 	vec3 color = u_color.xyz;
-
+	color *= textureCube(s_texCube, reflect(view, -normal) ).xyz;
 	vec3 ambient = shader.ambi * color;
 	vec3 brdf    = (shader.diff + shader.spec) * color * visibility;
 
 	vec3 final = toGamma(abs(ambient + brdf)) + (colorCoverage * u_shadowMapShowCoverage);
+	
 	gl_FragColor.xyz = mix(fogColor, final, fogFactor);
 	gl_FragColor.w = 1.0;
+	
+	//color = vec3(0.6,0.6,0.6);
+	//color *= textureCube(s_texCube, reflect(view, -normal) ).xyz;
+	//gl_FragColor = encodeRGBE8(color.xyz*lcs.y + fres*pow(lcs.z, 128.0) );
 }
