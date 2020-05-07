@@ -1,4 +1,4 @@
-$input v_position, v_normal, v_view, v_texcoord1, v_texcoord2, v_texcoord3, v_texcoord4
+$input v_position, v_normal, v_view, v_viewEnv, v_texcoord1, v_texcoord2, v_texcoord3, v_texcoord4
 
 /*
  * Copyright 2013-2014 Dario Manesku. All rights reserved.
@@ -13,10 +13,4 @@ $input v_position, v_normal, v_view, v_texcoord1, v_texcoord2, v_texcoord3, v_te
 void main()
 {
 #include "fs_shadowmaps_color_lighting_main.sh"
-/*
-vec3 v = v_view;
-	vec3 n = v_normal;
-	
-	
-	gl_FragColor = vec4(v_normal,1.0);*/
 }

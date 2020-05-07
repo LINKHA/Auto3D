@@ -91,7 +91,7 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 	// Submit view.
 	bx::memCopy(_uniforms._environmentViewMatrix, environmentViewMatrix.Data(), 16 * sizeof(float)); // Used for IBL.
 	
-	for (auto bIt = batches.Begin(); bIt != batches.End();)
+	/*for (auto bIt = batches.Begin(); bIt != batches.End();)
 	{
 		FBatch& batch = *bIt;
 		bool instance = batch._type == EGeometryType::INSTANCED;
@@ -101,18 +101,15 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 		OMaterial* material = batch._pass._material;
 		TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 
-		float mtx[16];
-		bx::mtxSRT(mtx, 1.0f, 1.0f, 1.0f, 0.0f, bx::kPi, 0.0f, 0.0f, -0.80f, 0.0f);
 		_uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
 		_uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 
 		_uniforms.submit();
-		//m_meshBunny->submit(1, m_programMesh.GetProgram(), mtx);
 		SubmitTemp(geometry, 1, m_programMesh.GetProgram(), modelMatrix.Data());
 
 		batchesAddCount = 1;
 		bIt += batchesAddCount;
-	}
+	}*/
 }
 
 }

@@ -172,17 +172,11 @@
 					, u_shadowMapHardness
 					);
 #endif
-///
-vec3 lightDir = vec3(0.0, 0.0, -1.0);
-	vec3 normal = normalize(v_normal);
-	vec3 view = normalize(v_view);
-	vec2 bln = blinn(lightDir, normal, view);
-	vec4 lcs = lit(bln.x, bln.y, 1.0);
-	float fres = fresnel(bln.x, 0.2, 5.0);
-///
+
 	vec3 v = v_view;
 	vec3 vd = -normalize(v_view);
 	vec3 n = v_normal;
+	
 	Light light = evalLight(v, u_lightPosition, u_spotDirection, u_spotInner, u_spotOuter, u_lightAttnParams);
 
 	vec2 lc = lit(light.ld, n, vd, u_materialKs.w) * light.attn;
@@ -196,16 +190,83 @@ vec3 lightDir = vec3(0.0, 0.0, -1.0);
 	float fogFactor = clamp(1.0/exp2(fogDensity*fogDensity*z*z*LOG2), 0.0, 1.0);
 
 	vec3 color = u_color.xyz;
-	color *= textureCube(s_texCube, reflect(view, -normal) ).xyz;
+
 	vec3 ambient = shader.ambi * color;
 	vec3 brdf    = (shader.diff + shader.spec) * color * visibility;
 
 	vec3 final = toGamma(abs(ambient + brdf)) + (colorCoverage * u_shadowMapShowCoverage);
+	//gl_FragColor.xyz = mix(fogColor, final, fogFactor);
+	//gl_FragColor.w = 1.0;
 	
-	gl_FragColor.xyz = mix(fogColor, final, fogFactor);
+	///
+	
+	// Light.
+	vec3 ld     = normalize(light.ld);
+	vec3 clight = u_lightCol;
+	
+	vec3 nn = normalize(v_normal);
+	vec3 vv = normalize(v_view);
+	vec3 hh = normalize(vv + ld);
+	
+	float ndotv = clamp(dot(nn, vv), 0.0, 1.0);
+	float ndotl = clamp(dot(nn, ld), 0.0, 1.0);
+	float ndoth = clamp(dot(nn, hh), 0.0, 1.0);
+	float hdotv = clamp(dot(hh, vv), 0.0, 1.0);
+
+	// Material params.
+	vec3  inAlbedo       = u_rgbDiff.xyz;
+	float inReflectivity = u_reflectivity;
+	float inGloss        = u_glossiness;
+
+	// Reflection.
+	vec3 refl;
+	if (0.0 == u_metalOrSpec) // Metalness workflow.
+	{
+		refl = mix(vec3_splat(0.04), inAlbedo, inReflectivity);
+	}
+	else // Specular workflow.
+	{
+		refl = u_rgbSpec.xyz * vec3_splat(inReflectivity);
+	}
+	vec3 albedo = inAlbedo * (1.0 - inReflectivity);
+	vec3 dirFresnel = calcFresnel(refl, hdotv, inGloss);
+	vec3 envFresnel = calcFresnel(refl, ndotv, inGloss);
+
+	vec3 lambert = u_doDiffuse  * calcLambert(albedo * (1.0 - dirFresnel), ndotl);
+	vec3 blinn   = u_doSpecular * calcBlinn(dirFresnel, ndoth, ndotl, specPwr(inGloss));
+	vec3 direct  = (lambert + blinn)*clight;
+
+	// Note: Environment textures are filtered with cmft: https://github.com/dariomanesku/cmft
+	// Params used:
+	// --excludeBase true //!< First level mip is not filtered.
+	// --mipCount 7       //!< 7 mip levels are used in total, [256x256 .. 4x4]. Lower res mip maps should be avoided.
+	// --glossScale 10    //!< Spec power scale. See: specPwr().
+	// --glossBias 2      //!< Spec power bias. See: specPwr().
+	// --edgeFixup warp   //!< This must be used on DirectX9. When fileted with 'warp', fixCubeLookup() should be used.
+	float mip = 1.0 + 5.0*(1.0 - inGloss); // Use mip levels [1..6] for radiance.
+
+	
+	mat4 mtx;
+	mtx[0] = u_mtx0;
+	mtx[1] = u_mtx1;
+	mtx[2] = u_mtx2;
+	mtx[3] = u_mtx3;
+	vec3 vr = reflect(vv, nn); 
+	vec3 cubeR = normalize(instMul(mtx, vec4(vr, 0.0)).xyz);
+	vec3 cubeN = normalize(instMul(mtx, vec4(nn, 0.0)).xyz);
+	cubeR = fixCubeLookup(cubeR, mip, 256.0);
+	
+	vec3 radiance    = toLinear(textureCubeLod(s_texCube, cubeR, mip).xyz);
+	vec3 irradiance  = toLinear(textureCube(s_texCubeIrr, cubeN).xyz);
+	vec3 envDiffuse  = albedo     * irradiance * u_doDiffuseIbl;
+	vec3 envSpecular = envFresnel * radiance   * u_doSpecularIbl;
+	vec3 indirect    = envDiffuse + envSpecular;
+
+	// Color.
+	color = direct + indirect;
+	color = color * exp2(u_exposure) + mix(fogColor, final, fogFactor)*0.5;
+	gl_FragColor.xyz = toFilmic(color);
 	gl_FragColor.w = 1.0;
 	
-	//color = vec3(0.6,0.6,0.6);
-	//color *= textureCube(s_texCube, reflect(view, -normal) ).xyz;
-	//gl_FragColor = encodeRGBE8(color.xyz*lcs.y + fres*pow(lcs.z, 128.0) );
+	///
 }

@@ -58,7 +58,8 @@ public:
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
 		ASkyboxComponent* skybox = world->CreateComponent<ASkyboxComponent>();
-		skybox->SetHdrTexture(resourceModule.LoadResource<OTexture>("textures/uffizi.ktx"));
+		skybox->SetIBLTexture(resourceModule.LoadResource<OTexture>("Textures/bolonga_lod.dds")
+			, resourceModule.LoadResource<OTexture>("Textures/bolonga_irr.dds"));
 
 
 		AActor* actor = world->CreateChild<AActor>();
@@ -68,14 +69,15 @@ public:
 		_camera->SetFarClip(2000.0f);
 
 		ADefaultControllerComponent* controller = actor->CreateComponent<ADefaultControllerComponent>();
-		controller->SetMoveSpeed(10.0f);
+		controller->SetMoveSpeed(50.0f);
 		actor->GetTransform()->SetPosition({ 0.0f, 100.0f, -60.0f });
 		actor->GetTransform()->SetRotation({ 45.0f, 0.0f, 0.0f });
 
 		AActor* hollowcubePlaneActor = world->CreateChild<AActor>();
 		AMeshComponent* hollowcubePlaneComponent = hollowcubePlaneActor->CreateComponent<AMeshComponent>();
 		//hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		//hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		hollowcubePlaneActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
 		hollowcubePlaneActor->GetTransform()->SetScale({ 5.5f, 5.5f, 5.5f });
 

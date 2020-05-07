@@ -353,7 +353,7 @@ void FForwardShadingRenderer::RenderBatches()
 		{
 		case ESkyboxType::HDR:
 			_hdrPipline.Update(_currentCamera, skybox);
-			//_hdrPipline.RenderBatch(_currentCamera, skybox, batches);
+			_hdrPipline.RenderBatch(_currentCamera, skybox, batches);
 			break;
 		case ESkyboxType::IBL:
 			_environmentPipline.Update(_currentCamera, skybox);
@@ -785,13 +785,9 @@ void FForwardShadingRenderer::RenderBatches()
 						}
 
 						///
-						float tonemap[4] = { _hdrPipline._settings.m_middleGray, bx::square(_hdrPipline._settings.m_white), _hdrPipline._settings.m_threshold, 0.0f };
-
-
-						// Render m_mesh into view hdrMesh.
-						bgfx::setTexture(0, _hdrPipline.s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
-						bgfx::setUniform(_hdrPipline.u_tonemap, tonemap);
-							
+						_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+						_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+						_iblPipline._uniforms.submit();
 						///
 						SubmitShadow(geometry, RENDERVIEW_DRAWSCENE_0_ID
 							, modelMatrix.Data()

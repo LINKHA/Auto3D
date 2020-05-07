@@ -1,8 +1,3 @@
-/*
- * Copyright 2013-2014 Dario Manesku. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include "common.sh"
 
 uniform vec4 u_params0;
@@ -33,52 +28,59 @@ SAMPLER2D(s_shadowMap0, 4);
 SAMPLER2D(s_shadowMap1, 5);
 SAMPLER2D(s_shadowMap2, 6);
 SAMPLER2D(s_shadowMap3, 7);
-///
 
-uniform vec4 u_offset[16];
-uniform vec4 u_tonemap;
+///
+uniform vec4 u_params[12];
+#define u_mtx0          u_params[0]
+#define u_mtx1          u_params[1]
+#define u_mtx2          u_params[2]
+#define u_mtx3          u_params[3]
+#define u_glossiness    u_params[4].x
+#define u_reflectivity  u_params[4].y
+#define u_exposure      u_params[4].z
+#define u_metalOrSpec   u_params[5].x
+#define u_unused        u_params[5].yzw
+#define u_doDiffuse     u_params[6].x
+#define u_doSpecular    u_params[6].y
+#define u_doDiffuseIbl  u_params[6].z
+#define u_doSpecularIbl u_params[6].w
+#define u_camPos        u_params[7].xyz
+#define u_unused7       u_params[7].w
+#define u_rgbDiff       u_params[8]
+#define u_rgbSpec       u_params[9]
+#define u_lightDir      u_params[10].xyz
+#define u_unused10      u_params[10].w
+#define u_lightCol      u_params[11].xyz
+#define u_unused11      u_params[11].w
+
 SAMPLERCUBE(s_texCube, 0);
-float reinhard(float _x)
+SAMPLERCUBE(s_texCubeIrr, 1);
+
+
+vec3 calcFresnel(vec3 _cspec, float _dot, float _strength)
 {
-	return _x / (_x + 1.0);
+	return _cspec + (1.0 - _cspec)*pow(1.0 - _dot, 5.0) * _strength;
 }
 
-vec3 reinhard(vec3 _x)
+vec3 calcLambert(vec3 _cdiff, float _ndotl)
 {
-	return _x / (_x + 1.0);
+	return _cdiff*_ndotl;
 }
 
-float reinhard2(float _x, float _whiteSqr)
+vec3 calcBlinn(vec3 _cspec, float _ndoth, float _ndotl, float _specPwr)
 {
-	return (_x * (1.0 + _x/_whiteSqr) ) / (1.0 + _x);
+	float norm = (_specPwr+8.0)*0.125;
+	float brdf = pow(_ndoth, _specPwr)*_ndotl*norm;
+	return _cspec*brdf;
 }
 
-vec3 reinhard2(vec3 _x, float _whiteSqr)
+float specPwr(float _gloss)
 {
-	return (_x * (1.0 + _x/_whiteSqr) ) / (1.0 + _x);
+	return exp2(10.0*_gloss+2.0);
 }
 
-vec2 blinn(vec3 _lightDir, vec3 _normal, vec3 _viewDir)
-{
-	float ndotl = dot(_normal, _lightDir);
-	vec3 reflected = _lightDir - 2.0*ndotl*_normal; // reflect(_lightDir, _normal);
-	float rdotv = dot(reflected, _viewDir);
-	return vec2(ndotl, rdotv);
-}
-
-float fresnel(float _ndotl, float _bias, float _pow)
-{
-	float facing = (1.0 - _ndotl);
-	return max(_bias + (1.0 - _bias) * pow(facing, _pow), 0.0);
-}
-
-vec4 lit(float _ndotl, float _rdotv, float _m)
-{
-	float diff = max(0.0, _ndotl);
-	float spec = step(0.0, _ndotl) * max(0.0, _rdotv * _m);
-	return vec4(1.0, diff, spec, 1.0);
-}
 ///
+
 struct Shader
 {
 	vec3 ambi;
