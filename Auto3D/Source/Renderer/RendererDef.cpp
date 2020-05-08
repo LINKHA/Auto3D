@@ -1,5 +1,6 @@
 #include "Renderer//RendererDef.h"
-#include <bgfx/bgfx.h>
+#include "Renderer/Geometry.h"
+#include "Resource/Mesh.h"
 
 namespace Auto3D
 {
@@ -88,6 +89,87 @@ FRenderState FRenderState::_renderState[FRenderState::Count] =
 bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 float FRendererDef::s_texelHalf = 0.0f;
 bool FRendererDef::s_flipV = false;
+
+
+void Submit(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle program, const FRenderState& renderState)
+{
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
+
+	bgfx::setTransform(mtx);
+	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
+	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+
+	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
+	{
+		FMeshGroup* group = it->_first;
+		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
+
+		bgfx::setCondition(occlusionQuery, true);
+		bgfx::setIndexBuffer(group->_ibh);
+		bgfx::setVertexBuffer(0, group->_vbh);
+		bgfx::submit(viewId, program, 0, it != itEnd - 1);
+	}
+}
+
+void SubmitInstance(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle program, const FRenderState& renderState)
+{
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
+
+	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
+	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+	bgfx::setInstanceDataBuffer(idb);
+
+	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
+	{
+		FMeshGroup* group = it->_first;
+		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
+
+		bgfx::setCondition(occlusionQuery, true);
+		bgfx::setIndexBuffer(group->_ibh);
+		bgfx::setVertexBuffer(0, group->_vbh);
+
+		bgfx::submit(viewId, program, 0, it != itEnd - 1);
+	}
+}
+
+void SubmitOcclusion(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle program, const FRenderState& renderState)
+{
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
+
+	bgfx::setTransform(mtx);
+	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
+	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+
+	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
+	{
+		FMeshGroup* group = it->_first;
+		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
+
+		bgfx::setIndexBuffer(group->_ibh);
+		bgfx::setVertexBuffer(0, group->_vbh);
+		bgfx::submit(viewId, program, occlusionQuery, 0, it != itEnd - 1);
+	}
+}
+
+void SubmitOcclusionInstace(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle program, const FRenderState& renderState)
+{
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
+
+	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
+	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+
+	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
+	{
+		FMeshGroup* group = it->_first;
+		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
+
+		bgfx::setInstanceDataBuffer(idb);
+		bgfx::setIndexBuffer(group->_ibh);
+		bgfx::setVertexBuffer(0, group->_vbh);
+		bgfx::submit(viewId, program, occlusionQuery, 0, it != itEnd - 1);
+	}
+}
+
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft, float _width, float _height)
 {

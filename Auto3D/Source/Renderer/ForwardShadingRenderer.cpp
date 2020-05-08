@@ -30,198 +30,6 @@
 namespace Auto3D
 {
 
-void SubmitShadowInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
-{
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
-	// Set textures.
-	if (bgfx::kInvalidHandle != _texture.idx)
-	{
-		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-	}
-
-	if (_submitShadowMaps)
-	{
-		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-		{
-			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-		}
-	}
-
-	// Apply render state.
-	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
-	bgfx::setInstanceDataBuffer(idb);
-	// Set uniforms.
-	FShadowPipline::Get().SubmitPerDrawUniforms();
-
-	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
-	{
-		FMeshGroup* group = it->_first;
-		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
-
-		bgfx::setCondition(occlusionQuery, true);
-		// Set model matrix for rendering.
-		bgfx::setIndexBuffer(group->_ibh);
-		bgfx::setVertexBuffer(0, group->_vbh);
-
-		// Submit.
-		bgfx::submit(_viewId, _program ,0, it != itEnd - 1);
-	}
-}
-
-
-void SubmitShadow(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
-{
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
-	// Set textures.
-	if (bgfx::kInvalidHandle != _texture.idx)
-	{
-		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-	}
-
-	if (_submitShadowMaps)
-	{
-		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-		{
-			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-		}
-	}
-
-	bgfx::setTransform(_mtx);
-	// Apply render state.
-	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
-	
-
-	// Set uniforms.
-	FShadowPipline::Get().SubmitPerDrawUniforms();
-
-	
-
-	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
-	{
-		FMeshGroup* group = it->_first;
-		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
-
-		bgfx::setCondition(occlusionQuery, true);
-		bgfx::setIndexBuffer(group->_ibh);
-		bgfx::setVertexBuffer(0, group->_vbh);
-
-		// Submit.
-		bgfx::submit(_viewId, _program ,0, it != itEnd - 1);
-	}
-}
-
-void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
-{
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
-	// Set textures.
-	if (bgfx::kInvalidHandle != _texture.idx)
-	{
-		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-	}
-
-	if (_submitShadowMaps)
-	{
-		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-		{
-			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-		}
-	}
-	bgfx::setTransform(_mtx);
-	// Apply render state.
-	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
-
-	// Set uniforms.
-	FShadowPipline::Get().SubmitPerDrawUniforms();
-	
-
-	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
-	{
-		FMeshGroup* group = it->_first;
-		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
-		
-		// Set model matrix for rendering.
-		
-		bgfx::setIndexBuffer(group->_ibh);
-		bgfx::setVertexBuffer(0, group->_vbh);
-
-		// Submit.
-		bgfx::submit(_viewId, _program, occlusionQuery,0, it != itEnd - 1);
-	}
-}
-
-
-void SubmitOcclusionInstace(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState, bgfx::TextureHandle _texture, bool _submitShadowMaps = false)
-{
-
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
-	// Set textures.
-	if (bgfx::kInvalidHandle != _texture.idx)
-	{
-		bgfx::setTexture(0, FShadowPipline::s_texColor, _texture);
-	}
-
-	if (_submitShadowMaps)
-	{
-		for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-		{
-			bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
-		}
-	}
-
-	// Apply render state.
-	bgfx::setStencil(_renderState._fstencil, _renderState._bstencil);
-	bgfx::setState(_renderState._state, _renderState._blendFactorRgba);
-
-	// Set uniforms.
-	FShadowPipline::Get().SubmitPerDrawUniforms();
-
-
-	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
-	{
-		FMeshGroup* group = it->_first;
-		bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
-	
-		// Set model matrix for rendering.
-		bgfx::setInstanceDataBuffer(idb);
-		bgfx::setIndexBuffer(group->_ibh);
-		bgfx::setVertexBuffer(0, group->_vbh);
-
-		// Submit.
-		bgfx::submit(_viewId, _program, occlusionQuery, 0, it != itEnd - 1);
-	}
-}
-
-void SubmitShadowInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
-{
-	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
-	SubmitShadowInstance(geometry, _viewId, idb, _program, _renderState, texture, _submitShadowMaps);
-}
-
-void SubmitShadow(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
-{
-	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
-	SubmitShadow(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
-}
-
-void SubmitOcclusionInstace(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
-{
-	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
-	SubmitOcclusionInstace(geometry, _viewId, idb, _program, _renderState, texture, _submitShadowMaps);
-}
-
-void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState, bool _submitShadowMaps = false)
-{
-	bgfx::TextureHandle texture = BGFX_INVALID_HANDLE;
-	SubmitOcclusion(geometry, _viewId, _mtx, _program, _renderState, texture, _submitShadowMaps);
-}
-
 FEnvironmentPipline FForwardShadingRenderer::_environmentPipline;
 FIBLPipline FForwardShadingRenderer::_iblPipline;
 FShadowPipline FForwardShadingRenderer::_shadowPipline;
@@ -578,9 +386,11 @@ void FForwardShadingRenderer::RenderBatches()
 							{
 								renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 							}
-
+							
+							// Set uniforms.
+							FShadowPipline::Get().SubmitPerDrawUniforms();
 							// Draw shadow pack
-							SubmitShadowInstance(geometry, viewId
+							SubmitInstance(geometry, viewId
 								, &idb
 								, currentShadowMapSettings->m_progPackInstance->GetProgram()
 								, FRenderState::_renderState[renderStateIndex]
@@ -592,19 +402,24 @@ void FForwardShadingRenderer::RenderBatches()
 						_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
 						_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 						_iblPipline._uniforms.submit();
-						SubmitShadowInstance(geometry, RENDERVIEW_DRAWSCENE_0_ID
+
+						for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+						{
+							bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+						}
+
+						// Set uniforms.
+						FShadowPipline::Get().SubmitPerDrawUniforms();
+						SubmitInstance(geometry, RENDERVIEW_DRAWSCENE_0_ID
 							, &idb
 							, material->GetShaderInstanceProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Default]
-							, true
 						);
-
 						//  Occlusion query pipeline
 						SubmitOcclusionInstace(geometry, RENDERVIEW_OCCLUSION_ID
 							, &idb
 							, material->GetShaderInstanceProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Occlusion]
-							, true
 						);
 						UpdateBatchesCount(geometry);
 
@@ -628,8 +443,10 @@ void FForwardShadingRenderer::RenderBatches()
 								renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 							}
 
+							// Set uniforms.
+							FShadowPipline::Get().SubmitPerDrawUniforms();
 							// Draw shadow pack
-							SubmitShadow(geometry, viewId
+							Submit(geometry, viewId
 								, modelMatrix.Data()
 								, currentShadowMapSettings->m_progPack->GetProgram()
 								, FRenderState::_renderState[renderStateIndex]
@@ -641,11 +458,19 @@ void FForwardShadingRenderer::RenderBatches()
 						_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
 						_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 						_iblPipline._uniforms.submit();
-						SubmitShadow(geometry, RENDERVIEW_DRAWSCENE_0_ID
+
+						for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+						{
+							bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+						}
+
+						// Set uniforms.
+						FShadowPipline::Get().SubmitPerDrawUniforms();
+
+						Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
 							, modelMatrix.Data()
 							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Default]
-							, true
 						);
 
 						//  Occlusion query pipeline
@@ -653,7 +478,6 @@ void FForwardShadingRenderer::RenderBatches()
 							, modelMatrix.Data()
 							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
 							, FRenderState::_renderState[FRenderState::Occlusion]
-							, true
 						);
 						UpdateBatchesCount(geometry);
 

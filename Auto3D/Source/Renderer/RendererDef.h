@@ -1,6 +1,8 @@
 #pragma once
 #include <stdint.h>
 #include "Renderer/ShaderProgram.h"
+
+#include <bgfx/bgfx.h>
 #define RENDERVIEW_DEFAULT_ID		0
 #define RENDERVIEW_hdrSkybox	0
 #define RENDERVIEW_hdrMesh		1
@@ -38,6 +40,7 @@
 
 namespace Auto3D
 {
+class FGeometry;
 
 struct FRenderState
 {
@@ -143,6 +146,15 @@ struct PosColorTexCoord0Vertex
 
 	static bgfx::VertexLayout ms_layout;
 };
+
+void Submit(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+
+void SubmitInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+
+void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+
+void SubmitOcclusionInstace(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);
 
