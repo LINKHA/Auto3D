@@ -76,8 +76,8 @@ public:
 		AActor* hollowcubePlaneActor = world->CreateChild<AActor>();
 		AMeshComponent* hollowcubePlaneComponent = hollowcubePlaneActor->CreateComponent<AMeshComponent>();
 		//hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
-		//hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
-		hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
+		hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		//hollowcubePlaneComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube2.bin"));
 		hollowcubePlaneActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
 		hollowcubePlaneActor->GetTransform()->SetScale({ 5.5f, 5.5f, 5.5f });
 

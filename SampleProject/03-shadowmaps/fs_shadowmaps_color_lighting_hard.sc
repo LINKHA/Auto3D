@@ -1,4 +1,4 @@
-$input v_normal, v_view, v_shadowcoord,v_viewEnv
+$input v_normal, v_view, v_shadowcoord, v_viewEnv
 
 /*
  * Copyright 2013-2014 Dario Manesku. All rights reserved.
