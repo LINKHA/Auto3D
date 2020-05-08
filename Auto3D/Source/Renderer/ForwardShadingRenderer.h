@@ -23,6 +23,8 @@ class ACameraComponent;
 class FEnvironmentPipline;
 class FIBLPipline;
 class FShadowPipline;
+class FGeometry;
+
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API FForwardShadingRenderer : public IRenderer
 {
@@ -37,7 +39,6 @@ public:
 	void Render()override;
 
 	void RenderBatches();
-
 	/// Categorize actors and the components they mount.
 	void CollectActors(AWorld* world, ACameraComponent* camera);
 
@@ -64,6 +65,9 @@ public:
 
 	static FHDRPipline _hdrPipline;
 private:
+	/// This function provides this renderer to calculate batches for use.
+	void UpdateBatchesCount(FGeometry* geometry);
+	
 	EDepthImpl::Data _depthImpl;
 
 	/// FBatch queues per pass.
