@@ -583,6 +583,12 @@ void FForwardShadingRenderer::RenderBatches()
 							FShadowPipline::s_lightMtx = TMatrix4x4F(mtxShadow);
 						}
 
+						///
+						_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+						_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+						_iblPipline._uniforms.submit();
+						///
+
 						SubmitShadowInstance(geometry, RENDERVIEW_DRAWSCENE_0_ID
 							, &idb
 							, material->GetShaderInstanceProgram().GetProgram()//currentShadowMapSettings->m_progDraw
@@ -803,12 +809,12 @@ void FForwardShadingRenderer::RenderBatches()
 					//  Occlusion query pipeline
 					{
 
-						//SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
-						//	, modelMatrix.Data()
-						//	, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
-						//	, FRenderState::_renderState[FRenderState::Occlusion]
-						//	, true
-						//);
+						SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
+							, modelMatrix.Data()
+							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
+							, FRenderState::_renderState[FRenderState::Occlusion]
+							, true
+						);
 					}
 					/*switch (bgfx::getResult(geometry->_occlusionQuery))
 					{
@@ -825,6 +831,10 @@ void FForwardShadingRenderer::RenderBatches()
 			}
 		}
 	}
+
+
+
+
 }
 
 

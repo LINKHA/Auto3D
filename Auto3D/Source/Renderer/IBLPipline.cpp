@@ -49,9 +49,6 @@ void FIBLPipline::Init()
 	m_programMesh.AttachShader("vs_ibl_mesh", "fs_ibl_mesh");
 
 	GResourceModule& resourceModule = GResourceModule::Get();
-
-	m_meshBunny = resourceModule.LoadResource<OMesh>("Meshes/bunny.bin");
-	m_meshOrb = resourceModule.LoadResource<OMesh>("Meshes/orb.bin");
 }
 
 void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVector<FBatch>& batches)

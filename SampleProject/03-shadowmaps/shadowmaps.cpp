@@ -81,16 +81,17 @@ public:
 		hollowcubePlaneActor->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
 		hollowcubePlaneActor->GetTransform()->SetScale({ 5.5f, 5.5f, 5.5f });
 
-		//AActor* meshActor = world->CreateChild<AActor>();
-		//AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
-		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		//meshActor->GetTransform()->SetPosition({ -10.0f, 10.0f, 0.0f });
-		//meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
-		//AActor* meshActor2 = world->CreateChild<AActor>();
-		//AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
-		//meshComponent2->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		//meshActor2->GetTransform()->SetPosition({ 10.0f, 10.0f, 0.0f });
-		//meshActor2->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+		AActor* meshActor = world->CreateChild<AActor>();
+		AMeshComponent* meshComponent = meshActor->CreateComponent<AMeshComponent>();
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshActor->GetTransform()->SetPosition({ -10.0f, 10.0f, 0.0f });
+		meshActor->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
+
+		AActor* meshActor2 = world->CreateChild<AActor>();
+		AMeshComponent* meshComponent2 = meshActor2->CreateComponent<AMeshComponent>();
+		meshComponent2->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
+		meshActor2->GetTransform()->SetPosition({ 10.0f, 10.0f, 0.0f });
+		meshActor2->GetTransform()->SetScale({ 2.5f, 2.5f, 2.5f });
 
 		AActor* planeActor = world->CreateChild<AActor>();
 		AMeshComponent* planeComponent = planeActor->CreateComponent<AMeshComponent>();

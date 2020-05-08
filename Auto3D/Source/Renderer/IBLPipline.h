@@ -37,7 +37,7 @@ struct IBLSettings
 		_lightColor[0] = 1.0f;
 		_lightColor[1] = 1.0f;
 		_lightColor[2] = 1.0f;
-		_glossiness = 0.7f;
+		_glossiness = 0.9f;
 		_exposure = 0.0f;
 		_reflectivity = 0.85f;
 		_rgbDiff[0] = 1.0f;
@@ -139,11 +139,6 @@ public:
 	IBLSettings _settings;
 
 	FShaderProgram m_programMesh;
-
-
-	OMesh* m_meshBunny;
-	OMesh* m_meshOrb;
-
 };
 
 }
