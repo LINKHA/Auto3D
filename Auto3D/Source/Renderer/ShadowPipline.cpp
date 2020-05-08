@@ -1291,7 +1291,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 		, FShadowPipline::s_clearValues.m_clearDepth
 		, FShadowPipline::s_clearValues.m_clearStencil
 	);
-	bgfx::touch(RENDERVIEW_SHADOW_BEGIN);
+	//bgfx::touch(0);
 
 	// Clear shadowmap rendertarget at beginning.
 	const uint8_t flags0 = (ELightType::DirectionalLight == FShadowPipline::s_shadowSceneSettings.m_lightType)

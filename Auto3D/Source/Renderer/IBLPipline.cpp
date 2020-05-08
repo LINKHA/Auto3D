@@ -82,8 +82,8 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 	_uniforms._cameraPos[1] = position._y;
 	_uniforms._cameraPos[2] = position._z;
 
-	bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
-	bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
+	//bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
+	//bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 
 	// Env mtx.
 	TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();

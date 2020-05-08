@@ -58,8 +58,8 @@ public:
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
 		ASkyboxComponent* skybox = world->CreateComponent<ASkyboxComponent>();
-		skybox->SetIBLTexture(resourceModule.LoadResource<OTexture>("Textures/bolonga_lod.dds")
-			, resourceModule.LoadResource<OTexture>("Textures/bolonga_irr.dds"));
+		skybox->SetIBLTexture(resourceModule.LoadResource<OTexture>("Textures/kyoto_lod.dds")
+			, resourceModule.LoadResource<OTexture>("Textures/kyoto_irr.dds"));
 
 
 		AActor* actor = world->CreateChild<AActor>();

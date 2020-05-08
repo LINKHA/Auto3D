@@ -308,6 +308,8 @@ void FForwardShadingRenderer::Render()
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
 
+	bgfx::touch(0);
+
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
 		PrepareView();
