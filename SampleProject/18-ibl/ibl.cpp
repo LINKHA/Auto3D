@@ -69,6 +69,16 @@ public:
 		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
+
+
+		AActor* pbrActor2 = world->CreateChild<AActor>();
+		pbrActor2->GetTransform()->SetPosition({ 5.0f, -0.5f, 5.0f });
+		pbrActor2->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
+		//pbrActor->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
+		AMeshComponent* meshComponent2 = pbrActor2->CreateComponent<AMeshComponent>();
+		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/hollowcube.bin"));
+		meshComponent2->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		meshComponent2->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 	}
 
 	virtual int shutdown() override

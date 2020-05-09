@@ -93,11 +93,11 @@ bool FRendererDef::s_flipV = false;
 
 void Submit(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle program, const FRenderState& renderState)
 {
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
 	bgfx::setTransform(mtx);
 	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
 	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
 
 	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
 	{
@@ -113,11 +113,11 @@ void Submit(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle
 
 void SubmitInstance(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle program, const FRenderState& renderState)
 {
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
 	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
 	bgfx::setState(renderState._state, renderState._blendFactorRgba);
 	bgfx::setInstanceDataBuffer(idb);
+
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
 
 	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
 	{
@@ -134,11 +134,11 @@ void SubmitInstance(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffe
 
 void SubmitOcclusion(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle program, const FRenderState& renderState)
 {
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
 	bgfx::setTransform(mtx);
 	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
 	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+	
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
 
 	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
 	{
@@ -153,10 +153,10 @@ void SubmitOcclusion(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::Prog
 
 void SubmitOcclusionInstace(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle program, const FRenderState& renderState)
 {
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
 	bgfx::setStencil(renderState._fstencil, renderState._bstencil);
 	bgfx::setState(renderState._state, renderState._blendFactorRgba);
+
+	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
 
 	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
 	{

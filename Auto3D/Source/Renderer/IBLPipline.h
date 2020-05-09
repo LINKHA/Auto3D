@@ -138,7 +138,8 @@ public:
 	Uniforms _uniforms;
 	IBLSettings _settings;
 
-	FShaderProgram m_programMesh;
+	FShaderProgram _program;
+	FShaderProgram _programInstance;
 };
 
 }

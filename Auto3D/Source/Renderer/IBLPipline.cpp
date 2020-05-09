@@ -46,7 +46,8 @@ FIBLPipline::~FIBLPipline()
 void FIBLPipline::Init()
 {
 	_uniforms.init();
-	m_programMesh.AttachShader("vs_ibl_mesh", "fs_ibl_mesh");
+	_program.AttachShader("vs_ibl_mesh", "fs_ibl_mesh");
+	_programInstance.AttachShader("vs_ibl_mesh_i", "fs_ibl_mesh");
 
 	GResourceModule& resourceModule = GResourceModule::Get();
 }
@@ -79,8 +80,8 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 	_uniforms._cameraPos[1] = position._y;
 	_uniforms._cameraPos[2] = position._z;
 
-	//bgfx::setViewTransform(1, transposeViewMatrix.Data(), projectionMatrix.Data());
-	//bgfx::setViewRect(1, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
+	bgfx::setViewTransform(RENDERVIEW_NO_LIGHT_IBL, transposeViewMatrix.Data(), projectionMatrix.Data());
+	bgfx::setViewRect(RENDERVIEW_NO_LIGHT_IBL, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 
 	// Env mtx.
 	TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();
@@ -102,7 +103,7 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 		_uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 
 		_uniforms.submit();
-		SubmitTemp(geometry, 1, m_programMesh.GetProgram(), modelMatrix.Data());
+		SubmitTemp(geometry, 1, _program.GetProgram(), modelMatrix.Data());
 
 		batchesAddCount = 1;
 		bIt += batchesAddCount;

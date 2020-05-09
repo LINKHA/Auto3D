@@ -36,6 +36,7 @@
 #define RENDERVIEW_DRAWDEPTH_3_ID	29
 #define RENDERVIEW_SKYBOX_ID		30
 #define RENDERVIEW_OCCLUSION_ID		31
+#define RENDERVIEW_NO_LIGHT_IBL		32
 
 
 namespace Auto3D
@@ -147,13 +148,13 @@ struct PosColorTexCoord0Vertex
 	static bgfx::VertexLayout ms_layout;
 };
 
-void Submit(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+void Submit(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle program, const FRenderState& renderState = FRenderState::_renderState[FRenderState::Default]);
 
-void SubmitInstance(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+void SubmitInstance(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle program, const FRenderState& _renderState = FRenderState::_renderState[FRenderState::Default]);
 
-void SubmitOcclusion(FGeometry* geometry, uint8_t _viewId, float* _mtx, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+void SubmitOcclusion(FGeometry* geometry, uint8_t viewId, float* mtx, bgfx::ProgramHandle program, const FRenderState& renderState = FRenderState::_renderState[FRenderState::Default]);
 
-void SubmitOcclusionInstace(FGeometry* geometry, uint8_t _viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle _program, const FRenderState& _renderState);
+void SubmitOcclusionInstace(FGeometry* geometry, uint8_t viewId, bgfx::InstanceDataBuffer* idb, bgfx::ProgramHandle program, const FRenderState& renderState = FRenderState::_renderState[FRenderState::Default]);
 
 
 void screenSpaceQuad(float _textureWidth, float _textureHeight, bool _originBottomLeft = true, float _width = 1.0f, float _height = 1.0f);

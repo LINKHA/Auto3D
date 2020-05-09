@@ -195,7 +195,6 @@ void FForwardShadingRenderer::RenderBatches()
 
 			FShadowPipline::Get().Update(_currentCamera, lightComponent);
 
-			//TVector<FBatch>& batches = _batchQueues._batches;
 			for (auto bIt = batches.Begin(); bIt != batches.End();)
 			{
 				FBatch& batch = *bIt;
@@ -427,61 +426,61 @@ void FForwardShadingRenderer::RenderBatches()
 					}
 					else
 					{
-						FGeometry* geometry = batch._pass._geometry;
-						OMaterial* material = batch._pass._material;
-						TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
-						FShadowMapSettings* currentShadowMapSettings = &FShadowPipline::s_shadowMapSettings[FShadowPipline::s_shadowSceneSettings.m_lightType][FShadowPipline::s_shadowSceneSettings.m_depthImpl][FShadowPipline::s_shadowSceneSettings.m_smImpl];
-						AttachShader(batch._pass);
+					FGeometry* geometry = batch._pass._geometry;
+					OMaterial* material = batch._pass._material;
+					TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+					FShadowMapSettings* currentShadowMapSettings = &FShadowPipline::s_shadowMapSettings[FShadowPipline::s_shadowSceneSettings.m_lightType][FShadowPipline::s_shadowSceneSettings.m_depthImpl][FShadowPipline::s_shadowSceneSettings.m_smImpl];
+					AttachShader(batch._pass);
 
-						for (uint8_t ii = 0; ii < drawNum; ++ii)
+					for (uint8_t ii = 0; ii < drawNum; ++ii)
+					{
+						const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
+
+						uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
+						if (ELightType::PointLight == FShadowPipline::s_shadowSceneSettings.m_lightType && FShadowPipline::s_shadowSceneSettings.m_stencilPack)
 						{
-							const uint8_t viewId = RENDERVIEW_SHADOWMAP_1_ID + ii;
-
-							uint8_t renderStateIndex = FRenderState::ShadowMap_PackDepth;
-							if (ELightType::PointLight == FShadowPipline::s_shadowSceneSettings.m_lightType && FShadowPipline::s_shadowSceneSettings.m_stencilPack)
-							{
-								renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
-							}
-
-							// Set uniforms.
-							FShadowPipline::Get().SubmitPerDrawUniforms();
-							// Draw shadow pack
-							Submit(geometry, viewId
-								, modelMatrix.Data()
-								, currentShadowMapSettings->m_progPack->GetProgram()
-								, FRenderState::_renderState[renderStateIndex]
-							);
-
-						}
-
-						// Draw scene.
-						_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-						_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-						_iblPipline._uniforms.submit();
-
-						for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
-						{
-							bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+							renderStateIndex = uint8_t((ii < 2) ? FRenderState::ShadowMap_PackDepthHoriz : FRenderState::ShadowMap_PackDepthVert);
 						}
 
 						// Set uniforms.
 						FShadowPipline::Get().SubmitPerDrawUniforms();
-
-						Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
+						// Draw shadow pack
+						Submit(geometry, viewId
 							, modelMatrix.Data()
-							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
-							, FRenderState::_renderState[FRenderState::Default]
+							, currentShadowMapSettings->m_progPack->GetProgram()
+							, FRenderState::_renderState[renderStateIndex]
 						);
 
-						//  Occlusion query pipeline
-						SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
-							, modelMatrix.Data()
-							, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
-							, FRenderState::_renderState[FRenderState::Occlusion]
-						);
-						UpdateBatchesCount(geometry);
+					}
 
-						batchesAddCount = 1;
+					// Draw scene.
+					_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+					_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+					_iblPipline._uniforms.submit();
+
+					for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
+					{
+						bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+					}
+
+					// Set uniforms.
+					FShadowPipline::Get().SubmitPerDrawUniforms();
+
+					Submit(geometry, RENDERVIEW_DRAWSCENE_0_ID
+						, modelMatrix.Data()
+						, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
+						, FRenderState::_renderState[FRenderState::Default]
+					);
+
+					//  Occlusion query pipeline
+					SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
+						, modelMatrix.Data()
+						, material->GetShaderProgram().GetProgram()//currentShadowMapSettings->m_progDraw
+						, FRenderState::_renderState[FRenderState::Occlusion]
+					);
+					UpdateBatchesCount(geometry);
+
+					batchesAddCount = 1;
 					}
 					bIt += batchesAddCount;
 				}
@@ -489,9 +488,84 @@ void FForwardShadingRenderer::RenderBatches()
 
 			}
 		}
-	}		
+	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Ibl pipeline in light condition
+	if(_lightActor.Size() == 0)
+	{
+		for (auto bIt = batches.Begin(); bIt != batches.End();)
+		{
+			FBatch& batch = *bIt;
+			bool instance = batch._type == EGeometryType::INSTANCED;
+			int batchesAddCount = 0;
+			if (instance)
+			{
+				int instanceStart = batch._instanceStart;
+				int instanceCount = batch._instanceCount;
 
+				// stride = 64 bytes for 4x4 matrix
+				const uint16_t instanceStride = sizeof(TMatrix4x4F);
+				const uint32_t numInstances = instanceCount;
+
+				bgfx::InstanceDataBuffer idb;
+				bgfx::allocInstanceDataBuffer(&idb, numInstances, instanceStride);
+				uint8_t* data = idb.data;
+
+				// Get model matrix.
+				for (auto i = instanceStart; i < instanceStart + instanceCount; ++i)
+				{
+					TMatrix4x4F& modelMatrix = batches[i]._pass._worldMatrix->ToMatrix4().Transpose();
+
+					memcpy(data, modelMatrix.Data(), instanceStride);
+					data += instanceStride;
+				}
+
+				FGeometry* geometry = batch._pass._geometry;
+				OMaterial* material = batch._pass._material;
+
+				_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+				_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+				_iblPipline._uniforms.submit();
+
+				SubmitInstance(geometry, RENDERVIEW_NO_LIGHT_IBL
+					, &idb
+					, _iblPipline._programInstance.GetProgram()
+				);
+				SubmitOcclusionInstace(geometry, RENDERVIEW_OCCLUSION_ID
+					, &idb
+					, _iblPipline._programInstance.GetProgram()
+					, FRenderState::_renderState[FRenderState::Occlusion]
+				);
+				UpdateBatchesCount(geometry);
+				batchesAddCount = instanceCount;
+			}
+			else
+			{
+				FGeometry* geometry = batch._pass._geometry;
+				OMaterial* material = batch._pass._material;
+				TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
+
+				_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+				_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+				_iblPipline._uniforms.submit();
+
+				Submit(geometry, RENDERVIEW_NO_LIGHT_IBL
+					, modelMatrix.Data()
+					, _iblPipline._program.GetProgram()
+				);
+				SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
+					, modelMatrix.Data()
+					, _iblPipline._program.GetProgram()
+					, FRenderState::_renderState[FRenderState::Occlusion]
+				);
+				UpdateBatchesCount(geometry);
+				batchesAddCount = 1;
+			}
+			bIt += batchesAddCount;
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////
 
 
 }
