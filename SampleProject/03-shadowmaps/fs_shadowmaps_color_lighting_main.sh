@@ -263,9 +263,9 @@
 	vec3 indirect    = envDiffuse + envSpecular;
 
 	// Color.
-	color = direct + indirect;
+	color = direct + indirect + mix(fogColor, final, fogFactor)*0.1;
 	color = color * exp2(u_exposure);
-	gl_FragColor.xyz = toFilmic(color)+ mix(fogColor, final, fogFactor)*0.5;
+	gl_FragColor.xyz = toFilmic(color);
 	gl_FragColor.w = 1.0;
 	
 	///

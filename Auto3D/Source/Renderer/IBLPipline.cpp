@@ -5,36 +5,6 @@
 namespace Auto3D
 {
 
-void SubmitTemp(FGeometry* geometry,bgfx::ViewId id, bgfx::ProgramHandle program, const float* mtx, uint64_t state = BGFX_STATE_MASK)
-{
-	if (BGFX_STATE_MASK == state)
-	{
-		state = 0
-			| BGFX_STATE_WRITE_RGB
-			| BGFX_STATE_WRITE_A
-			| BGFX_STATE_WRITE_Z
-			| BGFX_STATE_DEPTH_TEST_LESS
-			| BGFX_STATE_CULL_CCW
-			| BGFX_STATE_MSAA
-			;
-	}
-
-	bgfx::setTransform(mtx);
-	bgfx::setState(state);
-
-	TVector<TPair<FMeshGroup*, bgfx::OcclusionQueryHandle>>& geometryValue = geometry->_geometryValue;
-
-	for (auto it = geometryValue.Begin(), itEnd = geometryValue.End(); it != itEnd; ++it)
-	{
-		FMeshGroup* group = it->_first;
-		//bgfx::OcclusionQueryHandle& occlusionQuery = it->_second;
-
-		bgfx::setIndexBuffer(group->_ibh);
-		bgfx::setVertexBuffer(0, group->_vbh);
-		bgfx::submit(id, program, 0, it != itEnd - 1);
-	}
-}
-
 FIBLPipline::FIBLPipline()
 {
 
@@ -88,26 +58,6 @@ void FIBLPipline::Update(ACameraComponent* camera, ASkyboxComponent* skybox, TVe
 
 	// Submit view.
 	bx::memCopy(_uniforms._environmentViewMatrix, environmentViewMatrix.Data(), 16 * sizeof(float)); // Used for IBL.
-	
-	/*for (auto bIt = batches.Begin(); bIt != batches.End();)
-	{
-		FBatch& batch = *bIt;
-		bool instance = batch._type == EGeometryType::INSTANCED;
-		int batchesAddCount = 0;
-
-		FGeometry* geometry = batch._pass._geometry;
-		OMaterial* material = batch._pass._material;
-		TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
-
-		_uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-		_uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-
-		_uniforms.submit();
-		SubmitTemp(geometry, 1, _program.GetProgram(), modelMatrix.Data());
-
-		batchesAddCount = 1;
-		bIt += batchesAddCount;
-	}*/
 }
 
 }
