@@ -14,6 +14,8 @@
 #include "Component/AudioListenerComponent.h"
 #include "Component/AudioSourceComponent.h"
 #include "Component/DirectionalLightComponent.h"
+#include "Component/SpotLightComponent.h"
+#include "Component/PointLightComponent.h"
 
 #include "IO/FileSystem.h"
 #include "IO/Stream.h"
@@ -41,10 +43,7 @@ public:
 
 	void init() override
 	{
-		GResourceModule::Get().AddResourceDir(ExecutableDir() + "Data");
-
-		_material = GResourceModule::Get().LoadResource<OMaterial>("Material/Test.json");
-		_material2 = GResourceModule::Get().LoadResource<OMaterial>("Material/MeshShadowTest.json");
+		GResourceModule& resourceModule = GResourceModule::Get();
 
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
@@ -52,23 +51,26 @@ public:
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
+		ASkyboxComponent* skyboxComponent = world->CreateComponent<ASkyboxComponent>();
+		skyboxComponent->SetIBLTexture(resourceModule.LoadResource<OTexture>("Textures/bolonga_lod.dds"),
+			resourceModule.LoadResource<OTexture>("Textures/bolonga_irr.dds"));
+
 
 		AActor* actor = world->CreateChild<AActor>();
 		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
 		camera->SetFov(60.0f);
 		camera->SetNearClip(0.1f);
 		camera->SetFarClip(2000.0f);
-		actor->CreateComponent<ADefaultControllerComponent>();
+		ADefaultControllerComponent* controller = actor->CreateComponent<ADefaultControllerComponent>();
+		controller->SetMoveSpeed(50.0f);
 		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
-		actor->GetTransform()->SetRotation({ 45.0f,0.0f,0.0f });
 
 		AActor* cube = world->CreateChild<AActor>();
-		cube->GetTransform()->SetPosition({ 0.0f, 10.0f, 0.0f });
+		cube->GetTransform()->SetPosition({ 0.0f, 50.0f, 0.0f });
 		cube->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		cube->GetTransform()->SetScale({ 4.0f, 4.0f, 4.0f });
 		AMeshComponent* meshComponent = cube->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		meshComponent->SetMaterial(_material2);
 		ARigidBodyComponent* cubeRigidBody = cube->CreateComponent<ARigidBodyComponent>();
 		cubeRigidBody->SetMass(1.0f);
 		AColliderBoxComponent* cubeColliderBox = cube->CreateComponent<AColliderBoxComponent>();
@@ -76,23 +78,20 @@ public:
 
 
 		AActor* plane = world->CreateChild<AActor>();
-		plane->GetTransform()->SetPosition({ 0.0f, -20.0f, 0.0f });
-		plane->GetTransform()->SetScale({ 100.0f, 1.0f, 100.0f });
+		plane->GetTransform()->SetScale({ 500.0f, 500.0f, 500.0f });
+		plane->GetTransform()->SetPosition({ 0.0f, -500.0f, 0.0f });
 		AMeshComponent* planeMeshComponent = plane->CreateComponent<AMeshComponent>();
 		planeMeshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin"));
-		planeMeshComponent->SetMaterial(_material2);
 		ARigidBodyComponent* fenceRigidBody = plane->CreateComponent<ARigidBodyComponent>();
 		fenceRigidBody->SetMass(0.0f);
 		AColliderBoxComponent* fenceColliderBox = plane->CreateComponent<AColliderBoxComponent>();
-		fenceColliderBox->SetSize({ 50.0f, 1.0f, 50.0f });
+		fenceColliderBox->SetSize({ 250.0f, 500.0f, 250.0f });
 
 
 		AActor* directionalLightActor = world->CreateChild<AActor>();
-		//directionalLightActor->SetEnabled(false);
 		directionalLightActor->GetTransform()->SetPosition({ 25.0f, 25.0f, 25.0f });
 		directionalLightActor->CreateComponent<ADirectionalLightComponent>();
 	
-
 	}
 
 	int shutdown() override
@@ -106,8 +105,6 @@ public:
 		showExampleDialog(this);
 		return true;
 	}
-	OMaterial* _material;
-	OMaterial* _material2;
 };
 
 } // namespace

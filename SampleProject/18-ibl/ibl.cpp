@@ -57,7 +57,8 @@ public:
 		camera->SetFov(60.0f);
 		camera->SetNearClip(0.1f);
 		camera->SetFarClip(2000.0f);
-		actor->CreateComponent<ADefaultControllerComponent>();
+		ADefaultControllerComponent* controller = actor->CreateComponent<ADefaultControllerComponent>();
+		controller->SetMoveSpeed(50.0f);
 		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 
