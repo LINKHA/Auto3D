@@ -4,6 +4,7 @@
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
 #include "Renderer/HDRPipline.h"
+#include "Renderer/PBRPipline.h"
 
 #include "Component/LightComponent.h"
 #include "Component/MeshComponent.h"
@@ -64,6 +65,8 @@ public:
 	static FShadowPipline _shadowPipline;
 
 	static FHDRPipline _hdrPipline;
+
+	static FPBRPipline _pbrPipline;
 private:
 	/// This function provides this renderer to calculate batches for use.
 	void UpdateBatchesCount(FGeometry* geometry);

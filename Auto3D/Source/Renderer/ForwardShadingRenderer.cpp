@@ -34,6 +34,7 @@ FEnvironmentPipline FForwardShadingRenderer::_environmentPipline;
 FIBLPipline FForwardShadingRenderer::_iblPipline;
 FShadowPipline FForwardShadingRenderer::_shadowPipline;
 FHDRPipline FForwardShadingRenderer::_hdrPipline;
+FPBRPipline FForwardShadingRenderer::_pbrPipline;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
@@ -105,6 +106,7 @@ void FForwardShadingRenderer::Init()
 	_iblPipline.Init();
 	_environmentPipline.Init();
 	_hdrPipline.Init();
+	_pbrPipline.Init();
 }
 
 void FForwardShadingRenderer::Render()
@@ -157,6 +159,8 @@ void FForwardShadingRenderer::RenderBatches()
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	ASkyboxComponent* skybox = world->GetSkybox();
 	TVector<FBatch>& batches = _batchQueues._batches;
+
+	_pbrPipline.Update();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Skybox pipline
@@ -527,7 +531,7 @@ void FForwardShadingRenderer::RenderBatches()
 				_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
 				_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 				_iblPipline._uniforms.submit();
-
+				
 				SubmitInstance(geometry, RENDERVIEW_NO_LIGHT_IBL
 					, &idb
 					, _iblPipline._programInstance.GetProgram()
