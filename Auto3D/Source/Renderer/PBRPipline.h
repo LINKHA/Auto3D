@@ -4,6 +4,7 @@
 #include "Renderer/RendererDef.h"
 
 #include <bgfx/bgfx.h>
+#include <bx/math.h>
 
 namespace Auto3D
 {
@@ -22,11 +23,13 @@ public:
 		_brdfLUTFrame = bgfx::createFrameBuffer(512, 512, bgfx::TextureFormat::BGRA8);
 
 	}
-
 	void Update()
 	{
 		const bgfx::Caps* m_caps = bgfx::getCaps();
+		float proj[16];
+		bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0f, m_caps->homogeneousDepth);
 
+		bgfx::setViewTransform(RENDERVIEW_BRDF_LUT_ID, NULL, proj);
 		bgfx::setViewRect(RENDERVIEW_BRDF_LUT_ID, 0, 0, 512, 512);
 		bgfx::setViewFrameBuffer(RENDERVIEW_BRDF_LUT_ID, _brdfLUTFrame);
 
@@ -36,7 +39,6 @@ public:
 
 		//bgfx::setTexture(2, s_brdfLUT, bgfx::getTexture(_brdfLUTFrame));
 	}
-
 	bgfx::UniformHandle s_brdfLUT;
 
 	FShaderProgram _brdfLUT;

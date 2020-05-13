@@ -160,7 +160,7 @@ void FForwardShadingRenderer::RenderBatches()
 	ASkyboxComponent* skybox = world->GetSkybox();
 	TVector<FBatch>& batches = _batchQueues._batches;
 
-	_pbrPipline.Update();
+	
 
 	//////////////////////////////////////////////////////////////////////////
 	// Skybox pipline
@@ -183,6 +183,7 @@ void FForwardShadingRenderer::RenderBatches()
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////
+	_pbrPipline.Update();
 
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{
