@@ -67,7 +67,7 @@ public:
 		pbrActor->GetTransform()->SetPosition({ 0.0f, -0.5f, 0.0f });
 		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
-		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
+		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube_uv.bin"));
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 
 	}

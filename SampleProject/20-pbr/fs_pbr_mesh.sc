@@ -115,7 +115,7 @@ float specPwr(float _gloss)
 
 void main()
 {
-    vec3 albedo = pow(texture2D(albedoMap, v_texcoord0).rgb, vec3(2.2));
+    vec3 albedo = pow(texture2D(s_albedoMap, v_texcoord0).rgb, vec3(2.2, 2.2, 2.2));
 
 
 

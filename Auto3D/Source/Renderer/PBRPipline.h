@@ -37,7 +37,7 @@ public:
 		screenSpaceQuad(512, 512, m_caps->originBottomLeft);
 		bgfx::submit(RENDERVIEW_BRDF_LUT_ID, _brdfLUT.GetProgram());
 
-		//bgfx::setTexture(2, s_brdfLUT, bgfx::getTexture(_brdfLUTFrame));
+		//bgfx::setTexture(2, us_brdfLUT, bgfx::getTexture(_brdfLUTFrame));
 	}
 	bgfx::UniformHandle us_brdfLUT;
 

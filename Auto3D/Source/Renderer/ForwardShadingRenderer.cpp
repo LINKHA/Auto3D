@@ -554,17 +554,18 @@ void FForwardShadingRenderer::RenderBatches()
 				s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
 				s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 				s_iblPipline._uniforms.submit();
+				bgfx::setTexture(2, s_pbrPipline.us_brdfLUT, bgfx::getTexture(s_pbrPipline._brdfLUTFrame));
 
 				Submit(geometry, RENDERVIEW_NO_LIGHT_IBL
 					, modelMatrix.Data()
-					, s_iblPipline._program.GetProgram()
+					, s_iblPipline._program.GetProgram()//, s_pbrPipline._pbrMesh.GetProgram()
 				);
-				SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
+				/*SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
 					, modelMatrix.Data()
 					, s_iblPipline._program.GetProgram()
 					, FRenderState::_renderState[FRenderState::Occlusion]
 				);
-				UpdateBatchesCount(geometry);
+				UpdateBatchesCount(geometry);*/
 				batchesAddCount = 1;
 			}
 			bIt += batchesAddCount;

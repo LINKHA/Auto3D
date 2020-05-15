@@ -48,8 +48,6 @@ public:
 		u_tonemap = bgfx::createUniform("u_tonemap", bgfx::UniformType::Vec4);
 		u_offset = bgfx::createUniform("u_offset", bgfx::UniformType::Vec4, 16);
 
-		m_mesh = reousceModlue.LoadResource<OMesh>("meshes/bunny.bin");
-
 		m_fbh.idx = bgfx::kInvalidHandle;
 
 		m_lum[0] = bgfx::createFrameBuffer(128, 128, bgfx::TextureFormat::BGRA8);
@@ -396,8 +394,6 @@ public:
 	bgfx::UniformHandle us_texBlur;
 	bgfx::UniformHandle u_tonemap;
 	bgfx::UniformHandle u_offset;
-
-	OMesh* m_mesh;
 
 	bgfx::TextureHandle m_fbtextures[2];
 	bgfx::TextureHandle m_rb;
