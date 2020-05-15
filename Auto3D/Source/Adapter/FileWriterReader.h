@@ -14,9 +14,9 @@ struct FDefaultFileWriterReader
 	static void Release();
 
 private:
-	static bx::FileReaderI* _fileReader;
-	static bx::FileWriterI* _fileWriter;
-	static bx::AllocatorI* _allocator;
+	static bx::FileReaderI* s_fileReader;
+	static bx::FileWriterI* s_fileWriter;
+	static bx::AllocatorI* s_allocator;
 };
 
 }

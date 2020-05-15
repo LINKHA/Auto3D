@@ -19,7 +19,7 @@ public:
 	{
 		_brdfLUT.AttachShader("vs_brdf_lut", "fs_brdf_lut");
 		
-		s_brdfLUT = bgfx::createUniform("s_brdfLUT", bgfx::UniformType::Sampler);
+		us_brdfLUT = bgfx::createUniform("s_brdfLUT", bgfx::UniformType::Sampler);
 		_brdfLUTFrame = bgfx::createFrameBuffer(512, 512, bgfx::TextureFormat::BGRA8);
 
 	}
@@ -39,7 +39,7 @@ public:
 
 		//bgfx::setTexture(2, s_brdfLUT, bgfx::getTexture(_brdfLUTFrame));
 	}
-	bgfx::UniformHandle s_brdfLUT;
+	bgfx::UniformHandle us_brdfLUT;
 
 	FShaderProgram _brdfLUT;
 

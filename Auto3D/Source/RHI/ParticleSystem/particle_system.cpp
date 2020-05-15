@@ -458,7 +458,7 @@ namespace ps
 
 			m_num = 0;
 
-			s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+			us_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 			_texture  = bgfx::createTexture2D(
 				  SPRITE_TEXTURE_SIZE
 				, SPRITE_TEXTURE_SIZE
@@ -479,7 +479,7 @@ namespace ps
 		{
 			bgfx::destroy(m_particleProgram);
 			bgfx::destroy(_texture);
-			bgfx::destroy(s_texColor);
+			bgfx::destroy(us_texColor);
 
 			bx::destroyHandleAlloc(m_allocator, m_emitterAlloc);
 			BX_FREE(m_allocator, m_emitter);
@@ -606,7 +606,7 @@ namespace ps
 						);
 					bgfx::setVertexBuffer(0, &tvb);
 					bgfx::setIndexBuffer(&tib);
-					bgfx::setTexture(0, s_texColor, _texture);
+					bgfx::setTexture(0, us_texColor, _texture);
 					bgfx::submit(_view, m_particleProgram);
 				}
 			}
@@ -671,7 +671,7 @@ namespace ps
 		typedef SpriteT<256, SPRITE_TEXTURE_SIZE> Sprite;
 		Sprite m_sprite;
 
-		bgfx::UniformHandle s_texColor;
+		bgfx::UniformHandle us_texColor;
 		bgfx::TextureHandle _texture;
 		bgfx::ProgramHandle m_particleProgram;
 

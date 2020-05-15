@@ -30,11 +30,11 @@
 namespace Auto3D
 {
 
-FEnvironmentPipline FForwardShadingRenderer::_environmentPipline;
-FIBLPipline FForwardShadingRenderer::_iblPipline;
-FShadowPipline FForwardShadingRenderer::_shadowPipline;
-FHDRPipline FForwardShadingRenderer::_hdrPipline;
-FPBRPipline FForwardShadingRenderer::_pbrPipline;
+FEnvironmentPipline FForwardShadingRenderer::s_environmentPipline;
+FIBLPipline FForwardShadingRenderer::s_iblPipline;
+FShadowPipline FForwardShadingRenderer::s_shadowPipline;
+FHDRPipline FForwardShadingRenderer::s_hdrPipline;
+FPBRPipline FForwardShadingRenderer::s_pbrPipline;
 
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
@@ -103,10 +103,10 @@ void FForwardShadingRenderer::Init()
 	FRendererDef().Init();
 
 	FShadowPipline::Get().Init();
-	_iblPipline.Init();
-	_environmentPipline.Init();
-	_hdrPipline.Init();
-	_pbrPipline.Init();
+	s_iblPipline.Init();
+	s_environmentPipline.Init();
+	s_hdrPipline.Init();
+	s_pbrPipline.Init();
 }
 
 void FForwardShadingRenderer::Render()
@@ -170,12 +170,12 @@ void FForwardShadingRenderer::RenderBatches()
 			switch (skybox->GetSkyboxType())
 			{
 			case ESkyboxType::HDR:
-				_hdrPipline.Update(_currentCamera, skybox);
-				_hdrPipline.RenderBatch(_currentCamera, skybox, batches);
+				s_hdrPipline.Update(_currentCamera, skybox);
+				s_hdrPipline.RenderBatch(_currentCamera, skybox, batches);
 				break;
 			case ESkyboxType::IBL:
-				_environmentPipline.Update(_currentCamera, skybox);
-				_iblPipline.Update(_currentCamera, skybox, batches);
+				s_environmentPipline.Update(_currentCamera, skybox);
+				s_iblPipline.Update(_currentCamera, skybox, batches);
 				break;
 			default:
 				break;
@@ -183,7 +183,7 @@ void FForwardShadingRenderer::RenderBatches()
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////
-	_pbrPipline.Update();
+	s_pbrPipline.Update();
 
 	for (auto lIt = _lightActor.Begin(); lIt != _lightActor.End(); ++lIt)
 	{
@@ -403,13 +403,13 @@ void FForwardShadingRenderer::RenderBatches()
 						}
 
 						// Draw model
-						_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-						_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-						_iblPipline._uniforms.submit();
+						s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+						s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+						s_iblPipline._uniforms.submit();
 
 						for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
 						{
-							bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+							bgfx::setTexture(4 + ii, FShadowPipline::us_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 						}
 
 						// Set uniforms.
@@ -459,13 +459,13 @@ void FForwardShadingRenderer::RenderBatches()
 					}
 
 					// Draw scene.
-					_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-					_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-					_iblPipline._uniforms.submit();
+					s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+					s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+					s_iblPipline._uniforms.submit();
 
 					for (uint8_t ii = 0; ii < ShadowMapRenderTargets::Count; ++ii)
 					{
-						bgfx::setTexture(4 + ii, FShadowPipline::s_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+						bgfx::setTexture(4 + ii, FShadowPipline::us_shadowMap[ii], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 					}
 
 					// Set uniforms.
@@ -529,17 +529,17 @@ void FForwardShadingRenderer::RenderBatches()
 				FGeometry* geometry = batch._pass._geometry;
 				OMaterial* material = batch._pass._material;
 
-				_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-				_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-				_iblPipline._uniforms.submit();
+				s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+				s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+				s_iblPipline._uniforms.submit();
 				
 				SubmitInstance(geometry, RENDERVIEW_NO_LIGHT_IBL
 					, &idb
-					, _iblPipline._programInstance.GetProgram()
+					, s_iblPipline._programInstance.GetProgram()
 				);
 				SubmitOcclusionInstace(geometry, RENDERVIEW_OCCLUSION_ID
 					, &idb
-					, _iblPipline._programInstance.GetProgram()
+					, s_iblPipline._programInstance.GetProgram()
 					, FRenderState::_renderState[FRenderState::Occlusion]
 				);
 				UpdateBatchesCount(geometry);
@@ -551,17 +551,17 @@ void FForwardShadingRenderer::RenderBatches()
 				OMaterial* material = batch._pass._material;
 				TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 
-				_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-				_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-				_iblPipline._uniforms.submit();
+				s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+				s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+				s_iblPipline._uniforms.submit();
 
 				Submit(geometry, RENDERVIEW_NO_LIGHT_IBL
 					, modelMatrix.Data()
-					, _iblPipline._program.GetProgram()
+					, s_iblPipline._program.GetProgram()
 				);
 				SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
 					, modelMatrix.Data()
-					, _iblPipline._program.GetProgram()
+					, s_iblPipline._program.GetProgram()
 					, FRenderState::_renderState[FRenderState::Occlusion]
 				);
 				UpdateBatchesCount(geometry);

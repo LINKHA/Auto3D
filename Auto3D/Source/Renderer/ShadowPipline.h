@@ -213,8 +213,8 @@ public:
 	}
 	
 	static uint16_t s_currentShadowMapSize;
-	static bgfx::UniformHandle s_texColor;
-	static bgfx::UniformHandle s_shadowMap[ShadowMapRenderTargets::Count];
+	static bgfx::UniformHandle us_texColor;
+	static bgfx::UniformHandle us_shadowMap[ShadowMapRenderTargets::Count];
 	static bgfx::FrameBufferHandle s_rtShadowMap[ShadowMapRenderTargets::Count];
 	static bgfx::FrameBufferHandle s_rtBlur;
 	static Material s_defaultMaterial;

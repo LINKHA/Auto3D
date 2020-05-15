@@ -16,56 +16,26 @@ class AUTO_API FEnvironmentPipline
 public:
 	FEnvironmentPipline() {}
 	~FEnvironmentPipline() {}
-	void Init()
-	{
-		_uniforms.Init();
-	}
-	void Update(ACameraComponent* camera,ASkyboxComponent* skybox)
-	{
-		if (camera == nullptr || skybox == nullptr)
-			return;
-		//bgfx::touch(0);
-		GProcessWindow& processWindow = GProcessWindow::Get();
 
-		// View Transform 0.
-		float view[16];
-		bx::mtxIdentity(view);
+	void Init();
 
-		const bgfx::Caps* caps = bgfx::getCaps();
+	void Update(ACameraComponent* camera, ASkyboxComponent* skybox);
 
-		float proj[16];
-		bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
-		bgfx::setViewTransform(0/*RENDERVIEW_SKYBOX_ID*/, view, proj);
-		bgfx::setViewRect(0/*RENDERVIEW_SKYBOX_ID*/, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
-		
-		
-		TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();
-
-		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
-
-		_uniforms._environmentViewMatrix = environmentViewMatrix.Transpose();
-		_uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-		_uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-
-		_uniforms.Submit();
-		bgfx::submit(0/*RENDERVIEW_SKYBOX_ID*/, skybox->GetShaderProgram().GetProgram());
-	}
 	struct Uniforms
 	{
 		void Init()
 		{
 			u_environmentViewMatrix = bgfx::createUniform("u_environmentViewMatrix", bgfx::UniformType::Mat4);
 		
-			s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
-			s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
+			us_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
+			us_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
 		}
 
 		void Submit()
 		{
 			bgfx::setUniform(u_environmentViewMatrix, _environmentViewMatrix.Data());
-			bgfx::setTexture(0, s_texCube, _texture);
-			bgfx::setTexture(1, s_texCubeIrr, _textureIrrance);
+			bgfx::setTexture(0, us_texCube, _texture);
+			bgfx::setTexture(1, us_texCubeIrr, _textureIrrance);
 		}
 
 		void Destroy()
@@ -77,8 +47,8 @@ public:
 		bgfx::TextureHandle _texture;
 		bgfx::TextureHandle _textureIrrance;
 
-		bgfx::UniformHandle s_texCube;
-		bgfx::UniformHandle s_texCubeIrr;
+		bgfx::UniformHandle us_texCube;
+		bgfx::UniformHandle us_texCubeIrr;
 		bgfx::UniformHandle u_environmentViewMatrix;
 	};
 	Uniforms _uniforms;

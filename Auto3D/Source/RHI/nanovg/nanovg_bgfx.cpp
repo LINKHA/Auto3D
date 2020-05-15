@@ -144,7 +144,7 @@ namespace
 		bgfx::UniformHandle u_params;
 		bgfx::UniformHandle u_halfTexel;
 
-		bgfx::UniformHandle s_tex;
+		bgfx::UniformHandle us_tex;
 
 		uint64_t state;
 		bgfx::TextureHandle th;
@@ -271,7 +271,7 @@ namespace
 		gl->u_scissorExtScale = bgfx::createUniform("u_scissorExtScale", bgfx::UniformType::Vec4);
 		gl->u_extentRadius    = bgfx::createUniform("u_extentRadius",    bgfx::UniformType::Vec4);
 		gl->u_params          = bgfx::createUniform("u_params",          bgfx::UniformType::Vec4);
-		gl->s_tex             = bgfx::createUniform("s_tex",             bgfx::UniformType::Sampler);
+		gl->us_tex             = bgfx::createUniform("s_tex",             bgfx::UniformType::Sampler);
 
 		if (bgfx::getRendererType() == bgfx::RendererType::Direct3D9)
 		{
@@ -609,7 +609,7 @@ namespace
 					| BGFX_STENCIL_OP_PASS_Z_DECR
 					);
 				bgfx::setVertexBuffer(0, &gl->tvb);
-				bgfx::setTexture(0, gl->s_tex, gl->th);
+				bgfx::setTexture(0, gl->us_tex, gl->th);
 				fan(paths[i].fillOffset, paths[i].fillCount);
 				bgfx::submit(gl->viewId, gl->prog);
 			}
@@ -634,7 +634,7 @@ namespace
 					| BGFX_STENCIL_OP_PASS_Z_KEEP
 					);
 				bgfx::setVertexBuffer(0, &gl->tvb, paths[i].strokeOffset, paths[i].strokeCount);
-				bgfx::setTexture(0, gl->s_tex, gl->th);
+				bgfx::setTexture(0, gl->us_tex, gl->th);
 				bgfx::submit(gl->viewId, gl->prog);
 			}
 		}
@@ -642,7 +642,7 @@ namespace
 		// Draw fill
 		bgfx::setState(gl->state);
 		bgfx::setVertexBuffer(0, &gl->tvb, call->vertexOffset, call->vertexCount);
-		bgfx::setTexture(0, gl->s_tex, gl->th);
+		bgfx::setTexture(0, gl->us_tex, gl->th);
 		bgfx::setStencil(0
 				| BGFX_STENCIL_TEST_NOTEQUAL
 				| BGFX_STENCIL_FUNC_RMASK(0xff)
@@ -665,7 +665,7 @@ namespace
 			if (paths[i].fillCount == 0) continue;
 			bgfx::setState(gl->state);
 			bgfx::setVertexBuffer(0, &gl->tvb);
-			bgfx::setTexture(0, gl->s_tex, gl->th);
+			bgfx::setTexture(0, gl->us_tex, gl->th);
 			fan(paths[i].fillOffset, paths[i].fillCount);
 			bgfx::submit(gl->viewId, gl->prog);
 		}
@@ -679,7 +679,7 @@ namespace
 					| BGFX_STATE_PT_TRISTRIP
 					);
 				bgfx::setVertexBuffer(0, &gl->tvb, paths[i].strokeOffset, paths[i].strokeCount);
-				bgfx::setTexture(0, gl->s_tex, gl->th);
+				bgfx::setTexture(0, gl->us_tex, gl->th);
 				bgfx::submit(gl->viewId, gl->prog);
 			}
 		}
@@ -699,7 +699,7 @@ namespace
 				| BGFX_STATE_PT_TRISTRIP
 				);
 			bgfx::setVertexBuffer(0, &gl->tvb, paths[i].strokeOffset, paths[i].strokeCount);
-			bgfx::setTexture(0, gl->s_tex, gl->th);
+			bgfx::setTexture(0, gl->us_tex, gl->th);
 			bgfx::submit(gl->viewId, gl->prog);
 		}
 	}
@@ -712,7 +712,7 @@ namespace
 
 			bgfx::setState(gl->state);
 			bgfx::setVertexBuffer(0, &gl->tvb, call->vertexOffset, call->vertexCount);
-			bgfx::setTexture(0, gl->s_tex, gl->th);
+			bgfx::setTexture(0, gl->us_tex, gl->th);
 			bgfx::submit(gl->viewId, gl->prog);
 		}
 	}
@@ -1066,7 +1066,7 @@ namespace
 		bgfx::destroy(gl->u_scissorExtScale);
 		bgfx::destroy(gl->u_extentRadius);
 		bgfx::destroy(gl->u_params);
-		bgfx::destroy(gl->s_tex);
+		bgfx::destroy(gl->us_tex);
 
 		if (bgfx::isValid(gl->u_halfTexel) )
 		{

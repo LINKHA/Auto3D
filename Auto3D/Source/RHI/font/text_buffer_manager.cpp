@@ -605,7 +605,7 @@ TextBufferManager::TextBufferManager(FontManager* _fontManager)
 		.add(bgfx::Attrib::Color0,    4, bgfx::AttribType::Uint8, true)
 		.end();
 
-	s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+	us_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 }
 
 TextBufferManager::~TextBufferManager()
@@ -613,7 +613,7 @@ TextBufferManager::~TextBufferManager()
 	BX_CHECK(m_textBufferHandles.getNumHandles() == 0, "All the text buffers must be destroyed before destroying the manager");
 	delete [] m_textBuffers;
 
-	bgfx::destroy(s_texColor);
+	bgfx::destroy(us_texColor);
 
 	bgfx::destroy(m_basicProgram);
 	bgfx::destroy(m_distanceProgram);
@@ -692,7 +692,7 @@ void TextBufferManager::submitTextBuffer(TextBufferHandle _handle, bgfx::ViewId 
 		return;
 	}
 
-	bgfx::setTexture(0, s_texColor, m_fontManager->getAtlas()->getTextureHandle() );
+	bgfx::setTexture(0, us_texColor, m_fontManager->getAtlas()->getTextureHandle() );
 
 	bgfx::ProgramHandle program = BGFX_INVALID_HANDLE;
 	switch (bc.fontType)

@@ -637,7 +637,7 @@ struct DebugDrawShared
 			);
 
 		u_params   = bgfx::createUniform("u_params",   bgfx::UniformType::Vec4, 4);
-		s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+		us_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 		_texture  = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
 
 		void* vertices[DebugMesh::Count] = {};
@@ -971,7 +971,7 @@ struct DebugDrawShared
 			bgfx::destroy(_program[ii]);
 		}
 		bgfx::destroy(u_params);
-		bgfx::destroy(s_texColor);
+		bgfx::destroy(us_texColor);
 		bgfx::destroy(_texture);
 	}
 
@@ -1019,7 +1019,7 @@ struct DebugDrawShared
 
 	DebugMesh m_mesh[DebugMesh::Count];
 
-	bgfx::UniformHandle s_texColor;
+	bgfx::UniformHandle us_texColor;
 	bgfx::TextureHandle _texture;
 	bgfx::ProgramHandle _program[Program::Count];
 	bgfx::UniformHandle u_params;
@@ -2230,7 +2230,7 @@ struct DebugDrawEncoderImpl
 					| (attrib._state & ~BGFX_STATE_CULL_MASK)
 					);
 				m_encoder->setTransform(m_mtxStack[m_mtxStackCurrent].mtx);
-				m_encoder->setTexture(0, s_dds.s_texColor, s_dds._texture);
+				m_encoder->setTexture(0, s_dds.us_texColor, s_dds._texture);
 				m_encoder->submit(_viewId, s_dds._program[Program::FillTexture]);
 			}
 

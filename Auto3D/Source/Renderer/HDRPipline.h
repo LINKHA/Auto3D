@@ -41,10 +41,10 @@ public:
 		_programs.Init();
 
 		u_environmentViewMatrix = bgfx::createUniform("u_environmentViewMatrix", bgfx::UniformType::Mat4);
-		s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
-		s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-		s_texLum = bgfx::createUniform("s_texLum", bgfx::UniformType::Sampler);
-		s_texBlur = bgfx::createUniform("s_texBlur", bgfx::UniformType::Sampler);
+		us_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
+		us_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+		us_texLum = bgfx::createUniform("s_texLum", bgfx::UniformType::Sampler);
+		us_texBlur = bgfx::createUniform("s_texBlur", bgfx::UniformType::Sampler);
 		u_tonemap = bgfx::createUniform("u_tonemap", bgfx::UniformType::Vec4);
 		u_offset = bgfx::createUniform("u_offset", bgfx::UniformType::Vec4, 16);
 
@@ -247,7 +247,7 @@ public:
 		float tonemap[4] = { _settings.m_middleGray, bx::square(_settings.m_white), _settings.m_threshold, 0.0f };
 
 		// Render skybox into view hdrSkybox.
-		bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
+		bgfx::setTexture(0, us_texCube, skybox->GetHDRTexture()->GetTextureHandle());
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		bgfx::setUniform(u_environmentViewMatrix, environmentViewMatrix.Data());
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
@@ -257,59 +257,59 @@ public:
 
 		// Calculate luminance.
 		setOffsets2x2Lum(u_offset, 128, 128);
-		bgfx::setTexture(0, s_texColor, m_fbtextures[0]);
+		bgfx::setTexture(0, us_texColor, m_fbtextures[0]);
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(128.0f, 128.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrLuminance, _programs.m_lumProgram.GetProgram());
 
 		// Downscale luminance 0.
 		setOffsets4x4Lum(u_offset, 128, 128);
-		bgfx::setTexture(0, s_texColor, bgfx::getTexture(m_lum[0]));
+		bgfx::setTexture(0, us_texColor, bgfx::getTexture(m_lum[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(64.0f, 64.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrLumScale0, _programs.m_lumAvgProgram.GetProgram());
 
 		// Downscale luminance 1.
 		setOffsets4x4Lum(u_offset, 64, 64);
-		bgfx::setTexture(0, s_texColor, bgfx::getTexture(m_lum[1]));
+		bgfx::setTexture(0, us_texColor, bgfx::getTexture(m_lum[1]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(16.0f, 16.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrLumScale1, _programs.m_lumAvgProgram.GetProgram());
 
 		// Downscale luminance 2.
 		setOffsets4x4Lum(u_offset, 16, 16);
-		bgfx::setTexture(0, s_texColor, bgfx::getTexture(m_lum[2]));
+		bgfx::setTexture(0, us_texColor, bgfx::getTexture(m_lum[2]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(4.0f, 4.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrLumScale2, _programs.m_lumAvgProgram.GetProgram());
 
 		// Downscale luminance 3.
 		setOffsets4x4Lum(u_offset, 4, 4);
-		bgfx::setTexture(0, s_texColor, bgfx::getTexture(m_lum[3]));
+		bgfx::setTexture(0, us_texColor, bgfx::getTexture(m_lum[3]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(1.0f, 1.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrLumScale3, _programs.m_lumAvgProgram.GetProgram());
 
 		// m_bright pass m_threshold is tonemap[3].
 		setOffsets4x4Lum(u_offset, processWindow._width / 2, processWindow._height / 2);
-		bgfx::setTexture(0, s_texColor, m_fbtextures[0]);
-		bgfx::setTexture(1, s_texLum, bgfx::getTexture(m_lum[4]));
+		bgfx::setTexture(0, us_texColor, m_fbtextures[0]);
+		bgfx::setTexture(1, us_texLum, bgfx::getTexture(m_lum[4]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		bgfx::setUniform(u_tonemap, tonemap);
 		screenSpaceQuad((float)processWindow._width / 2.0f, (float)processWindow._height / 2.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrBrightness, _programs.m_brightProgram.GetProgram());
 
 		// m_blur m_bright pass vertically.
-		bgfx::setTexture(0, s_texColor, bgfx::getTexture(m_bright));
+		bgfx::setTexture(0, us_texColor, bgfx::getTexture(m_bright));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		bgfx::setUniform(u_tonemap, tonemap);
 		screenSpaceQuad((float)processWindow._width / 8.0f, (float)processWindow._height / 8.0f, m_caps->originBottomLeft);
 		bgfx::submit(hdrVBlur, _programs.m_blurProgram.GetProgram());
 
 		// m_blur m_bright pass horizontally, do tonemaping and combine.
-		bgfx::setTexture(0, s_texColor, m_fbtextures[0]);
-		bgfx::setTexture(1, s_texLum, bgfx::getTexture(m_lum[4]));
-		bgfx::setTexture(2, s_texBlur, bgfx::getTexture(m_blur));
+		bgfx::setTexture(0, us_texColor, m_fbtextures[0]);
+		bgfx::setTexture(1, us_texLum, bgfx::getTexture(m_lum[4]));
+		bgfx::setTexture(2, us_texBlur, bgfx::getTexture(m_blur));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad((float)processWindow._width, (float)processWindow._height, m_caps->originBottomLeft);
 		bgfx::submit(hdrHBlurTonemap, _programs.m_tonemapProgram.GetProgram());
@@ -334,7 +334,7 @@ public:
 			OMaterial* material = batch._pass._material;
 			TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 			// Render m_mesh into view hdrMesh.
-			bgfx::setTexture(0, s_texCube, skybox->GetHDRTexture()->GetTextureHandle());
+			bgfx::setTexture(0, us_texCube, skybox->GetHDRTexture()->GetTextureHandle());
 			bgfx::setUniform(u_tonemap, tonemap);
 			sSubmitTemp(geometry, hdrMesh, _programs.m_meshProgram.GetProgram(), modelMatrix.Data());
 			batchesAddCount = 1;
@@ -390,10 +390,10 @@ public:
 	
 
 	bgfx::UniformHandle u_environmentViewMatrix;
-	bgfx::UniformHandle s_texCube;
-	bgfx::UniformHandle s_texColor;
-	bgfx::UniformHandle s_texLum;
-	bgfx::UniformHandle s_texBlur;
+	bgfx::UniformHandle us_texCube;
+	bgfx::UniformHandle us_texColor;
+	bgfx::UniformHandle us_texLum;
+	bgfx::UniformHandle us_texBlur;
 	bgfx::UniformHandle u_tonemap;
 	bgfx::UniformHandle u_offset;
 

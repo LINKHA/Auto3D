@@ -9,9 +9,9 @@
 
 namespace Auto3D
 {
-bx::FileReaderI* FDefaultFileWriterReader::_fileReader = NULL;
-bx::FileWriterI* FDefaultFileWriterReader::_fileWriter = NULL;
-bx::AllocatorI* FDefaultFileWriterReader::_allocator = GetDefaultAllocator();
+bx::FileReaderI* FDefaultFileWriterReader::s_fileReader = NULL;
+bx::FileWriterI* FDefaultFileWriterReader::s_fileWriter = NULL;
+bx::AllocatorI* FDefaultFileWriterReader::s_allocator = GetDefaultAllocator();
 
 class FileReader : public bx::FileReader
 {
@@ -41,9 +41,9 @@ public:
 
 void FDefaultFileWriterReader::Reset()
 {
-	_fileReader = NULL;
-	_fileWriter = NULL;
-	_allocator = GetDefaultAllocator();
+	s_fileReader = NULL;
+	s_fileWriter = NULL;
+	s_allocator = GetDefaultAllocator();
 }
 
 bx::AllocatorI* FDefaultFileWriterReader::GetDefaultAllocator()
@@ -59,39 +59,39 @@ bx::AllocatorI* FDefaultFileWriterReader::GetDefaultAllocator()
 
 bx::AllocatorI* FDefaultFileWriterReader::GetAllocator()
 {
-	if (NULL == _allocator)
+	if (NULL == s_allocator)
 	{
-		_allocator = GetDefaultAllocator();
+		s_allocator = GetDefaultAllocator();
 	}
 
-	return _allocator;
+	return s_allocator;
 }
 
 bx::FileReaderI* FDefaultFileWriterReader::GetFileReader()
 {
-	if (NULL == _fileReader)
+	if (NULL == s_fileReader)
 	{
-		_fileReader = BX_NEW(GetAllocator(), FileReader);
+		s_fileReader = BX_NEW(GetAllocator(), FileReader);
 	}
-	return _fileReader;
+	return s_fileReader;
 }
 
 bx::FileWriterI* FDefaultFileWriterReader::GetFileWriter()
 {
-	if (NULL == _fileWriter)
+	if (NULL == s_fileWriter)
 	{
-		_fileWriter = BX_NEW(GetAllocator(), FileWriter);
+		s_fileWriter = BX_NEW(GetAllocator(), FileWriter);
 	}
-	return _fileWriter;
+	return s_fileWriter;
 }
 
 void FDefaultFileWriterReader::Release()
 {
-	BX_DELETE(_allocator, _fileReader);
-	_fileReader = NULL;
+	BX_DELETE(s_allocator, s_fileReader);
+	s_fileReader = NULL;
 
-	BX_DELETE(_allocator, _fileWriter);
-	_fileWriter = NULL;
+	BX_DELETE(s_allocator, s_fileWriter);
+	s_fileWriter = NULL;
 }
 
 }

@@ -145,7 +145,7 @@ struct OcornutImguiContext
 						);
 
 					bgfx::setState(state);
-					bgfx::setTexture(0, s_tex, th);
+					bgfx::setTexture(0, us_tex, th);
 					bgfx::setVertexBuffer(0, &tvb, 0, numVertices);
 					bgfx::setIndexBuffer(&tib, offset, cmd->ElemCount);
 					bgfx::submit(_viewId, program);
@@ -249,7 +249,7 @@ struct OcornutImguiContext
 			.add(bgfx::Attrib::Color0,    4, bgfx::AttribType::Uint8, true)
 			.end();
 
-		s_tex = bgfx::createUniform("s_tex", bgfx::UniformType::Sampler);
+		us_tex = bgfx::createUniform("s_tex", bgfx::UniformType::Sampler);
 
 		uint8_t* data;
 		int32_t width;
@@ -300,7 +300,7 @@ struct OcornutImguiContext
 		ImGui::ShutdownDockContext();
 		ImGui::DestroyContext(m_imgui);
 
-		bgfx::destroy(s_tex);
+		bgfx::destroy(us_tex);
 		bgfx::destroy(_texture);
 
 		bgfx::destroy(u_imageLodEnabled);
@@ -390,7 +390,7 @@ struct OcornutImguiContext
 	bgfx::ProgramHandle _program;
 	bgfx::ProgramHandle m_imageProgram;
 	bgfx::TextureHandle _texture;
-	bgfx::UniformHandle s_tex;
+	bgfx::UniformHandle us_tex;
 	bgfx::UniformHandle u_imageLodEnabled;
 	ImFont* m_font[ImGui::Font::Count];
 	int64_t m_last;

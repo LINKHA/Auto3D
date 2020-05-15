@@ -9,8 +9,8 @@ namespace Auto3D
 {
 IMPLEMENT_SINGLETON(FShadowPipline)
 
-bgfx::UniformHandle FShadowPipline::s_texColor;
-bgfx::UniformHandle FShadowPipline::s_shadowMap[ShadowMapRenderTargets::Count];
+bgfx::UniformHandle FShadowPipline::us_texColor;
+bgfx::UniformHandle FShadowPipline::us_shadowMap[ShadowMapRenderTargets::Count];
 FShadowMapSettings FShadowPipline::s_shadowMapSettings[ELightType::Count][EDepthImpl::Count][EShadowMapImpl::Count];
 FShadowSceneSettings FShadowPipline::s_shadowSceneSettings;
 uint16_t FShadowPipline::s_currentShadowMapSize;
@@ -162,11 +162,11 @@ void FShadowPipline::Init()
 	// Uniforms.
 	_uniforms.init();
 
-	s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-	s_shadowMap[0] = bgfx::createUniform("s_shadowMap0", bgfx::UniformType::Sampler);
-	s_shadowMap[1] = bgfx::createUniform("s_shadowMap1", bgfx::UniformType::Sampler);
-	s_shadowMap[2] = bgfx::createUniform("s_shadowMap2", bgfx::UniformType::Sampler);
-	s_shadowMap[3] = bgfx::createUniform("s_shadowMap3", bgfx::UniformType::Sampler);
+	us_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+	us_shadowMap[0] = bgfx::createUniform("s_shadowMap0", bgfx::UniformType::Sampler);
+	us_shadowMap[1] = bgfx::createUniform("s_shadowMap1", bgfx::UniformType::Sampler);
+	us_shadowMap[2] = bgfx::createUniform("s_shadowMap2", bgfx::UniformType::Sampler);
+	us_shadowMap[3] = bgfx::createUniform("s_shadowMap3", bgfx::UniformType::Sampler);
 
 	// Programs.
 	_programs.Init();
@@ -1331,12 +1331,12 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 	if (bVsmOrEsm
 		&&  currentShadowMapSettings->m_doBlur)
 	{
-		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
+		bgfx::setTexture(4, FShadowPipline::us_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
 		bgfx::submit(RENDERVIEW_VBLUR_0_ID, _programs._vBlur[depthType].GetProgram());
 
-		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
+		bgfx::setTexture(4, FShadowPipline::us_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
 		bgfx::submit(RENDERVIEW_HBLUR_0_ID, _programs._hBlur[depthType].GetProgram());
@@ -1347,12 +1347,12 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 			{
 				const uint8_t viewId = RENDERVIEW_VBLUR_0_ID + jj;
 
-				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+				bgfx::setTexture(4, FShadowPipline::us_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
 				bgfx::submit(viewId, _programs._vBlur[depthType].GetProgram());
 
-				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
+				bgfx::setTexture(4, FShadowPipline::us_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtBlur));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
 				bgfx::submit(viewId + 1, _programs._hBlur[depthType].GetProgram());
@@ -1363,7 +1363,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 	// Draw depth rect.
 	if (FShadowPipline::s_shadowSceneSettings.m_drawDepthBuffer)
 	{
-		bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
+		bgfx::setTexture(4, FShadowPipline::us_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[0]));
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 		screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
 		bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID, _programs._drawDepth[depthType].GetProgram());
@@ -1372,7 +1372,7 @@ void FShadowPipline::Update(ACameraComponent* camera, ALightComponent* light)
 		{
 			for (uint8_t ii = 1; ii < FShadowPipline::s_shadowSceneSettings.m_numSplits; ++ii)
 			{
-				bgfx::setTexture(4, FShadowPipline::s_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
+				bgfx::setTexture(4, FShadowPipline::us_shadowMap[0], bgfx::getTexture(FShadowPipline::s_rtShadowMap[ii]));
 				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 				screenSpaceQuad(currentShadowMapSizef, currentShadowMapSizef, FRendererDef::s_flipV);
 				bgfx::submit(RENDERVIEW_DRAWDEPTH_0_ID + ii, _programs._drawDepth[depthType].GetProgram());

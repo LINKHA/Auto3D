@@ -58,15 +58,15 @@ public:
 	int GetInvisibleBatch() { return _invisibleBatch; }
 	int GetVisibleBatch() { return _visibleBatch; }
 
-	static FEnvironmentPipline _environmentPipline;
+	static FEnvironmentPipline s_environmentPipline;
 
-	static FIBLPipline _iblPipline;
+	static FIBLPipline s_iblPipline;
 
-	static FShadowPipline _shadowPipline;
+	static FShadowPipline s_shadowPipline;
 
-	static FHDRPipline _hdrPipline;
+	static FHDRPipline s_hdrPipline;
 
-	static FPBRPipline _pbrPipline;
+	static FPBRPipline s_pbrPipline;
 private:
 	/// This function provides this renderer to calculate batches for use.
 	void UpdateBatchesCount(FGeometry* geometry);

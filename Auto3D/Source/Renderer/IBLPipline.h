@@ -86,15 +86,15 @@ public:
 		void init()
 		{
 			u_params = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, NumVec4);
-			s_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
-			s_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
+			us_texCube = bgfx::createUniform("s_texCube", bgfx::UniformType::Sampler);
+			us_texCubeIrr = bgfx::createUniform("s_texCubeIrr", bgfx::UniformType::Sampler);
 		}
 
 		void submit()
 		{
 			bgfx::setUniform(u_params, _params, NumVec4);
-			bgfx::setTexture(0, s_texCube, _texture);
-			bgfx::setTexture(1, s_texCubeIrr, _textureIrrance);
+			bgfx::setTexture(0, us_texCube, _texture);
+			bgfx::setTexture(1, us_texCubeIrr, _textureIrrance);
 		}
 
 		void destroy()
@@ -131,8 +131,8 @@ public:
 
 		bgfx::UniformHandle u_params;
 
-		bgfx::UniformHandle s_texCube;
-		bgfx::UniformHandle s_texCubeIrr;
+		bgfx::UniformHandle us_texCube;
+		bgfx::UniformHandle us_texCubeIrr;
 	};
 
 	Uniforms _uniforms;
