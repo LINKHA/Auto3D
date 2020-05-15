@@ -1,21 +1,20 @@
-$input v_view, v_normal
+$input v_view, v_normal, v_worldPos, v_texcoord0
 
 #include "../common.sh"
 #include "uniforms.sh"
 
 // material parameters
-SAMPLER2D(s_albedoMap)
-SAMPLER2D(s_normalMap)
-SAMPLER2D(s_metallicMap)
-SAMPLER2D(s_roughnessMap)
-SAMPLER2D(s_aoMap)
+
 
 SAMPLERCUBE(s_texCube, 0);
 SAMPLERCUBE(s_texCubeIrr, 1);
-SAMPLER2D(s_brdfLUT)
+SAMPLER2D(s_brdfLUT,2);
 
-
-uniform vec3 camPos;
+SAMPLER2D(s_albedoMap,3);
+SAMPLER2D(s_normalMap,4);
+SAMPLER2D(s_metallicMap,5);
+SAMPLER2D(s_roughnessMap,6);
+SAMPLER2D(s_aoMap,7);
 
 const float PI = 3.14159265359;
 // ----------------------------------------------------------------------------
@@ -23,21 +22,22 @@ const float PI = 3.14159265359;
 // Don't worry if you don't get what's going on; you generally want to do normal 
 // mapping the usual way for performance anways; I do plan make a note of this 
 // technique somewhere later in the normal mapping tutorial.
-vec3 getNormalFromMap()
+vec3 getNormalFromMap(vec2 texcoord0,vec3 worldPos,vec3 normal)
 {
-    vec3 tangentNormal = texture(normalMap, TexCoords).xyz * 2.0 - 1.0;
+    vec3 tangentNormal = vec3(0.0, 0.0, 0.0);
+	tangentNormal.xy = texture2DBc5(s_normalMap, texcoord0) * 2.0 - 1.0;
 
-    vec3 Q1  = dFdx(WorldPos);
-    vec3 Q2  = dFdy(WorldPos);
-    vec2 st1 = dFdx(TexCoords);
-    vec2 st2 = dFdy(TexCoords);
+    vec3 Q1  = dFdx(worldPos);
+    vec3 Q2  = dFdy(worldPos);
+    vec2 st1 = dFdx(texcoord0);
+    vec2 st2 = dFdy(texcoord0);
 
-    vec3 N   = normalize(Normal);
-    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+    vec3 N   = normalize(normal);
+    vec3 T  = normalize(Q1*st2.y - Q2*st1.y); // Q1*st2.t - Q2*st1.t
     vec3 B  = -normalize(cross(N, T));
     mat3 TBN = mat3(T, B, N);
 
-    return normalize(TBN * tangentNormal);
+    return normalize(mul(TBN, tangentNormal) );
 }
 // ----------------------------------------------------------------------------
 float DistributionGGX(vec3 N, vec3 H, float roughness)
@@ -82,7 +82,7 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 // ----------------------------------------------------------------------------
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
-    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+    return F0 + (max(vec3(1.0 - roughness,1.0 - roughness,1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }   
 
 ////////////////////////////////////////////////////////////
