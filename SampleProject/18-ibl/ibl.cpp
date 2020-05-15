@@ -80,7 +80,7 @@ public:
 	bool update() override
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
-		IBLSettings& currentSettings = FForwardShadingRenderer::_iblPipline._settings;
+		IBLSettings& currentSettings = FForwardShadingRenderer::s_iblPipline._settings;
 
 		showExampleDialog(this);
 

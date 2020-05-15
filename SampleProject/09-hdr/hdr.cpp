@@ -74,7 +74,7 @@ public:
 	{
 		GProcessWindow& processWindow = GProcessWindow::Get();
 	
-		HDRSettings& currentSettings = FForwardShadingRenderer::_hdrPipline._settings;
+		HDRSettings& currentSettings = FForwardShadingRenderer::s_hdrPipline._settings;
 
 		showExampleDialog(this);
 
@@ -97,9 +97,9 @@ public:
 		ImGui::SliderFloat("White point", &currentSettings.m_white,      0.1f, 2.0f);
 		ImGui::SliderFloat("Threshold",   &currentSettings.m_threshold,  0.1f, 2.0f);
 
-		if (bgfx::isValid(FForwardShadingRenderer::_hdrPipline.m_rb) )
+		if (bgfx::isValid(FForwardShadingRenderer::s_hdrPipline.m_rb) )
 		{
-			union { uint32_t color; uint8_t bgra[4]; } cast = { FForwardShadingRenderer::_hdrPipline.m_lumBgra8 };
+			union { uint32_t color; uint8_t bgra[4]; } cast = { FForwardShadingRenderer::s_hdrPipline.m_lumBgra8 };
 			float exponent = cast.bgra[3]/255.0f * 255.0f - 128.0f;
 			float lumAvg   = cast.bgra[2]/255.0f * bx::exp2(exponent);
 			//ImGui::SliderFloat("Lum Avg", &lumAvg, 0.0f, 1.0f);

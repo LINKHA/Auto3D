@@ -18,7 +18,7 @@ public:
 	void Init()
 	{
 		_brdfLUT.AttachShader("vs_brdf_lut", "fs_brdf_lut");
-		
+		_pbrMesh.AttachShader("vs_pbr_mesh", "fs_pbr_mesh");
 		us_brdfLUT = bgfx::createUniform("s_brdfLUT", bgfx::UniformType::Sampler);
 		_brdfLUTFrame = bgfx::createFrameBuffer(512, 512, bgfx::TextureFormat::BGRA8);
 
@@ -42,6 +42,7 @@ public:
 	bgfx::UniformHandle us_brdfLUT;
 
 	FShaderProgram _brdfLUT;
+	FShaderProgram _pbrMesh;
 
 	bgfx::FrameBufferHandle _brdfLUTFrame;
 };
