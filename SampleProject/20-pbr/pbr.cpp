@@ -59,7 +59,7 @@ public:
 		camera->SetNearClip(0.1f);
 		camera->SetFarClip(2000.0f);
 		ADefaultControllerComponent* controller = actor->CreateComponent<ADefaultControllerComponent>();
-		controller->SetMoveSpeed(10.0f);
+		controller->SetMoveSpeed(3.0f);
 		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 
@@ -69,7 +69,12 @@ public:
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube_uv.bin"));
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
-
+		
+		FForwardShadingRenderer::s_albedoMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/albedo.png");
+		FForwardShadingRenderer::s_normalMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/normal.png");
+		FForwardShadingRenderer::s_metallicMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/metallic.png");
+		FForwardShadingRenderer::s_roughnessMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/roughness.png");
+		FForwardShadingRenderer::s_aoMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/ao.png");
 	}
 
 	virtual int shutdown() override

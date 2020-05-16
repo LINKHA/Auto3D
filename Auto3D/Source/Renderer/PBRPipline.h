@@ -19,7 +19,15 @@ public:
 	{
 		_brdfLUT.AttachShader("vs_brdf_lut", "fs_brdf_lut");
 		_pbrMesh.AttachShader("vs_pbr_mesh", "fs_pbr_mesh");
+
 		us_brdfLUT = bgfx::createUniform("s_brdfLUT", bgfx::UniformType::Sampler);
+		us_albedoMap = bgfx::createUniform("s_albedoMap", bgfx::UniformType::Sampler);
+		us_normalMap = bgfx::createUniform("s_normalMap", bgfx::UniformType::Sampler);
+		us_metallicMap = bgfx::createUniform("s_metallicMap", bgfx::UniformType::Sampler);
+		us_roughnessMap = bgfx::createUniform("s_roughnessMap", bgfx::UniformType::Sampler);
+		us_aoMap = bgfx::createUniform("s_aoMap", bgfx::UniformType::Sampler);
+
+
 		_brdfLUTFrame = bgfx::createFrameBuffer(512, 512, bgfx::TextureFormat::BGRA8);
 
 	}
@@ -34,12 +42,15 @@ public:
 		bgfx::setViewFrameBuffer(RENDERVIEW_BRDF_LUT_ID, _brdfLUTFrame);
 
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
-		screenSpaceQuad(512, 512, m_caps->originBottomLeft);
+		screenSpaceQuad(512, 512, true);
 		bgfx::submit(RENDERVIEW_BRDF_LUT_ID, _brdfLUT.GetProgram());
-
-		//bgfx::setTexture(2, us_brdfLUT, bgfx::getTexture(_brdfLUTFrame));
 	}
 	bgfx::UniformHandle us_brdfLUT;
+	bgfx::UniformHandle us_albedoMap;
+	bgfx::UniformHandle us_normalMap;
+	bgfx::UniformHandle us_metallicMap;
+	bgfx::UniformHandle us_roughnessMap;
+	bgfx::UniformHandle us_aoMap;
 
 	FShaderProgram _brdfLUT;
 	FShaderProgram _pbrMesh;

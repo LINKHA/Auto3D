@@ -22,11 +22,9 @@ const float PI = 3.14159265359;
 // Don't worry if you don't get what's going on; you generally want to do normal 
 // mapping the usual way for performance anways; I do plan make a note of this 
 // technique somewhere later in the normal mapping tutorial.
-vec3 getNormalFromMap(vec2 texcoord0,vec3 worldPos,vec3 normal)
+vec3 getNormalFromMap(vec3 worldPos,vec3 normal,vec2 texcoord0)
 {
-    vec3 tangentNormal = vec3(0.0, 0.0, 0.0);
-	tangentNormal.xy = texture2DBc5(s_normalMap, texcoord0) * 2.0 - 1.0;
-	tangentNormal.z  = sqrt(1.0 - dot(tangentNormal.xy, tangentNormal.xy) );
+    vec3 tangentNormal = mul(texture2D(s_normalMap, texcoord0).xyz ,2.0) - 1.0;
 
     vec3 Q1  = dFdx(worldPos);
     vec3 Q2  = dFdy(worldPos);
@@ -34,7 +32,7 @@ vec3 getNormalFromMap(vec2 texcoord0,vec3 worldPos,vec3 normal)
     vec2 st2 = dFdy(texcoord0);
 
     vec3 N   = normalize(normal);
-    vec3 T  = normalize(Q1*st2.y - Q2*st1.y); // Q1*st2.t - Q2*st1.t
+    vec3 T  = normalize(mul(Q1, st2.y) - mul(Q2, st1.y)); // Q1*st2.t - Q2*st1.t
     vec3 B  = -normalize(cross(N, T));
     mat3 TBN = mat3(T, B, N);
 
@@ -116,10 +114,41 @@ float specPwr(float _gloss)
 void main()
 {
     vec3 albedo = pow(texture2D(s_albedoMap, v_texcoord0).rgb, vec3(2.2, 2.2, 2.2));
+	float metallic = texture2D(s_metallicMap, v_texcoord0).r;
+    float roughness = texture2D(s_roughnessMap, v_texcoord0).r;
+    float ao = texture2D(s_aoMap, v_texcoord0).r;
 
+	vec3 N = getNormalFromMap(v_worldPos, v_normal, v_texcoord0);
+    vec3 V = normalize(u_camPos - v_worldPos);
+    vec3 R = reflect(-V, N); 
 
+	vec3 F0 = vec3(0.04, 0.04, 0.04); 
+    F0 = mix(F0, albedo, metallic);
 
-	vec3 color = vec3(0.0, 0.0, 0.0);
+	vec3 Lo = vec3(0.0, 0.0, 0.0);
+
+	vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
+	vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD = mul(kD, 1.0 - metallic);
+
+	vec3 irradiance = textureCube(s_texCubeIrr, N).rgb;
+    vec3 diffuse      = irradiance * albedo;
+
+	const float MAX_REFLECTION_LOD = 4.0;
+    vec3 prefilteredColor = textureCubeLod(s_texCube, R,  roughness * MAX_REFLECTION_LOD).rgb;    
+	vec2 brdf  = texture2D(s_brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
+    vec3 specular = mul(prefilteredColor, mul(F , brdf.x) + brdf.y);
+
+	vec3 ambient = mul(mul(kD, diffuse) + specular, ao);
+    
+    vec3 color = ambient + Lo;
+	// HDR tonemapping
+    color = color / (color + vec3(1.0,1.0,1.0));
+    // gamma correct
+    color = pow(color, vec3(1.0/2.2, 1.0/2.2, 1.0/2.2)); 
+	//color = vec3(v_texcoord0.x,v_texcoord0.y,0.0);
+
 	gl_FragColor.xyz = color;
 	gl_FragColor.w = 1.0;
 }

@@ -67,6 +67,17 @@ public:
 	static FHDRPipline s_hdrPipline;
 
 	static FPBRPipline s_pbrPipline;
+
+
+	static OTexture* s_albedoMap;
+
+	static OTexture* s_normalMap;
+	
+	static OTexture* s_metallicMap;
+
+	static OTexture* s_roughnessMap;
+	
+	static OTexture* s_aoMap;
 private:
 	/// This function provides this renderer to calculate batches for use.
 	void UpdateBatchesCount(FGeometry* geometry);

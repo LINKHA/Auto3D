@@ -36,6 +36,12 @@ FShadowPipline FForwardShadingRenderer::s_shadowPipline;
 FHDRPipline FForwardShadingRenderer::s_hdrPipline;
 FPBRPipline FForwardShadingRenderer::s_pbrPipline;
 
+OTexture* FForwardShadingRenderer::s_albedoMap;
+OTexture* FForwardShadingRenderer::s_normalMap;
+OTexture* FForwardShadingRenderer::s_metallicMap;
+OTexture* FForwardShadingRenderer::s_roughnessMap;
+OTexture* FForwardShadingRenderer::s_aoMap;
+
 FForwardShadingRenderer::FForwardShadingRenderer() :
 	_backbufferSize(TVector2F(AUTO_DEFAULT_WIDTH,AUTO_DEFAULT_HEIGHT)),
 	_debug(BGFX_DEBUG_NONE),
@@ -555,10 +561,14 @@ void FForwardShadingRenderer::RenderBatches()
 				s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
 				s_iblPipline._uniforms.submit();
 				bgfx::setTexture(2, s_pbrPipline.us_brdfLUT, bgfx::getTexture(s_pbrPipline._brdfLUTFrame));
-
+				bgfx::setTexture(3, s_pbrPipline.us_albedoMap, s_albedoMap->GetTextureHandle());
+				bgfx::setTexture(4, s_pbrPipline.us_normalMap, s_normalMap->GetTextureHandle());
+				bgfx::setTexture(5, s_pbrPipline.us_metallicMap, s_metallicMap->GetTextureHandle());
+				bgfx::setTexture(6, s_pbrPipline.us_roughnessMap, s_roughnessMap->GetTextureHandle());
+				bgfx::setTexture(7, s_pbrPipline.us_aoMap, s_aoMap->GetTextureHandle());
 				Submit(geometry, RENDERVIEW_NO_LIGHT_IBL
 					, modelMatrix.Data()
-					, s_iblPipline._program.GetProgram()//, s_pbrPipline._pbrMesh.GetProgram()
+					, /*s_iblPipline._program.GetProgram()*/ s_pbrPipline._pbrMesh.GetProgram()
 				);
 				/*SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
 					, modelMatrix.Data()
