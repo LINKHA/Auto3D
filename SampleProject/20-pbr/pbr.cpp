@@ -68,13 +68,15 @@ public:
 		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/cube_uv.bin"));
+		//meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/sphere_uv.bin"));
+		
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
 		
-		FForwardShadingRenderer::s_albedoMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/albedo.png");
-		FForwardShadingRenderer::s_normalMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/normal.png");
-		FForwardShadingRenderer::s_metallicMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/metallic.png");
-		FForwardShadingRenderer::s_roughnessMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/roughness.png");
-		FForwardShadingRenderer::s_aoMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Gold/ao.png");
+		FForwardShadingRenderer::s_albedoMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Wood/albedo.png");
+		FForwardShadingRenderer::s_normalMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Wood/normal.png");
+		FForwardShadingRenderer::s_metallicMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Wood/metallic.png");
+		FForwardShadingRenderer::s_roughnessMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Wood/roughness.png");
+		FForwardShadingRenderer::s_aoMap = GResourceModule::Get().LoadResource<OTexture>("Textures/PBR/Wood/ao.png");
 	}
 
 	virtual int shutdown() override

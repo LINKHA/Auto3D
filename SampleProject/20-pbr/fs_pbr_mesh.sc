@@ -84,41 +84,15 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
     return F0 + (max(vec3(1.0 - roughness,1.0 - roughness,1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }   
 
-////////////////////////////////////////////////////////////
-
-
-
-
-vec3 calcFresnel(vec3 _cspec, float _dot, float _strength)
-{
-	return _cspec + (1.0 - _cspec)*pow(1.0 - _dot, 5.0) * _strength;
-}
-
-vec3 calcLambert(vec3 _cdiff, float _ndotl)
-{
-	return _cdiff*_ndotl;
-}
-
-vec3 calcBlinn(vec3 _cspec, float _ndoth, float _ndotl, float _specPwr)
-{
-	float norm = (_specPwr+8.0)*0.125;
-	float brdf = pow(_ndoth, _specPwr)*_ndotl*norm;
-	return _cspec*brdf;
-}
-
-float specPwr(float _gloss)
-{
-	return exp2(10.0*_gloss+2.0);
-}
-
 void main()
 {
     vec3 albedo = pow(texture2D(s_albedoMap, v_texcoord0).rgb, vec3(2.2, 2.2, 2.2));
+	vec3 metallics = texture2D(s_metallicMap, v_texcoord0).rgb;
 	float metallic = texture2D(s_metallicMap, v_texcoord0).r;
     float roughness = texture2D(s_roughnessMap, v_texcoord0).r;
     float ao = texture2D(s_aoMap, v_texcoord0).r;
 
-	vec3 N = getNormalFromMap(v_worldPos, v_normal, v_texcoord0);
+	vec3 N = v_normal /*getNormalFromMap(v_worldPos, v_normal, v_texcoord0)*/;  //Use the model with normal for now
     vec3 V = normalize(u_camPos - v_worldPos);
     vec3 R = reflect(-V, N); 
 
@@ -136,9 +110,9 @@ void main()
     vec3 diffuse      = irradiance * albedo;
 
 	const float MAX_REFLECTION_LOD = 4.0;
-    vec3 prefilteredColor = textureCubeLod(s_texCube, R,  roughness * MAX_REFLECTION_LOD).rgb;    
+    vec3 prefilteredColor = toFilmic(toLinear(textureCubeLod(s_texCube, R,  roughness * MAX_REFLECTION_LOD)));    
 	vec2 brdf  = texture2D(s_brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
-    vec3 specular = mul(prefilteredColor, mul(F , brdf.x) + brdf.y);
+    vec3 specular = mul(prefilteredColor, F/*mul(F , brdf.x) + brdf.y*/);//Temporarily remove BRDF effects
 
 	vec3 ambient = mul(mul(kD, diffuse) + specular, ao);
     
@@ -146,8 +120,7 @@ void main()
 	// HDR tonemapping
     color = color / (color + vec3(1.0,1.0,1.0));
     // gamma correct
-    color = pow(color, vec3(1.0/2.2, 1.0/2.2, 1.0/2.2)); 
-	//color = vec3(v_texcoord0.x,v_texcoord0.y,0.0);
+    color = pow(color, vec3_splat(1.0/2.2)); 
 
 	gl_FragColor.xyz = color;
 	gl_FragColor.w = 1.0;
