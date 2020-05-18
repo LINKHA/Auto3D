@@ -39,12 +39,17 @@ public:
 
 	void init() override
 	{
+		GResourceModule& resourceModule = GResourceModule::Get();
+
 		AWorld* world = FWorldContext::Get().NewWorld();
 		world->SetName("world");
 		world->DefineLayer(0, "Default");
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
+		ASkyboxComponent* skybox = world->CreateComponent<ASkyboxComponent>();
+		skybox->SetHdrTexture(resourceModule.LoadResource<OTexture>("textures/skybox/sculpture_exhibition_2k.hdr"));
+
 
 	}
 
