@@ -63,13 +63,13 @@ public:
 		actor->GetTransform()->SetPosition({ 0.0f, 0.0f, -3.0f });
 		actor->GetTransform()->SetRotation({ 0.0f,0.0f,0.0f });
 
-		AActor* pbrActor = world->CreateChild<AActor>();
+	/*	AActor* pbrActor = world->CreateChild<AActor>();
 		pbrActor->GetTransform()->SetPosition({ 0.0f, -0.5f, 0.0f });
 		pbrActor->GetTransform()->SetRotation(FQuaternion(0.0f, 0.0f, 0.0f));
 		AMeshComponent* meshComponent = pbrActor->CreateComponent<AMeshComponent>();
 		meshComponent->SetMesh(GResourceModule::Get().LoadResource<OMesh>("Meshes/bunny.bin"));
 		meshComponent->SetMaterial(GResourceModule::Get().LoadResource<OMaterial>("Material/Pbr.json"));
-
+*/
 	}
 
 	virtual int shutdown() override

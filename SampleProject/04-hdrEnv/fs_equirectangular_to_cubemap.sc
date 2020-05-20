@@ -1,19 +1,25 @@
-$input v_dir
+$input v_position
 
 #include "../common.sh"
 
-SAMPLERCUBE(s_texCube, 0);
-SAMPLERCUBE(s_texCubeIrr, 1);
+SAMPLER2D(s_equirectangularMap, 0);
+
+const vec2 invAtan = vec2(0.1591, 0.3183);
+vec2 SampleSphericalMap(vec3 v)
+{
+    vec2 uv = vec2(atan2(v.z, v.x), asint(v.y));
+    uv *= invAtan;
+    uv += 0.5;
+    return uv;
+}
+
+
 
 void main()
 {
-	vec3 dir = normalize(v_dir);
+	vec2 uv = SampleSphericalMap(normalize(v_position));
 
-	vec4 color;
+    vec3 color = texture2D(s_equirectangularMap, uv).rgb;
 
-	float lod  = 0;
-	dir = fixCubeLookup(dir, lod, 256.0);
-	color = toLinear(textureCubeLod(s_texCube, dir, lod));
-
-	gl_FragColor = toFilmic(color);
+	gl_FragColor = vec4(color, 1.0);
 }

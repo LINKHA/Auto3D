@@ -28,7 +28,7 @@ public:
 		us_aoMap = bgfx::createUniform("s_aoMap", bgfx::UniformType::Sampler);
 
 
-		_brdfLUTFrame = bgfx::createFrameBuffer(512, 512, bgfx::TextureFormat::BGRA8);
+		_brdfLUTFrame = bgfx::createFrameBuffer(512, 512, bgfx::TextureFormat::RGBA32F);
 
 	}
 	void Update()

@@ -24,6 +24,8 @@ class ACameraComponent;
 class FEnvironmentPipline;
 class FIBLPipline;
 class FShadowPipline;
+class FHDREnvPipline;
+
 class FGeometry;
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
@@ -67,6 +69,8 @@ public:
 	static FHDRPipline s_hdrPipline;
 
 	static FPBRPipline s_pbrPipline;
+
+	static FHDREnvPipline s_hdrEnvPipline;
 
 
 	static OTexture* s_albedoMap;

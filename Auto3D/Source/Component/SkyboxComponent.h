@@ -7,6 +7,20 @@
 
 namespace Auto3D
 {
+namespace ESkyboxTextureType
+{
+	enum Data
+	{
+
+	};
+}
+
+struct FSkyboxTexture
+{
+
+};
+
+
 namespace ESkyboxType
 {
 	enum Data
@@ -48,6 +62,8 @@ private:
 	ESkyboxType::Data _skyboxType;
 
 	FShaderProgram _program;
+
+	FSkyboxTexture _skyboxTexture;
 
 	OTexture* _iblTexture;
 

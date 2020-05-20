@@ -50,6 +50,15 @@ public:
 		ASkyboxComponent* skybox = world->CreateComponent<ASkyboxComponent>();
 		skybox->SetHdrTexture(resourceModule.LoadResource<OTexture>("textures/skybox/sculpture_exhibition_2k.hdr"));
 
+		AActor* actor = world->CreateChild<AActor>();
+		ACameraComponent* camera = actor->CreateComponent<ACameraComponent>();
+		camera->SetFov(60.0f);
+		camera->SetNearClip(0.1f);
+		camera->SetFarClip(2000.0f);
+		ADefaultControllerComponent* controller = actor->CreateComponent<ADefaultControllerComponent>();
+		controller->SetMoveSpeed(50.0f);
+		actor->GetTransform()->SetPosition({ 0.0f, 30.0f, -60.0f });
+
 
 	}
 
