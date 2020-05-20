@@ -373,13 +373,6 @@ FGeometry* OMesh::CreateGeometry()
 
 		geometryValue.Push({ &group ,bgfx::createOcclusionQuery() });
 	}
-	/*for (auto it = _groups.Begin(); it != _groups.End(); ++it)
-	{
-		const FMeshGroup& group = *it;
-
-		geometry->_vertexBufferHandles.Push(group._vbh);
-		geometry->_indexBufferHandles.Push(group._ibh);
-	}*/
 
 	return geometry;
 }

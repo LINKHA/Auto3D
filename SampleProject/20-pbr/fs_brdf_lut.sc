@@ -2,7 +2,6 @@ $input v_texcoord0
 
 #include "../common.sh"
 
-const float PI = 3.14159265359;
 // ----------------------------------------------------------------------------
 // http://holger.dammertz.org/stuff/notes_HammersleyOnHemisphere.html
 // efficient VanDerCorpus calculation.
@@ -23,6 +22,8 @@ vec2 Hammersley(uint i, uint N)
 // ----------------------------------------------------------------------------
 vec3 ImportanceSampleGGX(vec2 Xi, vec3 N, float roughness)
 {
+	float PI = 3.14159265359;
+
 	float a = roughness*roughness;
 	
 	float phi = 2.0 * PI * Xi.x;
