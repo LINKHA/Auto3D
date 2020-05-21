@@ -194,7 +194,7 @@ void FForwardShadingRenderer::RenderBatches()
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////
-	s_pbrPipline.Update();
+	//s_pbrPipline.Update();
 
 
 
@@ -590,6 +590,7 @@ void FForwardShadingRenderer::RenderBatches()
 			bIt += batchesAddCount;
 		}
 	}
+	
 	//////////////////////////////////////////////////////////////////////////
 
 

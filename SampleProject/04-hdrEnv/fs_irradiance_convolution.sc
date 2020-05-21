@@ -7,7 +7,7 @@ SAMPLERCUBE(s_equirectangulaCubeMap, 0);
 void main()
 {		
 	float PI = 3.14159265359;
-	
+
 	vec3 N = normalize(v_position);
 
 	vec3 irradiance = vec3_splat(0.0);
@@ -35,5 +35,5 @@ void main()
 	irradiance = mul(mul(PI, irradiance), (1.0 / float(nrSamples)));
 
     
-    gl_FragColor = vec4(0.5,0.5,0.5, 1.0);
+    gl_FragColor = vec4(irradiance, 1.0);
 }

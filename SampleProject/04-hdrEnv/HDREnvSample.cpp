@@ -28,7 +28,7 @@ using namespace Auto3D;
 
 namespace
 {
-
+	
 class ExampleAudio : public Auto3D::IAppInstance
 {
 public:
