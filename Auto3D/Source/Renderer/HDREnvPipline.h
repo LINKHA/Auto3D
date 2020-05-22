@@ -25,7 +25,7 @@ public:
 		_equirectangularToCubemap.AttachShader("vs_cube_map", "fs_equirectangular_to_cubemap");
 		_irradianceConvolution.AttachShader("vs_cube_map", "fs_irradiance_convolution");
 		_prefilter.AttachShader("vs_cube_map", "fs_prefilter");
-
+		_background.AttachShader("vs_background", "fs_background");
 		
 
 		_uniforms.Init();
@@ -68,7 +68,7 @@ public:
 				bgfx::setViewRect(viewId, 0, 0, 512, 512);
 				bgfx::setViewTransform(viewId, captureViews[ii].Data(), captureProjection.Data());
 
-				_uniforms.Submit();
+				bgfx::setTexture(0, _uniforms.us_equirectangularMap, _uniforms._environmentViewTexture);
 
 				Submit(cubeGeometry, viewId, NULL, _equirectangularToCubemap.GetProgram());
 			}
@@ -122,11 +122,34 @@ public:
 
 		}
 			
+		if (sss)
+		{
+			float view[16];
+			bx::mtxIdentity(view);
+
+			const bgfx::Caps* caps = bgfx::getCaps();
+			//RENDERVIEW_SKYBOX_ID
+			float proj[16];
+			bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
+			bgfx::setViewTransform(100, view, proj);
+			bgfx::setViewRect(100, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
+
+			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+			screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
+
+			bgfx::setTexture(0, _uniforms.us_equirectangulaCubeMap, _uniforms._environmentViewTextureCube);
+			bgfx::setUniform(_uniforms.u_environmentViewMatrix, _uniforms._environmentViewMatrix.Data());
+
+			bgfx::submit(100, _background.GetProgram());
+		}
+		
+
 	}
 	struct Uniforms
 	{
 		void Init()
 		{
+			u_environmentViewMatrix = bgfx::createUniform("u_environmentViewMatrix", bgfx::UniformType::Mat4);
 			us_equirectangularMap = bgfx::createUniform("s_equirectangularMap", bgfx::UniformType::Sampler);
 			us_equirectangulaCubeMap = bgfx::createUniform("s_equirectangulaCubeMap", bgfx::UniformType::Sampler);
 			u_roughness = bgfx::createUniform("u_roughness", bgfx::UniformType::Vec4);
@@ -182,6 +205,8 @@ public:
 		}
 
 		TMatrix4x4F _environmentViewMatrix;
+		bgfx::UniformHandle u_environmentViewMatrix;
+
 		bgfx::TextureHandle _environmentViewTexture;
 
 		bgfx::TextureHandle _environmentViewTextureCube;
@@ -204,6 +229,7 @@ public:
 	FShaderProgram _equirectangularToCubemap;
 	FShaderProgram _irradianceConvolution;
 	FShaderProgram _prefilter;
+	FShaderProgram _background;
 
 };
 
