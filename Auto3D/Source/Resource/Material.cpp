@@ -1,7 +1,7 @@
 #include "Resource/Material.h"
 #include "IO/JSONFile.h"
 #include "IO/JSONValue.h"
-#include "Renderer/Pass.h"
+#include "Renderer/GeometryPass.h"
 #include "Debug/Log.h"
 
 namespace Auto3D

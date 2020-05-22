@@ -47,7 +47,7 @@ public:
 
 	void CollectBatch();
 
-	void AttachShader(FPass& pass);
+	void AttachShader(FGeometryPass& pass);
 
 	void PrepareView();
 

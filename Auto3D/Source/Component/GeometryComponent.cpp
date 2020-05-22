@@ -29,7 +29,7 @@ void AGeometryComponent::TickComponent(float deltaTime)
 	_pass._worldMatrix = &GetOwner()->GetTransform()->GetWorldTransform();
 }
 
-FPass& AGeometryComponent::GetPass()
+FGeometryPass& AGeometryComponent::GetPass()
 {
 	return _pass;
 }

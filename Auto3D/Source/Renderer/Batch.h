@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/Vector.h"
-#include "Renderer/Pass.h"
+#include "Renderer/GeometryPass.h"
 #include "Math/Matrix3x4.h"
 
 namespace Auto3D
@@ -35,7 +35,7 @@ struct AUTO_API FBatch
 	{}
 
 	/// AMaterial pass.
-	FPass _pass;
+	FGeometryPass _pass;
 	/// FGeometry type.
 	EGeometryType::Type _type;
 

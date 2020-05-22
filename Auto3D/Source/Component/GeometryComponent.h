@@ -1,12 +1,12 @@
 #pragma once
 #include "Component/ActorComponent.h"
 #include "Resource/ResourceRef.h"
-#include "Renderer/Pass.h"
+#include "Renderer/GeometryPass.h"
 
 namespace Auto3D
 {
 class OMaterial;
-class FPass;
+class FGeometryPass;
 class FGeometry;
 
 class AUTO_API AGeometryComponent : public AActorComponent
@@ -21,7 +21,7 @@ public:
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime);
 
-	FPass& GetPass();
+	FGeometryPass& GetPass();
 
 	/// Set geometry.
 	void SetGeometry(FGeometry* geometry);
@@ -33,7 +33,7 @@ public:
 	virtual void OnActorSet(AActor* newParent, AActor* oldParent);
 private:
 
-	FPass _pass;
+	FGeometryPass _pass;
 };
 
 }

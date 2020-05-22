@@ -11,16 +11,16 @@
 namespace Auto3D
 {
 
-struct AUTO_API FPass
+struct AUTO_API FGeometryPass
 {
-	FPass():
+	FGeometryPass():
 		_sortKey(0),
 		_material(nullptr),
 		_geometry(nullptr),
 		_worldMatrix(nullptr)
 	{}
 
-	bool operator==(const FPass& rhs)
+	bool operator==(const FGeometryPass& rhs)
 	{
 		if (_sortKey == rhs._sortKey)
 			return true;

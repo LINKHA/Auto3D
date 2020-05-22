@@ -6,7 +6,7 @@
 #include "Component/MeshComponent.h"
 #include "Resource/Mesh.h"
 
-#include "Renderer/Pass.h"
+#include "Renderer/GeometryPass.h"
 #include "Resource/Material.h"
 #include "Resource/ResourceCache.h"
 #include "Renderer/Geometry.h"
@@ -27,6 +27,8 @@
 #include "Renderer/IBLPipline.h"
 #include "Renderer/EnvironmentPipline.h"
 #include "Renderer/HDREnvPipline.h"
+
+#include "Renderer/ViewPass.h"
 
 namespace Auto3D
 {
@@ -117,6 +119,8 @@ void FForwardShadingRenderer::Init()
 	s_hdrPipline.Init();
 	s_pbrPipline.Init();
 	s_hdrEnvPipline.Init();
+	
+	GViewPass::Get();
 }
 
 void FForwardShadingRenderer::Render()
@@ -677,7 +681,7 @@ void FForwardShadingRenderer::CollectBatch()
 		for (auto it = geometryComponents.Begin(); it != geometryComponents.End(); ++it)
 		{
 			AGeometryComponent* geometryComponent = *it;
-			FPass& geometryPass = geometryComponent->GetPass();
+			FGeometryPass& geometryPass = geometryComponent->GetPass();
 			// If the pass message is incomplete, discard it
 			if (!geometryPass.isValid())
 				continue;
@@ -694,7 +698,7 @@ void FForwardShadingRenderer::CollectBatch()
 	_batchQueues.Sort();
 }
 
-void FForwardShadingRenderer::AttachShader(FPass& pass)
+void FForwardShadingRenderer::AttachShader(FGeometryPass& pass)
 {
 	FShadowMapSettings* currentSmSettings = FShadowPipline::GetCurrentShadowMapSettings();
 	OMaterial* material = pass._material;
@@ -719,6 +723,8 @@ void FForwardShadingRenderer::PrepareView()
 	_geometriesActor.Clear();
 	_invisibleBatch = 0;
 	_visibleBatch = 0;
+
+	GViewPass::Get().TouchViewPass();
 }
 
 void FForwardShadingRenderer::UpdateBatchesCount(FGeometry* geometry)
