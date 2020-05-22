@@ -6,7 +6,14 @@
 
 namespace Auto3D
 {
-
+//	Cubemap layers numbers
+//		 ---
+//		| 3	|
+//	 --- --- --- ---	
+//	| 1 | 4 | 0 | 5 |
+//	 --- --- --- ---
+//		| 2	|
+//		 ---
 class AUTO_API OTexture : public OResource
 {
 	DECLARE_O_CLASS(OTexture, OResource)

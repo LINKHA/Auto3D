@@ -73,7 +73,31 @@ public:
 				Submit(cubeGeometry, viewId, NULL, _equirectangularToCubemap.GetProgram());
 			}
 
+			bgfx::blit(101, _uniforms._environmentTempTexture[0], 0,
+				0, 0, 0,
+				_uniforms._environmentViewTextureCube, 0,
+				0, 0, 3,
+				512, 512);
 
+			bgfx::blit(102, _uniforms._environmentTempTexture[1], 0,
+				0, 0, 0,
+				_uniforms._environmentViewTextureCube, 0,
+				0, 0, 2,
+				512, 512);
+
+			bgfx::blit(103, _uniforms._environmentViewTextureCube, 0,
+				0, 0, 3,
+				_uniforms._environmentTempTexture[1], 0,
+				0, 0, 0,
+				512, 512);
+
+			bgfx::blit(104, _uniforms._environmentViewTextureCube, 0,
+				0, 0, 2,
+				_uniforms._environmentTempTexture[0], 0,
+				0, 0, 0,
+				512, 512);
+
+		
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._irradianceViewTextureCubeFaceFb); ++ii)
 			{
 				bgfx::ViewId viewId = bgfx::ViewId(ii + 7);
@@ -154,6 +178,9 @@ public:
 			us_equirectangulaCubeMap = bgfx::createUniform("s_equirectangulaCubeMap", bgfx::UniformType::Sampler);
 			u_roughness = bgfx::createUniform("u_roughness", bgfx::UniformType::Vec4);
 
+			_environmentTempTexture[0] = bgfx::createTexture2D(512, 512, false, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
+			_environmentTempTexture[1] = bgfx::createTexture2D(512, 512, false, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
+
 			_environmentViewTextureCube = bgfx::createTextureCube(512, false, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_environmentViewTextureCubeFaceFb); ++ii)
 			{
@@ -209,6 +236,7 @@ public:
 
 		bgfx::TextureHandle _environmentViewTexture;
 
+		bgfx::TextureHandle _environmentTempTexture[2];
 		bgfx::TextureHandle _environmentViewTextureCube;
 		bgfx::FrameBufferHandle _environmentViewTextureCubeFaceFb[6];
 
