@@ -3,7 +3,7 @@ $input v_position
 #include "../common.sh"
 
 SAMPLERCUBE(s_equirectangulaCubeMap, 0);
-uniform float u_roughness;
+uniform vec4 u_roughness;
 
 // ----------------------------------------------------------------------------
 float DistributionGGX(vec3 N, vec3 H, float roughness)
@@ -83,14 +83,14 @@ void main()
 	{
 		// generates a sample vector that's biased towards the preferred alignment direction (importance sampling).
 		vec2 Xi = Hammersley(i, SAMPLE_COUNT);
-		vec3 H = ImportanceSampleGGX(Xi, N, u_roughness);
+		vec3 H = ImportanceSampleGGX(Xi, N, u_roughness.x);
 		vec3 L = normalize(mul(mul(2.0, dot(V, H)), H) - V);
 
 		float NdotL = max(dot(N, L), 0.0);
 		if (NdotL > 0.0)
 		{
 			// sample from the environment's mip level based on roughness/pdf
-			float D = DistributionGGX(N, H, u_roughness);
+			float D = DistributionGGX(N, H, u_roughness.x);
 			float NdotH = max(dot(N, H), 0.0);
 			float HdotV = max(dot(H, V), 0.0);
 			float pdf = mul(D, NdotH) / mul(4.0, HdotV) + 0.0001;
@@ -99,7 +99,7 @@ void main()
 			float saTexel = mul(4.0, PI) / mul(mul(6.0, resolution), resolution);
 			float saSample = 1.0 / (mul(float(SAMPLE_COUNT), pdf) + 0.0001);
 
-			float mipLevel = u_roughness == 0.0 ? 0.0 : mul(0.5, log2(saSample / saTexel));
+			float mipLevel = u_roughness.x == 0.0 ? 0.0 : mul(0.5, log2(saSample / saTexel));
 
 			prefilteredColor += mul(textureCubeLod(s_equirectangulaCubeMap, L, mipLevel).rgb, NdotL);
 			totalWeight += NdotL;

@@ -101,6 +101,9 @@ public:
 				bgfx::setViewTransform(viewId, captureViews[layer].Data(), captureProjection.Data());
 
 				bgfx::setTexture(0, _uniforms.us_equirectangulaCubeMap, _uniforms._environmentViewTextureCube);
+				float roughness = (float)mip / (float)(5 - 1);
+				bgfx::setUniform(_uniforms.u_roughness, TVector4F(roughness,0.0f,0.0f,0.0f).Data());
+
 				Submit(cubeGeometry, viewId, NULL, _prefilter.GetProgram());
 			}
 
@@ -126,6 +129,7 @@ public:
 		{
 			us_equirectangularMap = bgfx::createUniform("s_equirectangularMap", bgfx::UniformType::Sampler);
 			us_equirectangulaCubeMap = bgfx::createUniform("s_equirectangulaCubeMap", bgfx::UniformType::Sampler);
+			u_roughness = bgfx::createUniform("u_roughness", bgfx::UniformType::Vec4);
 
 			_environmentViewTextureCube = bgfx::createTextureCube(512, false, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_environmentViewTextureCubeFaceFb); ++ii)
@@ -185,6 +189,7 @@ public:
 
 		bgfx::UniformHandle us_equirectangularMap;
 		bgfx::UniformHandle us_equirectangulaCubeMap;
+		bgfx::UniformHandle u_roughness;
 
 		bgfx::TextureHandle _irradianceViewTextureCube;
 		bgfx::FrameBufferHandle _irradianceViewTextureCubeFaceFb[6];
