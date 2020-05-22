@@ -38,35 +38,35 @@ public:
 		TMatrix4x4F environmentViewMatrix = camera->GetEnvironmentViewMatrix();
 		_uniforms._environmentViewMatrix = environmentViewMatrix.Transpose();
 		_uniforms._environmentViewTexture = skybox->GetHDRTexture()->GetTextureHandle();
+
+		static TMatrix4x4F captureProjection = Perspective(90.0f, 1.0f, 0.1f, 10.0f);
+		static TMatrix4x4F captureViews[] =
+		{
+			LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
+			LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(-1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
+			LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  1.0f,  0.0f), TVector3F(0.0f,  0.0f,  1.0f)),
+			LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f,  0.0f), TVector3F(0.0f,  0.0f, -1.0f)),
+			LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f,  1.0f), TVector3F(0.0f, -1.0f,  0.0f)),
+			LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f, -1.0f), TVector3F(0.0f, -1.0f,  0.0f))
+		};
+
+		static OMesh* cubeMesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
+		static FGeometry* cubeGeometry = cubeMesh->CreateGeometry();
+
+
 		static int sss = 0;
 
 		if (!sss)
 		{
 			sss = 1;
+
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._environmentViewTextureCubeFaceFb); ++ii)
 			{
 				bgfx::ViewId viewId = bgfx::ViewId(ii + 1);
 				bgfx::setViewFrameBuffer(viewId, _uniforms._environmentViewTextureCubeFaceFb[ii]);
-
 				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR);
 				bgfx::setViewRect(viewId, 0, 0, 512, 512);
-
-				TMatrix4x4F captureProjection = Perspective(90.0f, 1.0f, 0.1f, 10.0f);
-				TMatrix4x4F captureViews[] =
-				{
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(-1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  1.0f,  0.0f), TVector3F(0.0f,  0.0f,  1.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f,  0.0f), TVector3F(0.0f,  0.0f, -1.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f,  1.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f, -1.0f), TVector3F(0.0f, -1.0f,  0.0f))
-				};
-
 				bgfx::setViewTransform(viewId, captureViews[ii].Data(), captureProjection.Data());
-				//bgfx::setViewRect(viewId, 0, 0, uint16_t(512), uint16_t(512));
-
-				static OMesh* cubeMesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
-				static FGeometry* cubeGeometry = cubeMesh->CreateGeometry();
 
 				_uniforms.Submit();
 
@@ -78,32 +78,15 @@ public:
 			{
 				bgfx::ViewId viewId = bgfx::ViewId(ii + 7);
 				bgfx::setViewFrameBuffer(viewId, _uniforms._irradianceViewTextureCubeFaceFb[ii]);
-
 				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR);
 				bgfx::setViewRect(viewId, 0, 0, 32, 32);
-
-				TMatrix4x4F captureProjection = Perspective(90.0f, 1.0f, 0.1f, 10.0f);
-				TMatrix4x4F captureViews[] =
-				{
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(-1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  1.0f,  0.0f), TVector3F(0.0f,  0.0f,  1.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f,  0.0f), TVector3F(0.0f,  0.0f, -1.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f,  1.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f, -1.0f), TVector3F(0.0f, -1.0f,  0.0f))
-				};
-
 				bgfx::setViewTransform(viewId, captureViews[ii].Data(), captureProjection.Data());
-				//bgfx::setViewRect(viewId, 0, 0, uint16_t(32), uint16_t(32));
 
-				static OMesh* cubeMesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
-				static FGeometry* cubeGeometry = cubeMesh->CreateGeometry();
-
-				//_uniforms.Submit();
 				bgfx::setTexture(0, _uniforms.us_equirectangulaCubeMap, _uniforms._environmentViewTextureCube);
 				Submit(cubeGeometry, viewId, NULL, _irradianceConvolution.GetProgram());
 			}
-		}
+		
+
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._prefilterTextureCubeFaceFb); ++ii)
 			{
 				unsigned int mip = ii / 6;
@@ -115,30 +98,27 @@ public:
 
 				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR);
 				bgfx::setViewRect(viewId, 0, 0, mipSize, mipSize);
-
-				TMatrix4x4F captureProjection = Perspective(90.0f, 1.0f, 0.1f, 10.0f);
-				TMatrix4x4F captureViews[] =
-				{
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(-1.0f,  0.0f,  0.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  1.0f,  0.0f), TVector3F(0.0f,  0.0f,  1.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f,  0.0f), TVector3F(0.0f,  0.0f, -1.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f,  1.0f), TVector3F(0.0f, -1.0f,  0.0f)),
-					LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f,  0.0f, -1.0f), TVector3F(0.0f, -1.0f,  0.0f))
-				};
-
 				bgfx::setViewTransform(viewId, captureViews[layer].Data(), captureProjection.Data());
-				//bgfx::setViewRect(viewId, 0, 0, uint16_t(mipSize), uint16_t(mipSize));
 
-				static OMesh* cubeMesh = GResourceModule::Get().LoadResource<OMesh>("Meshes/cube.bin");
-				static FGeometry* cubeGeometry = cubeMesh->CreateGeometry();
-
-				//_uniforms.Submit();
 				bgfx::setTexture(0, _uniforms.us_equirectangulaCubeMap, _uniforms._environmentViewTextureCube);
 				Submit(cubeGeometry, viewId, NULL, _prefilter.GetProgram());
 			}
-		
 
+			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._prefilterTextureCubeFaceFb); ++ii)
+			{
+				unsigned int mip = ii / 6;
+				unsigned int layer = ii % 6;
+				unsigned int mipSize = 128 * std::pow(0.5, mip);
+
+				bgfx::blit(ii + 43, _uniforms._prefilterTextureCube, mip,
+					0, 0, layer,
+					_uniforms._prefilterTextureFbCube[mip], 0,
+					0, 0, layer,
+					mipSize, mipSize);
+			}
+
+		}
+			
 	}
 	struct Uniforms
 	{
@@ -163,14 +143,22 @@ public:
 				_irradianceViewTextureCubeFaceFb[ii] = bgfx::createFrameBuffer(1, &at);
 			}
 
+
 			_prefilterTextureCube = bgfx::createTextureCube(128, true, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
 			unsigned int maxMipLevels = 5;
+			for (int ii = 0; ii < maxMipLevels; ++ii)
+			{
+				unsigned int mip = ii;
+				unsigned int mipSize = 128 * std::pow(0.5, mip);
+				_prefilterTextureFbCube[ii] = bgfx::createTextureCube(mipSize, false, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
+			}
+
 			for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
 			{
 				for (uint32_t ii = 0; ii < 6; ++ii)
 				{
 					bgfx::Attachment at;
-					at.init(_prefilterTextureCube, bgfx::Access::ReadWrite, uint16_t(ii), mip);
+					at.init(_prefilterTextureFbCube[mip], bgfx::Access::Write, uint16_t(ii));
 					_prefilterTextureCubeFaceFb[mip * 6 + ii] = bgfx::createFrameBuffer(1, &at);
 				}
 			}
@@ -202,6 +190,7 @@ public:
 		bgfx::FrameBufferHandle _irradianceViewTextureCubeFaceFb[6];
 
 		bgfx::TextureHandle _prefilterTextureCube;
+		bgfx::TextureHandle _prefilterTextureFbCube[5];
 		bgfx::FrameBufferHandle _prefilterTextureCubeFaceFb[30];
 	};
 	
