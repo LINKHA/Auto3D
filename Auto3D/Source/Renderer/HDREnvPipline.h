@@ -7,6 +7,7 @@
 #include "Component/CameraComponent.h"
 #include "Component/SkyboxComponent.h"
 #include "Renderer/RendererDef.h"
+#include "Renderer/ViewPass.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -54,11 +55,11 @@ public:
 		static FGeometry* cubeGeometry = cubeMesh->CreateGeometry();
 
 
-		static int sss = 0;
+		static bool rewrite = true;
 
-		if (!sss)
+		if (rewrite)
 		{
-			sss = 1;
+			rewrite = false;
 
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._environmentViewTextureCubeFaceFb); ++ii)
 			{
@@ -146,7 +147,7 @@ public:
 
 		}
 			
-		if (sss)
+		if (!rewrite)
 		{
 			float view[16];
 			bx::mtxIdentity(view);

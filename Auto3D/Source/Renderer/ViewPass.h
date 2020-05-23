@@ -8,9 +8,9 @@
 namespace Auto3D
 {
 
-#define ConstViewID() GViewPass::Get().ConstViewId()
-#define TempViewID()  GViewPass::Get().TempViewId()
-#define OrdinaryViewID() GViewPass::Get().OrdinaryViewId()
+#define ViewIdConst() GViewPass::Get().ConstViewId()
+#define ViewIdTemp()  GViewPass::Get().TempViewId()
+#define ViewIdOrdinary() GViewPass::Get().OrdinaryViewId()
 
 
 class AUTO_API GViewPass
