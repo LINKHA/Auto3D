@@ -73,7 +73,6 @@ public:
 
 				Submit(cubeGeometry, viewId, NULL, _equirectangularToCubemap.GetProgram());
 			}
-
 			bgfx::blit(101, _uniforms._environmentTempTexture[0], 0,
 				0, 0, 0,
 				_uniforms._environmentViewTextureCube, 0,
@@ -98,7 +97,17 @@ public:
 				0, 0, 0,
 				512, 512);
 
-		
+			/*for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._environmentViewTextureCubeFaceFb); ++ii)
+			{
+				bgfx::destroy(_uniforms._environmentViewTextureCubeFaceFb[ii]);
+			}
+
+*/
+			
+			/*bgfx::destroy(_uniforms._environmentTempTexture[0]);
+			bgfx::destroy(_uniforms._environmentTempTexture[1]);*/
+
+
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._irradianceViewTextureCubeFaceFb); ++ii)
 			{
 				bgfx::ViewId viewId = bgfx::ViewId(ii + 7);
@@ -121,7 +130,7 @@ public:
 				bgfx::ViewId viewId = bgfx::ViewId(ii + 13);
 				bgfx::setViewFrameBuffer(viewId, _uniforms._prefilterTextureCubeFaceFb[ii]);
 
-				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR);
+				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH);
 				bgfx::setViewRect(viewId, 0, 0, mipSize, mipSize);
 				bgfx::setViewTransform(viewId, captureViews[layer].Data(), captureProjection.Data());
 
@@ -153,19 +162,20 @@ public:
 			bx::mtxIdentity(view);
 
 			const bgfx::Caps* caps = bgfx::getCaps();
+			bgfx::ViewId viewId = 100;
 			//RENDERVIEW_SKYBOX_ID
 			float proj[16];
 			bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
-			bgfx::setViewTransform(100, view, proj);
-			bgfx::setViewRect(100, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
-
+			bgfx::setViewTransform(viewId, view, proj);
+			bgfx::setViewFrameBuffer(viewId, BGFX_INVALID_HANDLE);
+			bgfx::setViewRect(viewId, 0, 0, uint16_t(processWindow._width), uint16_t(processWindow._height));
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
 			screenSpaceQuad((float)processWindow._width, (float)processWindow._height, true);
 
 			bgfx::setTexture(0, _uniforms.us_equirectangulaCubeMap, _uniforms._environmentViewTextureCube);
 			bgfx::setUniform(_uniforms.u_environmentViewMatrix, _uniforms._environmentViewMatrix.Data());
 
-			bgfx::submit(100, _background.GetProgram());
+			bgfx::submit(viewId, _background.GetProgram());
 		}
 		
 
@@ -187,7 +197,7 @@ public:
 			{
 				bgfx::Attachment at;
 				at.init(_environmentViewTextureCube, bgfx::Access::Write, uint16_t(ii));
-				_environmentViewTextureCubeFaceFb[ii] = bgfx::createFrameBuffer(1, &at);
+				_environmentViewTextureCubeFaceFb[ii] = bgfx::createFrameBuffer(1, &at, false);
 			}
 
 			_irradianceViewTextureCube = bgfx::createTextureCube(32, false, 1, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT);
