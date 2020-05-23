@@ -26,6 +26,7 @@ public:
 	/// Finish resource loading if necessary. Always called from the main thread, so GPU resources can be accessed here. Return true on success.
 	virtual bool EndLoad()override;
 
+
 	bgfx::TextureHandle GetTextureHandle() { return _textureHandle; }
 private:
 	bgfx::TextureHandle _textureHandle;

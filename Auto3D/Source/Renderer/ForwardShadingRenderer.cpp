@@ -181,24 +181,29 @@ void FForwardShadingRenderer::RenderBatches()
 	{
 		if (skybox)
 		{
-			switch (skybox->GetSkyboxType())
-			{
-			case ESkyboxType::HDR:
-				/*s_hdrPipline.Update(_currentCamera, skybox);
-				s_hdrPipline.RenderBatch(_currentCamera, skybox, batches);*/
-				s_hdrEnvPipline.Update(_currentCamera, skybox);
-				break;
-			case ESkyboxType::IBL:
-				s_environmentPipline.Update(_currentCamera, skybox);
-				s_iblPipline.Update(_currentCamera, skybox, batches);
-				break;
-			default:
-				break;
-			}
+			s_hdrEnvPipline.Update(_currentCamera, skybox);
+			//s_environmentPipline.Update(_currentCamera, skybox);
+			s_iblPipline.Update(_currentCamera, skybox, batches);
+
+			//switch (skybox->GetSkyboxType())
+			//{
+			//case ESkyboxType::HDR:
+			//	/*s_hdrPipline.Update(_currentCamera, skybox);
+			//	s_hdrPipline.RenderBatch(_currentCamera, skybox, batches);*/
+			//	s_hdrEnvPipline.Update(_currentCamera, skybox);
+			//	s_iblPipline.Update(_currentCamera, skybox, batches);
+			//	break;
+			//case ESkyboxType::IBL:
+			//	s_environmentPipline.Update(_currentCamera, skybox);
+			//	s_iblPipline.Update(_currentCamera, skybox, batches);
+			//	break;
+			//default:
+			//	break;
+			//}
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////
-	//s_pbrPipline.Update();
+	s_pbrPipline.Update();
 
 
 
@@ -568,27 +573,29 @@ void FForwardShadingRenderer::RenderBatches()
 				OMaterial* material = batch._pass._material;
 				TMatrix4x4F& modelMatrix = batch._pass._worldMatrix->ToMatrix4().Transpose();
 
-				s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
-				s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+				//s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
+				//s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
+				s_iblPipline._uniforms._texture = s_hdrEnvPipline._uniforms._prefilterTextureCube;
+				s_iblPipline._uniforms._textureIrrance = s_hdrEnvPipline._uniforms._irradianceViewTextureCube;
 				s_iblPipline._uniforms.submit();
 
-				//bgfx::setTexture(2, s_pbrPipline.us_brdfLUT, bgfx::getTexture(s_pbrPipline._brdfLUTFrame));
-				//bgfx::setTexture(3, s_pbrPipline.us_albedoMap, s_albedoMap->GetTextureHandle());
-				//bgfx::setTexture(4, s_pbrPipline.us_normalMap, s_normalMap->GetTextureHandle());
-				//bgfx::setTexture(5, s_pbrPipline.us_metallicMap, s_metallicMap->GetTextureHandle());
-				//bgfx::setTexture(6, s_pbrPipline.us_roughnessMap, s_roughnessMap->GetTextureHandle());
-				//bgfx::setTexture(7, s_pbrPipline.us_aoMap, s_aoMap->GetTextureHandle());
+				bgfx::setTexture(2, s_pbrPipline.us_brdfLUT, bgfx::getTexture(s_pbrPipline._brdfLUTFrame));
+				bgfx::setTexture(3, s_pbrPipline.us_albedoMap, s_albedoMap->GetTextureHandle());
+				bgfx::setTexture(4, s_pbrPipline.us_normalMap, s_normalMap->GetTextureHandle());
+				bgfx::setTexture(5, s_pbrPipline.us_metallicMap, s_metallicMap->GetTextureHandle());
+				bgfx::setTexture(6, s_pbrPipline.us_roughnessMap, s_roughnessMap->GetTextureHandle());
+				bgfx::setTexture(7, s_pbrPipline.us_aoMap, s_aoMap->GetTextureHandle());
 
 				Submit(geometry, RENDERVIEW_NO_LIGHT_IBL
 					, modelMatrix.Data()
-					, s_iblPipline._program.GetProgram() /*s_pbrPipline._pbrMesh.GetProgram()*/
+					, /*s_iblPipline._program.GetProgram()*/ s_pbrPipline._pbrMesh.GetProgram()
 				);
-				SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
+				/*SubmitOcclusion(geometry, RENDERVIEW_OCCLUSION_ID
 					, modelMatrix.Data()
 					, s_iblPipline._program.GetProgram()
 					, FRenderState::_renderState[FRenderState::Occlusion]
 				);
-				UpdateBatchesCount(geometry);
+				UpdateBatchesCount(geometry);*/
 				batchesAddCount = 1;
 			}
 			bIt += batchesAddCount;
