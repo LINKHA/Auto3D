@@ -45,7 +45,7 @@ bgfx::ViewId GViewPass::OrdinaryViewId()
 
 bgfx::ViewId GViewPass::GetNewId()
 {
-	bgfx::ViewId id = 0;
+	bgfx::ViewId id = 1;
 	for (;;)
 	{
 		//

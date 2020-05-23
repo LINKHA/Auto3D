@@ -63,7 +63,8 @@ public:
 
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._environmentViewTextureCubeFaceFb); ++ii)
 			{
-				bgfx::ViewId viewId = bgfx::ViewId(ii + 1);
+				//bgfx::ViewId viewId = bgfx::ViewId(ii + 1);
+				bgfx::ViewId viewId = ViewIdConst();
 				bgfx::setViewFrameBuffer(viewId, _uniforms._environmentViewTextureCubeFaceFb[ii]);
 				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR);
 				bgfx::setViewRect(viewId, 0, 0, 512, 512);
@@ -73,25 +74,25 @@ public:
 
 				Submit(cubeGeometry, viewId, NULL, _equirectangularToCubemap.GetProgram());
 			}
-			bgfx::blit(101, _uniforms._environmentTempTexture[0], 0,
+			bgfx::blit(ViewIdTemp(), _uniforms._environmentTempTexture[0], 0,
 				0, 0, 0,
 				_uniforms._environmentViewTextureCube, 0,
 				0, 0, 3,
 				512, 512);
 
-			bgfx::blit(102, _uniforms._environmentTempTexture[1], 0,
+			bgfx::blit(ViewIdTemp(), _uniforms._environmentTempTexture[1], 0,
 				0, 0, 0,
 				_uniforms._environmentViewTextureCube, 0,
 				0, 0, 2,
 				512, 512);
 
-			bgfx::blit(103, _uniforms._environmentViewTextureCube, 0,
+			bgfx::blit(ViewIdTemp(), _uniforms._environmentViewTextureCube, 0,
 				0, 0, 3,
 				_uniforms._environmentTempTexture[1], 0,
 				0, 0, 0,
 				512, 512);
 
-			bgfx::blit(104, _uniforms._environmentViewTextureCube, 0,
+			bgfx::blit(ViewIdTemp(), _uniforms._environmentViewTextureCube, 0,
 				0, 0, 2,
 				_uniforms._environmentTempTexture[0], 0,
 				0, 0, 0,
@@ -110,7 +111,8 @@ public:
 
 			for (uint32_t ii = 0; ii < BX_COUNTOF(_uniforms._irradianceViewTextureCubeFaceFb); ++ii)
 			{
-				bgfx::ViewId viewId = bgfx::ViewId(ii + 7);
+				//bgfx::ViewId viewId = bgfx::ViewId(ii + 7);
+				bgfx::ViewId viewId = ViewIdConst();
 				bgfx::setViewFrameBuffer(viewId, _uniforms._irradianceViewTextureCubeFaceFb[ii]);
 				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR);
 				bgfx::setViewRect(viewId, 0, 0, 32, 32);
@@ -127,7 +129,8 @@ public:
 				unsigned int layer = ii % 6;
 				unsigned int mipSize = 128 * std::pow(0.5, mip);
 
-				bgfx::ViewId viewId = bgfx::ViewId(ii + 13);
+				//bgfx::ViewId viewId = bgfx::ViewId(ii + 13);
+				bgfx::ViewId viewId = ViewIdConst();
 				bgfx::setViewFrameBuffer(viewId, _uniforms._prefilterTextureCubeFaceFb[ii]);
 
 				bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH);
@@ -147,7 +150,8 @@ public:
 				unsigned int layer = ii % 6;
 				unsigned int mipSize = 128 * std::pow(0.5, mip);
 
-				bgfx::blit(ii + 43, _uniforms._prefilterTextureCube, mip,
+				//bgfx::blit(ii + 43, _uniforms._prefilterTextureCube, mip,
+				bgfx::blit(ViewIdTemp(), _uniforms._prefilterTextureCube, mip,
 					0, 0, layer,
 					_uniforms._prefilterTextureFbCube[mip], 0,
 					0, 0, layer,
@@ -162,7 +166,7 @@ public:
 			bx::mtxIdentity(view);
 
 			const bgfx::Caps* caps = bgfx::getCaps();
-			bgfx::ViewId viewId = 100;
+			bgfx::ViewId viewId = ViewIdOrdinary();
 			//RENDERVIEW_SKYBOX_ID
 			float proj[16];
 			bx::mtxOrtho(proj, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
