@@ -181,7 +181,21 @@ void FForwardShadingRenderer::RenderBatches()
 	{
 		if (skybox)
 		{
-			s_hdrEnvPipline.Update(_currentCamera, skybox);
+			
+			/*static bool s = 0;
+			if (!s)
+			{
+				s = 1;
+				s_environmentPipline.CreatePrefilteIrradiance(_currentCamera, skybox);
+			}
+			else
+			{
+				s_environmentPipline.Update(_currentCamera, skybox);
+			}*/
+			s_environmentPipline.CreatePrefilteIrradiance(_currentCamera, skybox);
+			s_environmentPipline.Update(_currentCamera, skybox);
+
+			//s_hdrEnvPipline.Update(_currentCamera, skybox);
 			//s_environmentPipline.Update(_currentCamera, skybox);
 			s_iblPipline.Update(_currentCamera, skybox, batches);
 
@@ -575,8 +589,8 @@ void FForwardShadingRenderer::RenderBatches()
 
 				//s_iblPipline._uniforms._texture = skybox->GetIBLTexture()->GetTextureHandle();
 				//s_iblPipline._uniforms._textureIrrance = skybox->GetIBLIrranceTexture()->GetTextureHandle();
-				s_iblPipline._uniforms._texture = s_hdrEnvPipline._uniforms._prefilterTextureCube;
-				s_iblPipline._uniforms._textureIrrance = s_hdrEnvPipline._uniforms._irradianceViewTextureCube;
+				s_iblPipline._uniforms._texture = s_environmentPipline._uniforms._prefilterTextureCube;
+				s_iblPipline._uniforms._textureIrrance = s_environmentPipline._uniforms._irradianceViewTextureCube;
 				s_iblPipline._uniforms.submit();
 
 				bgfx::setTexture(2, s_pbrPipline.us_brdfLUT, bgfx::getTexture(s_pbrPipline._brdfLUTFrame));

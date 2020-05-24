@@ -103,7 +103,7 @@ public:
 				bgfx::destroy(_uniforms._environmentViewTextureCubeFaceFb[ii]);
 			}
 
-*/
+			*/
 			
 			/*bgfx::destroy(_uniforms._environmentTempTexture[0]);
 			bgfx::destroy(_uniforms._environmentTempTexture[1]);*/

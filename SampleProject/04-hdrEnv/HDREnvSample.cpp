@@ -48,7 +48,7 @@ public:
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
 		ASkyboxComponent* skybox = world->CreateComponent<ASkyboxComponent>();
-		skybox->SetHdrTexture(resourceModule.LoadResource<OTexture>("textures/skybox/sculpture_exhibition_2k.hdr"));
+		//skybox->SetHdrTexture(resourceModule.LoadResource<OTexture>("textures/skybox/sculpture_exhibition_2k.hdr"));
 		OTexture* bolongaLod = resourceModule.LoadResource<OTexture>("Textures/bolonga_lod.dds");
 		OTexture* bolongaIrr = resourceModule.LoadResource<OTexture>("Textures/bolonga_irr.dds");
 		skybox->SetIBLTexture(bolongaLod, bolongaIrr);
