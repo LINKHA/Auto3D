@@ -36,7 +36,6 @@ namespace Auto3D
 FEnvironmentPipline FForwardShadingRenderer::s_environmentPipline;
 FIBLPipline FForwardShadingRenderer::s_iblPipline;
 FShadowPipline FForwardShadingRenderer::s_shadowPipline;
-FHDRPipline FForwardShadingRenderer::s_hdrPipline;
 FPBRPipline FForwardShadingRenderer::s_pbrPipline;
 FHDREnvPipline FForwardShadingRenderer::s_hdrEnvPipline;
 
@@ -116,7 +115,6 @@ void FForwardShadingRenderer::Init()
 	FShadowPipline::Get().Init();
 	s_iblPipline.Init();
 	s_environmentPipline.Init();
-	s_hdrPipline.Init();
 	s_pbrPipline.Init();
 	s_hdrEnvPipline.Init();
 	

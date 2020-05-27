@@ -3,7 +3,6 @@
 #include "Renderer/SceneRenderer.h"
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
-#include "Renderer/HDRPipline.h"
 #include "Renderer/PBRPipline.h"
 
 #include "Component/LightComponent.h"
@@ -11,7 +10,7 @@
 #include "Platform/PlatformDef.h"
 #include "Adapter/Ptr.h"
 #include "Renderer/RendererDef.h"
-
+#include "Resource/Texture.h"
 
 #include <bgfx/bgfx.h>
 #include <stdint.h>
@@ -65,8 +64,6 @@ public:
 	static FIBLPipline s_iblPipline;
 
 	static FShadowPipline s_shadowPipline;
-
-	static FHDRPipline s_hdrPipline;
 
 	static FPBRPipline s_pbrPipline;
 

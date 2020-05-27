@@ -68,7 +68,7 @@ void main()
 {		
 	float PI = 3.14159265359;
 
-	vec3 N = normalize(v_position);
+	vec3 N = -normalize(v_position);
 
 	// make the simplyfying assumption that V equals R equals the normal 
 	vec3 R = N;

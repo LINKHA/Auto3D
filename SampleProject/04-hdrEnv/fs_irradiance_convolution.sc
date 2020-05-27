@@ -8,7 +8,7 @@ void main()
 {		
 	float PI = 3.14159265359;
 
-	vec3 N = normalize(v_position);
+	vec3 N = -normalize(v_position);
 
 	vec3 irradiance = vec3_splat(0.0);
 
