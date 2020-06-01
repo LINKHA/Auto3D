@@ -1048,15 +1048,15 @@ struct DebugDrawEncoderImpl
 	{
 	}
 
-	void begin(bgfx::ViewId _viewId, bool _depthTestLess, bgfx::Encoder* _encoder)
+	void begin(bgfx::ViewId viewId, bool depthTestLess, bgfx::Encoder* encoder)
 	{
 		BX_CHECK(State::Count == _state);
 
-		_viewId        = _viewId;
-		m_encoder       = _encoder == NULL ? m_defaultEncoder : _encoder;
+		_viewId        = viewId;
+		m_encoder       = encoder == NULL ? m_defaultEncoder : encoder;
 		_state         = State::None;
 		m_stack         = 0;
-		m_depthTestLess = _depthTestLess;
+		m_depthTestLess = depthTestLess;
 
 		m_pos       = 0;
 		m_indexPos  = 0;

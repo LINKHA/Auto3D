@@ -6,6 +6,11 @@
 #include "Gameplay/World.h"
 #include "Gameplay/WorldContext.h"
 #include "Resource/ResourceCache.h"
+#include "Component/CameraComponent.h"
+#include "Component/DefaultControllerComponent.h"
+#include "Component/TransformComponent.h"
+
+#include "Gameplay/Actor.h"
 
 //#include <camera.h>
 #include "RHI/Debugdraw/debugdraw.h"
@@ -233,11 +238,12 @@ public:
 	ExampleParticles(const char* _name, const char* _description, const char* _url)
 		: Auto3D::IAppInstance(_name, _description, _url)
 	{
-
+		//IAppInstance::_useCustomRender = true;
 	}
-
+	ACameraComponent* _camera;
 	void init() override
 	{
+
 		GResourceModule& resourceModule = GResourceModule::Get();
 
 		AWorld* world = FWorldContext::Get().NewWorld();
@@ -246,32 +252,16 @@ public:
 		world->DefineLayer(1, "UI");
 		world->DefineTag(0, "Default");
 		world->DefineTag(1, "Player");
-		//FArgs args(_argc, _argv);
 
-		//m_width  = _width;
-		//m_height = _height;
-		//m_debug  = BGFX_DEBUG_NONE;
-		//m_reset  = BGFX_RESET_VSYNC;
-
-		//bgfx::Init init;
-		//init.type     = args.m_type;
-		//init.vendorId = args.m_pciId;
-		//init.resolution.width  = m_width;
-		//init.resolution.height = m_height;
-		//init.resolution.reset  = m_reset;
-		//bgfx::init(init);
-
-		//// Enable m_debug text.
-		//bgfx::setDebug(m_debug);
-
-		// Set view 0 clear state.
-		bgfx::setViewClear(0
-				, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
-				, 0x202020ff
-				, 1.0f
-				, 0
-				);
-
+		AActor* actor = world->CreateChild<AActor>();
+		_camera = actor->CreateComponent<ACameraComponent>();
+		_camera->SetFov(60.0f);
+		_camera->SetNearClip(0.1f);
+		_camera->SetFarClip(2000.0f);
+		ADefaultControllerComponent* controller = actor->CreateComponent<ADefaultControllerComponent>();
+		controller->SetMoveSpeed(50.0f);
+		actor->GetTransform()->SetPosition({ 0.0f, 2.0f, -12.0f });
+		
 		ddInit();
 
 		psInit();
@@ -296,13 +286,6 @@ public:
 			m_emitter[ii].update();
 		}
 
-		imguiCreate();
-
-		/*	cameraCreate();
-
-			cameraSetPosition({ 0.0f, 2.0f, -12.0f });
-			cameraSetVerticalAngle(0.0f);*/
-
 		m_timeOffset = bx::getHPCounter();
 	}
 
@@ -316,13 +299,6 @@ public:
 		psShutdown();
 
 		ddShutdown();
-
-		imguiDestroy();
-
-		//cameraDestroy();
-
-		// Shutdown bgfx.
-		bgfx::shutdown();
 
 		return 0;
 	}
@@ -350,13 +326,16 @@ public:
 			const double freq = double(bx::getHPFrequency() );
 			const float deltaTime = float(frameTime/freq);
 
-			//cameraUpdate(deltaTime, m_mouseState);
 
-			float view[16];
-			bx::mtxIdentity(view);
-			//cameraGetViewMtx(view);
+			float* view/*[16]*/;
+			float* proj/*[16]*/;
+			//bx::mtxIdentity(view);
 
-			float proj[16];
+			TMatrix3x4F viewMatrix = _camera->GetViewMatrix();
+			TMatrix4x4F transposeViewMatrix = viewMatrix.ToMatrix4().Transpose();
+			TMatrix4x4F projectionMatrix = _camera->GetProjectionMatrix();
+			view = transposeViewMatrix.Data();
+			proj = projectionMatrix.Data();
 
 			// Set view and projection matrix for view 0.
 			{
@@ -422,16 +401,19 @@ public:
 			//imguiEndFrame();
 
 			DebugDrawEncoder dde;
-			dde.begin(0);
+			int viewId = 0;
+
+			dde.begin(viewId);
 
 			dde.drawGrid(Axis::Y, { 0.0f, 0.0f, 0.0f });
 
-			//const bx::Vec3 eye = cameraGetPosition();
-			const bx::Vec3 eye = { 0.0f, 2.0f, -12.0f };
+			TVector3F pos = _camera->GetOwner()->GetTransform()->GetPosition();
+			const bx::Vec3 eye = { pos._x, pos._y, pos._z };
+			
 			m_emitter[currentEmitter].update();
 
 			psUpdate(deltaTime * timeScale);
-			psRender(0, view, eye);
+			psRender(viewId, view, eye);
 
 			if (showBounds)
 			{
