@@ -1,22 +1,23 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
+#include "RHI/bgfx_utils.h"
+#include "Platform/Cmd.h"
+#include "Platform/input.h"
+#include "Application.h"
+#include "Platform/ProcessWindow.h"
+#include "Gameplay/World.h"
+#include "Gameplay/WorldContext.h"
+#include "Resource/ResourceCache.h"
 
-#include "common.h"
-#include "bgfx_utils.h"
-#include <entry/cmd.h>
-#include <entry/input.h>
-
-#include <camera.h>
-#include <debugdraw/debugdraw.h>
-#include <imgui/imgui.h>
+//#include <camera.h>
+#include "RHI/Debugdraw/debugdraw.h"
+#include "UI/UI.h"
 
 #include <bx/rng.h>
 #include <bx/easing.h>
+#include <bx/timer.h>
 
-#include <ps/particle_system.h>
+#include "RHI/ParticleSystem/particle_system.h"
 
+using namespace Auto3D;
 namespace
 {
 
@@ -226,33 +227,42 @@ struct Emitter
 	}
 };
 
-class ExampleParticles : public entry::AppI
+class ExampleParticles : public Auto3D::IAppInstance
 {
 public:
 	ExampleParticles(const char* _name, const char* _description, const char* _url)
-		: entry::AppI(_name, _description, _url)
+		: Auto3D::IAppInstance(_name, _description, _url)
 	{
+
 	}
 
-	void init(int32_t _argc, const char* const* _argv, uint32_t _width, uint32_t _height) override
+	void init() override
 	{
-		Args args(_argc, _argv);
+		GResourceModule& resourceModule = GResourceModule::Get();
 
-		m_width  = _width;
-		m_height = _height;
-		m_debug  = BGFX_DEBUG_NONE;
-		m_reset  = BGFX_RESET_VSYNC;
+		AWorld* world = FWorldContext::Get().NewWorld();
+		world->SetName("world");
+		world->DefineLayer(0, "Default");
+		world->DefineLayer(1, "UI");
+		world->DefineTag(0, "Default");
+		world->DefineTag(1, "Player");
+		//FArgs args(_argc, _argv);
 
-		bgfx::Init init;
-		init.type     = args.m_type;
-		init.vendorId = args.m_pciId;
-		init.resolution.width  = m_width;
-		init.resolution.height = m_height;
-		init.resolution.reset  = m_reset;
-		bgfx::init(init);
+		//m_width  = _width;
+		//m_height = _height;
+		//m_debug  = BGFX_DEBUG_NONE;
+		//m_reset  = BGFX_RESET_VSYNC;
 
-		// Enable m_debug text.
-		bgfx::setDebug(m_debug);
+		//bgfx::Init init;
+		//init.type     = args.m_type;
+		//init.vendorId = args.m_pciId;
+		//init.resolution.width  = m_width;
+		//init.resolution.height = m_height;
+		//init.resolution.reset  = m_reset;
+		//bgfx::init(init);
+
+		//// Enable m_debug text.
+		//bgfx::setDebug(m_debug);
 
 		// Set view 0 clear state.
 		bgfx::setViewClear(0
@@ -288,10 +298,10 @@ public:
 
 		imguiCreate();
 
-		cameraCreate();
+		/*	cameraCreate();
 
-		cameraSetPosition({ 0.0f, 2.0f, -12.0f });
-		cameraSetVerticalAngle(0.0f);
+			cameraSetPosition({ 0.0f, 2.0f, -12.0f });
+			cameraSetVerticalAngle(0.0f);*/
 
 		m_timeOffset = bx::getHPCounter();
 	}
@@ -309,7 +319,7 @@ public:
 
 		imguiDestroy();
 
-		cameraDestroy();
+		//cameraDestroy();
 
 		// Shutdown bgfx.
 		bgfx::shutdown();
@@ -319,7 +329,14 @@ public:
 
 	bool update() override
 	{
-		if (!entry::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
+		//if (!entry::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
+		GProcessWindow& processWindow = GProcessWindow::Get();
+		m_width = processWindow._width;
+		m_height = processWindow._height;
+		m_debug = processWindow._debug;
+		m_reset = processWindow._reset;
+		m_mouseState = processWindow._mouseState;
+		
 		{
 			// Set view 0 default viewport.
 			bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
@@ -333,10 +350,11 @@ public:
 			const double freq = double(bx::getHPFrequency() );
 			const float deltaTime = float(frameTime/freq);
 
-			cameraUpdate(deltaTime, m_mouseState);
+			//cameraUpdate(deltaTime, m_mouseState);
 
 			float view[16];
-			cameraGetViewMtx(view);
+			bx::mtxIdentity(view);
+			//cameraGetViewMtx(view);
 
 			float proj[16];
 
@@ -348,7 +366,7 @@ public:
 				bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
 			}
 
-			imguiBeginFrame(
+			/*imguiBeginFrame(
 				   m_mouseState.m_mx
 				,  m_mouseState.m_my
 				, (m_mouseState.m_buttons[entry::MouseButton::Left  ] ? IMGUI_MBUT_LEFT   : 0)
@@ -357,7 +375,7 @@ public:
 				,  m_mouseState.m_mz
 				, uint16_t(m_width)
 				, uint16_t(m_height)
-				);
+				);*/
 
 			showExampleDialog(this);
 
@@ -401,15 +419,15 @@ public:
 
 			m_emitter[currentEmitter].gizmo(view, proj);
 
-			imguiEndFrame();
+			//imguiEndFrame();
 
 			DebugDrawEncoder dde;
 			dde.begin(0);
 
 			dde.drawGrid(Axis::Y, { 0.0f, 0.0f, 0.0f });
 
-			const bx::Vec3 eye = cameraGetPosition();
-
+			//const bx::Vec3 eye = cameraGetPosition();
+			const bx::Vec3 eye = { 0.0f, 2.0f, -12.0f };
 			m_emitter[currentEmitter].update();
 
 			psUpdate(deltaTime * timeScale);
@@ -430,7 +448,7 @@ public:
 
 			// Advance to next frame. Rendering thread will be kicked to
 			// process submitted rendering primitives.
-			bgfx::frame();
+			//bgfx::frame();
 
 			return true;
 		}
@@ -438,7 +456,7 @@ public:
 		return false;
 	}
 
-	entry::MouseState m_mouseState;
+	MouseState m_mouseState;
 
 	int64_t m_timeOffset;
 
@@ -452,9 +470,9 @@ public:
 
 } // namespace
 
-ENTRY_IMPLEMENT_MAIN(
-	  ExampleParticles
+AUTO_IMPLEMENT_MAIN(
+	ExampleParticles
 	, "32-particles"
 	, "Particles."
 	, "https://bkaradzic.github.io/bgfx/examples.html#particles"
-	);
+);
