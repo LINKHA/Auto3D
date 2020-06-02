@@ -134,6 +134,8 @@ struct PosColorTexCoord0Vertex
 	uint32_t m_rgba;
 	float m_u;
 	float m_v;
+	float m_blend;
+	float m_angle;
 
 	static void init()
 	{

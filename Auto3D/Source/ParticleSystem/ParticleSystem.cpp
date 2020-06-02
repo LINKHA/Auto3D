@@ -1,8 +1,3 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include <bgfx/bgfx.h>
 #include <bgfx/embedded_shader.h>
 
@@ -16,6 +11,9 @@
 #include "vs_particle.bin.h"
 #include "fs_particle.bin.h"
 
+namespace Auto3D
+{
+
 static const bgfx::EmbeddedShader s_embeddedShaders[] =
 {
 	BGFX_EMBEDDED_SHADER(vs_particle),
@@ -24,7 +22,7 @@ static const bgfx::EmbeddedShader s_embeddedShaders[] =
 	BGFX_EMBEDDED_SHADER_END()
 };
 
-struct PosColorTexCoord0Vertex
+struct psPosColorTexCoord0Vertex
 {
 	float m_x;
 	float m_y;
@@ -39,8 +37,8 @@ struct PosColorTexCoord0Vertex
 	{
 		ms_layout
 			.begin()
-			.add(bgfx::Attrib::Position,  3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Color0,    4, bgfx::AttribType::Uint8, true)
+			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
 			.add(bgfx::Attrib::TexCoord0, 4, bgfx::AttribType::Float)
 			.end();
 	}
@@ -48,7 +46,7 @@ struct PosColorTexCoord0Vertex
 	static bgfx::VertexLayout ms_layout;
 };
 
-bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
+bgfx::VertexLayout psPosColorTexCoord0Vertex::ms_layout;
 
 void EmitterUniforms::reset()
 {
@@ -322,7 +320,7 @@ namespace ps
 			}
 		}
 
-		uint32_t render(const float _uv[4], const float* _mtxView, const bx::Vec3& _eye, uint32_t _first, uint32_t _max, ParticleSort* _outSort, PosColorTexCoord0Vertex* _outVertices)
+		uint32_t render(const float _uv[4], const float* _mtxView, const bx::Vec3& _eye, uint32_t _first, uint32_t _max, ParticleSort* _outSort, psPosColorTexCoord0Vertex* _outVertices)
 		{
 			bx::EaseFn easeRgba  = bx::getEaseFunc(_uniforms.m_easeRgba);
 			bx::EaseFn easePos   = bx::getEaseFunc(_uniforms.m_easePos);
@@ -374,7 +372,7 @@ namespace ps
 				const bx::Vec3 udir = { _mtxView[0]*scale, _mtxView[4]*scale, _mtxView[8]*scale };
 				const bx::Vec3 vdir = { _mtxView[1]*scale, _mtxView[5]*scale, _mtxView[9]*scale };
 
-				PosColorTexCoord0Vertex* vertex = &_outVertices[current*4];
+				psPosColorTexCoord0Vertex* vertex = &_outVertices[current*4];
 
 				const bx::Vec3 ul = bx::sub(bx::sub(pos, udir), vdir);
 				bx::store(&vertex->m_x, ul);
@@ -454,7 +452,7 @@ namespace ps
 			m_emitterAlloc = bx::createHandleAlloc(m_allocator, _maxEmitters);
 			m_emitter = (Emitter*)BX_ALLOC(m_allocator, sizeof(Emitter)*_maxEmitters);
 
-			PosColorTexCoord0Vertex::init();
+			psPosColorTexCoord0Vertex::init();
 
 			m_num = 0;
 
@@ -535,7 +533,7 @@ namespace ps
 				bgfx::TransientVertexBuffer tvb;
 				bgfx::TransientIndexBuffer tib;
 
-				const uint32_t numVertices = bgfx::getAvailTransientVertexBuffer(m_num*4, PosColorTexCoord0Vertex::ms_layout);
+				const uint32_t numVertices = bgfx::getAvailTransientVertexBuffer(m_num*4, psPosColorTexCoord0Vertex::ms_layout);
 				const uint32_t numIndices  = bgfx::getAvailTransientIndexBuffer(m_num*6);
 				const uint32_t max = bx::uint32_min(numVertices/4, numIndices/6);
 				BX_WARN(m_num == max
@@ -547,12 +545,12 @@ namespace ps
 				if (0 < max)
 				{
 					bgfx::allocTransientBuffers(&tvb
-						, PosColorTexCoord0Vertex::ms_layout
+						, psPosColorTexCoord0Vertex::ms_layout
 						, max*4
 						, &tib
 						, max*6
 						);
-					PosColorTexCoord0Vertex* vertices = (PosColorTexCoord0Vertex*)tvb.data;
+					psPosColorTexCoord0Vertex* vertices = (psPosColorTexCoord0Vertex*)tvb.data;
 
 					ParticleSort* particleSort = (ParticleSort*)BX_ALLOC(m_allocator, max*sizeof(ParticleSort) );
 
@@ -748,4 +746,6 @@ void psUpdate(float _dt)
 void psRender(uint8_t _view, const float* _mtxView, const bx::Vec3& _eye)
 {
 	s_ctx.render(_view, _mtxView, _eye);
+}
+
 }

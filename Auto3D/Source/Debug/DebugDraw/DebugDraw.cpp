@@ -14,6 +14,9 @@
 #	define DEBUG_DRAW_CONFIG_MAX_GEOMETRY 256
 #endif // DEBUG_DRAW_CONFIG_MAX_GEOMETRY
 
+namespace Auto3D
+{
+
 struct DebugVertex
 {
 	float m_x;
@@ -2568,4 +2571,6 @@ DebugDrawEncoderScopePush::DebugDrawEncoderScopePush(DebugDrawEncoder& _dde)
 DebugDrawEncoderScopePush::~DebugDrawEncoderScopePush()
 {
 	m_dde.pop();
+}
+
 }

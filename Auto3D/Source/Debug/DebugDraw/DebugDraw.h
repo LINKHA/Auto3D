@@ -1,9 +1,9 @@
-#ifndef DEBUGDRAW_H_HEADER_GUARD
-#define DEBUGDRAW_H_HEADER_GUARD
-
 #include <bx/allocator.h>
 #include <bgfx/bgfx.h>
 #include "../../RHI/bounds.h"
+
+namespace Auto3D
+{
 
 struct Axis
 {
@@ -190,7 +190,7 @@ struct DebugDrawEncoder
 	///
 	void drawOrb(float _x, float _y, float _z, float _radius, Axis::Enum _highlight = Axis::Count);
 
-	BX_ALIGN_DECL_CACHE_LINE(uint8_t) m_internal[50<<10];
+	BX_ALIGN_DECL_CACHE_LINE(uint8_t) m_internal[50 << 10];
 };
 
 ///
@@ -207,4 +207,4 @@ private:
 	DebugDrawEncoder& m_dde;
 };
 
-#endif // DEBUGDRAW_H_HEADER_GUARD
+}

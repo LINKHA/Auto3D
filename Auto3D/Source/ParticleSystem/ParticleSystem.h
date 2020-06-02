@@ -1,18 +1,13 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#ifndef PARTICLE_SYSTEM_H_HEADER_GUARD
-#define PARTICLE_SYSTEM_H_HEADER_GUARD
-
 #include <bx/allocator.h>
 #include <bx/easing.h>
 #include <bx/rng.h>
 
 #include "../RHI/bounds.h"
 
-struct EmitterHandle       { uint16_t idx; };
+namespace Auto3D
+{
+
+struct EmitterHandle { uint16_t idx; };
 struct EmitterSpriteHandle { uint16_t idx; };
 
 template<typename Ty>
@@ -103,4 +98,4 @@ void psUpdate(float _dt);
 ///
 void psRender(uint8_t _view, const float* _mtxView, const bx::Vec3& _eye);
 
-#endif // PARTICLE_SYSTEM_H_HEADER_GUARD
+}
