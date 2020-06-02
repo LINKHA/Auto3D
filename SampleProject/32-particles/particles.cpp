@@ -12,7 +12,7 @@
 #include "Gameplay/Actor.h"
 #include "Debug/Debugdraw/DebugDraw.h"
 
-#include "RHI/ParticleSystem/particle_system.h"
+#include "ParticleSystem/ParticleSystem.h"
 
 #include "UI/UI.h"
 

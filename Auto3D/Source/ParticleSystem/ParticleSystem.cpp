@@ -6,9 +6,9 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/embedded_shader.h>
 
-#include "particle_system.h"
-#include "../bgfx_utils.h"
-#include "../packrect.h"
+#include "ParticleSystem/ParticleSystem.h"
+#include "../RHI/bgfx_utils.h"
+#include "../RHI/packrect.h"
 
 #include <bx/easing.h>
 #include <bx/handlealloc.h>

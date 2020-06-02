@@ -10,7 +10,7 @@
 #include <bx/easing.h>
 #include <bx/rng.h>
 
-#include "../bounds.h"
+#include "../RHI/bounds.h"
 
 struct EmitterHandle       { uint16_t idx; };
 struct EmitterSpriteHandle { uint16_t idx; };
