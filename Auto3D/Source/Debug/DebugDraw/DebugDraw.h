@@ -1,14 +1,9 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #ifndef DEBUGDRAW_H_HEADER_GUARD
 #define DEBUGDRAW_H_HEADER_GUARD
 
 #include <bx/allocator.h>
 #include <bgfx/bgfx.h>
-#include "../bounds.h"
+#include "../../RHI/bounds.h"
 
 struct Axis
 {

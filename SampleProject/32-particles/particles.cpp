@@ -9,18 +9,17 @@
 #include "Component/CameraComponent.h"
 #include "Component/DefaultControllerComponent.h"
 #include "Component/TransformComponent.h"
-
 #include "Gameplay/Actor.h"
+#include "Debug/Debugdraw/DebugDraw.h"
 
-//#include <camera.h>
-#include "RHI/Debugdraw/debugdraw.h"
+#include "RHI/ParticleSystem/particle_system.h"
+
 #include "UI/UI.h"
 
 #include <bx/rng.h>
 #include <bx/easing.h>
 #include <bx/timer.h>
 
-#include "RHI/ParticleSystem/particle_system.h"
 
 using namespace Auto3D;
 namespace

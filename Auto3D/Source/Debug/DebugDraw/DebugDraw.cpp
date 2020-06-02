@@ -1,13 +1,8 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include <bgfx/bgfx.h>
 #include <bgfx/embedded_shader.h>
 #include "debugdraw.h"
-#include "../bgfx_utils.h"
-#include "../packrect.h"
+#include "../../RHI/bgfx_utils.h"
+#include "../../RHI/packrect.h"
 
 #include <bx/mutex.h>
 #include <bx/math.h>
