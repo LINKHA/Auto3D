@@ -1,3 +1,4 @@
+#pragma once
 #include <bx/allocator.h>
 #include <bx/easing.h>
 #include <bx/rng.h>
@@ -7,8 +8,8 @@
 namespace Auto3D
 {
 
-struct EmitterHandle { uint16_t idx; };
-struct EmitterSpriteHandle { uint16_t idx; };
+struct FEmitterHandle { uint16_t idx; };
+struct FEmitterSpriteHandle { uint16_t idx; };
 
 template<typename Ty>
 inline bool isValid(Ty _handle)
@@ -16,9 +17,9 @@ inline bool isValid(Ty _handle)
 	return _handle.idx != UINT16_MAX;
 }
 
-struct EmitterShape
+namespace EEmitterShape
 {
-	enum Enum
+	enum Data
 	{
 		Sphere,
 		Hemisphere,
@@ -30,9 +31,9 @@ struct EmitterShape
 	};
 };
 
-struct EmitterDirection
+namespace EEmitterDirection
 {
-	enum Enum
+	enum Data
 	{
 		Up,
 		Outward,
@@ -41,7 +42,7 @@ struct EmitterDirection
 	};
 };
 
-struct EmitterUniforms
+struct FEmitterUniforms
 {
 	void reset();
 
@@ -65,32 +66,32 @@ struct EmitterUniforms
 	bx::Easing::Enum m_easeBlend;
 	bx::Easing::Enum m_easeScale;
 
-	EmitterSpriteHandle m_handle;
+	FEmitterSpriteHandle m_handle;
 };
 
 ///
-void psInit(uint16_t _maxEmitters = 64, bx::AllocatorI* _allocator = NULL);
+void psInit(uint16_t maxEmitters = 64, bx::AllocatorI* allocator = NULL);
 
 ///
 void psShutdown();
 
 ///
-EmitterSpriteHandle psCreateSprite(uint16_t _width, uint16_t _height, const void* _data);
+FEmitterSpriteHandle psCreateSprite(uint16_t _width, uint16_t _height, const void* _data);
 
 ///
-void psDestroy(EmitterSpriteHandle _handle);
+void psDestroy(FEmitterSpriteHandle _handle);
 
 ///
-EmitterHandle psCreateEmitter(EmitterShape::Enum _shape, EmitterDirection::Enum _direction, uint32_t _maxParticles);
+FEmitterHandle psCreateEmitter(EEmitterShape::Data _shape, EEmitterDirection::Data _direction, uint32_t _maxParticles);
 
 ///
-void psUpdateEmitter(EmitterHandle _handle, const EmitterUniforms* _uniforms = NULL);
+void psUpdateEmitter(FEmitterHandle _handle, const FEmitterUniforms* _uniforms = NULL);
 
 ///
-void psGetAabb(EmitterHandle _handle, Aabb& _outAabb);
+void psGetAabb(FEmitterHandle _handle, Aabb& _outAabb);
 
 ///
-void psDestroyEmitter(EmitterHandle _handle);
+void psDestroyEmitter(FEmitterHandle _handle);
 
 ///
 void psUpdate(float _dt);

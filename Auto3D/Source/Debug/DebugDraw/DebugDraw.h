@@ -1,3 +1,4 @@
+#pragma once
 #include <bx/allocator.h>
 #include <bgfx/bgfx.h>
 #include "../../RHI/bounds.h"

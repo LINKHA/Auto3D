@@ -22,6 +22,7 @@
 #include "Component/SpotLightComponent.h"
 #include "Component/DirectionalLightComponent.h"
 #include "Component/PointLightComponent.h"
+#include "Component/SkyboxComponent.h"
 
 #include "IO/FileSystem.h"
 #include "IO/Stream.h"

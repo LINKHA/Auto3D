@@ -48,7 +48,7 @@ struct psPosColorTexCoord0Vertex
 
 bgfx::VertexLayout psPosColorTexCoord0Vertex::ms_layout;
 
-void EmitterUniforms::reset()
+void FEmitterUniforms::reset()
 {
 	m_position[0] = 0.0f;
 	m_position[1] = 0.0f;
@@ -144,9 +144,9 @@ namespace ps
 		{
 		}
 
-		EmitterSpriteHandle create(uint16_t _width, uint16_t _height)
+		FEmitterSpriteHandle create(uint16_t _width, uint16_t _height)
 		{
-			EmitterSpriteHandle handle = { bx::kInvalidHandle };
+			FEmitterSpriteHandle handle = { bx::kInvalidHandle };
 
 			if (m_handleAlloc.getNumHandles() < m_handleAlloc.getMaxHandles() )
 			{
@@ -161,14 +161,14 @@ namespace ps
 			return handle;
 		}
 
-		void destroy(EmitterSpriteHandle _sprite)
+		void destroy(FEmitterSpriteHandle _sprite)
 		{
 			const Pack2D& pack = m_pack[_sprite.idx];
 			m_ra.clear(pack);
 			m_handleAlloc.free(_sprite.idx);
 		}
 
-		const Pack2D& get(EmitterSpriteHandle _sprite) const
+		const Pack2D& get(FEmitterSpriteHandle _sprite) const
 		{
 			return m_pack[_sprite.idx];
 		}
@@ -180,7 +180,7 @@ namespace ps
 
 	struct Emitter
 	{
-		void create(EmitterShape::Enum _shape, EmitterDirection::Enum _direction, uint32_t _maxParticles);
+		void create(EEmitterShape::Data _shape, EEmitterDirection::Data _direction, uint32_t _maxParticles);
 		void destroy();
 
 		void reset()
@@ -250,26 +250,26 @@ namespace ps
 				switch (m_shape)
 				{
 					default:
-					case EmitterShape::Sphere:
+					case EEmitterShape::Sphere:
 						pos = bx::randUnitSphere(&m_rng);
 						break;
 
-					case EmitterShape::Hemisphere:
+					case EEmitterShape::Hemisphere:
 						pos = bx::randUnitHemisphere(&m_rng, up);
 						break;
 
-					case EmitterShape::Circle:
+					case EEmitterShape::Circle:
 						pos = bx::randUnitCircle(&m_rng);
 						break;
 
-					case EmitterShape::Disc:
+					case EEmitterShape::Disc:
 						{
 							const bx::Vec3 tmp = bx::randUnitCircle(&m_rng);
 							pos = bx::mul(tmp, bx::frnd(&m_rng) );
 						}
 						break;
 
-					case EmitterShape::Rect:
+					case EEmitterShape::Rect:
 						pos =
 						{
 							bx::frndh(&m_rng),
@@ -283,11 +283,11 @@ namespace ps
 				switch (m_direction)
 				{
 					default:
-					case EmitterDirection::Up:
+					case EEmitterDirection::Up:
 						dir = up;
 						break;
 
-					case EmitterDirection::Outward:
+					case EEmitterDirection::Outward:
 						dir = bx::normalize(pos);
 						break;
 				}
@@ -416,12 +416,12 @@ namespace ps
 			return m_num;
 		}
 
-		EmitterShape::Enum     m_shape;
-		EmitterDirection::Enum m_direction;
+		EEmitterShape::Data     m_shape;
+		EEmitterDirection::Data m_direction;
 
 		float           m_dt;
 		bx::RngMwc      m_rng;
-		EmitterUniforms _uniforms;
+		FEmitterUniforms _uniforms;
 
 		Aabb _aabb;
 
@@ -485,9 +485,9 @@ namespace ps
 			m_allocator = NULL;
 		}
 
-		EmitterSpriteHandle createSprite(uint16_t _width, uint16_t _height, const void* _data)
+		FEmitterSpriteHandle createSprite(uint16_t _width, uint16_t _height, const void* _data)
 		{
-			EmitterSpriteHandle handle = m_sprite.create(_width, _height);
+			FEmitterSpriteHandle handle = m_sprite.create(_width, _height);
 
 			if (isValid(handle) )
 			{
@@ -507,7 +507,7 @@ namespace ps
 			return handle;
 		}
 
-		void destroy(EmitterSpriteHandle _handle)
+		void destroy(FEmitterSpriteHandle _handle)
 		{
 			m_sprite.destroy(_handle);
 		}
@@ -610,9 +610,9 @@ namespace ps
 			}
 		}
 
-		EmitterHandle createEmitter(EmitterShape::Enum _shape, EmitterDirection::Enum _direction, uint32_t _maxParticles)
+		FEmitterHandle createEmitter(EEmitterShape::Data _shape, EEmitterDirection::Data _direction, uint32_t _maxParticles)
 		{
-			EmitterHandle handle = { m_emitterAlloc->alloc() };
+			FEmitterHandle handle = { m_emitterAlloc->alloc() };
 
 			if (UINT16_MAX != handle.idx)
 			{
@@ -622,7 +622,7 @@ namespace ps
 			return handle;
 		}
 
-		void updateEmitter(EmitterHandle _handle, const EmitterUniforms* _uniforms)
+		void updateEmitter(FEmitterHandle _handle, const FEmitterUniforms* _uniforms)
 		{
 			BX_CHECK(m_emitterAlloc.isValid(_handle.idx)
 				, "destroyEmitter handle %d is not valid."
@@ -637,11 +637,11 @@ namespace ps
 			}
 			else
 			{
-				bx::memCopy(&emitter._uniforms, _uniforms, sizeof(EmitterUniforms) );
+				bx::memCopy(&emitter._uniforms, _uniforms, sizeof(FEmitterUniforms) );
 			}
 		}
 
-		void getAabb(EmitterHandle _handle, Aabb& _outAabb)
+		void getAabb(FEmitterHandle _handle, Aabb& _outAabb)
 		{
 			BX_CHECK(m_emitterAlloc.isValid(_handle.idx)
 				, "getAabb handle %d is not valid."
@@ -650,7 +650,7 @@ namespace ps
 			_outAabb = m_emitter[_handle.idx]._aabb;
 		}
 
-		void destroyEmitter(EmitterHandle _handle)
+		void destroyEmitter(FEmitterHandle _handle)
 		{
 			BX_CHECK(m_emitterAlloc.isValid(_handle.idx)
 				, "destroyEmitter handle %d is not valid."
@@ -678,7 +678,7 @@ namespace ps
 
 	static ParticleSystem s_ctx;
 
-	void Emitter::create(EmitterShape::Enum _shape, EmitterDirection::Enum _direction, uint32_t _maxParticles)
+	void Emitter::create(EEmitterShape::Data _shape, EEmitterDirection::Data _direction, uint32_t _maxParticles)
 	{
 		reset();
 
@@ -698,9 +698,9 @@ namespace ps
 
 using namespace ps;
 
-void psInit(uint16_t _maxEmitters, bx::AllocatorI* _allocator)
+void psInit(uint16_t maxEmitters, bx::AllocatorI* allocator)
 {
-	s_ctx.init(_maxEmitters, _allocator);
+	s_ctx.init(maxEmitters, allocator);
 }
 
 void psShutdown()
@@ -708,32 +708,32 @@ void psShutdown()
 	s_ctx.shutdown();
 }
 
-EmitterSpriteHandle psCreateSprite(uint16_t _width, uint16_t _height, const void* _data)
+FEmitterSpriteHandle psCreateSprite(uint16_t _width, uint16_t _height, const void* _data)
 {
 	return s_ctx.createSprite(_width, _height, _data);
 }
 
-void psDestroy(EmitterSpriteHandle _handle)
+void psDestroy(FEmitterSpriteHandle _handle)
 {
 	s_ctx.destroy(_handle);
 }
 
-EmitterHandle psCreateEmitter(EmitterShape::Enum _shape, EmitterDirection::Enum _direction, uint32_t _maxParticles)
+FEmitterHandle psCreateEmitter(EEmitterShape::Data _shape, EEmitterDirection::Data _direction, uint32_t _maxParticles)
 {
 	return s_ctx.createEmitter(_shape, _direction, _maxParticles);
 }
 
-void psUpdateEmitter(EmitterHandle _handle, const EmitterUniforms* _uniforms)
+void psUpdateEmitter(FEmitterHandle _handle, const FEmitterUniforms* _uniforms)
 {
 	s_ctx.updateEmitter(_handle, _uniforms);
 }
 
-void psGetAabb(EmitterHandle _handle, Aabb& _outAabb)
+void psGetAabb(FEmitterHandle _handle, Aabb& _outAabb)
 {
 	s_ctx.getAabb(_handle, _outAabb);
 }
 
-void psDestroyEmitter(EmitterHandle _handle)
+void psDestroyEmitter(FEmitterHandle _handle)
 {
 	s_ctx.destroyEmitter(_handle);
 }
