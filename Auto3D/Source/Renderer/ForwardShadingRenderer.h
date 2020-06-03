@@ -4,6 +4,7 @@
 #include "Math/Color.h"
 #include "Renderer/Batch.h"
 #include "Renderer/PBRPipline.h"
+#include "Particle/ParticleSystem.h"
 
 #include "Component/LightComponent.h"
 #include "Component/MeshComponent.h"
@@ -68,7 +69,6 @@ public:
 	static FPBRPipline s_pbrPipline;
 
 	static FHDREnvPipline s_hdrEnvPipline;
-
 
 	static OTexture* s_albedoMap;
 

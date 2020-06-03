@@ -1,28 +1,30 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Component/ActorComponent.h"
-#include "ParticleSystem/ParticleSystem.h"
+#include "Particle/ParticleDef.h"
 
 namespace Auto3D
 {
 
 struct FEmitter
 {
-	FEmitterUniforms m_uniforms;
-	FEmitterHandle   m_handle;
 
-	EEmitterShape::Data m_shape;
-	EEmitterDirection::Data m_direction;
+	void Create();
 
-	void create();
+	void Destroy();
 
-	void destroy();
-
-	void update();
+	void Update();
 
 	void imgui();
 
 	void gizmo(const float* view, const float* proj);
+
+	FEmitterUniforms _uniforms;
+	FEmitterHandle   _handle;
+
+	EEmitterShape::Data _shape;
+	EEmitterDirection::Data _direction;
+
 };
 
 class AUTO_API AParticleComponent : public AActorComponent
@@ -32,7 +34,14 @@ public:
 	AParticleComponent();
 	~AParticleComponent();
 
+	/// BeginPlay
+	virtual void BeginPlay() override;
+	/// Called every frame.
+	virtual void TickComponent(float deltaTime) override;
 
+private:
+	/// Particle emitter,There's only one emitter per particle component.
+	FEmitter _emitter;
 };
 
 }

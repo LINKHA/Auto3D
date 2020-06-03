@@ -68,87 +68,87 @@ static const char* s_easeFuncName[] =
 BX_STATIC_ASSERT(BX_COUNTOF(s_easeFuncName) == bx::Easing::Count);
 
 
-void FEmitter::create()
+void FEmitter::Create()
 {
-	m_shape = EEmitterShape::Sphere;
-	m_direction = EEmitterDirection::Outward;
+	_shape = EEmitterShape::Sphere;
+	_direction = EEmitterDirection::Outward;
 
-	m_handle = psCreateEmitter(m_shape, m_direction, 1024);
-	m_uniforms.reset();
+	_handle = psCreateEmitter(_shape, _direction, 1024);
+	_uniforms.reset();
 }
 
-void FEmitter::destroy()
+void FEmitter::Destroy()
 {
-	psDestroyEmitter(m_handle);
+	psDestroyEmitter(_handle);
 }
 
-void FEmitter::update()
+void FEmitter::Update()
 {
-	psUpdateEmitter(m_handle, &m_uniforms);
+	psUpdateEmitter(_handle, &_uniforms);
 }
 
 void FEmitter::imgui()
 {
 	//		if (ImGui::CollapsingHeader("General") )
 	{
-		if (ImGui::Combo("Shape", (int*)&m_shape, s_shapeNames, BX_COUNTOF(s_shapeNames))
-			|| ImGui::Combo("Direction", (int*)&m_direction, s_directionName, BX_COUNTOF(s_directionName)))
+		if (ImGui::Combo("Shape", (int*)&_shape, s_shapeNames, BX_COUNTOF(s_shapeNames))
+			|| ImGui::Combo("Direction", (int*)&_direction, s_directionName, BX_COUNTOF(s_directionName)))
 		{
-			psDestroyEmitter(m_handle);
-			m_handle = psCreateEmitter(m_shape, m_direction, 1024);
+			psDestroyEmitter(_handle);
+			_handle = psCreateEmitter(_shape, _direction, 1024);
 		}
 
-		ImGui::SliderInt("particles / s", (int*)&m_uniforms.m_particlesPerSecond, 0, 1024);
+		ImGui::SliderInt("particles / s", (int*)&_uniforms.m_particlesPerSecond, 0, 1024);
 
 		ImGui::SliderFloat("Gravity scale"
-			, &m_uniforms.m_gravityScale
+			, &_uniforms.m_gravityScale
 			, -2.0f
 			, 2.0f
 		);
 
 		ImGui::RangeSliderFloat("Life span"
-			, &m_uniforms.m_lifeSpan[0]
-			, &m_uniforms.m_lifeSpan[1]
+			, &_uniforms.m_lifeSpan[0]
+			, &_uniforms.m_lifeSpan[1]
 			, 0.1f
 			, 5.0f
 		);
 
 		if (ImGui::Button("Reset"))
 		{
-			psUpdateEmitter(m_handle);
+			psUpdateEmitter(_handle);
 		}
 	}
 
 	if (ImGui::CollapsingHeader("Position and scale"))
 	{
-		ImGui::Combo("Position Ease", (int*)&m_uniforms.m_easePos, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
+		ImGui::Combo("Position Ease", (int*)&_uniforms.m_easePos, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
 
 		ImGui::RangeSliderFloat("Start offset"
-			, &m_uniforms.m_offsetStart[0]
-			, &m_uniforms.m_offsetStart[1]
+			, &_uniforms.m_offsetStart[0]
+			, &_uniforms.m_offsetStart[1]
 			, 0.0f
 			, 10.0f
 		);
 		ImGui::RangeSliderFloat("End offset"
-			, &m_uniforms.m_offsetEnd[0]
-			, &m_uniforms.m_offsetEnd[1]
+			, &_uniforms.m_offsetEnd[0]
+			, &_uniforms.m_offsetEnd[1]
 			, 0.0f
 			, 10.0f
 		);
 
 		ImGui::Text("Scale:");
 
-		ImGui::Combo("Scale Ease", (int*)&m_uniforms.m_easeScale, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
+		ImGui::Combo("Scale Ease", (int*)&_uniforms.m_easeScale, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
 
 		ImGui::RangeSliderFloat("Scale Start"
-			, &m_uniforms.m_scaleStart[0]
-			, &m_uniforms.m_scaleStart[1]
+			, &_uniforms.m_scaleStart[0]
+			, &_uniforms.m_scaleStart[1]
 			, 0.0f
 			, 3.0f
 		);
 		ImGui::RangeSliderFloat("Scale End"
-			, &m_uniforms.m_scaleEnd[0]
-			, &m_uniforms.m_scaleEnd[1]
+			, &_uniforms.m_scaleEnd[0]
+			, &_uniforms.m_scaleEnd[1]
 			, 0.0f
 			, 3.0f
 		);
@@ -156,28 +156,28 @@ void FEmitter::imgui()
 
 	if (ImGui::CollapsingHeader("Blending and color"))
 	{
-		ImGui::Combo("Blend Ease", (int*)&m_uniforms.m_easeBlend, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
+		ImGui::Combo("Blend Ease", (int*)&_uniforms.m_easeBlend, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
 		ImGui::RangeSliderFloat("Blend Start"
-			, &m_uniforms.m_blendStart[0]
-			, &m_uniforms.m_blendStart[1]
+			, &_uniforms.m_blendStart[0]
+			, &_uniforms.m_blendStart[1]
 			, 0.0f
 			, 1.0f
 		);
 		ImGui::RangeSliderFloat("Blend End"
-			, &m_uniforms.m_blendEnd[0]
-			, &m_uniforms.m_blendEnd[1]
+			, &_uniforms.m_blendEnd[0]
+			, &_uniforms.m_blendEnd[1]
 			, 0.0f
 			, 1.0f
 		);
 
 		ImGui::Text("Color:");
 
-		ImGui::Combo("RGBA Ease", (int*)&m_uniforms.m_easeRgba, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
-		ImGui::ColorWheel("RGBA0", &m_uniforms.m_rgba[0], 0.3f);
-		ImGui::ColorWheel("RGBA1", &m_uniforms.m_rgba[1], 0.3f);
-		ImGui::ColorWheel("RGBA2", &m_uniforms.m_rgba[2], 0.3f);
-		ImGui::ColorWheel("RGBA3", &m_uniforms.m_rgba[3], 0.3f);
-		ImGui::ColorWheel("RGBA4", &m_uniforms.m_rgba[4], 0.3f);
+		ImGui::Combo("RGBA Ease", (int*)&_uniforms.m_easeRgba, s_easeFuncName, BX_COUNTOF(s_easeFuncName));
+		ImGui::ColorWheel("RGBA0", &_uniforms.m_rgba[0], 0.3f);
+		ImGui::ColorWheel("RGBA1", &_uniforms.m_rgba[1], 0.3f);
+		ImGui::ColorWheel("RGBA2", &_uniforms.m_rgba[2], 0.3f);
+		ImGui::ColorWheel("RGBA3", &_uniforms.m_rgba[3], 0.3f);
+		ImGui::ColorWheel("RGBA4", &_uniforms.m_rgba[4], 0.3f);
 	}
 }
 
@@ -186,7 +186,7 @@ void FEmitter::gizmo(const float* view, const float* proj)
 	float mtx[16];
 	float scale[3] = { 1.0f, 1.0f, 1.0f };
 
-	ImGuizmo::RecomposeMatrixFromComponents(m_uniforms.m_position, m_uniforms.m_angle, scale, mtx);
+	ImGuizmo::RecomposeMatrixFromComponents(_uniforms.m_position, _uniforms.m_angle, scale, mtx);
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
@@ -199,7 +199,7 @@ void FEmitter::gizmo(const float* view, const float* proj)
 		, mtx
 	);
 
-	ImGuizmo::DecomposeMatrixToComponents(mtx, m_uniforms.m_position, m_uniforms.m_angle, scale);
+	ImGuizmo::DecomposeMatrixToComponents(mtx, _uniforms.m_position, _uniforms.m_angle, scale);
 }
 
 
@@ -210,6 +210,18 @@ AParticleComponent::AParticleComponent()
 
 AParticleComponent::~AParticleComponent()
 {
+
+}
+
+void AParticleComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+void AParticleComponent::TickComponent(float deltaTime)
+{
+	Super::TickComponent(deltaTime);
 
 }
 

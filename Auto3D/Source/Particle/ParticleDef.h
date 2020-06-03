@@ -2,6 +2,7 @@
 #include <bx/allocator.h>
 #include <bx/easing.h>
 #include <bx/rng.h>
+#include "AutoConfig.h"
 
 #include "../RHI/bounds.h"
 

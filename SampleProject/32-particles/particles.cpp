@@ -75,9 +75,9 @@ public:
 
 		for (uint32_t ii = 0; ii < BX_COUNTOF(m_emitter); ++ii)
 		{
-			m_emitter[ii].create();
-			m_emitter[ii].m_uniforms.m_handle = sprite;
-			m_emitter[ii].update();
+			m_emitter[ii].Create();
+			m_emitter[ii]._uniforms.m_handle = sprite;
+			m_emitter[ii].Update();
 		}
 
 		m_timeOffset = bx::getHPCounter();
@@ -87,7 +87,7 @@ public:
 	{
 		for (uint32_t ii = 0; ii < BX_COUNTOF(m_emitter); ++ii)
 		{
-			m_emitter[ii].destroy();
+			m_emitter[ii].Destroy();
 		}
 
 		psShutdown();
@@ -199,12 +199,12 @@ public:
 
 			dde.begin(viewId);
 
-			dde.drawGrid(Axis::Y, { 0.0f, 0.0f, 0.0f });
+			dde.drawGrid(Axis::Y, { 0.0f, 0.0f, 0.0f }, 10000);
 
 			TVector3F pos = _camera->GetOwner()->GetTransform()->GetPosition();
 			const bx::Vec3 eye = { pos._x, pos._y, pos._z };
 			
-			m_emitter[currentEmitter].update();
+			m_emitter[currentEmitter].Update();
 
 			psUpdate(deltaTime * timeScale);
 			psRender(viewId, view, eye);
@@ -212,7 +212,7 @@ public:
 			if (showBounds)
 			{
 				Aabb aabb;
-				psGetAabb(m_emitter[currentEmitter].m_handle, aabb);
+				psGetAabb(m_emitter[currentEmitter]._handle, aabb);
 				dde.push();
 					dde.setWireframe(true);
 					dde.setColor(0xff0000ff);
@@ -222,9 +222,6 @@ public:
 
 			dde.end();
 
-			// Advance to next frame. Rendering thread will be kicked to
-			// process submitted rendering primitives.
-			//bgfx::frame();
 
 			return true;
 		}

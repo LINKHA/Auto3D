@@ -117,8 +117,11 @@ void FForwardShadingRenderer::Init()
 	s_environmentPipline.Init();
 	s_pbrPipline.Init();
 	s_hdrEnvPipline.Init();
-	
+	GParticleSystem::Get().Init();
+
 	GViewPass::Get();
+
+
 }
 
 void FForwardShadingRenderer::Render()

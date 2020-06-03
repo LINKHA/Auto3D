@@ -1,7 +1,7 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/embedded_shader.h>
 
-#include "ParticleSystem/ParticleSystem.h"
+#include "Particle/ParticleDef.h"
 #include "../RHI/bgfx_utils.h"
 #include "../RHI/packrect.h"
 
