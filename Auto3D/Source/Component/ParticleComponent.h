@@ -38,10 +38,10 @@ public:
 	virtual void BeginPlay() override;
 	/// Called every frame.
 	virtual void TickComponent(float deltaTime) override;
-
-private:
 	/// Particle emitter,There's only one emitter per particle component.
 	FEmitter _emitter;
+private:
+	
 };
 
 }

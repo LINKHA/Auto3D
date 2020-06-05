@@ -1,4 +1,6 @@
 #include "Component/ParticleComponent.h"
+#include "Particle/ParticleSystem.h"
+
 #include <imgui.h>
 
 namespace Auto3D
@@ -205,18 +207,21 @@ void FEmitter::gizmo(const float* view, const float* proj)
 
 AParticleComponent::AParticleComponent()
 {
-
+	
 }
 
 AParticleComponent::~AParticleComponent()
 {
-
+	_emitter.Destroy();
 }
 
 void AParticleComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	_emitter.Create();
+	_emitter._uniforms.m_handle = GParticleSystem::Get().s_defaultSpriteHandle;
+	_emitter.Update();
 }
 
 void AParticleComponent::TickComponent(float deltaTime)

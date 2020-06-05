@@ -9,7 +9,7 @@
 #include "Component/LightComponent.h"
 #include "Component/AudioListenerComponent.h"
 #include "Component/AudioSourceComponent.h"
-
+#include "Component/ParticleComponent.h"
 #include "Component/SpotLightComponent.h"
 #include "Component/DirectionalLightComponent.h"
 
@@ -203,6 +203,10 @@ static void REGISTER_REFLECTION_FUNCATION()
 	REGISTER_A_CALSS_IMP(ASkyboxComponent)
 		.constructor<>()
 		;
+	REGISTER_A_CALSS_IMP(AParticleComponent)
+		.constructor<>()
+		;
+	
 }
 
 

@@ -95,9 +95,9 @@ void psGetAabb(FEmitterHandle _handle, Aabb& _outAabb);
 void psDestroyEmitter(FEmitterHandle _handle);
 
 ///
-void psUpdate(float _dt);
+void psUpdate(float dt);
 
 ///
-void psRender(uint8_t _view, const float* _mtxView, const bx::Vec3& _eye);
+void psRender(uint8_t view, const float* mtxView, const bx::Vec3& eye);
 
 }

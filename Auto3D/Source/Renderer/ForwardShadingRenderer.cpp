@@ -145,6 +145,10 @@ void FForwardShadingRenderer::Render()
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 		_currentCamera = camera;
 
+		GTimeModule& time = GTimeModule::Get();
+
+		GParticleSystem::Get().Update(time.GetDeltaTime(), camera);
+
 		// Set the view transform each camera is set once in the view
 		{	
 			// Set up matrices for gbuffer

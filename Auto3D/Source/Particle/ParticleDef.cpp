@@ -738,9 +738,9 @@ void psDestroyEmitter(FEmitterHandle _handle)
 	s_ctx.destroyEmitter(_handle);
 }
 
-void psUpdate(float _dt)
+void psUpdate(float dt)
 {
-	s_ctx.update(_dt);
+	s_ctx.update(dt);
 }
 
 void psRender(uint8_t _view, const float* _mtxView, const bx::Vec3& _eye)
