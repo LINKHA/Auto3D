@@ -184,7 +184,7 @@ void FForwardShadingRenderer::RenderBatches()
 		if (skybox)
 		{
 			
-			/*static bool s = 0;
+			static bool s = 0;
 			if (!s)
 			{
 				s = 1;
@@ -193,29 +193,12 @@ void FForwardShadingRenderer::RenderBatches()
 			else
 			{
 				s_environmentPipline.Update(_currentCamera, skybox);
-			}*/
-			s_environmentPipline.CreatePrefilteIrradiance(_currentCamera, skybox);
-			s_environmentPipline.Update(_currentCamera, skybox);
-
-			//s_hdrEnvPipline.Update(_currentCamera, skybox);
+			}
+			//s_environmentPipline.CreatePrefilteIrradiance(_currentCamera, skybox);
 			//s_environmentPipline.Update(_currentCamera, skybox);
+
 			s_iblPipline.Update(_currentCamera, skybox, batches);
 
-			//switch (skybox->GetSkyboxType())
-			//{
-			//case ESkyboxType::HDR:
-			//	/*s_hdrPipline.Update(_currentCamera, skybox);
-			//	s_hdrPipline.RenderBatch(_currentCamera, skybox, batches);*/
-			//	s_hdrEnvPipline.Update(_currentCamera, skybox);
-			//	s_iblPipline.Update(_currentCamera, skybox, batches);
-			//	break;
-			//case ESkyboxType::IBL:
-			//	s_environmentPipline.Update(_currentCamera, skybox);
-			//	s_iblPipline.Update(_currentCamera, skybox, batches);
-			//	break;
-			//default:
-			//	break;
-			//}
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////

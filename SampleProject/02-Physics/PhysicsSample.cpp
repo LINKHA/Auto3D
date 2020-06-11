@@ -27,6 +27,7 @@
 #include "Resource/Sound.h"
 #include "Component/ColliderBoxComponent.h"
 #include "Component/RigidBodyComponent.h"
+#include "Component/SkyboxComponent.h"
 
 using namespace Auto3D;
 
