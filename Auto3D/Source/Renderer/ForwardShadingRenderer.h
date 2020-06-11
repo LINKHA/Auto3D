@@ -68,8 +68,6 @@ public:
 
 	static FPBRPipline s_pbrPipline;
 
-	static FHDREnvPipline s_hdrEnvPipline;
-
 	static OTexture* s_albedoMap;
 
 	static OTexture* s_normalMap;

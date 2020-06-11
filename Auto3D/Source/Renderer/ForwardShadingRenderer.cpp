@@ -26,7 +26,6 @@
 #include "Renderer/ShadowPipline.h"
 #include "Renderer/IBLPipline.h"
 #include "Renderer/EnvironmentPipline.h"
-#include "Renderer/HDREnvPipline.h"
 
 #include "Renderer/ViewPass.h"
 
@@ -37,7 +36,6 @@ FEnvironmentPipline FForwardShadingRenderer::s_environmentPipline;
 FIBLPipline FForwardShadingRenderer::s_iblPipline;
 FShadowPipline FForwardShadingRenderer::s_shadowPipline;
 FPBRPipline FForwardShadingRenderer::s_pbrPipline;
-FHDREnvPipline FForwardShadingRenderer::s_hdrEnvPipline;
 
 
 OTexture* FForwardShadingRenderer::s_albedoMap;
@@ -116,7 +114,6 @@ void FForwardShadingRenderer::Init()
 	s_iblPipline.Init();
 	s_environmentPipline.Init();
 	s_pbrPipline.Init();
-	s_hdrEnvPipline.Init();
 	GParticleSystem::Get().Init();
 
 	GViewPass::Get();
@@ -127,13 +124,13 @@ void FForwardShadingRenderer::Init()
 void FForwardShadingRenderer::Render()
 {
 	PrepareView();
-	// This dummy draw call is here to make sure that view 0 is cleared
-	// if no other draw calls are submitted to view 0.
-	//bgfx::touch(RENDER_SHADOW_PASS_ID);
+	
 
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
 
+	// This dummy draw call is here to make sure that view 0 is cleared
+	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
 
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
