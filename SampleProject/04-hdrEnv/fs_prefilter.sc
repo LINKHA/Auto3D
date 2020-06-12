@@ -24,7 +24,7 @@ float DistributionGGX(vec3 N, vec3 H, float roughness)
 // ----------------------------------------------------------------------------
 // http://holger.dammertz.org/stuff/notes_HammersleyOnHemisphere.html
 // efficient VanDerCorpus calculation.
-float RadicalInverse_VdC(uint bits) 
+float RadicalInverse_VdC(int bits) 
 {
      bits = (bits << 16u) | (bits >> 16u);
      bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
@@ -34,7 +34,7 @@ float RadicalInverse_VdC(uint bits)
      return mul(float(bits), 2.3283064365386963e-10); // / 0x100000000
 }
 // ----------------------------------------------------------------------------
-vec2 Hammersley(uint i, uint N)
+vec2 Hammersley(int i, int N)
 {
 	return vec2(float(i)/float(N), RadicalInverse_VdC(i));
 }
@@ -74,12 +74,12 @@ void main()
 	vec3 R = N;
 	vec3 V = R;
 
-	uint SAMPLE_COUNT = 1024u;
+	int SAMPLE_COUNT = 1024;
 
 	vec3 prefilteredColor = vec3_splat(0.0);
 	float totalWeight = 0.0;
 
-	for (uint i = 0u; i < SAMPLE_COUNT; ++i)
+	for (int i = 0; i < SAMPLE_COUNT; ++i)
 	{
 		// generates a sample vector that's biased towards the preferred alignment direction (importance sampling).
 		vec2 Xi = Hammersley(i, SAMPLE_COUNT);

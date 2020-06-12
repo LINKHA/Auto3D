@@ -74,6 +74,7 @@ void FForwardShadingRenderer::Init()
 
 	bgfx::Init init;
 	init.type = args._type;
+	//init.type = bgfx::RendererType::OpenGL;
 	init.vendorId = args._pciId;
 	init.resolution.width = _backbufferSize._x;
 	init.resolution.height = _backbufferSize._y;

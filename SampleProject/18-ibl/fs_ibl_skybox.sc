@@ -11,7 +11,7 @@ void main()
 
 	vec4 color;
 
-	float lod  = 0;
+	float lod  = 0.0;
 	dir = fixCubeLookup(dir, lod, 256.0);
 	color = toLinear(textureCubeLod(s_texCube, dir, lod));
 
