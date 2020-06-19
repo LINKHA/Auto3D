@@ -8,6 +8,8 @@
 #include <bimg/bimg.h>
 #include <bgfx/bgfx.h>
 #include "RHI/bgfx_utils.h"
+#include "Resource/ResourceCache.h"
+#include "Resource/Image.h"
 
 namespace Auto3D
 {
@@ -18,11 +20,8 @@ FEmitterSpriteHandle GParticleSystem::s_defaultSpriteHandle;
 void GParticleSystem::Init()
 {
 	psInit();
-
-	bimg::ImageContainer* image = imageLoad(
-		"textures/particle.ktx"
-		, bgfx::TextureFormat::BGRA8
-	);
+	
+	bimg::ImageContainer* image = GResourceModule::Get().LoadResource<OImage>("textures/particle.ktx")->GetImageContainer();
 
 	s_defaultSpriteHandle = psCreateSprite(
 		uint16_t(image->m_width)

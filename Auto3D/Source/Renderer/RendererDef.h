@@ -5,16 +5,6 @@
 #include <bgfx/bgfx.h>
 #define RENDERVIEW_DEFAULT_ID		0
 #define RENDERVIEW_SKYBOX_ID		0
-#define RENDERVIEW_hdrSkybox	0
-#define RENDERVIEW_hdrMesh		1
-#define RENDERVIEW_hdrLuminance	2
-#define RENDERVIEW_hdrLumScale0	3
-#define RENDERVIEW_hdrLumScale1	4
-#define RENDERVIEW_hdrLumScale2	5
-#define RENDERVIEW_hdrLumScale3	6
-#define RENDERVIEW_hdrBrightness	7
-#define RENDERVIEW_hdrVBlur	8
-#define RENDERVIEW_hdrHBlurTonemap	9
 #define RENDERVIEW_SHADOW_BEGIN		11
 #define RENDERVIEW_SHADOWMAP_0_ID	12
 #define RENDERVIEW_SHADOWMAP_1_ID	13

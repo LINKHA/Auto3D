@@ -30,7 +30,7 @@
 #include "Resource/Sound.h"
 #include "Resource/Mesh.h"
 #include "Resource/Texture.h"
-
+#include "Resource/Image.h"
 
 using namespace Auto3D;
 
@@ -65,6 +65,10 @@ static void REGISTER_REFLECTION_FUNCATION()
 		.constructor<>()
 		;
 
+	REGISTER_O_CALSS_IMP(OImage)
+		.constructor<>()
+		;
+	
 	REGISTER_A_CALSS_IMP(AActor)
 		.constructor<>()
 		.property("name", &AActor::GetPathName, &AActor::SetName)
