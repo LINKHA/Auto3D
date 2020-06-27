@@ -84,13 +84,7 @@ void FForwardShadingRenderer::Init()
 	// Enable debug text.
 	bgfx::setDebug(_debug);
 
-	// Set views  clear state.
-	bgfx::setViewClear(0
-		, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-		, 0x303030ff
-		, 1.0f
-		, 0
-	);
+	
 
 	// Setup root path for binary shaders. Shader binaries are different
 	// for each renderer.
@@ -130,9 +124,19 @@ void FForwardShadingRenderer::Render()
 	AWorld* world = FWorldContext::Get().GetActiveWorld();
 	TVector<ACameraComponent*>& cameras = world->GetCameras();
 
+	// Set views  clear state.
+	bgfx::setViewClear(0
+		, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+		, 0x303030ff
+		, 1.0f
+		, 0
+	);
+
 	// This dummy draw call is here to make sure that view 0 is cleared
 	// if no other draw calls are submitted to view 0.
 	bgfx::touch(0);
+
+	GTimeModule& time = GTimeModule::Get();
 
 	for (auto it = cameras.Begin(); it != cameras.End(); ++it)
 	{
@@ -143,7 +147,6 @@ void FForwardShadingRenderer::Render()
 		ACameraComponent* camera = dynamic_cast<ACameraComponent*>(*it);
 		_currentCamera = camera;
 
-		GTimeModule& time = GTimeModule::Get();
 
 		GParticleSystem::Get().Update(time.GetDeltaTime(), camera);
 
