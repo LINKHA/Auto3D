@@ -51,7 +51,7 @@ public: \
 	virtual const Auto3D::FString& GetTypeName() const override { return GetTypeNameStatic(); } \
 	static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type(#_This); return type; } \
 private:\
-	SPtr<_This> SPtrThis() {return std::dynamic_pointer_cast<_This>(shared_from_this());}\
+	SPtr<_This> SPtrThis() { return std::dynamic_pointer_cast<_This>(shared_from_this()); }\
 	WPtr<_This> WPtrThis() { return std::dynamic_pointer_cast<_This>(shared_from_this()); }\
 public:
 
